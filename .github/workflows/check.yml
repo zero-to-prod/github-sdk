@@ -12,21 +12,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
+      # The check scripts shell out to `php` on the host (scripts/coverage-api reads
+      # sdk.json through scripts/manifest.php) and composer dispatches them.
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-          extensions: curl, json
           tools: composer
 
       - name: Setup environment
         run: cp .env.example .env
 
-      - name: Install dependencies
-        run: composer install
+      # Every check runs inside a per-version container that mounts .vendor/php8.X
+      # over /app/vendor, so a host-side `composer install` would not be visible.
+      - name: Install dependencies for every PHP version
+        run: composer deps-all install
 
       - name: Run checks
         run: composer check
