@@ -15,19 +15,19 @@ use Tests\Fixtures\Models\FixtureThingStatus;
 use Tests\Fixtures\Models\FixtureThingTag;
 use Tests\Fixtures\Models\FixtureUpdateThingRequest;
 use Tests\TestCase;
-use Zerotoprod\Sdk\ApiResult;
-use Zerotoprod\Sdk\HttpTransport;
-use Zerotoprod\Sdk\Internal\AdminApi;
-use Zerotoprod\Sdk\Internal\Fake;
-use Zerotoprod\Sdk\Internal\HttpMethod;
-use Zerotoprod\Sdk\Internal\Route;
-use Zerotoprod\Sdk\Models\Errors;
-use Zerotoprod\Sdk\Models\Pagination;
-use Zerotoprod\Sdk\Models\Query;
-use Zerotoprod\Sdk\Options;
-use Zerotoprod\Sdk\Response;
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\SdkConfig;
+use Zerotoprod\GitHubSdk\ApiResult;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
+use Zerotoprod\GitHubSdk\HttpTransport;
+use Zerotoprod\GitHubSdk\Internal\AdminApi;
+use Zerotoprod\GitHubSdk\Internal\Fake;
+use Zerotoprod\GitHubSdk\Internal\HttpMethod;
+use Zerotoprod\GitHubSdk\Internal\Route;
+use Zerotoprod\GitHubSdk\Models\Errors;
+use Zerotoprod\GitHubSdk\Models\Pagination;
+use Zerotoprod\GitHubSdk\Models\Query;
+use Zerotoprod\GitHubSdk\Options;
+use Zerotoprod\GitHubSdk\Response;
 
 /**
  * The dispatcher, `Route`, `Response`, `ApiResult`, `Transformable` and the fake
@@ -40,7 +40,7 @@ use Zerotoprod\Sdk\SdkConfig;
  * downstream. The shipped example domain is smoke-tested on its own in
  * `ExampleDomainTest`, which `php init` deletes.
  */
-class SdkApiTest extends TestCase
+class GitHubSdkTest extends TestCase
 {
     private const url = 'https://api.example.com';
 
@@ -48,13 +48,13 @@ class SdkApiTest extends TestCase
      * A faked client wired to the fixture route enum.
      *
      * @param  array<string, mixed>  $config
-     * @return array{SdkApi<Response>, Fake}
+     * @return array{GitHubSdk<Response>, Fake}
      */
     private function fake(array $config = []): array
     {
-        return SdkApi::fake([
-            SdkConfig::url => self::url,
-            SdkConfig::route_enum => FixtureRoute::class,
+        return GitHubSdk::fake([
+            GitHubSdkConfig::url => self::url,
+            GitHubSdkConfig::route_enum => FixtureRoute::class,
             ...$config,
         ]);
     }
@@ -66,22 +66,22 @@ class SdkApiTest extends TestCase
     #[Test]
     public function instantiates_from_array(): void
     {
-        $api = new SdkApi([
-            SdkConfig::url => self::url,
+        $api = new GitHubSdk([
+            GitHubSdkConfig::url => self::url,
         ]);
 
-        self::assertInstanceOf(SdkApi::class, $api);
+        self::assertInstanceOf(GitHubSdk::class, $api);
         self::assertSame(self::url, $api->config->url);
     }
 
     #[Test]
     public function instantiates_from_config_object(): void
     {
-        $config = SdkConfig::from([
-            SdkConfig::url => self::url,
+        $config = GitHubSdkConfig::from([
+            GitHubSdkConfig::url => self::url,
         ]);
 
-        $api = new SdkApi($config);
+        $api = new GitHubSdk($config);
 
         self::assertSame($config, $api->config);
     }
@@ -89,9 +89,9 @@ class SdkApiTest extends TestCase
     #[Test]
     public function fake_returns_the_api_and_the_fake_transport(): void
     {
-        [$api, $fake] = SdkApi::fake([SdkConfig::url => self::url]);
+        [$api, $fake] = GitHubSdk::fake([GitHubSdkConfig::url => self::url]);
 
-        self::assertInstanceOf(SdkApi::class, $api);
+        self::assertInstanceOf(GitHubSdk::class, $api);
         self::assertInstanceOf(Fake::class, $fake);
         self::assertSame(self::url, $api->config->url);
     }
@@ -119,9 +119,9 @@ class SdkApiTest extends TestCase
         // cache has to be keyed by enum class: dispatching one enum must not
         // decide what the next client sees.
         [$one, $fakeOne] = $this->fake();
-        [$two, $fakeTwo] = SdkApi::fake([
-            SdkConfig::url => self::url,
-            SdkConfig::route_enum => AltFixtureRoute::class,
+        [$two, $fakeTwo] = GitHubSdk::fake([
+            GitHubSdkConfig::url => self::url,
+            GitHubSdkConfig::route_enum => AltFixtureRoute::class,
         ]);
 
         $fakeOne->queue(new Response(200, [], '{}'));
@@ -137,9 +137,9 @@ class SdkApiTest extends TestCase
     #[Test]
     public function a_method_from_another_route_enum_is_not_dispatchable(): void
     {
-        [$api] = SdkApi::fake([
-            SdkConfig::url => self::url,
-            SdkConfig::route_enum => AltFixtureRoute::class,
+        [$api] = GitHubSdk::fake([
+            GitHubSdkConfig::url => self::url,
+            GitHubSdkConfig::route_enum => AltFixtureRoute::class,
         ]);
 
         $this->expectException(BadMethodCallException::class);
@@ -826,9 +826,9 @@ class SdkApiTest extends TestCase
             }
         };
 
-        $api = new SdkApi([
-            SdkConfig::url => self::url,
-            SdkConfig::route_enum => FixtureRoute::class,
+        $api = new GitHubSdk([
+            GitHubSdkConfig::url => self::url,
+            GitHubSdkConfig::route_enum => FixtureRoute::class,
         ], $transport);
 
         self::assertSame(
@@ -845,7 +845,7 @@ class SdkApiTest extends TestCase
     public function model_namespace_override_resolves_to_a_published_model(): void
     {
         [$api, $fake] = $this->fake([
-            SdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
+            GitHubSdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
         ]);
 
         $fake->queue(new Response(200, [], json_encode([
@@ -872,7 +872,7 @@ class SdkApiTest extends TestCase
         // FixtureThing, so the class declared on the #[AdminApi] attribute is
         // used instead.
         [$api, $fake] = $this->fake([
-            SdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
+            GitHubSdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
         ]);
 
         $fake->queue(new Response(200, [], json_encode(['data' => ['id' => '01H', 'name' => 'Fallback']]) ?: ''));
@@ -888,7 +888,7 @@ class SdkApiTest extends TestCase
     public function model_namespace_override_resolves_a_list_element_class(): void
     {
         [$api, $fake] = $this->fake([
-            SdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
+            GitHubSdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
         ]);
 
         $fake->queue(new Response(200, [], json_encode([['id' => '01H1', 'name' => 'Published']]) ?: ''));
@@ -904,7 +904,7 @@ class SdkApiTest extends TestCase
     public function a_list_element_class_falls_back_when_the_namespace_publishes_none(): void
     {
         [$api, $fake] = $this->fake([
-            SdkConfig::model_namespace => 'Tests\\Fixtures\\Unpublished',
+            GitHubSdkConfig::model_namespace => 'Tests\\Fixtures\\Unpublished',
         ]);
 
         $fake->queue(new Response(200, [], json_encode([['id' => '01H1', 'name' => 'Fallback']]) ?: ''));
@@ -919,7 +919,7 @@ class SdkApiTest extends TestCase
     public function errors_fall_back_to_the_package_model_when_the_namespace_publishes_none(): void
     {
         [$api, $fake] = $this->fake([
-            SdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
+            GitHubSdkConfig::model_namespace => 'Tests\\Fixtures\\Published',
         ]);
 
         $fake->queue(new Response(500, [], json_encode([

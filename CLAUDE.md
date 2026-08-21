@@ -5,7 +5,7 @@ Usage: ./run <command>
 
 Commands:
   check-all      Run all checks (tests, PHPStan, CS Fixer, Rector, template, route + link annotations, CLAUDE.md, README)
-  check-api-methods Verify @method PHPDoc on SdkApi matches #[AdminApi] attributes
+  check-api-methods Verify @method PHPDoc on GitHubSdk matches #[AdminApi] attributes
   check-claude-md Verify CLAUDE.md CLI commands section is up-to-date
   check-cs       Run PHP CS Fixer in dry-run mode (no changes)
   check-links    Verify @link annotations exist on model classes and ApiRoute cases
@@ -22,7 +22,7 @@ Commands:
   fix-all        Apply all fixes (Rector, CS Fixer, link annotations) then run all checks
   fix-cs         Run PHP CS Fixer and apply fixes
   fix-rector     Run Rector and apply fixes
-  generate-api-methods Generate @method PHPDoc on SdkApi from #[AdminApi] attributes
+  generate-api-methods Generate @method PHPDoc on GitHubSdk from #[AdminApi] attributes
   generate-claude-md Generate CLI commands section in CLAUDE.md from ./run output
   generate-links Generate @link annotations on model classes and ApiRoute cases
   generate-readme Generate public API section in README.md from the package CLI
@@ -37,10 +37,10 @@ Commands:
                    --verbose      List every skipped construct
                    --out=<dir>    Write into <dir> instead of the package root
   generate-toc   Generate Table of Contents section in README.md from ##/###/#### headings
+  github-sdk     Run the package CLI tool
   init           Initialize project: copy .env.example and pull doc repos
   new-package    Print the command sequence for creating a derived SDK package
                    --org=<org>  GitHub org or user that will own the new repository
-  sdk            Run the package CLI tool
   test           Run tests for PHP version set in .env
   test-all       Run tests for all PHP versions
 ```
@@ -49,7 +49,7 @@ Commands:
 
 ## API Method Naming Convention
 
-Public methods on `SdkApi` — declared via the `name` arg of `#[AdminApi]` on `ApiRoute` cases — follow Google-Cloud-style `verb<Resource>` naming, where the verb maps 1:1 to the HTTP method and collection vs. single-item semantics:
+Public methods on `GitHubSdk` — declared via the `name` arg of `#[AdminApi]` on `ApiRoute` cases — follow Google-Cloud-style `verb<Resource>` naming, where the verb maps 1:1 to the HTTP method and collection vs. single-item semantics:
 
 | HTTP                    | Verb     | Example                       |
 |-------------------------|----------|-------------------------------|
@@ -73,12 +73,12 @@ Rules:
 
 ## Template
 
-This repo is the SDK **template** — the common ancestor of every derived SDK package. Work here as if the change ships to every descendant, because it does.
+This package was generated from the `zero-to-prod/sdk` template and keeps it as a git remote named `template`, so shared client code merges forward from there. Run `./run check-template` to verify the wiring and see `docs/template.md` for the runbook.
 
-- **Identity lives in `sdk.json`** — composer `name`, `namespace`, `title`, `description`, `api_class`, `config_class`, `bin`, `docs_url`, `retain_models`, and the `openapi` block. Every script and `bin/sdk` reads it (PHP scripts via `scripts/manifest.php`, bash via `php -r`). Never hardcode a package name, namespace, class, CLI name, or docs URL in shared tooling — a derived package must inherit these files untouched, so a hardcoded value becomes a permanent merge conflict downstream.
+- **Identity lives in `sdk.json`** — composer `name`, `namespace`, `title`, `description`, `api_class`, `config_class`, `bin`, `docs_url`, `retain_models`, and the `openapi` block. Every script and `bin/github-sdk` reads it (PHP scripts via `scripts/manifest.php`, bash via `php -r`). Never hardcode a package name, namespace, class, CLI name, or docs URL in shared tooling — a derived package must inherit these files untouched, so a hardcoded value becomes a permanent merge conflict downstream.
 - **`src/Models/` and `src/ApiRoute.php` are GENERATED** by `./run generate-sdk` from the OpenAPI document declared in `sdk.json` (`openapi.source`). Do not hand-edit them in a generated package — rerun the generator. A package with `openapi.source: null` is hand-maintained: edit `src/ApiRoute.php` and `src/Models/` directly, then `./run fix-all`.
 - **Generation OWNS `src/Models/` — it deletes as well as writes.** `src/ApiRoute.php` is replaced wholesale. Before writing models, the run deletes every `src/Models/*.php` whose class name is not in `sdk.json`'s **`retain_models`** (`Errors`, `Pagination`, `Query`), plus the matching `factories/<Model>Factory.php`. That is what stops a previous document's models — or the shipped `Widget` example domain — lingering as orphans no route references. `--dry-run` reports the intended deletions; the summary counts them on a `deleted` line. Add a hand-written model to `retain_models` or the next run removes it. A run then regenerates the `@method` block on the API class, because that block is derived from the `ApiRoute` it just wrote — a stale one names swept models and fails PHPStan. Still run `./run fix-all` afterwards for `@link` annotations and to strip imports of swept models.
-- **Everything else in `src/`** (transports, `SdkApi` dispatch, `ApiResult`, hooks, `Options`, `Query`) is hand-written template code shared by all descendants.
-- **The shared test suite must never name a generated symbol.** `SdkConfig::route_enum` selects the enum the dispatcher resolves against, and every test of the shared code dispatches `tests/Fixtures/FixtureRoute` — never `ApiRoute`. The shipped `Widget` example domain is named in exactly one file, `tests/Unit/ExampleDomainTest.php`, which is a smoke test. If you add a test that names `Widget*` or an `ApiRoute` case anywhere else, it will break in every derived package.
+- **Everything else in `src/`** (transports, `GitHubSdk` dispatch, `ApiResult`, hooks, `Options`, `Query`) is hand-written template code shared by all descendants.
+- **The shared test suite must never name a generated symbol.** `GitHubSdkConfig::route_enum` selects the enum the dispatcher resolves against, and every test of the shared code dispatches `tests/Fixtures/FixtureRoute` — never `ApiRoute`. The shipped `Widget` example domain is named in exactly one file, `tests/Unit/ExampleDomainTest.php`, which is a smoke test. If you add a test that names `Widget*` or an `ApiRoute` case anywhere else, it will break in every derived package.
 - **`php init` deletes template-only content**: itself, its `.gitattributes` line, `tests/Unit/InitTest.php`, `tests/Unit/ReadmeExamplesTest.php` (a derived package rewrites its README) and `tests/Unit/ExampleDomainTest.php`. It prints what it removed and says the README needs rewriting.
 - **`docs/template.md`** holds the ancestry runbook: creating a derived package, pulling template updates, and the merge strategy for generated vs. hand-maintained files.

@@ -4,8 +4,8 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\GeneratorResult;
-use Zerotoprod\Sdk\Generator\Skip;
+use Zerotoprod\GitHubSdk\Generator\GeneratorResult;
+use Zerotoprod\GitHubSdk\Generator\Skip;
 
 class GeneratorResultTest extends TestCase
 {

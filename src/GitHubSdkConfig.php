@@ -1,13 +1,13 @@
 <?php
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * SDK connection configuration. Pass as an associative array
- * to the SdkApi constructor using these class constants as keys.
+ * to the GitHubSdk constructor using these class constants as keys.
  *
  * Settings:
  *
@@ -18,7 +18,7 @@ use Zerotoprod\Sdk\Internal\DataModel;
  *
  * @phpstan-consistent-constructor
  */
-class SdkConfig
+class GitHubSdkConfig
 {
     use DataModel;
 
@@ -45,9 +45,9 @@ class SdkConfig
      * so it carries no notion of a token, key or scheme, only the headers you
      * give it:
      *
-     *     new SdkApi([
-     *         SdkConfig::url     => 'https://api.example.com',
-     *         SdkConfig::headers => ['Authorization' => 'Bearer '.$token],
+     *     new GitHubSdk([
+     *         GitHubSdkConfig::url     => 'https://api.example.com',
+     *         GitHubSdkConfig::headers => ['Authorization' => 'Bearer '.$token],
      *     ]);
      *
      * A header passed per call via `Options::headers` wins over the same header
@@ -67,7 +67,7 @@ class SdkConfig
     /**
      * Namespace for request/response model classes. Override to use published models.
      */
-    #[Describe(['default' => 'Zerotoprod\\Sdk\\Models'])]
+    #[Describe(['default' => 'Zerotoprod\\GitHubSdk\\Models'])]
     public readonly string $model_namespace;
 
     /**
@@ -92,7 +92,7 @@ class SdkConfig
     public readonly string $route_enum;
 
     /**
-     * Build a SdkConfig from an associative array.
+     * Build a GitHubSdkConfig from an associative array.
      *
      * @internal
      * @param  array<string, mixed>  $config

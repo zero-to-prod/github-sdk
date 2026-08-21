@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 /**
  * One `#[AdminApi]` attribute to emit: an HTTP operation on a route case.

@@ -4,7 +4,7 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\TypeSpec;
+use Zerotoprod\GitHubSdk\Generator\TypeSpec;
 
 class TypeSpecTest extends TestCase
 {

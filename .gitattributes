@@ -13,7 +13,6 @@
 /.githooks/               export-ignore
 /CLAUDE.md                export-ignore
 /.php-cs-fixer.dist.php   export-ignore
-/init                     export-ignore
 
 # ------------------------------------------------------------------------------
 # Derived packages: declare what you own below this line

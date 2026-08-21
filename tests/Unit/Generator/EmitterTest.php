@@ -5,12 +5,12 @@ namespace Unit\Generator;
 use Closure;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\Generator\GeneratorCase;
-use Zerotoprod\Sdk\Generator\Emitter;
-use Zerotoprod\Sdk\Generator\GeneratorConfig;
-use Zerotoprod\Sdk\Generator\GeneratorException;
-use Zerotoprod\Sdk\Generator\RouteCase;
-use Zerotoprod\Sdk\Generator\RouteOperation;
-use Zerotoprod\Sdk\Generator\RoutePlan;
+use Zerotoprod\GitHubSdk\Generator\Emitter;
+use Zerotoprod\GitHubSdk\Generator\GeneratorConfig;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\RouteCase;
+use Zerotoprod\GitHubSdk\Generator\RouteOperation;
+use Zerotoprod\GitHubSdk\Generator\RoutePlan;
 
 class EmitterTest extends GeneratorCase
 {
@@ -21,8 +21,8 @@ class EmitterTest extends GeneratorCase
             'Models' => [
                 'Widget' => [
                     'filename' => 'Widget.php',
-                    'comment' => "/**\n * A widget.\n * @link https://example.com/docs\n */",
-                    'imports' => ['use Zerotoprod\Sdk\Internal\DataModel;'],
+                    'comment' => "/**\n * A widget.\n * @link https://docs.github.com/\n */",
+                    'imports' => ['use Zerotoprod\GitHubSdk\Internal\DataModel;'],
                     'use_statements' => ['use DataModel;'],
                     'constants' => ['id' => ['comment' => '/** @see $id */', 'value' => "'id'"]],
                     'properties' => ['id' => ['types' => ['string', 'null']]],
@@ -31,7 +31,7 @@ class EmitterTest extends GeneratorCase
             'Enums' => [
                 'Colour' => [
                     'filename' => 'Colour.php',
-                    'comment' => "/**\n * @link https://example.com/docs\n */",
+                    'comment' => "/**\n * @link https://docs.github.com/\n */",
                     'backed_type' => 'string',
                     'cases' => ['unknown' => ['value' => "'unknown'"]],
                 ],
@@ -89,7 +89,7 @@ class EmitterTest extends GeneratorCase
     {
         $this->seed(
             ['Widget', 'Errors'],
-            ['WidgetFactory', 'ErrorsFactory', 'PaginationFactory', 'SdkConfigFactory'],
+            ['WidgetFactory', 'ErrorsFactory', 'PaginationFactory', 'GitHubSdkConfigFactory'],
         );
 
         (new Emitter($this->config()))->sweep(['Errors', 'Pagination', 'Query']);
@@ -99,7 +99,7 @@ class EmitterTest extends GeneratorCase
         // and the config factory, which is named after no model — both survive.
         self::assertFileExists($this->temp() . '/factories/ErrorsFactory.php');
         self::assertFileExists($this->temp() . '/factories/PaginationFactory.php');
-        self::assertFileExists($this->temp() . '/factories/SdkConfigFactory.php');
+        self::assertFileExists($this->temp() . '/factories/GitHubSdkConfigFactory.php');
     }
 
     #[Test]

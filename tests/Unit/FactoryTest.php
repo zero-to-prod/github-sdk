@@ -16,17 +16,17 @@ use Tests\Fixtures\Models\FixtureThingStatus;
 use Tests\Fixtures\Models\FixtureThingTag;
 use Tests\Fixtures\Models\FixtureUpdateThingRequest;
 use Tests\TestCase;
-use Zerotoprod\Sdk\ApiResult;
-use Zerotoprod\Sdk\Factories\ErrorsFactory;
-use Zerotoprod\Sdk\Factories\PaginationFactory;
-use Zerotoprod\Sdk\Factories\SdkConfigFactory;
-use Zerotoprod\Sdk\Internal\Fake;
-use Zerotoprod\Sdk\Internal\HttpMethod;
-use Zerotoprod\Sdk\Models\Errors;
-use Zerotoprod\Sdk\Models\Pagination;
-use Zerotoprod\Sdk\Response;
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\SdkConfig;
+use Zerotoprod\GitHubSdk\ApiResult;
+use Zerotoprod\GitHubSdk\Factories\ErrorsFactory;
+use Zerotoprod\GitHubSdk\Factories\GitHubSdkConfigFactory;
+use Zerotoprod\GitHubSdk\Factories\PaginationFactory;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
+use Zerotoprod\GitHubSdk\Internal\Fake;
+use Zerotoprod\GitHubSdk\Internal\HttpMethod;
+use Zerotoprod\GitHubSdk\Models\Errors;
+use Zerotoprod\GitHubSdk\Models\Pagination;
+use Zerotoprod\GitHubSdk\Response;
 
 /**
  * Factory semantics — `set()`, `merge()`, `context()`, composition, and feeding
@@ -41,13 +41,13 @@ use Zerotoprod\Sdk\SdkConfig;
 class FactoryTest extends TestCase
 {
     /**
-     * @return array{SdkApi<Response>, Fake}
+     * @return array{GitHubSdk<Response>, Fake}
      */
     private function fake(): array
     {
-        return SdkApi::fake(
-            SdkConfigFactory::factory()
-                ->set(SdkConfig::route_enum, FixtureRoute::class)
+        return GitHubSdk::fake(
+            GitHubSdkConfigFactory::factory()
+                ->set(GitHubSdkConfig::route_enum, FixtureRoute::class)
                 ->context(),
         );
     }
@@ -177,14 +177,14 @@ class FactoryTest extends TestCase
     }
 
     // ──────────────────────────────────────────────────────────────
-    // Integration: factories + SdkApi::fake()
+    // Integration: factories + GitHubSdk::fake()
     // ──────────────────────────────────────────────────────────────
 
     #[Test]
     public function config_factory_feeds_the_api_constructor(): void
     {
-        $api = new SdkApi(
-            SdkConfigFactory::factory()->make(),
+        $api = new GitHubSdk(
+            GitHubSdkConfigFactory::factory()->make(),
         );
 
         self::assertSame('https://api.example.com', $api->config->url);
@@ -333,10 +333,10 @@ class FactoryTest extends TestCase
     #[Test]
     public function config_factory_defaults(): void
     {
-        $config = SdkConfigFactory::factory()->make();
+        $config = GitHubSdkConfigFactory::factory()->make();
 
-        self::assertInstanceOf(SdkConfig::class, $config);
+        self::assertInstanceOf(GitHubSdkConfig::class, $config);
         self::assertSame('https://api.example.com', $config->url);
-        self::assertSame('Zerotoprod\\Sdk\\Models', $config->model_namespace);
+        self::assertSame('Zerotoprod\\GitHubSdk\\Models', $config->model_namespace);
     }
 }

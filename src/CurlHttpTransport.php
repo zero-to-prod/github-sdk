@@ -1,6 +1,6 @@
 <?php
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 use RuntimeException;
 

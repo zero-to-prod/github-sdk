@@ -3,10 +3,10 @@
 namespace Tests\Unit\Generator;
 
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\Document;
-use Zerotoprod\Sdk\Generator\Generator;
-use Zerotoprod\Sdk\Generator\GeneratorConfig;
-use Zerotoprod\Sdk\Generator\GeneratorResult;
+use Zerotoprod\GitHubSdk\Generator\Document;
+use Zerotoprod\GitHubSdk\Generator\Generator;
+use Zerotoprod\GitHubSdk\Generator\GeneratorConfig;
+use Zerotoprod\GitHubSdk\Generator\GeneratorResult;
 
 /**
  * Shared plumbing for the generator tests: fixture paths and a scratch

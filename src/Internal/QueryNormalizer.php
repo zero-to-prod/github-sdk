@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Internal;
+namespace Zerotoprod\GitHubSdk\Internal;
 
-use Zerotoprod\Sdk\Models\Query;
+use Zerotoprod\GitHubSdk\Models\Query;
 
 /**
  * Translates Laravel-style query DSL into the wire format the server consumes.
@@ -24,7 +24,7 @@ use Zerotoprod\Sdk\Models\Query;
  *
  * `where_in` / `where_not_in` (`IN` / `NOT IN` filters) and `per_page`
  * (pagination) are accepted DSL keys but require no transformation — they are
- * passed through unchanged. See {@see \Zerotoprod\Sdk\Models\Query}.
+ * passed through unchanged. See {@see \Zerotoprod\GitHubSdk\Models\Query}.
  *
  * @internal
  */

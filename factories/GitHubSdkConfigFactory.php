@@ -3,23 +3,22 @@
 namespace Zerotoprod\GitHubSdk\Factories;
 
 use Zerotoprod\DataModelFactory\DataModelFactory;
-use Zerotoprod\GitHubSdk\Models\Errors;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
 
-class ErrorsFactory
+class GitHubSdkConfigFactory
 {
     use DataModelFactory;
 
-    protected $model = Errors::class;
+    protected $model = GitHubSdkConfig::class;
 
     protected function definition(): array
     {
         return [
-            Errors::message => 'Something went wrong',
-            Errors::errors => [],
+            GitHubSdkConfig::url => 'https://api.example.com',
         ];
     }
 
-    public function make(array $context = []): Errors
+    public function make(array $context = []): GitHubSdkConfig
     {
         return $this->instantiate($context);
     }

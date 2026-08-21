@@ -5,7 +5,7 @@ namespace Unit\Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\Naming;
+use Zerotoprod\GitHubSdk\Generator\Naming;
 
 class NamingTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 /**
  * HTTP transport interface. Implement this to use a custom HTTP client.
- * TResponse determines the return type of all SdkApi HTTP methods.
+ * TResponse determines the return type of all GitHubSdk HTTP methods.
  *
  * @template TResponse
  */

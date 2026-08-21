@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Internal;
+namespace Zerotoprod\GitHubSdk\Internal;
 
 use BackedEnum;
 use Zerotoprod\DataModel\Describe;
@@ -52,8 +52,8 @@ class Route
     /**
      * Build a route from any string-backed route enum case.
      *
-     * Typed against {@see BackedEnum} rather than {@see \Zerotoprod\Sdk\ApiRoute}
-     * so a client configured with {@see \Zerotoprod\Sdk\SdkConfig::route_enum}
+     * Typed against {@see BackedEnum} rather than {@see \Zerotoprod\GitHubSdk\ApiRoute}
+     * so a client configured with {@see \Zerotoprod\GitHubSdk\GitHubSdkConfig::route_enum}
      * can dispatch a different route enum entirely.
      *
      * @param  array<string, mixed>   $params

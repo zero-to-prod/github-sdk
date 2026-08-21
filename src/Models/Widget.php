@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Models;
+namespace Zerotoprod\GitHubSdk\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * Example resource. Replace this file — `./run generate-sdk` overwrites
  * `src/Models/` from the OpenAPI document declared in `sdk.json`.
- * @link https://example.com/docs
+ * @link https://docs.github.com/
  */
 class Widget
 {

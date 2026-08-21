@@ -1,9 +1,9 @@
 <?php
 
-namespace Zerotoprod\Sdk\Factories;
+namespace Zerotoprod\GitHubSdk\Factories;
 
 use Zerotoprod\DataModelFactory\DataModelFactory;
-use Zerotoprod\Sdk\Models\WidgetsResponse;
+use Zerotoprod\GitHubSdk\Models\WidgetsResponse;
 
 class WidgetsResponseFactory
 {

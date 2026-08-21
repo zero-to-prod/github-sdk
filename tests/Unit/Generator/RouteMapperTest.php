@@ -4,12 +4,12 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\Generator\GeneratorCase;
-use Zerotoprod\Sdk\Generator\Document;
-use Zerotoprod\Sdk\Generator\Naming;
-use Zerotoprod\Sdk\Generator\RouteMapper;
-use Zerotoprod\Sdk\Generator\RouteOperation;
-use Zerotoprod\Sdk\Generator\RoutePlan;
-use Zerotoprod\Sdk\Generator\SchemaMapper;
+use Zerotoprod\GitHubSdk\Generator\Document;
+use Zerotoprod\GitHubSdk\Generator\Naming;
+use Zerotoprod\GitHubSdk\Generator\RouteMapper;
+use Zerotoprod\GitHubSdk\Generator\RouteOperation;
+use Zerotoprod\GitHubSdk\Generator\RoutePlan;
+use Zerotoprod\GitHubSdk\Generator\SchemaMapper;
 
 class RouteMapperTest extends GeneratorCase
 {
@@ -17,7 +17,7 @@ class RouteMapperTest extends GeneratorCase
     {
         $document = self::document($fixture);
         $naming = new Naming();
-        $schemas = new SchemaMapper($document, $naming, 'https://example.com/docs');
+        $schemas = new SchemaMapper($document, $naming, 'https://docs.github.com/');
         $schemas->mapComponentSchemas();
 
         $this->mapper = new RouteMapper($document, $naming, $schemas);

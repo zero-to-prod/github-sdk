@@ -186,7 +186,7 @@ from the template forever. That is only possible because nothing in it names a
 generated symbol:
 
 - The shared tests dispatch against `tests/Fixtures/FixtureRoute`, a permanent
-  fixture enum selected per client with `SdkConfig::route_enum`. `generate-sdk`
+  fixture enum selected per client with `GitHubSdkConfig::route_enum`. `generate-sdk`
   rewrites `src/ApiRoute.php`, and cannot touch `tests/Fixtures/`.
 - The three files that *were* template-specific — `InitTest`,
   `ReadmeExamplesTest` and `ExampleDomainTest` (the only file naming the shipped

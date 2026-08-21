@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 /**
  * Lifecycle phase of a hooked request. The backing values double as the keys

@@ -5,12 +5,12 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/vendor/autoload.php';
 require __DIR__ . '/manifest.php';
 
-use Zerotoprod\Sdk\Generator\CliOptions;
-use Zerotoprod\Sdk\Generator\Emitter;
-use Zerotoprod\Sdk\Generator\Generator;
-use Zerotoprod\Sdk\Generator\GeneratorConfig;
-use Zerotoprod\Sdk\Generator\GeneratorException;
-use Zerotoprod\Sdk\Generator\Guard;
+use Zerotoprod\GitHubSdk\Generator\CliOptions;
+use Zerotoprod\GitHubSdk\Generator\Emitter;
+use Zerotoprod\GitHubSdk\Generator\Generator;
+use Zerotoprod\GitHubSdk\Generator\GeneratorConfig;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\Guard;
 
 $root = dirname(__DIR__);
 

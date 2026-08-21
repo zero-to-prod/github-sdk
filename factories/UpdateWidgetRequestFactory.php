@@ -1,10 +1,10 @@
 <?php
 
-namespace Zerotoprod\Sdk\Factories;
+namespace Zerotoprod\GitHubSdk\Factories;
 
 use Zerotoprod\DataModelFactory\DataModelFactory;
-use Zerotoprod\Sdk\Models\UpdateWidgetRequest;
-use Zerotoprod\Sdk\Models\WidgetStatus;
+use Zerotoprod\GitHubSdk\Models\UpdateWidgetRequest;
+use Zerotoprod\GitHubSdk\Models\WidgetStatus;
 
 class UpdateWidgetRequestFactory
 {

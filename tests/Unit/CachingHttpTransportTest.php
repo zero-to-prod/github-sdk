@@ -6,11 +6,11 @@ use Closure;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Fixtures\FixtureRoute;
 use Tests\TestCase;
-use Zerotoprod\Sdk\CachingHttpTransport;
-use Zerotoprod\Sdk\Internal\Fake;
-use Zerotoprod\Sdk\Response;
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\SdkConfig;
+use Zerotoprod\GitHubSdk\CachingHttpTransport;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
+use Zerotoprod\GitHubSdk\Internal\Fake;
+use Zerotoprod\GitHubSdk\Response;
 
 class CachingHttpTransportTest extends TestCase
 {
@@ -118,10 +118,10 @@ class CachingHttpTransportTest extends TestCase
         $fake = new Fake();
         $fake->queue(new Response(200, [], json_encode(['things' => [['name' => 'First']]]) ?: ''));
 
-        $api = new SdkApi(
+        $api = new GitHubSdk(
             [
-                SdkConfig::url => 'https://api.example.com',
-                SdkConfig::route_enum => FixtureRoute::class,
+                GitHubSdkConfig::url => 'https://api.example.com',
+                GitHubSdkConfig::route_enum => FixtureRoute::class,
             ],
             new CachingHttpTransport($fake, $cache),
         );

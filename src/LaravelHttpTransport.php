@@ -1,6 +1,6 @@
 <?php
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Http;
 class LaravelHttpTransport implements HttpTransport
 {
     /**
-     * Prepended to request URLs when `SdkConfig::url` is empty, so
+     * Prepended to request URLs when `GitHubSdkConfig::url` is empty, so
      * the URL reaching Laravel/Guzzle is always well-formed. Reference this
      * constant in `Http::fake()` keys to stub the default base.
      */
@@ -27,7 +27,7 @@ class LaravelHttpTransport implements HttpTransport
      */
     public function request(string $method, string $url, array $options = []): Response
     {
-        // When SdkConfig::url is empty (typical in Http::fake() tests),
+        // When GitHubSdkConfig::url is empty (typical in Http::fake() tests),
         // the URL is just a path. Laravel/Guzzle strips the leading slash, leaving
         // asserts brittle. Prefix a sentinel host so the URL is always well-formed.
         if (!preg_match('#^https?://#', $url)) {

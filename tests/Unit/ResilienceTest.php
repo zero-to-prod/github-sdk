@@ -6,14 +6,14 @@ use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use Tests\Fixtures\FixtureRoute;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Hook;
-use Zerotoprod\Sdk\HookContext;
-use Zerotoprod\Sdk\HttpTransport;
-use Zerotoprod\Sdk\Options;
-use Zerotoprod\Sdk\Response;
-use Zerotoprod\Sdk\RetryingHttpTransport;
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\SdkConfig;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
+use Zerotoprod\GitHubSdk\Hook;
+use Zerotoprod\GitHubSdk\HookContext;
+use Zerotoprod\GitHubSdk\HttpTransport;
+use Zerotoprod\GitHubSdk\Options;
+use Zerotoprod\GitHubSdk\Response;
+use Zerotoprod\GitHubSdk\RetryingHttpTransport;
 
 /**
  * Covers the production-hardening surface: malformed response bodies, header
@@ -26,11 +26,11 @@ use Zerotoprod\Sdk\SdkConfig;
 class ResilienceTest extends TestCase
 {
     /** @param  array<string, mixed>  $config */
-    private function api(array $config = [], ?HttpTransport $transport = null): SdkApi
+    private function api(array $config = [], ?HttpTransport $transport = null): GitHubSdk
     {
-        return new SdkApi(
-            [SdkConfig::route_enum => FixtureRoute::class, ...$config],
-            $transport ?? new \Zerotoprod\Sdk\Internal\Fake(),
+        return new GitHubSdk(
+            [GitHubSdkConfig::route_enum => FixtureRoute::class, ...$config],
+            $transport ?? new \Zerotoprod\GitHubSdk\Internal\Fake(),
         );
     }
 
@@ -51,7 +51,7 @@ class ResilienceTest extends TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('scalarBodies')]
     public function a_scalar_2xx_body_yields_an_empty_model_instead_of_a_type_error(string $body): void
     {
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
         $fake->queue(new Response(200, [], $body));
 
         $result = $this->api(transport: $fake)->getThing('a');
@@ -65,7 +65,7 @@ class ResilienceTest extends TestCase
     #[Test]
     public function a_scalar_error_body_still_hydrates_errors(): void
     {
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
         $fake->queue(new Response(500, [], '"boom"'));
 
         $result = $this->api(transport: $fake)->getThing('a');
@@ -79,7 +79,7 @@ class ResilienceTest extends TestCase
     public function an_html_error_page_and_an_empty_body_degrade_to_errors(): void
     {
         foreach (['<html>502 Bad Gateway</html>', ''] as $body) {
-            $fake = new \Zerotoprod\Sdk\Internal\Fake();
+            $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
             $fake->queue(new Response(502, [], $body));
 
             $result = $this->api(transport: $fake)->getThing('a');
@@ -104,8 +104,8 @@ class ResilienceTest extends TestCase
     #[Test]
     public function config_headers_are_sent_with_every_request(): void
     {
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
-        $api = $this->api([SdkConfig::headers => ['Authorization' => 'Bearer t']], $fake);
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
+        $api = $this->api([GitHubSdkConfig::headers => ['Authorization' => 'Bearer t']], $fake);
 
         $api->getThing('a');
         $api->listThings();
@@ -118,9 +118,9 @@ class ResilienceTest extends TestCase
     #[Test]
     public function a_per_call_header_wins_over_the_same_config_header(): void
     {
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
 
-        $this->api([SdkConfig::headers => ['Authorization' => 'Bearer default', 'X-Tenant' => 'acme']], $fake)
+        $this->api([GitHubSdkConfig::headers => ['Authorization' => 'Bearer default', 'X-Tenant' => 'acme']], $fake)
             ->getThing('a', [Options::headers => ['Authorization' => 'Bearer override']]);
 
         self::assertSame(
@@ -132,10 +132,10 @@ class ResilienceTest extends TestCase
     #[Test]
     public function with_headers_adds_to_a_request_instead_of_replacing_its_headers(): void
     {
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
 
-        $api = new SdkApi(
-            [SdkConfig::route_enum => FixtureRoute::class, SdkConfig::headers => ['Authorization' => 'Bearer t']],
+        $api = new GitHubSdk(
+            [GitHubSdkConfig::route_enum => FixtureRoute::class, GitHubSdkConfig::headers => ['Authorization' => 'Bearer t']],
             $fake,
             [Hook::before->value => fn(HookContext $ctx) => $ctx->withHeaders(['X-Trace-Id' => 'trace-1'])],
         );
@@ -151,10 +151,10 @@ class ResilienceTest extends TestCase
     #[Test]
     public function with_options_merges_options_and_leaves_the_rest_in_place(): void
     {
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
 
-        $api = new SdkApi(
-            [SdkConfig::route_enum => FixtureRoute::class],
+        $api = new GitHubSdk(
+            [GitHubSdkConfig::route_enum => FixtureRoute::class],
             $fake,
             [Hook::before->value => fn(HookContext $ctx) => $ctx->withOptions(['timeout' => 5])],
         );
@@ -172,12 +172,12 @@ class ResilienceTest extends TestCase
     public function redacted_masks_credential_headers_but_to_array_does_not(): void
     {
         $captured = [];
-        $fake = new \Zerotoprod\Sdk\Internal\Fake();
+        $fake = new \Zerotoprod\GitHubSdk\Internal\Fake();
 
-        $api = new SdkApi(
+        $api = new GitHubSdk(
             [
-                SdkConfig::route_enum => FixtureRoute::class,
-                SdkConfig::headers => [
+                GitHubSdkConfig::route_enum => FixtureRoute::class,
+                GitHubSdkConfig::headers => [
                     'Authorization' => 'Bearer super-secret',
                     'X-Api-Key' => 'key-123',
                     'X-Refresh-Token' => 'refresh-123',
@@ -210,9 +210,9 @@ class ResilienceTest extends TestCase
     {
         $captured = [];
 
-        $api = new SdkApi(
-            [SdkConfig::route_enum => FixtureRoute::class],
-            new \Zerotoprod\Sdk\Internal\Fake(),
+        $api = new GitHubSdk(
+            [GitHubSdkConfig::route_enum => FixtureRoute::class],
+            new \Zerotoprod\GitHubSdk\Internal\Fake(),
             [Hook::before->value => function (HookContext $ctx) use (&$captured) {
                 $captured = $ctx->redacted();
             }],
@@ -625,8 +625,8 @@ class ResilienceTest extends TestCase
             new Response(200, [], '{"id":"a","name":"Thing"}'),
         ]);
 
-        $api = new SdkApi(
-            [SdkConfig::route_enum => FixtureRoute::class],
+        $api = new GitHubSdk(
+            [GitHubSdkConfig::route_enum => FixtureRoute::class],
             new RetryingHttpTransport($inner, sleeper: fn(float $s) => null),
         );
 
@@ -641,6 +641,6 @@ class ResilienceTest extends TestCase
     #[Test]
     public function the_curl_transport_declares_a_default_connect_timeout(): void
     {
-        self::assertSame(10, \Zerotoprod\Sdk\CurlHttpTransport::default_connect_timeout);
+        self::assertSame(10, \Zerotoprod\GitHubSdk\CurlHttpTransport::default_connect_timeout);
     }
 }

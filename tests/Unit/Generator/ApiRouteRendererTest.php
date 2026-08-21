@@ -4,16 +4,16 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\ApiRouteRenderer;
-use Zerotoprod\Sdk\Generator\RouteCase;
-use Zerotoprod\Sdk\Generator\RouteOperation;
-use Zerotoprod\Sdk\Generator\RoutePlan;
+use Zerotoprod\GitHubSdk\Generator\ApiRouteRenderer;
+use Zerotoprod\GitHubSdk\Generator\RouteCase;
+use Zerotoprod\GitHubSdk\Generator\RouteOperation;
+use Zerotoprod\GitHubSdk\Generator\RoutePlan;
 
 class ApiRouteRendererTest extends TestCase
 {
     private function renderer(): ApiRouteRenderer
     {
-        return new ApiRouteRenderer('Zerotoprod\\Sdk', 'https://example.com/docs');
+        return new ApiRouteRenderer('Zerotoprod\\GitHubSdk', 'https://docs.github.com/');
     }
 
     #[Test]
@@ -34,15 +34,15 @@ class ApiRouteRendererTest extends TestCase
 
         declare(strict_types=1);
 
-        namespace Zerotoprod\Sdk;
+        namespace Zerotoprod\GitHubSdk;
 
-        use Zerotoprod\Sdk\Internal\AdminApi;
-        use Zerotoprod\Sdk\Internal\HasRoute;
-        use Zerotoprod\Sdk\Internal\HttpMethod;
-        use Zerotoprod\Sdk\Internal\Route;
-        use Zerotoprod\Sdk\Models\CreateWidgetRequest;
-        use Zerotoprod\Sdk\Models\Widget;
-        use Zerotoprod\Sdk\Models\WidgetsResponse;
+        use Zerotoprod\GitHubSdk\Internal\AdminApi;
+        use Zerotoprod\GitHubSdk\Internal\HasRoute;
+        use Zerotoprod\GitHubSdk\Internal\HttpMethod;
+        use Zerotoprod\GitHubSdk\Internal\Route;
+        use Zerotoprod\GitHubSdk\Models\CreateWidgetRequest;
+        use Zerotoprod\GitHubSdk\Models\Widget;
+        use Zerotoprod\GitHubSdk\Models\WidgetsResponse;
 
         /**
          * @method static Route widgets(array<string, mixed> $params = [])
@@ -52,7 +52,7 @@ class ApiRouteRendererTest extends TestCase
         {
             /**
              * Example collection route.
-             * @link https://example.com/docs
+             * @link https://docs.github.com/
              */
             #[HasRoute]
             #[AdminApi(HttpMethod::GET, 'listWidgets', queryParams: ['per_page'], response: WidgetsResponse::class)]
@@ -60,7 +60,7 @@ class ApiRouteRendererTest extends TestCase
             case widgets = '/v1/widgets';
 
             /**
-             * @link https://example.com/docs
+             * @link https://docs.github.com/
              */
             #[HasRoute]
             #[AdminApi(HttpMethod::DELETE, 'deleteWidget', pathParams: ['id'])]
@@ -99,7 +99,7 @@ class ApiRouteRendererTest extends TestCase
             "#[AdminApi(HttpMethod::GET, 'listWidgetTags', pathParams: ['id'], listOf: WidgetTag::class)]",
             $out,
         );
-        self::assertStringContainsString('use Zerotoprod\Sdk\Models\WidgetTag;', $out);
+        self::assertStringContainsString('use Zerotoprod\GitHubSdk\Models\WidgetTag;', $out);
     }
 
     #[Test]
@@ -158,7 +158,7 @@ class ApiRouteRendererTest extends TestCase
             new RouteCase('widget', '/v1/w', [new RouteOperation('GET', 'getWidget')], '   '),
         ]);
 
-        self::assertStringContainsString("    /**\n     * @link https://example.com/docs\n     */", $this->renderer()->render($plan));
+        self::assertStringContainsString("    /**\n     * @link https://docs.github.com/\n     */", $this->renderer()->render($plan));
     }
 
     #[Test]

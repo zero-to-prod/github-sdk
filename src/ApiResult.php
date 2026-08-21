@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
-use Zerotoprod\Sdk\Models\Errors;
+use Zerotoprod\GitHubSdk\Models\Errors;
 
 /**
  * Wraps an API response. On success (2xx), `$data` holds the hydrated

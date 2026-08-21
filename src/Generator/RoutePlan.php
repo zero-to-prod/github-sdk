@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 /**
  * The whole `ApiRoute` enum, ready to render.

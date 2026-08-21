@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Models;
+namespace Zerotoprod\GitHubSdk\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * Example list element. `listWidgetTags` responds with a bare JSON array of
  * these, so the route declares `listOf: WidgetTag::class` and the dispatcher
  * hydrates every element into this model.
- * @link https://example.com/docs
+ * @link https://docs.github.com/
  */
 class WidgetTag
 {

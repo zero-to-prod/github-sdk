@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 /**
  * Every name the generator invents, in one place.

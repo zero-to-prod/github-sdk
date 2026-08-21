@@ -4,7 +4,7 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\GeneratorConfig;
+use Zerotoprod\GitHubSdk\Generator\GeneratorConfig;
 
 class GeneratorConfigTest extends TestCase
 {
@@ -16,7 +16,7 @@ class GeneratorConfigTest extends TestCase
         self::assertSame('/pkg/src/Models', $config->modelsDirectory());
         self::assertSame('/pkg/factories', $config->factoriesDirectory());
         self::assertSame('/pkg/src/ApiRoute.php', $config->apiRoutePath());
-        self::assertSame('Zerotoprod\\Sdk\\Models', $config->modelNamespace());
+        self::assertSame('Zerotoprod\\GitHubSdk\\Models', $config->modelNamespace());
     }
 
     #[Test]

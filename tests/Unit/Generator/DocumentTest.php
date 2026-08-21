@@ -4,8 +4,8 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\Generator\GeneratorCase;
-use Zerotoprod\Sdk\Generator\Document;
-use Zerotoprod\Sdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\Document;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
 
 class DocumentTest extends GeneratorCase
 {

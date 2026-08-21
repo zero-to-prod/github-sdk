@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 /**
  * Turns the document's `paths` into the `ApiRoute` enum's shape: one case per

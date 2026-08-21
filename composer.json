@@ -1,19 +1,18 @@
 {
-    "name": "zero-to-prod/sdk",
-    "description": "Template for a framework-agnostic PHP SDK generated from an OpenAPI document",
+    "name": "zero-to-prod/github-sdk",
+    "description": "GitHub Sdk",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Zerotoprod\\Sdk\\": "src/",
-            "Zerotoprod\\Sdk\\Factories\\": "factories/"
+            "Zerotoprod\\GitHubSdk\\": "src/",
+            "Zerotoprod\\GitHubSdk\\Factories\\": "factories/"
         }
     },
     "authors": [
         {
-            "name": "David Smith",
-            "email": "david_smith@sweetwater.com",
-            "role": "Senior Software Developer"
+            "name": "david_smith",
+            "email": "dave0016@gmail.com"
         }
     ],
     "require": {
@@ -37,10 +36,10 @@
     "suggest": {
         "illuminate/http": "Required when using the Laravel Http transport",
         "zero-to-prod/data-model-generator": "Required to regenerate models from an OpenAPI document",
-        "zero-to-prod/data-model-factory": "Required to use the shipped factories under Zerotoprod\\Sdk\\Factories (tests only)"
+        "zero-to-prod/data-model-factory": "Required to use the shipped factories under Zerotoprod\\GitHubSdk\\Factories (tests only)"
     },
     "bin": [
-        "bin/sdk"
+        "bin/github-sdk"
     ],
     "autoload-dev": {
         "psr-4": {
@@ -54,5 +53,9 @@
         "post-update-cmd": [
             "git config core.hooksPath .githooks || true"
         ]
+    },
+    "homepage": "https://github.com/zero-to-prod/github-sdk",
+    "support": {
+        "issues": "https://github.com/zero-to-prod/github-sdk/issues"
     }
 }

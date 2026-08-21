@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Internal;
+namespace Zerotoprod\GitHubSdk\Internal;
 
 use Attribute;
 
 /**
- * Declares an API method on SdkApi backed by this route case.
+ * Declares an API method on GitHubSdk backed by this route case.
  * Repeatable — one attribute per HTTP operation on the same path.
  *
  * `$request`, `$response` and `$listOf` accept either a short model class name
  * (`'AccountResponse'`) or a fully-qualified class string (`Account::class`).
- * The runtime still resolves to `SdkConfig::model_namespace` first
+ * The runtime still resolves to `GitHubSdkConfig::model_namespace` first
  * so published overrides keep working; the declared class acts as the fallback.
  *
  * `$response` means "the body is one object"; `$listOf` means "the body is a
@@ -70,6 +70,6 @@ class AdminApi
 
         return str_contains($value, '\\')
             ? $value
-            : 'Zerotoprod\\Sdk\\Models\\' . $value;
+            : 'Zerotoprod\\GitHubSdk\\Models\\' . $value;
     }
 }

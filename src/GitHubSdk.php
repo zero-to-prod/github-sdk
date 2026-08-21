@@ -1,21 +1,21 @@
 <?php
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 use BackedEnum;
 use BadMethodCallException;
 use ReflectionEnum;
 use Throwable;
-use Zerotoprod\Sdk\Internal\AdminApi;
-use Zerotoprod\Sdk\Internal\Fake;
-use Zerotoprod\Sdk\Internal\HttpMethod;
-use Zerotoprod\Sdk\Internal\QueryNormalizer;
-use Zerotoprod\Sdk\Internal\Route;
-use Zerotoprod\Sdk\Models\CreateWidgetRequest;
-use Zerotoprod\Sdk\Models\UpdateWidgetRequest;
-use Zerotoprod\Sdk\Models\Widget;
-use Zerotoprod\Sdk\Models\WidgetsResponse;
-use Zerotoprod\Sdk\Models\WidgetTag;
+use Zerotoprod\GitHubSdk\Internal\AdminApi;
+use Zerotoprod\GitHubSdk\Internal\Fake;
+use Zerotoprod\GitHubSdk\Internal\HttpMethod;
+use Zerotoprod\GitHubSdk\Internal\QueryNormalizer;
+use Zerotoprod\GitHubSdk\Internal\Route;
+use Zerotoprod\GitHubSdk\Models\CreateWidgetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateWidgetRequest;
+use Zerotoprod\GitHubSdk\Models\Widget;
+use Zerotoprod\GitHubSdk\Models\WidgetsResponse;
+use Zerotoprod\GitHubSdk\Models\WidgetTag;
 
 /**
  * Wrapper client for the SDK.
@@ -29,15 +29,15 @@ use Zerotoprod\Sdk\Models\WidgetTag;
  * @method ApiResult<Widget>|Response createWidget(CreateWidgetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
  * @method ApiResult<array<int, WidgetTag>>|Response listWidgetTags(string $id, array<string, mixed> $options = [])
  */
-class SdkApi
+class GitHubSdk
 {
     /**
      * Resolved configuration available for inspection after construction.
      */
-    public readonly SdkConfig $config;
+    public readonly GitHubSdkConfig $config;
 
     /**
-     * @param  SdkConfig|array{
+     * @param  GitHubSdkConfig|array{
      *     url?: string|null,
      *     headers?: array<string, string>,
      *     model_namespace?: string|null,
@@ -62,13 +62,13 @@ class SdkApi
      *            All are useful for logging, global enforcement, inspection, and validation.
      */
     public function __construct(
-        array|SdkConfig $config = [],
+        array|GitHubSdkConfig $config = [],
         private readonly HttpTransport $httpTransport = new CurlHttpTransport(),
         private readonly array $hooks = [],
     ) {
-        $this->config = $config instanceof SdkConfig
+        $this->config = $config instanceof GitHubSdkConfig
             ? $config
-            : SdkConfig::fromConfig($config);
+            : GitHubSdkConfig::fromConfig($config);
     }
 
     /**
@@ -312,7 +312,7 @@ class SdkApi
 
     /**
      * Resolves a class declared on an #[AdminApi] attribute — `request`,
-     * `response` or `listOf` — against `SdkConfig::model_namespace` first, so a
+     * `response` or `listOf` — against `GitHubSdkConfig::model_namespace` first, so a
      * published override wins, falling back per class to the declared one.
      *
      * @return class-string
@@ -333,7 +333,7 @@ class SdkApi
     /**
      * Resolves an API method name to its route case and AdminApi attribute.
      *
-     * The enum reflected over is {@see SdkConfig::route_enum}, which defaults to
+     * The enum reflected over is {@see GitHubSdkConfig::route_enum}, which defaults to
      * {@see ApiRoute}. Results are cached for the lifetime of the process and
      * keyed by enum class, so two clients configured with different route enums
      * coexist without either seeing the other's methods.
@@ -379,7 +379,7 @@ class SdkApi
      *     route_enum?: class-string<BackedEnum>|null,
      * }  $config
      *
-     * @return array{SdkApi<Response>, Fake}
+     * @return array{GitHubSdk<Response>, Fake}
      */
     public static function fake(array $config = []): array
     {

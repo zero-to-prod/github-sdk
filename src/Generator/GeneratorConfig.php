@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 use Closure;
 
@@ -20,7 +20,7 @@ final class GeneratorConfig
     /**
      * @param string       $source    Path or URL of the OpenAPI document.
      * @param string       $root      Package root; output goes under `$root/src`.
-     * @param string       $namespace Package namespace, e.g. `Zerotoprod\Sdk`.
+     * @param string       $namespace Package namespace, e.g. `Zerotoprod\GitHubSdk`.
      * @param string       $docsUrl   URL for every generated `@link`.
      * @param bool         $models    Write `src/Models/`.
      * @param bool         $routes    Write `src/ApiRoute.php`.
@@ -35,8 +35,8 @@ final class GeneratorConfig
     public function __construct(
         public readonly string $source,
         public readonly string $root,
-        public readonly string $namespace = 'Zerotoprod\\Sdk',
-        public readonly string $docsUrl = 'https://example.com/docs',
+        public readonly string $namespace = 'Zerotoprod\\GitHubSdk',
+        public readonly string $docsUrl = 'https://docs.github.com/',
         public readonly bool $models = true,
         public readonly bool $routes = true,
         public readonly bool $webhooks = false,

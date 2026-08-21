@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generate @method PHPDoc on SdkApi from #[AdminApi] attributes
+# Generate @method PHPDoc on GitHubSdk from #[AdminApi] attributes
 set -euo pipefail
 
 version="${PHP_VERSION}"

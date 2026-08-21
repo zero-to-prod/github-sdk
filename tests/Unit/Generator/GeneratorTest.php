@@ -5,12 +5,12 @@ namespace Unit\Generator;
 use PHPUnit\Framework\Attributes\Test;
 use ReflectionEnum;
 use Tests\Unit\Generator\GeneratorCase;
-use Zerotoprod\Sdk\Generator\Generator;
-use Zerotoprod\Sdk\Generator\GeneratorConfig;
-use Zerotoprod\Sdk\Generator\GeneratorException;
-use Zerotoprod\Sdk\Internal\AdminApi;
-use Zerotoprod\Sdk\Internal\HasRoute;
-use Zerotoprod\Sdk\Internal\HttpMethod;
+use Zerotoprod\GitHubSdk\Generator\Generator;
+use Zerotoprod\GitHubSdk\Generator\GeneratorConfig;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Internal\AdminApi;
+use Zerotoprod\GitHubSdk\Internal\HasRoute;
+use Zerotoprod\GitHubSdk\Internal\HttpMethod;
 
 class GeneratorTest extends GeneratorCase
 {
@@ -417,7 +417,7 @@ class GeneratorTest extends GeneratorCase
         $path = $this->temp() . '/ApiRouteUnderTest.php';
 
         file_put_contents($path, str_replace(
-            'namespace Zerotoprod\\Sdk;',
+            'namespace Zerotoprod\\GitHubSdk;',
             "namespace $namespace;",
             (string) file_get_contents($this->temp() . '/src/ApiRoute.php'),
         ));
@@ -444,7 +444,7 @@ class GeneratorTest extends GeneratorCase
         foreach (glob($this->temp() . '/src/Models/*.php') ?: [] as $file) {
             $loadable = dirname($file) . '/loaded-' . basename($file);
             file_put_contents($loadable, str_replace(
-                'namespace Zerotoprod\\Sdk\\Models;',
+                'namespace Zerotoprod\\GitHubSdk\\Models;',
                 "namespace $namespace;",
                 (string) file_get_contents($file),
             ));

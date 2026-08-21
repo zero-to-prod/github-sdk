@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Verify @method PHPDoc on SdkApi matches #[AdminApi] attributes
+# Verify @method PHPDoc on GitHubSdk matches #[AdminApi] attributes
 set -euo pipefail
 
 version="${PHP_VERSION}"

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 use Closure;
 use Throwable;
@@ -16,7 +16,7 @@ use Throwable;
  * every `4xx` that is not `429`, returns on the first attempt: a `422` is not
  * going to become valid because you asked again.
  *
- *     $api = new SdkApi($config, new RetryingHttpTransport(new CurlHttpTransport()));
+ *     $api = new GitHubSdk($config, new RetryingHttpTransport(new CurlHttpTransport()));
  *
  * Only idempotent methods are retried by default (`GET`, `HEAD`, `OPTIONS`,
  * `PUT`, `DELETE`). A `POST` is left alone because a timeout is not proof the

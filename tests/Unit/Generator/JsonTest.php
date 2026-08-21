@@ -4,7 +4,7 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\Json;
+use Zerotoprod\GitHubSdk\Generator\Json;
 
 class JsonTest extends TestCase
 {

@@ -12,7 +12,7 @@ Check `openapi.source` in `sdk.json`.
 - **Set** — `src/ApiRoute.php` and `src/Models/` are generated. Add the path/operation to the OpenAPI document, then run `./run generate-sdk` and skip to Step 4. Never hand-edit generated files: the run replaces `src/ApiRoute.php` wholesale and deletes every `src/Models/*.php` outside `retain_models` in `sdk.json`, along with the matching `factories/<Model>Factory.php`.
 - **`null`** — the package is hand-maintained. Follow every step below. A hand-written model under `src/Models/` must be listed in `sdk.json`'s `retain_models`, or a later generation run will delete it.
 
-Routes are enum cases on `ApiRoute` with `#[AdminApi]` attributes. `SdkApi::__call` dispatches them — no registration needed. Method names follow the naming convention in `CLAUDE.md` (`getWidget`, `listWidgets`, `createWidget`, …).
+Routes are enum cases on `ApiRoute` with `#[AdminApi]` attributes. `GitHubSdk::__call` dispatches them — no registration needed. Method names follow the naming convention in `CLAUDE.md` (`getWidget`, `listWidgets`, `createWidget`, …).
 
 ## Step 1 — Add the route case to `ApiRoute`
 
@@ -27,7 +27,7 @@ enum ApiRoute: string
 {
     /**
      * One case per path; one #[AdminApi] per HTTP operation on that path.
-     * @link https://example.com/docs
+     * @link https://docs.github.com/
      */
     #[HasRoute]
     #[AdminApi(HttpMethod::GET, 'getWidget', pathParams: ['id'], response: Widget::class)]
@@ -35,7 +35,7 @@ enum ApiRoute: string
     #[AdminApi(HttpMethod::DELETE, 'deleteWidget', pathParams: ['id'])]
     case widget = '/v1/widgets/{id}';
 
-    /** @link https://example.com/docs */
+    /** @link https://docs.github.com/ */
     #[HasRoute]
     #[AdminApi(HttpMethod::GET, 'listWidgets', queryParams: [Query::where, Query::per_page, Query::with], response: WidgetsResponse::class)]
     #[AdminApi(HttpMethod::POST, 'createWidget', request: CreateWidgetRequest::class, response: Widget::class)]
@@ -43,7 +43,7 @@ enum ApiRoute: string
 
     /**
      * A bare JSON array body: `listOf:` instead of `response:`.
-     * @link https://example.com/docs
+     * @link https://docs.github.com/
      */
     #[HasRoute]
     #[AdminApi(HttpMethod::GET, 'listWidgetTags', pathParams: ['id'], listOf: WidgetTag::class)]
@@ -56,7 +56,7 @@ enum ApiRoute: string
 | Param | When to use | Example |
 |-------|-------------|---------|
 | `HttpMethod::GET/POST/PUT/PATCH/DELETE` | Always | `HttpMethod::GET` |
-| `'methodName'` | Always — exposed on `SdkApi` | `'listWidgets'` |
+| `'methodName'` | Always — exposed on `GitHubSdk` | `'listWidgets'` |
 | `pathParams: ['id']` | Route has `{placeholder}` in the path | `pathParams: ['id']` |
 | `queryParams: [Query::where]` | Route accepts query params (docs only) | `queryParams: [Query::where, Query::per_page]` |
 | `request: Model::class` | POST/PUT/PATCH with a JSON body | omit for GET/DELETE |
@@ -76,7 +76,7 @@ enum ApiRoute: string
 // src/Models/WidgetsResponse.php
 class WidgetsResponse
 {
-    use DataModel;  // Zerotoprod\Sdk\Internal\DataModel
+    use DataModel;  // Zerotoprod\GitHubSdk\Internal\DataModel
 
     /** @see $widgets */
     public const widgets = 'widgets';
@@ -112,7 +112,7 @@ class Widget
 ```
 
 **Model rules:**
-- Always `use Zerotoprod\Sdk\Internal\DataModel` (not the upstream `Zerotoprod\DataModel` trait)
+- Always `use Zerotoprod\GitHubSdk\Internal\DataModel` (not the upstream `Zerotoprod\DataModel` trait)
 - One `public const field = 'field'` per property, with a `/** @see $field */` docblock
 - Properties nullable by default: `#[Describe(['nullable' => true])]`
 - Enum-valued field: back it with an enum model and give it a `default` case
@@ -126,7 +126,7 @@ class Widget
 ./run fix-all
 ```
 
-Regenerates `@method` on `SdkApi`, `@method static Route` on `ApiRoute`, and `@link` annotations.
+Regenerates `@method` on `GitHubSdk`, `@method static Route` on `ApiRoute`, and `@link` annotations.
 
 Generated `@method` format for a query-param route:
 ```
@@ -138,18 +138,18 @@ Generated `@method` format for a query-param route:
 Put them in **your own test file** — e.g. `tests/Unit/WidgetRoutesTest.php` — never in the test
 files the template ships.
 
-`tests/Unit/SdkApiTest.php`, `HookTest`, `CachingHttpTransportTest`, `FactoryTest` and
+`tests/Unit/GitHubSdkTest.php`, `HookTest`, `CachingHttpTransportTest`, `FactoryTest` and
 `TransportTest` are the guarantee for the shared code (the dispatcher, transports, hooks, the query
 normalizer, `ApiResult`, `Response`, `Route`), and they keep merging down from the template forever.
 They therefore dispatch against `tests/Fixtures/FixtureRoute`, selected with
-`SdkConfig::route_enum`, and never name a generated model or `ApiRoute` case. Adding your route's
+`GitHubSdkConfig::route_enum`, and never name a generated model or `ApiRoute` case. Adding your route's
 test there would break on the next `git pull template main`.
 
 ```php
 #[Test]
 public function list_widgets(): void
 {
-    [$api, $fake] = SdkApi::fake([SdkConfig::url => 'https://api.example.com']);
+    [$api, $fake] = GitHubSdk::fake([GitHubSdkConfig::url => 'https://api.example.com']);
 
     $fake->queue(new Response(200, [], json_encode([
         'widgets' => [['id' => 'wid-01', 'name' => 'Sprocket']],
@@ -169,7 +169,7 @@ public function list_widgets(): void
 #[Test]
 public function list_widgets_returns_errors_on_failure(): void
 {
-    [$api, $fake] = SdkApi::fake([SdkConfig::url => 'https://api.example.com']);
+    [$api, $fake] = GitHubSdk::fake([GitHubSdkConfig::url => 'https://api.example.com']);
 
     $fake->queue(new Response(422, [], json_encode([
         'message' => 'Invalid filter',
@@ -185,7 +185,7 @@ public function list_widgets_returns_errors_on_failure(): void
 ```
 
 **Testing rules:**
-- `SdkApi::fake($config)` → `[$api, $fake]`
+- `GitHubSdk::fake($config)` → `[$api, $fake]`
 - Queue responses: `$fake->queue(new Response($status, $headers, $jsonBody))`
 - Assert the request: `$fake->assertSent(HttpMethod::GET->value, '/v1/widgets')`
 - Inspect the raw request: `$fake->recorded()[0]['url']`, `$fake->recorded()[0]['options']`

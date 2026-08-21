@@ -4,20 +4,20 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\GeneratorException;
-use Zerotoprod\Sdk\Generator\Normalizer;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\Normalizer;
 
 class NormalizerTest extends TestCase
 {
     /** The emitter writes one member per line with no indentation at all. */
     private const RAW_CLASS = <<<'PHP'
         <?php
-        namespace Zerotoprod\Sdk\Models;
+        namespace Zerotoprod\GitHubSdk\Models;
         use Zerotoprod\DataModel\Describe;
-        use Zerotoprod\Sdk\Internal\DataModel;
+        use Zerotoprod\GitHubSdk\Internal\DataModel;
         /**
          * Doc.
-         * @link https://example.com/docs
+         * @link https://docs.github.com/
          */
         class Widget
         {
@@ -42,14 +42,14 @@ class NormalizerTest extends TestCase
 
         declare(strict_types=1);
 
-        namespace Zerotoprod\Sdk\Models;
+        namespace Zerotoprod\GitHubSdk\Models;
 
         use Zerotoprod\DataModel\Describe;
-        use Zerotoprod\Sdk\Internal\DataModel;
+        use Zerotoprod\GitHubSdk\Internal\DataModel;
 
         /**
          * Doc.
-         * @link https://example.com/docs
+         * @link https://docs.github.com/
          */
         class Widget
         {
@@ -232,10 +232,10 @@ class NormalizerTest extends TestCase
     {
         $out = Normalizer::normalize(<<<'PHP'
         <?php
-        namespace Zerotoprod\Sdk\Models;
+        namespace Zerotoprod\GitHubSdk\Models;
         /**
          * Status.
-         * @link https://example.com/docs
+         * @link https://docs.github.com/
          */
         enum WidgetStatus: string
         {
@@ -249,11 +249,11 @@ class NormalizerTest extends TestCase
 
         declare(strict_types=1);
 
-        namespace Zerotoprod\Sdk\Models;
+        namespace Zerotoprod\GitHubSdk\Models;
 
         /**
          * Status.
-         * @link https://example.com/docs
+         * @link https://docs.github.com/
          */
         enum WidgetStatus: string
         {

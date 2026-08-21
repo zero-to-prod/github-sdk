@@ -4,7 +4,7 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\Skip;
+use Zerotoprod\GitHubSdk\Generator\Skip;
 
 class SkipTest extends TestCase
 {

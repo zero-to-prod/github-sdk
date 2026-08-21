@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 /**
  * Narrowing accessors for decoded JSON. An OpenAPI document is `mixed` all the

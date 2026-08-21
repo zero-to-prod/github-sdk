@@ -10,11 +10,11 @@ use Tests\Fixtures\Models\FixtureThing;
 use Tests\Fixtures\Models\FixtureThingsResponse;
 use Tests\Fixtures\Models\FixtureThingTag;
 use Tests\Fixtures\Models\FixtureUpdateThingRequest;
-use Zerotoprod\Sdk\Internal\AdminApi;
-use Zerotoprod\Sdk\Internal\HasRoute;
-use Zerotoprod\Sdk\Internal\HttpMethod;
-use Zerotoprod\Sdk\Internal\Route;
-use Zerotoprod\Sdk\Models\Query;
+use Zerotoprod\GitHubSdk\Internal\AdminApi;
+use Zerotoprod\GitHubSdk\Internal\HasRoute;
+use Zerotoprod\GitHubSdk\Internal\HttpMethod;
+use Zerotoprod\GitHubSdk\Internal\Route;
+use Zerotoprod\GitHubSdk\Models\Query;
 
 /**
  * The route enum the shared test suite dispatches against.
@@ -24,10 +24,10 @@ use Zerotoprod\Sdk\Models\Query;
  * a derived package generated its real routes — and the tests for the shared
  * dispatcher, transports, hooks and `Route` are exactly the tests that must keep
  * merging downstream forever. They therefore run against this enum instead,
- * selected per client with `SdkConfig::route_enum`, and nothing the generator
+ * selected per client with `GitHubSdkConfig::route_enum`, and nothing the generator
  * writes can touch it.
  *
- * Between them the cases below reach every branch of `SdkApi::__call()`:
+ * Between them the cases below reach every branch of `GitHubSdk::__call()`:
  *
  *  - `thing`      GET one object, PATCH with a body, DELETE with no body
  *  - `things`     GET a collection with the full query DSL, POST with a body

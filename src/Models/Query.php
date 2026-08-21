@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Models;
+namespace Zerotoprod\GitHubSdk\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * Query parameter DSL keys for list endpoints (e.g. `listAccounts`,
@@ -22,9 +22,9 @@ use Zerotoprod\Sdk\Internal\DataModel;
  *         Query::fields => ['accounts' => ['id', 'email']],
  *     ]]);
  *
- * Normalization is performed by {@see \Zerotoprod\Sdk\Internal\QueryNormalizer}.
+ * Normalization is performed by {@see \Zerotoprod\GitHubSdk\Internal\QueryNormalizer}.
  *
- * @link https://example.com/docs
+ * @link https://docs.github.com/
  */
 class Query
 {

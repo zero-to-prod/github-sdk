@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Fixtures\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
-use Zerotoprod\Sdk\Models\Pagination;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Models\Pagination;
 
 /**
  * Collection response. Nests the package's own retained `Pagination` model, so

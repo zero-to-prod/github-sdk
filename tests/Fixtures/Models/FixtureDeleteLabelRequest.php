@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fixtures\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * Body of a DELETE. Rare in the wild and absent from the shipped example

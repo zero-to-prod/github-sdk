@@ -4,8 +4,8 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\GeneratorException;
-use Zerotoprod\Sdk\Generator\Guard;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\Guard;
 
 class GuardTest extends TestCase
 {

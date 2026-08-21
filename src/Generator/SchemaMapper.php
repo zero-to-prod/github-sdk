@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Generator;
+namespace Zerotoprod\GitHubSdk\Generator;
 
 /**
  * Turns OpenAPI schemas into the `Models`/`Enums` arrays the data-model
@@ -725,7 +725,7 @@ final class SchemaMapper
 
         array_pop($this->owners);
 
-        $imports = ['use Zerotoprod\Sdk\Internal\DataModel;'];
+        $imports = ['use Zerotoprod\GitHubSdk\Internal\DataModel;'];
 
         if ($properties !== []) {
             $imports[] = 'use Zerotoprod\DataModel\Describe;';

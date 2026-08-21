@@ -4,8 +4,8 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\CliOptions;
-use Zerotoprod\Sdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\CliOptions;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
 
 class CliOptionsTest extends TestCase
 {

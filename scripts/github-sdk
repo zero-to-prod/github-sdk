@@ -4,4 +4,4 @@ set -euo pipefail
 
 version="${PHP_VERSION}"
 
-docker compose run --rm "php${version}" php bin/sdk "$@"
+docker compose run --rm "php${version}" php bin/github-sdk "$@"

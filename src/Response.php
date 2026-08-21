@@ -1,6 +1,6 @@
 <?php
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
 /**
  * Immutable HTTP response. Default return type when using CurlHttpTransport.

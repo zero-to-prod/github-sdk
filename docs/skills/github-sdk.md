@@ -1,30 +1,30 @@
 # SDK
 
-Use this skill when working with the `zero-to-prod/sdk` package — a framework-agnostic PHP SDK generated from an OpenAPI document.
+Use this skill when working with the `zero-to-prod/github-sdk` package — a framework-agnostic PHP SDK generated from an OpenAPI document.
 
-This package is built from the SDK template. `src/Models/` and `src/ApiRoute.php` are generated from the OpenAPI document declared in `sdk.json`; everything else (transports, dispatch, hooks, options) is hand-written and shared. The example domain below is `Widget` — a derived package has its own resources, so run `./vendor/bin/sdk list:api` and `list:models` to see the real surface.
+This package is built from the SDK template. `src/Models/` and `src/ApiRoute.php` are generated from the OpenAPI document declared in `sdk.json`; everything else (transports, dispatch, hooks, options) is hand-written and shared. The example domain below is `Widget` — a derived package has its own resources, so run `./vendor/bin/github-sdk list:api` and `list:models` to see the real surface.
 
 ## Usage Patterns
 
 ### Create an instance
 
 ```php
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\SdkConfig;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
 
-$api = new SdkApi([
-    SdkConfig::url             => 'https://api.example.com', // required
-    SdkConfig::model_namespace => 'App\\Models\\Sdk',        // optional — defaults to the package namespace
+$api = new GitHubSdk([
+    GitHubSdkConfig::url             => 'https://api.example.com', // required
+    GitHubSdkConfig::model_namespace => 'App\\Models\\Sdk',        // optional — defaults to the package namespace
 ]);
 ```
 
-### Testing with `SdkApi::fake()`
+### Testing with `GitHubSdk::fake()`
 
 ```php
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\Response;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\Response;
 
-[$api, $fake] = SdkApi::fake($config);
+[$api, $fake] = GitHubSdk::fake($config);
 
 $fake->queue(new Response(200, [], json_encode(['id' => 'wid-01', 'name' => 'Sprocket'])));
 $result = $api->getWidget('wid-01');
@@ -38,12 +38,12 @@ $fake->assertSentCount(1);
 
 ### Factories
 
-The package ships factories under `Zerotoprod\Sdk\Factories` (backed by `zero-to-prod/data-model-factory`) for building models without writing raw arrays. Every model has a matching factory:
+The package ships factories under `Zerotoprod\GitHubSdk\Factories` (backed by `zero-to-prod/data-model-factory`) for building models without writing raw arrays. Every model has a matching factory:
 
 ```php
-use Zerotoprod\Sdk\Factories\{SdkConfigFactory, UpdateWidgetRequestFactory, WidgetFactory, WidgetsResponseFactory};
-use Zerotoprod\Sdk\Models\UpdateWidgetRequest;
-use Zerotoprod\Sdk\Models\Widget;
+use Zerotoprod\GitHubSdk\Factories\{GitHubSdkConfigFactory, UpdateWidgetRequestFactory, WidgetFactory, WidgetsResponseFactory};
+use Zerotoprod\GitHubSdk\Models\UpdateWidgetRequest;
+use Zerotoprod\GitHubSdk\Models\Widget;
 
 // Defaults
 $widget = WidgetFactory::factory()->make();
@@ -53,7 +53,7 @@ $widget = WidgetFactory::factory([Widget::name => 'Override'])->make();
 $widget = WidgetFactory::factory()->set(Widget::name, 'Sprocket')->make();
 
 // Build a populated config for the API client
-[$api, $fake] = SdkApi::fake(SdkConfigFactory::factory()->context()); // resolved array
+[$api, $fake] = GitHubSdk::fake(GitHubSdkConfigFactory::factory()->context()); // resolved array
 
 // Queue a realistic response body without writing JSON by hand
 $fake->queue(new Response(200, [], WidgetsResponseFactory::factory()->json() ?: ''));
@@ -69,8 +69,8 @@ $api->updateWidget('wid-01', UpdateWidgetRequestFactory::factory()
 **Publishing factories** — copy factories into your project's namespace so you can extend them:
 
 ```bash
-./vendor/bin/sdk publish:factories 'App\Factories\Sdk'                # all
-./vendor/bin/sdk publish:factories 'App\Factories\Sdk' WidgetFactory  # subset
+./vendor/bin/github-sdk publish:factories 'App\Factories\Sdk'                # all
+./vendor/bin/github-sdk publish:factories 'App\Factories\Sdk' WidgetFactory  # subset
 ```
 
 Unpublished factories stay available from the vendor namespace. References to non-co-published siblings are auto-imported from vendor, so partial publishing works.
@@ -79,12 +79,12 @@ Unpublished factories stay available from the vendor namespace. References to no
 
 ```php
 use Illuminate\Support\Facades\Http;
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\LaravelHttpTransport;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\LaravelHttpTransport;
 
 Http::fake(['*/v1/widgets/*' => Http::response(['id' => 'wid-01'], 200)]);
 
-$api = new SdkApi($config, new LaravelHttpTransport());
+$api = new GitHubSdk($config, new LaravelHttpTransport());
 $result = $api->getWidget('wid-01');
 
 Http::assertSent(fn ($r) => str_contains($r->url(), '/v1/widgets/wid-01'));
@@ -95,7 +95,7 @@ Http::assertSent(fn ($r) => str_contains($r->url(), '/v1/widgets/wid-01'));
 All methods accept an `$options` array passed to the transport: `headers`, `timeout`, `query`, `json`, plus `raw` (skip `ApiResult` wrapping) and `curl` (native curl options, `CurlHttpTransport` only). Prefer the `Options` constants — `Options::raw`, `Options::query`, `Options::headers` — so call sites stay in sync with the option names.
 
 ```php
-use Zerotoprod\Sdk\Options;
+use Zerotoprod\GitHubSdk\Options;
 
 $api->getWidget($id, [
     'timeout'        => 5,
@@ -108,8 +108,8 @@ $api->getWidget($id, [
 Pass query parameters via `$options[Options::query]`, built from the `Query` DSL constants — appended to the URL by all transports:
 
 ```php
-use Zerotoprod\Sdk\Models\Query;
-use Zerotoprod\Sdk\Options;
+use Zerotoprod\GitHubSdk\Models\Query;
+use Zerotoprod\GitHubSdk\Options;
 
 // Filter and paginate a collection
 $api->listWidgets([Options::query => [
@@ -127,9 +127,9 @@ $api->getWidget($id, [Options::query => [Query::fields => ['widgets' => ['id', '
 Pass a third constructor argument to run closures around **every** HTTP request — logging, tracing, global headers, metrics. Hooks are keyed by phase (`Hook::before->value`, `Hook::after->value`, `Hook::onException->value`) and accept **either a single callable or a list**:
 
 ```php
-use Zerotoprod\Sdk\{SdkApi, HookContext, Hook, Options};
+use Zerotoprod\GitHubSdk\{GitHubSdk, HookContext, Hook, Options};
 
-$api = new SdkApi($config, new CurlHttpTransport(), [
+$api = new GitHubSdk($config, new CurlHttpTransport(), [
     // before: observe and optionally mutate the request (return a HookContext to alter it)
     Hook::before->value => fn (HookContext $ctx): HookContext => HookContext::from([
         ...$ctx->toArray(),
@@ -153,16 +153,16 @@ $api = new SdkApi($config, new CurlHttpTransport(), [
 
 `HookContext` is an immutable snapshot: `$ctx->Hook`, `$ctx->HttpMethod`, `$ctx->url`, `$ctx->options`, `$ctx->response`. Properties are `readonly` — mutate via `HookContext::from([...$ctx->toArray(), ...])`.
 
-`SdkApi::fake()` does not take hooks — to test them, construct the client with a `Fake` transport and the `$hooks` array:
+`GitHubSdk::fake()` does not take hooks — to test them, construct the client with a `Fake` transport and the `$hooks` array:
 
 ```php
-use Zerotoprod\Sdk\Internal\Fake;
+use Zerotoprod\GitHubSdk\Internal\Fake;
 
 $fake = new Fake();
 $fake->queue(new Response(200, [], json_encode([])));
 
 $captured = null;
-$api = new SdkApi($config, $fake, [
+$api = new GitHubSdk($config, $fake, [
     Hook::before->value => fn (HookContext $ctx) => $captured = $ctx,
 ]);
 
@@ -207,7 +207,7 @@ $response->json('name');      // decoded value
 Methods with a request body accept either the typed request model or a raw array:
 
 ```php
-use Zerotoprod\Sdk\Models\UpdateWidgetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateWidgetRequest;
 
 $api->updateWidget($id, ['name' => 'Renamed']);
 $api->updateWidget($id, UpdateWidgetRequest::from(['name' => 'Renamed']));
@@ -215,7 +215,7 @@ $api->updateWidget($id, UpdateWidgetRequest::from(['name' => 'Renamed']));
 
 ## API Surface
 
-Run `./vendor/bin/sdk list:api` for the public API surface and `./vendor/bin/sdk list:models` for the models. All API methods return `ApiResult<TResponseModel>|TResponse` (the transport's response type when `Options::raw => true`).
+Run `./vendor/bin/github-sdk list:api` for the public API surface and `./vendor/bin/github-sdk list:models` for the models. All API methods return `ApiResult<TResponseModel>|TResponse` (the transport's response type when `Options::raw => true`).
 
 ## Common Tasks
 
@@ -257,8 +257,8 @@ Every layer is pluggable. Unpublished models and factories fall back to the vend
 |-------------------|----------------------------------------------------------------|--------------------------------|
 | HTTP client       | Inject an `HttpTransport` via the constructor                  | `CurlHttpTransport`            |
 | Response caching  | Wrap the transport in `CachingHttpTransport`                   | None (no caching)              |
-| Model namespace   | `SdkConfig::model_namespace` + `publish:models`                | `Zerotoprod\Sdk\Models`        |
-| Factory namespace | `publish:factories <namespace> [factory...]`                   | `Zerotoprod\Sdk\Factories`     |
+| Model namespace   | `GitHubSdkConfig::model_namespace` + `publish:models`                | `Zerotoprod\GitHubSdk\Models`        |
+| Factory namespace | `publish:factories <namespace> [factory...]`                   | `Zerotoprod\GitHubSdk\Factories`     |
 | Response shape    | `[Options::raw => true]` — skip `ApiResult` hydration          | `ApiResult` with `$data`/`$errors` |
 | List responses    | `listOf: Model::class` on the route's `#[AdminApi]`             | `response:` — one hydrated object   |
 | Request body      | Typed request model **or** raw array                           | —                              |
@@ -274,16 +274,16 @@ Publish only the models you want to extend. Unpublished models fall back to the 
 
 ```bash
 # Specific models
-./vendor/bin/sdk publish:models 'App\Models\Sdk' WidgetsResponse Widget
+./vendor/bin/github-sdk publish:models 'App\Models\Sdk' WidgetsResponse Widget
 
 # Or everything
-./vendor/bin/sdk publish:models 'App\Models\Sdk'
+./vendor/bin/github-sdk publish:models 'App\Models\Sdk'
 ```
 
 Point config at the new namespace:
 
 ```php
-SdkConfig::model_namespace => 'App\\Models\\Sdk',
+GitHubSdkConfig::model_namespace => 'App\\Models\\Sdk',
 ```
 
 Add methods to a published model — the package hydrates API responses into your version:
@@ -292,7 +292,7 @@ Add methods to a published model — the package hydrates API responses into you
 // app/Models/Sdk/Widget.php (published)
 namespace App\Models\Sdk;
 
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 class Widget
 {
@@ -314,10 +314,10 @@ Published models are copies: regenerating the package's `src/Models/` does not u
 
 ## Implementing a Custom HttpTransport
 
-Implement `Zerotoprod\Sdk\HttpTransport`. The `@template TResponse` generic determines the return type of all `SdkApi` methods when `Options::raw => true` is passed.
+Implement `Zerotoprod\GitHubSdk\HttpTransport`. The `@template TResponse` generic determines the return type of all `GitHubSdk` methods when `Options::raw => true` is passed.
 
 ```php
-use Zerotoprod\Sdk\HttpTransport;
+use Zerotoprod\GitHubSdk\HttpTransport;
 
 /** @implements HttpTransport<YourResponseType> */
 class YourTransport implements HttpTransport
@@ -353,7 +353,7 @@ class GuzzleTransport implements HttpTransport
 ### Inject via constructor
 
 ```php
-$api = new SdkApi($config, new YourTransport());
+$api = new GitHubSdk($config, new YourTransport());
 ```
 
 ## Caching responses
@@ -361,10 +361,10 @@ $api = new SdkApi($config, new YourTransport());
 `CachingHttpTransport` decorates any `HttpTransport` and caches idempotent `GET` requests through a closure you supply (the closure owns the backend + TTL). Non-`GET` requests always pass through, so mutations are never cached.
 
 ```php
-use Zerotoprod\Sdk\{SdkApi, CachingHttpTransport, CurlHttpTransport};
+use Zerotoprod\GitHubSdk\{GitHubSdk, CachingHttpTransport, CurlHttpTransport};
 use Illuminate\Support\Facades\Cache;
 
-$api = new SdkApi($config, new CachingHttpTransport(
+$api = new GitHubSdk($config, new CachingHttpTransport(
     new CurlHttpTransport(),
     // fn (string $key, Closure $fetch): array — mirrors Cache::remember($key, $ttl, $fetch)
     fn (string $key, \Closure $fetch) => Cache::remember($key, 60, $fetch),
@@ -379,7 +379,7 @@ A dependency-free in-memory cache (process-lifetime memoization) is just an arra
 ```php
 $store = [];
 
-$api = new SdkApi($config, new CachingHttpTransport(
+$api = new GitHubSdk($config, new CachingHttpTransport(
     new CurlHttpTransport(),
     function (string $key, \Closure $fetch) use (&$store): array {
         return $store[$key] ??= $fetch();
@@ -406,12 +406,12 @@ new CachingHttpTransport(
 
 The default cache key hashes method + URL + options; since `options` includes request headers, an `Authorization` / tenant header naturally isolates entries — pass `$keyFor` to change that scope.
 
-`SdkApi::fake()` hardwires the `Fake` transport, so wrap it explicitly to test caching: `new SdkApi($config, new CachingHttpTransport(new Fake(), $cache))`.
+`GitHubSdk::fake()` hardwires the `Fake` transport, so wrap it explicitly to test caching: `new GitHubSdk($config, new CachingHttpTransport(new Fake(), $cache))`.
 
 ## CLI reference
 
 ```bash
-./vendor/bin/sdk
+./vendor/bin/github-sdk
 ```
 
 Key commands:

@@ -1,9 +1,9 @@
 <?php
 
-namespace Zerotoprod\Sdk\Factories;
+namespace Zerotoprod\GitHubSdk\Factories;
 
 use Zerotoprod\DataModelFactory\DataModelFactory;
-use Zerotoprod\Sdk\Models\WidgetTag;
+use Zerotoprod\GitHubSdk\Models\WidgetTag;
 
 class WidgetTagFactory
 {

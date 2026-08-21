@@ -4,8 +4,8 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\Generator\GeneratorCase;
-use Zerotoprod\Sdk\Generator\GeneratorException;
-use Zerotoprod\Sdk\Generator\GeneratorResult;
+use Zerotoprod\GitHubSdk\Generator\GeneratorException;
+use Zerotoprod\GitHubSdk\Generator\GeneratorResult;
 
 class SchemaMapperTest extends GeneratorCase
 {

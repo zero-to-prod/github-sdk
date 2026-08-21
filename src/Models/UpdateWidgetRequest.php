@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk\Models;
+namespace Zerotoprod\GitHubSdk\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * Example partial-update body.
- * @link https://example.com/docs
+ * @link https://docs.github.com/
  */
 class UpdateWidgetRequest
 {

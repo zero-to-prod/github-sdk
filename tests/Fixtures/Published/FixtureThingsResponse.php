@@ -6,14 +6,14 @@ namespace Tests\Fixtures\Published;
 
 use Tests\Fixtures\Models\FixtureThing;
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
-use Zerotoprod\Sdk\Models\Pagination;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Models\Pagination;
 
 /**
  * A "published" override of {@see \Tests\Fixtures\Models\FixtureThingsResponse}.
  *
  * `Tests\Fixtures\Published` deliberately publishes only two of the fixture
- * models, so pointing `SdkConfig::model_namespace` at it exercises both halves
+ * models, so pointing `GitHubSdkConfig::model_namespace` at it exercises both halves
  * of the per-class resolution: this class wins, while `FixtureThing` and
  * `Errors` fall back to their declared classes.
  */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zerotoprod\Sdk\Internal;
+namespace Zerotoprod\GitHubSdk\Internal;
 
 use BackedEnum;
 

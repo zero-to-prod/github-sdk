@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use Tests\TestCase;
-use Zerotoprod\Sdk\CurlHttpTransport;
-use Zerotoprod\Sdk\LaravelHttpTransport;
-use Zerotoprod\Sdk\Options;
-use Zerotoprod\Sdk\Response;
+use Zerotoprod\GitHubSdk\CurlHttpTransport;
+use Zerotoprod\GitHubSdk\LaravelHttpTransport;
+use Zerotoprod\GitHubSdk\Options;
+use Zerotoprod\GitHubSdk\Response;
 
 /**
  * Exercises the two real transports.

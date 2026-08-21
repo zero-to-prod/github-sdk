@@ -4,9 +4,9 @@ namespace Unit\Generator;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Generator\RouteCase;
-use Zerotoprod\Sdk\Generator\RouteOperation;
-use Zerotoprod\Sdk\Generator\RoutePlan;
+use Zerotoprod\GitHubSdk\Generator\RouteCase;
+use Zerotoprod\GitHubSdk\Generator\RouteOperation;
+use Zerotoprod\GitHubSdk\Generator\RoutePlan;
 
 class RoutePlanTest extends TestCase
 {

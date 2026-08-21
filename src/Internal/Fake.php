@@ -1,10 +1,10 @@
 <?php
 
-namespace Zerotoprod\Sdk\Internal;
+namespace Zerotoprod\GitHubSdk\Internal;
 
 use RuntimeException;
-use Zerotoprod\Sdk\HttpTransport;
-use Zerotoprod\Sdk\Response;
+use Zerotoprod\GitHubSdk\HttpTransport;
+use Zerotoprod\GitHubSdk\Response;
 
 /**
  * @internal

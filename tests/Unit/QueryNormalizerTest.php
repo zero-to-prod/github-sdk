@@ -4,8 +4,8 @@ namespace Unit;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use Zerotoprod\Sdk\Internal\QueryNormalizer;
-use Zerotoprod\Sdk\Models\Query;
+use Zerotoprod\GitHubSdk\Internal\QueryNormalizer;
+use Zerotoprod\GitHubSdk\Models\Query;
 
 class QueryNormalizerTest extends TestCase
 {

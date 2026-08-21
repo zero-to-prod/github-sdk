@@ -65,7 +65,7 @@ function manifestString(string $key): string
 
 /**
  * Fully-qualified class name inside the package namespace.
- * `manifestClass('ApiRoute')` → `Zerotoprod\Sdk\ApiRoute` for the template.
+ * `manifestClass('ApiRoute')` → `Zerotoprod\GitHubSdk\ApiRoute` for the template.
  */
 function manifestClass(string $relative): string
 {
@@ -130,7 +130,7 @@ function manifestMethodType(string $shortName, string $fqcn): array
  *
  * OpenAPI path parameters are free-form (`enterprise-team`, `2fa`), and pasting
  * one straight into a docblock yields `$enterprise-team`, which is not a
- * variable and makes the whole `@method` tag unparseable. `SdkApi::__call()`
+ * variable and makes the whole `@method` tag unparseable. `GitHubSdk::__call()`
  * maps path params positionally, so the name here is documentation only and is
  * safe to normalise.
  */

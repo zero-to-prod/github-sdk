@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fixtures\Models;
 
 use Zerotoprod\DataModel\Describe;
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /** Single-resource response model for {@see \Tests\Fixtures\FixtureRoute::thing}. */
 class FixtureThing

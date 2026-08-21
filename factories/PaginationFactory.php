@@ -1,9 +1,9 @@
 <?php
 
-namespace Zerotoprod\Sdk\Factories;
+namespace Zerotoprod\GitHubSdk\Factories;
 
 use Zerotoprod\DataModelFactory\DataModelFactory;
-use Zerotoprod\Sdk\Models\Pagination;
+use Zerotoprod\GitHubSdk\Models\Pagination;
 
 class PaginationFactory
 {

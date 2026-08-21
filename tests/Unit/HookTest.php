@@ -7,15 +7,15 @@ use RuntimeException;
 use Tests\Fixtures\FixtureRoute;
 use Tests\TestCase;
 use Throwable;
-use Zerotoprod\Sdk\Hook;
-use Zerotoprod\Sdk\HookContext;
-use Zerotoprod\Sdk\HttpTransport;
-use Zerotoprod\Sdk\Internal\Fake;
-use Zerotoprod\Sdk\Internal\HttpMethod;
-use Zerotoprod\Sdk\Options;
-use Zerotoprod\Sdk\Response;
-use Zerotoprod\Sdk\SdkApi;
-use Zerotoprod\Sdk\SdkConfig;
+use Zerotoprod\GitHubSdk\GitHubSdk;
+use Zerotoprod\GitHubSdk\GitHubSdkConfig;
+use Zerotoprod\GitHubSdk\Hook;
+use Zerotoprod\GitHubSdk\HookContext;
+use Zerotoprod\GitHubSdk\HttpTransport;
+use Zerotoprod\GitHubSdk\Internal\Fake;
+use Zerotoprod\GitHubSdk\Internal\HttpMethod;
+use Zerotoprod\GitHubSdk\Options;
+use Zerotoprod\GitHubSdk\Response;
 
 /**
  * The lifecycle hooks around every dispatch.
@@ -27,8 +27,8 @@ class HookTest extends TestCase
 {
     /** @var array<string, mixed> */
     private array $config = [
-        SdkConfig::url => 'https://api.example.com',
-        SdkConfig::route_enum => FixtureRoute::class,
+        GitHubSdkConfig::url => 'https://api.example.com',
+        GitHubSdkConfig::route_enum => FixtureRoute::class,
     ];
 
     #[Test]
@@ -38,7 +38,7 @@ class HookTest extends TestCase
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
         $captured = null;
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => [
                 function (HookContext $ctx) use (&$captured): void {
                     $captured = $ctx;
@@ -61,7 +61,7 @@ class HookTest extends TestCase
         $fake = new Fake();
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => [
                 fn(HookContext $ctx): HookContext => HookContext::from([
                     ...$ctx->toArray(),
@@ -85,7 +85,7 @@ class HookTest extends TestCase
         $fake = new Fake();
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => [
                 fn(HookContext $ctx) => 'ignored return value',
             ],
@@ -103,7 +103,7 @@ class HookTest extends TestCase
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
         $order = [];
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => [
                 function (HookContext $ctx) use (&$order): HookContext {
                     $order[] = 'first';
@@ -137,7 +137,7 @@ class HookTest extends TestCase
         $fake->queue(new Response(201, [], json_encode(['data' => ['id' => 'created']]) ?: ''));
 
         $captured = null;
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::after->value => [
                 function (HookContext $ctx) use (&$captured): void {
                     $captured = $ctx;
@@ -163,7 +163,7 @@ class HookTest extends TestCase
         $record = function (HookContext $ctx) use (&$phases): void {
             $phases[] = $ctx->Hook->value;
         };
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => [$record],
             Hook::after->value => [$record],
         ]);
@@ -181,7 +181,7 @@ class HookTest extends TestCase
 
         $captured = null;
         $capturedError = null;
-        $api = new SdkApi($this->config, $transport, [
+        $api = new GitHubSdk($this->config, $transport, [
             Hook::onException->value => [
                 function (HookContext $ctx, Throwable $e) use (&$captured, &$capturedError): void {
                     $captured = $ctx;
@@ -209,7 +209,7 @@ class HookTest extends TestCase
         $transport = $this->throwingTransport(new RuntimeException('boom'));
 
         $afterRan = false;
-        $api = new SdkApi($this->config, $transport, [
+        $api = new GitHubSdk($this->config, $transport, [
             Hook::after->value => [
                 function () use (&$afterRan): void {
                     $afterRan = true;
@@ -233,7 +233,7 @@ class HookTest extends TestCase
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
         $captured = null;
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             // A lone closure — not wrapped in an array.
             Hook::before->value => function (HookContext $ctx) use (&$captured): void {
                 $captured = $ctx;
@@ -253,7 +253,7 @@ class HookTest extends TestCase
         $fake = new Fake();
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => fn(HookContext $ctx): HookContext => HookContext::from([
                 ...$ctx->toArray(),
                 HookContext::options => [...$ctx->options, Options::headers => ['X-Trace-Id' => 'trace-123']],
@@ -275,7 +275,7 @@ class HookTest extends TestCase
         $record = function (HookContext $ctx) use (&$phases): void {
             $phases[] = $ctx->Hook->value;
         };
-        $api = new SdkApi($this->config, $fake, [
+        $api = new GitHubSdk($this->config, $fake, [
             Hook::before->value => $record,    // single callable
             Hook::after->value => [$record],   // array of callables
         ]);
@@ -293,7 +293,7 @@ class HookTest extends TestCase
 
         $captured = null;
         $capturedError = null;
-        $api = new SdkApi($this->config, $transport, [
+        $api = new GitHubSdk($this->config, $transport, [
             Hook::onException->value => function (HookContext $ctx, Throwable $e) use (&$captured, &$capturedError): void {
                 $captured = $ctx;
                 $capturedError = $e;
@@ -318,7 +318,7 @@ class HookTest extends TestCase
         $fake = new Fake();
         $fake->queue(new Response(200, [], json_encode(['data' => []]) ?: ''));
 
-        $result = (new SdkApi($this->config, $fake))->getThing('01H');
+        $result = (new GitHubSdk($this->config, $fake))->getThing('01H');
 
         self::assertTrue($result->ok());
         $fake->assertSentCount(1);

@@ -3,7 +3,7 @@
 
 $packageDir = dirname(__DIR__);
 
-// When installed as a dependency, the package lives in vendor/zero-to-prod/sdk
+// When installed as a dependency, the package lives in vendor/zero-to-prod/github-sdk
 if (!is_file("$packageDir/README.md")) {
     $packageDir = dirname(__DIR__, 3);
 }
@@ -122,7 +122,7 @@ function resolvePublishDir(string $namespace, string $projectRoot): string
     return "$projectRoot/$relPath";
 }
 
-/** Short label for example namespaces: `SdkApi` → `Sdk`. */
+/** Short label for example namespaces: `GitHubSdk` → `Sdk`. */
 function packageLabel(): string
 {
     return (string) preg_replace('/Api$/', '', manifest('api_class'));
@@ -225,7 +225,7 @@ function findProjectRoot(): string
         return $cwd;
     }
 
-    // When installed as a dependency: vendor/zero-to-prod/sdk → project root is 3 levels up
+    // When installed as a dependency: vendor/zero-to-prod/github-sdk → project root is 3 levels up
     $candidate = dirname($packageDir, 3);
     if (is_file("$candidate/composer.json") && $candidate !== $packageDir) {
         return $candidate;
@@ -564,7 +564,7 @@ function resolvePropertyType(ReflectionProperty $prop): string
 /** Shorten a type string by replacing FQCNs with short class names. */
 function shortenType(string $typeName): string
 {
-    // Handle nullable union types like "?Zerotoprod\Sdk\Models\User"
+    // Handle nullable union types like "?Zerotoprod\GitHubSdk\Models\User"
     $nullable = '';
     if (str_starts_with($typeName, '?')) {
         $nullable = '?';

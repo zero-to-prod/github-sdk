@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Zerotoprod\Sdk;
+namespace Zerotoprod\GitHubSdk;
 
-use Zerotoprod\Sdk\Internal\DataModel;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
 
 /**
  * Option keys for the `$options` array accepted as the final argument of every
- * {@see SdkApi} method.
+ * {@see GitHubSdk} method.
  *
  * These keys get special handling from the dispatcher before the request
  * reaches the transport; any other keys (`timeout`, `json`, `form_params`,
@@ -23,7 +23,7 @@ use Zerotoprod\Sdk\Internal\DataModel;
  *
  *     $response = $api->getAccount($id, [Options::raw => true]); // native response
  *
- * @link https://example.com/docs
+ * @link https://docs.github.com/
  */
 class Options
 {
@@ -41,7 +41,7 @@ class Options
      *     $response = $api->getAccount($id, [Options::raw => true]);
      *     $response->status(); // 200
      *
-     * @see SdkApi::__call() where the flag is read and stripped
+     * @see GitHubSdk::__call() where the flag is read and stripped
      */
     public const raw = 'raw';
 
@@ -49,8 +49,8 @@ class Options
      * Ad-hoc query-string parameters appended to the request URL by every
      * transport.
      *
-     * The value is run through {@see \Zerotoprod\Sdk\Internal\QueryNormalizer}
-     * before being sent — build it with the {@see \Zerotoprod\Sdk\Models\Query}
+     * The value is run through {@see \Zerotoprod\GitHubSdk\Internal\QueryNormalizer}
+     * before being sent — build it with the {@see \Zerotoprod\GitHubSdk\Models\Query}
      * DSL constants (`Query::where`, `Query::with`, `Query::fields`, …) for the
      * filtering and eager-loading shapes the service understands.
      *
