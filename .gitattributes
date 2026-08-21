@@ -9,7 +9,6 @@
 /scripts/                 export-ignore
 /phpstan.neon             export-ignore
 /rector.php               export-ignore
-/.githooks/               export-ignore
 /CLAUDE.md                export-ignore
 /.php-cs-fixer.dist.php   export-ignore
 /init                     export-ignore
