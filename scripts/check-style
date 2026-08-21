@@ -4,4 +4,4 @@ set -euo pipefail
 
 version="${PHP_VERSION}"
 
-docker compose run --rm "php${version}" vendor/bin/phpstan analyse --memory-limit=512M "$@"
+docker compose run --rm "php${version}" vendor/bin/phpstan analyse --memory-limit=1024M "$@"
