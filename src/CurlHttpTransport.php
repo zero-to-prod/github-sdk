@@ -13,6 +13,13 @@ use RuntimeException;
 class CurlHttpTransport implements HttpTransport
 {
     /**
+     * Seconds to wait for the TCP connection when `connect_timeout` is not
+     * given in the options. Override per request with
+     * `['connect_timeout' => 5]`.
+     */
+    public const default_connect_timeout = 10;
+
+    /**
      * Send an HTTP request via cURL. Throws RuntimeException on connection failure.
      *
      * @param  array<string, mixed>  $options
@@ -27,10 +34,18 @@ class CurlHttpTransport implements HttpTransport
 
         $timeout = isset($options['timeout']) && is_int($options['timeout']) ? $options['timeout'] : 30;
 
+        // Separate from the total timeout on purpose: without it a host that
+        // accepts no connection — a black-holed IP, a stalled DNS answer — burns
+        // the entire request budget before failing.
+        $connectTimeout = isset($options['connect_timeout']) && is_int($options['connect_timeout'])
+            ? $options['connect_timeout']
+            : self::default_connect_timeout;
+
         curl_setopt($ch, CURLOPT_URL, $url ?: '/');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connectTimeout);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method) ?: 'GET');
 
         /** @var array<string, string> $headers */

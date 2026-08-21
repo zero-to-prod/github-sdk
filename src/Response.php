@@ -19,17 +19,23 @@ class Response
     ) {}
 
     /**
-     * Decode the JSON body. Returns the full array when no key is given,
-     * or a single value by key with an optional default.
+     * Decode the JSON body. Returns the full decoded value when no key is
+     * given, or a single value by key with an optional default.
+     *
+     * A body that does not decode at all yields `[]`. A body that decodes to a
+     * scalar (`"ok"`, `42`) is returned as that scalar when no key is asked
+     * for, but a keyed lookup on it yields `$default` rather than indexing into
+     * a string.
      */
     public function json(?string $key = null, mixed $default = null): mixed
     {
-        /** @var array<string, mixed> $data */
         $data = json_decode($this->body, true) ?? [];
+
         if ($key === null) {
             return $data;
         }
-        return $data[$key] ?? $default;
+
+        return is_array($data) ? ($data[$key] ?? $default) : $default;
     }
 
     /**

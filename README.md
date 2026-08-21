@@ -33,6 +33,9 @@ Framework-agnostic with pluggable HTTP providers
 - [Lifecycle Hooks](#lifecycle-hooks)
   - [Hooks](#hooks)
   - [HookContext](#hookcontext)
+  - [Authentication](#authentication)
+  - [Retries](#retries)
+  - [Timeouts](#timeouts)
 - [AI Agent Guide](#ai-agent-guide)
   - [Concepts](#concepts)
   - [Testing with Fake](#testing-with-fake)
@@ -45,6 +48,7 @@ Framework-agnostic with pluggable HTTP providers
 - [Interoperability & Extensibility](#interoperability--extensibility)
   - [Custom HttpTransport](#custom-httptransport)
   - [Caching responses](#caching-responses)
+  - [Composing decorators](#composing-decorators)
   - [Framework interop](#framework-interop)
 
 <!-- end toc -->
@@ -272,25 +276,24 @@ use Illuminate\Support\Facades\Log;
 
 // A single closure per hook — no array wrapper needed.
 $api = new SdkApi($config, new CurlHttpTransport(), [
-    Hook::before->value => fn (HookContext $ctx) => Log::debug('Outgoing', ['context' => $ctx->toArray()]),
+    Hook::before->value => fn (HookContext $ctx) => Log::debug('Outgoing', $ctx->redacted()),
 ]);
 ```
+
+> Log `redacted()`, never `toArray()`. `toArray()` is the mutation primitive — whatever it returns
+> is what goes on the wire — so it cannot mask anything. `redacted()` is the same array with
+> credential header values replaced by `***`. Since a `before` hook is also where auth headers get
+> injected, logging the raw array is how a bearer token ends up in your log aggregator.
+
 
 Pass a list when you need more than one hook for a hook (they run in registration order):
 
 ```php
 $api = new SdkApi($config, new CurlHttpTransport(), [
     Hook::before->value => [
-        // Observe and optionally mutate the outgoing request.
-        function (HookContext $ctx): HookContext {
-            return HookContext::from([
-                ...$ctx->toArray(),
-                HookContext::options => [
-                    ...$ctx->options,
-                    Options::headers => ['X-Trace-Id' => bin2hex(random_bytes(8))],
-                ],
-            ]);
-        },
+        // Add a header to the outgoing request. `withHeaders()` merges, so the
+        // headers a caller passed for this one call survive.
+        fn (HookContext $ctx) => $ctx->withHeaders(['X-Trace-Id' => bin2hex(random_bytes(8))]),
     ],
     Hook::after->value => [
         // Observe the response (read-only).
@@ -330,7 +333,91 @@ $ctx->options;     // Guzzle-compatible options array (json, headers, query, ...
 $ctx->response;    // transport response during `after`; null otherwise
 ```
 
-To mutate a request from a `before` hook, build a new context with `HookContext::from([...$ctx->toArray(), ...])` — properties are `readonly`, so copy-on-write is the only way to change them.
+Properties are `readonly`, so mutating a request from a `before` hook means returning a copy. Use the
+helpers rather than rebuilding `options` by hand:
+
+```php
+$ctx->withHeaders(['X-Trace-Id' => $id]);  // merge headers — per-call headers survive
+$ctx->withOptions(['timeout' => 5]);       // merge options — other options survive
+$ctx->redacted();                          // array for logging, credential headers masked
+```
+
+The escape hatch is still there — `HookContext::from([...$ctx->toArray(), ...])` — but note that
+assigning `Options::headers` that way **replaces** every header already on the request, including
+the ones a caller passed for that call. That is why `withHeaders()` exists.
+
+### Authentication
+
+The client is provider-agnostic and has no notion of a token or scheme — auth is a header you
+configure once:
+
+```php
+$api = new SdkApi([
+    SdkConfig::url     => 'https://api.example.com',
+    SdkConfig::headers => ['Authorization' => 'Bearer '.$token],
+]);
+```
+
+`SdkConfig::headers` is sent with every request. A per-call `Options::headers` of the same name wins,
+so one request can override the default without reconfiguring the client:
+
+```php
+$api->getWidget($id, [Options::headers => ['Authorization' => 'Bearer '.$otherToken]]);
+```
+
+For a credential that rotates mid-process — a short-lived token refreshed on demand — inject it from
+a `before` hook instead, so every request picks up the current value:
+
+```php
+$api = new SdkApi($config, new CurlHttpTransport(), [
+    Hook::before->value => fn (HookContext $ctx) => $ctx->withHeaders([
+        'Authorization' => 'Bearer '.$tokens->current(),
+    ]),
+]);
+```
+
+Header names that look like credentials — `Authorization`, `Cookie`, and anything containing `token`,
+`secret`, `password` or `api-key` — are masked by `redacted()`.
+
+### Retries
+
+`RetryingHttpTransport` decorates any transport and retries what is worth retrying:
+
+```php
+use Zerotoprod\Sdk\{RetryingHttpTransport, CurlHttpTransport};
+
+$api = new SdkApi($config, new RetryingHttpTransport(new CurlHttpTransport()));
+
+// Or tuned:
+$api = new SdkApi($config, new RetryingHttpTransport(
+    inner: new CurlHttpTransport(),
+    maxAttempts: 5,      // total attempts including the first; 1 disables retrying
+    baseDelay: 0.25,     // seconds the backoff doubles from
+    maxDelay: 10.0,      // ceiling for a single sleep
+));
+```
+
+- Retries `429` and `5xx`, plus any transport-level throw (connection refused, timeout). A `4xx`
+  that is not `429` returns immediately — a `422` will not become valid on a second ask.
+- Only idempotent methods by default (`GET`, `HEAD`, `OPTIONS`, `PUT`, `DELETE`). A `POST` is left
+  alone because a timeout is not proof the server ignored it. Pass `retryMethods: []` to retry every
+  method, or list your own once you know an endpoint is safe.
+- Exponential backoff with **full jitter**, so clients recovering from one outage do not
+  resynchronise into a thundering herd.
+- A `Retry-After` header wins over the computed delay, in either its seconds or HTTP-date form,
+  clamped to `maxDelay`.
+
+### Timeouts
+
+`CurlHttpTransport` sets a connect timeout separately from the total request timeout — without one, a
+black-holed IP or a stalled DNS answer burns the whole request budget before failing:
+
+```php
+$api->getWidget($id, [
+    'timeout' => 5,          // total, seconds (default 30)
+    'connect_timeout' => 2,  // TCP connect only (default 10)
+]);
+```
 
 ## AI Agent Guide
 
@@ -343,6 +430,7 @@ Run `./vendor/bin/sdk list:api` for the full public API surface.
 ```php
 $config = [
     SdkConfig::url             => 'https://api.example.com', // required
+    SdkConfig::headers         => ['Authorization' => "Bearer $token"], // optional — sent with every request
     SdkConfig::model_namespace => 'App\\Models\\Sdk',        // optional — defaults to package namespace
     SdkConfig::route_enum      => ApiRoute::class,           // optional — defaults to ApiRoute
 ];
@@ -359,6 +447,9 @@ cached per enum class, so several route enums coexist in one process.
 $api = new SdkApi($config);                             // Default (CurlHttpTransport)
 $api = new SdkApi($config, new CurlHttpTransport());    // Explicit curl
 $api = new SdkApi($config, new LaravelHttpTransport()); // Laravel Http facade
+
+// Decorators wrap any transport, and compose:
+$api = new SdkApi($config, new RetryingHttpTransport(new CurlHttpTransport()));
 ```
 
 **Response** — immutable return type from `CurlHttpTransport` and `Fake`:
@@ -432,7 +523,15 @@ $fake->recorded()[0]['url'];    // 'https://api.example.com/v1/widgets/01H'
 
 ### Factories
 
-The package ships factories under `Zerotoprod\Sdk\Factories` (backed by [`zero-to-prod/data-model-factory`](https://github.com/zero-to-prod/data-model-factory)) so tests can build models without writing raw arrays:
+The package ships factories under `Zerotoprod\Sdk\Factories` so tests can build models without
+writing raw arrays. They are backed by
+[`zero-to-prod/data-model-factory`](https://github.com/zero-to-prod/data-model-factory), which the
+package only suggests — install it in your project to use them:
+
+```bash
+composer require --dev zero-to-prod/data-model-factory
+```
+
 
 ```php
 use Zerotoprod\Sdk\Factories\{
@@ -709,6 +808,19 @@ new CachingHttpTransport(
 The default cache key hashes the method, URL, and options — and `options` includes request headers, so an `Authorization` / tenant header naturally isolates cache entries. Pass `$keyFor` to widen or narrow that scope.
 
 > `SdkApi::fake()` hardwires the `Fake` transport, so wrap it explicitly to exercise caching in tests: `new SdkApi($config, new CachingHttpTransport(new Fake(), $cache))`.
+
+### Composing decorators
+
+`CachingHttpTransport` and `RetryingHttpTransport` both wrap an `HttpTransport` and return one, so
+they nest. Order decides the behaviour:
+
+```php
+// Cache outermost: a cache hit costs nothing, and only a miss can retry.
+new CachingHttpTransport(new RetryingHttpTransport(new CurlHttpTransport()), $cache)
+```
+
+That is usually the order you want — the alternative re-enters the cache lookup on every attempt,
+which does no harm but buys nothing.
 
 ### Framework interop
 

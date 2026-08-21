@@ -150,6 +150,10 @@ if (confirm('Delete init and the template-only tests', true)) {
 
 report_removed($removed);
 
+if (confirm('Generate data models from OpenAPI document', false)) {
+    generate_sdk($root);
+}
+
 next_steps($answers);
 
 exit(0);
@@ -309,6 +313,39 @@ function format(string $root): void
     writeln($status === 0
         ? '  Formatted with php-cs-fixer.'
         : '  Formatting reported problems; run `./run fix-cs`.');
+}
+
+/**
+ * Generate data models from the OpenAPI document in sdk.json.
+ */
+function generate_sdk(string $root): void
+{
+    $run = $root.'/run';
+
+    if (!is_file($run) || !is_executable($run)) {
+        writeln('  Skipped SDK generation: ./run script not found or not executable.');
+
+        return;
+    }
+
+    writeln('');
+    exec(
+        sprintf('cd %s && %s generate-sdk 2>&1', escapeshellarg($root), escapeshellarg($run)),
+        $output,
+        $status
+    );
+
+    if ($status === 0) {
+        writeln('  Generated data models from OpenAPI document.');
+    } else {
+        writeln('  SDK generation failed; run `./run generate-sdk` to retry.');
+    }
+
+    foreach ($output as $line) {
+        if (trim($line) !== '') {
+            writeln('    '.$line);
+        }
+    }
 }
 
 /**
@@ -545,11 +582,13 @@ function rewrite_composer(string $root, array $answers): void
     }
 
     if (isset($json['autoload']['psr-4']) && is_array($json['autoload']['psr-4'])) {
-        $json['autoload']['psr-4'] = remap_psr4($json['autoload']['psr-4'], 'src/', $answers['namespace'].'\\');
-    }
-
-    if (isset($json['autoload-dev']['psr-4']) && is_array($json['autoload-dev']['psr-4'])) {
-        $json['autoload-dev']['psr-4'] = remap_psr4($json['autoload-dev']['psr-4'], 'factories/', $answers['namespace'].'\\Factories\\');
+        // `factories/` is mapped in the main autoload, not autoload-dev: the
+        // factories ship with the package so a consumer can import them.
+        $json['autoload']['psr-4'] = remap_psr4(
+            remap_psr4($json['autoload']['psr-4'], 'src/', $answers['namespace'].'\\'),
+            'factories/',
+            $answers['namespace'].'\\Factories\\',
+        );
     }
 
     $json['bin'] = ['bin/'.$answers['slug']];

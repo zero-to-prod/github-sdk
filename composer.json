@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Zerotoprod\\Sdk\\": "src/"
+            "Zerotoprod\\Sdk\\": "src/",
+            "Zerotoprod\\Sdk\\Factories\\": "factories/"
         }
     },
     "authors": [
@@ -35,15 +36,15 @@
     },
     "suggest": {
         "illuminate/http": "Required when using the Laravel Http transport",
-        "zero-to-prod/data-model-generator": "Required to regenerate models from an OpenAPI document"
+        "zero-to-prod/data-model-generator": "Required to regenerate models from an OpenAPI document",
+        "zero-to-prod/data-model-factory": "Required to use the shipped factories under Zerotoprod\\Sdk\\Factories (tests only)"
     },
     "bin": [
         "bin/sdk"
     ],
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "Zerotoprod\\Sdk\\Factories\\": "factories/"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {

@@ -12,6 +12,7 @@ use Zerotoprod\Sdk\Internal\DataModel;
  * Settings:
  *
  *  - {@see $url}             base URL every route is appended to
+ *  - {@see $headers}         headers sent with every request (this is where auth goes)
  *  - {@see $model_namespace} namespace searched first for request/response models
  *  - {@see $route_enum}      enum the dispatcher resolves API method names against
  *
@@ -32,6 +33,32 @@ class SdkConfig
      */
     #[Describe(['default' => ''])]
     public readonly string $url;
+
+    /**
+     * @see $headers
+     */
+    public const headers = 'headers';
+    /**
+     * Headers sent with every request this client makes.
+     *
+     * This is where authentication belongs — the client is provider-agnostic,
+     * so it carries no notion of a token, key or scheme, only the headers you
+     * give it:
+     *
+     *     new SdkApi([
+     *         SdkConfig::url     => 'https://api.example.com',
+     *         SdkConfig::headers => ['Authorization' => 'Bearer '.$token],
+     *     ]);
+     *
+     * A header passed per call via `Options::headers` wins over the same header
+     * configured here, so a one-off request can override the default. Values
+     * whose header name looks sensitive are masked by
+     * {@see HookContext::redacted()}, so a logging hook does not spill them.
+     *
+     * @var array<string, string>
+     */
+    #[Describe(['default' => []])]
+    public readonly array $headers;
 
     /**
      * @see $model_namespace

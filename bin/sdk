@@ -63,6 +63,65 @@ function manifest(string $key): string
     return $value;
 }
 
+/**
+ * Resolve the directory a published namespace must live in for the project's
+ * own autoloader to find it.
+ *
+ * The project's composer.json is the authority: the longest matching PSR-4
+ * prefix wins, and the namespace left over after it becomes subdirectories.
+ * So `Acme\Consumer\Models` under a `"Acme\\Consumer\\": "src/"` mapping
+ * resolves to `src/Models` — not `Acme/Consumer/Models`, which nothing
+ * autoloads. Falls back to a literal namespace-as-path conversion (with the
+ * `App\` → `app/` convention) when no prefix matches.
+ */
+function resolvePublishDir(string $namespace, string $projectRoot): string
+{
+    $namespace = trim($namespace, '\\');
+
+    $psr4 = [];
+    $composerFile = "$projectRoot/composer.json";
+    if (is_file($composerFile)) {
+        $raw = file_get_contents($composerFile);
+        $decoded = $raw === false ? null : json_decode($raw, true);
+        if (is_array($decoded)) {
+            foreach (['autoload', 'autoload-dev'] as $section) {
+                $map = $decoded[$section]['psr-4'] ?? null;
+                if (is_array($map)) {
+                    foreach ($map as $prefix => $paths) {
+                        $path = is_array($paths) ? ($paths[0] ?? null) : $paths;
+                        if (is_string($prefix) && is_string($path)) {
+                            $psr4[trim($prefix, '\\')] = trim($path, '/');
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Longest prefix wins, so a more specific mapping is not shadowed by a
+    // shorter one that also matches.
+    uksort($psr4, static fn(string $a, string $b): int => strlen($b) <=> strlen($a));
+
+    foreach ($psr4 as $prefix => $path) {
+        if ($namespace === $prefix) {
+            return "$projectRoot/$path";
+        }
+        if (str_starts_with($namespace . '\\', $prefix . '\\')) {
+            $rest = str_replace('\\', '/', substr($namespace, strlen($prefix) + 1));
+
+            return rtrim("$projectRoot/$path/$rest", '/');
+        }
+    }
+
+    // No mapping matched — fall back to the literal conversion.
+    $relPath = str_replace('\\', '/', $namespace);
+    if (str_starts_with($relPath, 'App/')) {
+        $relPath = 'app/' . substr($relPath, 4);
+    }
+
+    return "$projectRoot/$relPath";
+}
+
 /** Short label for example namespaces: `SdkApi` → `Sdk`. */
 function packageLabel(): string
 {
@@ -766,14 +825,7 @@ function publishModels(?string $namespace, array $modelNames = []): void
     }
 
     $projectRoot = findProjectRoot();
-
-    // Convert namespace to directory path (PSR-4: App\Models\Sdk -> app/Models/Sdk)
-    $relPath = str_replace('\\', '/', $namespace);
-    // Common convention: App\ maps to app/
-    if (str_starts_with($relPath, 'App/')) {
-        $relPath = 'app/' . substr($relPath, 4);
-    }
-    $targetDir = "$projectRoot/$relPath";
+    $targetDir = resolvePublishDir($namespace, $projectRoot);
 
     if (!is_dir($targetDir)) {
         mkdir($targetDir, 0755, true);
@@ -921,7 +973,10 @@ function publishDocs(?string $targetPath): void
         exit(1);
     }
 
-    $count = copyDirectory($source, $target);
+    // `template.md` is the ancestry runbook for this repository — git remotes,
+    // the keepours driver, back-porting upstream. It is meaningless in a
+    // consumer's project, so it stays behind.
+    $count = copyDirectory($source, $target, ['template.md']);
     echo "Published $count doc file(s) to $target\n";
 
     updateComposerScripts("$projectRoot/composer.json");
@@ -957,8 +1012,12 @@ function generateSdk(array $args): void
     exit($exitCode);
 }
 
-/** Recursively copy a directory, returning the number of files copied. */
-function copyDirectory(string $src, string $dst): int
+/**
+ * Recursively copy a directory, returning the number of files copied.
+ *
+ * @param  string[]  $skip  Relative paths (from $src) to leave behind.
+ */
+function copyDirectory(string $src, string $dst, array $skip = []): int
 {
     if (!is_dir($dst)) {
         mkdir($dst, 0755, true);
@@ -973,6 +1032,9 @@ function copyDirectory(string $src, string $dst): int
     $srcLen = strlen($src) + 1;
     foreach ($iterator as $item) {
         $rel = substr($item->getPathname(), $srcLen);
+        if (in_array($rel, $skip, true)) {
+            continue;
+        }
         $targetPath = "$dst/$rel";
         if ($item->isDir()) {
             if (!is_dir($targetPath)) {
@@ -1005,8 +1067,12 @@ function updateComposerScripts(string $composerFile): void
         exit(1);
     }
 
-    $composer = json_decode($raw, true);
-    if (!is_array($composer)) {
+    // Decoded as objects, not associative arrays: an empty JSON object
+    // round-trips through an associative array as `[]`, which turns a
+    // `"config": {"allow-plugins": {}}` in someone else's composer.json into
+    // schema-invalid JSON that composer then refuses to load.
+    $composer = json_decode($raw);
+    if (!$composer instanceof stdClass) {
         fwrite(STDERR, "Invalid JSON in $composerFile\n");
         exit(1);
     }
@@ -1015,14 +1081,21 @@ function updateComposerScripts(string $composerFile): void
     $hooks = ['post-install-cmd', 'post-update-cmd'];
     $changed = false;
 
+    if (!isset($composer->scripts) || !$composer->scripts instanceof stdClass) {
+        $composer->scripts = new stdClass();
+    }
+
     foreach ($hooks as $hook) {
-        $scripts = $composer['scripts'][$hook] ?? [];
+        $scripts = $composer->scripts->{$hook} ?? [];
         if (is_string($scripts)) {
             $scripts = [$scripts];
         }
+        if (!is_array($scripts)) {
+            $scripts = [];
+        }
         if (!in_array($command, $scripts, true)) {
             $scripts[] = $command;
-            $composer['scripts'][$hook] = $scripts;
+            $composer->scripts->{$hook} = $scripts;
             $changed = true;
         }
     }
@@ -1074,12 +1147,7 @@ function publishFactories(?string $namespace, array $factoryNames = []): void
     }
 
     $projectRoot = findProjectRoot();
-
-    $relPath = str_replace('\\', '/', $namespace);
-    if (str_starts_with($relPath, 'App/')) {
-        $relPath = 'app/' . substr($relPath, 4);
-    }
-    $targetDir = "$projectRoot/$relPath";
+    $targetDir = resolvePublishDir($namespace, $projectRoot);
 
     if (!is_dir($targetDir)) {
         mkdir($targetDir, 0755, true);
@@ -1193,4 +1261,10 @@ function publishFactories(?string $namespace, array $factoryNames = []): void
     echo "\n";
     echo "Import them in your tests:\n";
     echo "  use $namespace\\$firstFactory;\n";
+
+    if (!trait_exists('Zerotoprod\\DataModelFactory\\DataModelFactory')) {
+        echo "\n";
+        echo "Factories need the factory trait, which this package only suggests:\n";
+        echo "  composer require --dev zero-to-prod/data-model-factory\n";
+    }
 }

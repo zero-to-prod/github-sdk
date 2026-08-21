@@ -146,6 +146,18 @@ class TransportTest extends TestCase
     }
 
     #[Test]
+    public function curl_accepts_an_explicit_connect_timeout(): void
+    {
+        $response = (new CurlHttpTransport())->request(
+            'GET',
+            $this->base() . '/v1/widgets',
+            ['timeout' => 5, 'connect_timeout' => 2],
+        );
+
+        self::assertSame(200, $response->status);
+    }
+
+    #[Test]
     public function curl_preserves_a_non_2xx_status(): void
     {
         $response = (new CurlHttpTransport())->request('GET', $this->base() . '/v1/widgets?status=422');

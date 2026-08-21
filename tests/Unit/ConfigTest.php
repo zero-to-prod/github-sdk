@@ -15,6 +15,7 @@ class ConfigTest extends TestCase
     {
         $config = [
             SdkConfig::url => 'https://api.example.com',
+            SdkConfig::headers => ['Authorization' => 'Bearer token'],
             SdkConfig::model_namespace => 'Zerotoprod\\Sdk\\Models',
             SdkConfig::route_enum => FixtureRoute::class,
         ];
@@ -33,6 +34,12 @@ class ConfigTest extends TestCase
         ]);
 
         self::assertSame('Zerotoprod\\Sdk\\Models', $config->model_namespace);
+    }
+
+    #[Test]
+    public function headers_default_to_none(): void
+    {
+        self::assertSame([], SdkConfig::fromConfig([SdkConfig::url => 'https://api.example.com'])->headers);
     }
 
     #[Test]

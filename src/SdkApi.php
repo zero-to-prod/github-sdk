@@ -39,9 +39,12 @@ class SdkApi
     /**
      * @param  SdkConfig|array{
      *     url?: string|null,
+     *     headers?: array<string, string>,
      *     model_namespace?: string|null,
      *     route_enum?: class-string<BackedEnum>|null,
-     * }                                 $config  Connection settings. `route_enum` names the
+     * }                                 $config  Connection settings. `headers` are sent with
+     *                                            every request — that is where auth goes.
+     *                                            `route_enum` names the
      *                                            string-backed enum whose `#[AdminApi]`
      *                                            attributes this client dispatches; it defaults
      *                                            to {@see ApiRoute}.
@@ -202,9 +205,14 @@ class SdkApi
 
         $extraQuery = QueryNormalizer::normalize($extraQuery);
 
-        /** @var array<string, string> $extraHeaders */
-        $extraHeaders = $options[Options::headers] ?? [];
+        /** @var array<string, string> $callHeaders */
+        $callHeaders = $options[Options::headers] ?? [];
         unset($options[Options::headers]);
+
+        // Config headers are the baseline every request carries (auth lives
+        // there); a per-call header of the same name wins, so one request can
+        // override the default without reconfiguring the client.
+        $extraHeaders = [...$this->config->headers, ...$callHeaders];
 
         $response = $this->dispatch(
             HttpMethod: $admin->method->value,
@@ -223,9 +231,12 @@ class SdkApi
                     $errorsClass = Models\Errors::class;
                 }
 
+                /** @var array<array-key, mixed> $body */
+                $body = is_array($response->json()) ? $response->json() : [];
+
                 return new ApiResult(
                     response: $response,
-                    errors: $errorsClass::from($response->json() ?? []),
+                    errors: $errorsClass::from($body),
                 );
             }
 
@@ -259,8 +270,15 @@ class SdkApi
      */
     private function payload(Response $response): array
     {
-        /** @var array<array-key, mixed> $body */
-        $body = $response->json() ?? [];
+        $body = $response->json();
+
+        // A 2xx body that decodes to a scalar (`"ok"`, `42`) or does not decode
+        // at all is nothing a model can hydrate from. Hand back an empty payload
+        // rather than letting the scalar reach a model — the raw body is always
+        // still on `$result->response`.
+        if (!is_array($body)) {
+            return [];
+        }
 
         return is_array($body['data'] ?? null) ? $body['data'] : $body;
     }
@@ -356,6 +374,7 @@ class SdkApi
      *
      * @param  array{
      *     url?: string|null,
+     *     headers?: array<string, string>,
      *     model_namespace?: string|null,
      *     route_enum?: class-string<BackedEnum>|null,
      * }  $config

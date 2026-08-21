@@ -84,11 +84,11 @@ class InitTest extends TestCase
 
         self::assertSame('zero-to-prod/github-api', $composer['name']);
         self::assertSame('PHP SDK for the GitHub REST API', $composer['description']);
-        self::assertSame(['Zerotoprod\\GithubApi\\' => 'src/'], $composer['autoload']['psr-4']);
         self::assertSame(
-            ['Tests\\' => 'tests/', 'Zerotoprod\\GithubApi\\Factories\\' => 'factories/'],
-            $composer['autoload-dev']['psr-4'],
+            ['Zerotoprod\\GithubApi\\' => 'src/', 'Zerotoprod\\GithubApi\\Factories\\' => 'factories/'],
+            $composer['autoload']['psr-4'],
         );
+        self::assertSame(['Tests\\' => 'tests/'], $composer['autoload-dev']['psr-4']);
         self::assertSame(['bin/github-api'], $composer['bin']);
         self::assertSame([['name' => 'Ada Lovelace', 'email' => 'ada@example.com']], $composer['authors']);
         self::assertSame('https://github.com/zero-to-prod/github-api', $composer['homepage']);

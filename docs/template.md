@@ -95,12 +95,25 @@ shared base moves forward with you and merges get small.
 
 ## Steady state, forever
 
+If the package has an OpenAPI source (defined in `sdk.json`):
+
+```bash
+git pull template main && ./run generate-sdk && ./run check-all && git push
+```
+
+If the package is hand-maintained (no OpenAPI source):
+
 ```bash
 git pull template main && ./run check-all && git push
 ```
 
 That is the whole ongoing relationship. Run it whenever the template gains
 something you want, or on a schedule, or before starting a piece of work.
+
+**Why `generate-sdk`?** The generated files (`src/ApiRoute.php`, `src/Models/**`,
+`factories/**`) are never merged — the generator is the source of truth, not the
+files. When you pull from the template, regenerate models to pick up generator
+improvements, then merge your OpenAPI changes with those improvements.
 
 **Never `git pull --rebase` from the template.** Rebasing rewrites your commits
 onto the template's tip, which discards the merge commits that record the shared
