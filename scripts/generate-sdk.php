@@ -71,7 +71,7 @@ try {
 
     // The `@method` block on the API class is derived from the generated
     // ApiRoute, so it belongs to the generated surface rather than to the
-    // formatting pass in `./run fix-all`. Regenerating it here is what keeps
+    // formatting pass in `composer fix`. Regenerating it here is what keeps
     // `src/` self-consistent the moment a run finishes: left stale it would
     // still name the models this run has just swept, which static analysis
     // reads — correctly — as missing classes.

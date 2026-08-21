@@ -8,7 +8,6 @@
 /composer.lock            export-ignore
 /scripts/                 export-ignore
 /phpstan.neon             export-ignore
-/run                      export-ignore
 /rector.php               export-ignore
 /.githooks/               export-ignore
 /CLAUDE.md                export-ignore
@@ -54,4 +53,4 @@
 #
 # Without it git falls back to an ordinary conflicting merge and says nothing,
 # so a clone that skipped the command looks fine until the first merge resolves
-# the wrong way. `./run check-template` fails when it is unset.
+# the wrong way. `composer check-template` fails when it is unset.

@@ -2,6 +2,8 @@
 # Run a composer command for all PHP versions
 set -euo pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 for version in $(ls -1 "$SCRIPT_DIR/docker" | sort -V); do
     docker compose run --rm "composer${version}" composer "$@"
     echo ""

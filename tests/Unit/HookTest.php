@@ -21,7 +21,7 @@ use Zerotoprod\Sdk\SdkConfig;
  * The lifecycle hooks around every dispatch.
  *
  * Dispatched against {@see FixtureRoute} so the suite survives
- * `./run generate-sdk` rewriting `src/ApiRoute.php`.
+ * `composer generate-sdk` rewriting `src/ApiRoute.php`.
  */
 class HookTest extends TestCase
 {

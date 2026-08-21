@@ -22,7 +22,7 @@ package has claimed for itself.
 
 ## Creating a new package
 
-Run `./run new-package <slug> --org=<org>` to print this sequence with the slug
+Run `composer new-package -- <slug> --org=<org>` to print this sequence with the slug
 filled in, then run it yourself.
 
 ```bash
@@ -39,7 +39,7 @@ git config merge.keepours.driver true
 # Rebrand: namespaces, class names, composer.json, sdk.json, file renames.
 php init
 
-./run init && ./run check-all
+composer setup && composer check
 git add -A && git commit -m "Initialise <org>/my-sdk from template"
 git push -u origin main
 ```
@@ -98,13 +98,13 @@ shared base moves forward with you and merges get small.
 If the package has an OpenAPI source (defined in `sdk.json`):
 
 ```bash
-git pull template main && ./run generate-sdk && ./run check-all && git push
+git pull template main && composer generate-sdk && composer check && git push
 ```
 
 If the package is hand-maintained (no OpenAPI source):
 
 ```bash
-git pull template main && ./run check-all && git push
+git pull template main && composer check && git push
 ```
 
 That is the whole ongoing relationship. Run it whenever the template gains
@@ -214,7 +214,7 @@ Without the driver, git finds an attribute naming a driver it does not have, and
 skipped the command looks completely fine until the first merge, at which point
 files you thought were protected come up as conflicts — or worse, are resolved
 toward the template by whoever is clearing conflicts. This is the single most
-common way the arrangement fails, so `./run check-template` fails when it is
+common way the arrangement fails, so `composer check-template` fails when it is
 unset.
 
 ### Two things that must never be `merge=keepours`
@@ -240,12 +240,12 @@ value into `sdk.json` and let the file merge. `php init` and the generators in
 ## Checking the wiring
 
 ```bash
-./run check-template
+composer check-template
 ```
 
 In a derived package this fails when the `keepours` driver is unset or a lockfile
 is claimed, warns when the `template` remote is missing, and reports how many
 template commits are unmerged as of the last fetch (it does not fetch — a check
 should not touch the network). In the template itself the same findings are
-printed as advisory notes and the script exits 0, so `./run check-all` stays
+printed as advisory notes and the script exits 0, so `composer check` stays
 green here.

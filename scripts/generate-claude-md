@@ -1,42 +1,35 @@
 #!/usr/bin/env bash
-# Generate CLI commands section in CLAUDE.md from ./run output
+# Generate CLI commands section in CLAUDE.md from the composer.json scripts
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 CLAUDE_MD="$SCRIPT_DIR/CLAUDE.md"
 
 SECTION_START="## CLI Commands"
 SECTION_END="<!-- end cli commands -->"
 
-# Capture ./run output (it exits 1, so ignore that)
-run_output=$("$SCRIPT_DIR/run" 2>&1 || true)
-
-# Build the new section
 new_section="$SECTION_START
 
 \`\`\`
-$run_output
+$(php "$SCRIPT_DIR/scripts/listing.php")
 \`\`\`
 
 $SECTION_END"
 
 if [[ -f "$CLAUDE_MD" ]] && grep -q "$SECTION_START" "$CLAUDE_MD"; then
-    # Replace existing section using line-number based extraction
     tmpfile=$(mktemp)
     start_line=$(grep -n "^${SECTION_START}$" "$CLAUDE_MD" | head -1 | cut -d: -f1)
     end_line=$(grep -n "^${SECTION_END}$" "$CLAUDE_MD" | head -1 | cut -d: -f1)
 
-    # Content before the section
     if (( start_line > 1 )); then
         head -n $(( start_line - 1 )) "$CLAUDE_MD" > "$tmpfile"
     else
         : > "$tmpfile"
     fi
 
-    # New section
     printf '%s\n' "$new_section" >> "$tmpfile"
 
-    # Content after the section
     total=$(wc -l < "$CLAUDE_MD")
     if (( end_line < total )); then
         tail -n $(( total - end_line )) "$CLAUDE_MD" >> "$tmpfile"
@@ -44,7 +37,6 @@ if [[ -f "$CLAUDE_MD" ]] && grep -q "$SECTION_START" "$CLAUDE_MD"; then
 
     mv "$tmpfile" "$CLAUDE_MD"
 else
-    # Append section (with leading newline if file is non-empty)
     if [[ -s "$CLAUDE_MD" ]]; then
         printf '\n%s\n' "$new_section" >> "$CLAUDE_MD"
     else

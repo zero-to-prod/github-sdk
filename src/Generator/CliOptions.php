@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Zerotoprod\Sdk\Generator;
 
 /**
- * Parsed `./run generate-sdk` arguments.
+ * Parsed `composer generate-sdk` arguments.
  *
  * @internal
  */
 final class CliOptions
 {
-    public const USAGE = 'Usage: ./run generate-sdk [<openapi-path-or-url>] '
+    public const USAGE = 'Usage: composer generate-sdk -- [<openapi-path-or-url>] '
         . '[--models-only] [--routes-only] [--webhooks] [--all-schemas] [--dry-run] [--force] [--verbose] [--out=<dir>]';
 
     public function __construct(

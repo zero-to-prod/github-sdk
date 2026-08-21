@@ -107,7 +107,7 @@ $all = array_values(array_unique([...$keep, ...array_keys($imports)]));
 
 // Match php-cs-fixer's `ordered_imports` alpha algorithm exactly (it maps the
 // namespace separator to a space, then compares case-insensitively), otherwise
-// `./run check-cs` reports the block this script just wrote.
+// `composer lint` reports the block this script just wrote.
 usort($all, static fn(string $a, string $b): int => strcasecmp(
     str_replace('\\', ' ', $a),
     str_replace('\\', ' ', $b),

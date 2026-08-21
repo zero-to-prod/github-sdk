@@ -63,7 +63,7 @@ foreach ($expected as $line) {
 }
 
 if ($stale !== []) {
-    fwrite(STDERR, "Route @method annotations are out of date. Run: ./run generate-routes\n\n");
+    fwrite(STDERR, "Route @method annotations are out of date. Run: composer generate-routes\n\n");
     fwrite(STDERR, "Missing or stale:\n");
     foreach ($stale as $line) {
         fwrite(STDERR, "  $line\n");

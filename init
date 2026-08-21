@@ -76,7 +76,7 @@ const SKIP_FILES = ['init', 'composer.lock', 'package-lock.json', '.env', '.DS_S
 |                       derived package rewrites that README, so mirroring the
 |                       template's examples asserts nothing about this package.
 |   ExampleDomainTest   the only test that names the shipped Widget example
-|                       domain, which `./run generate-sdk` replaces wholesale.
+|                       domain, which `composer generate-sdk` replaces wholesale.
 |
 | Everything else under tests/ is domain-agnostic on purpose: the shared suite
 | dispatches against tests/Fixtures/FixtureRoute, never against the generated
@@ -176,7 +176,7 @@ exit(0);
  *
  *  - vendor/ is an ordinary layout, so host composer handles it.
  *  - .vendor/php8.x are mounted at /app/vendor inside the docker services every
- *    `./run` command uses. These MUST be dumped from inside a container.
+ *    composer script uses. These MUST be dumped from inside a container.
  *    Composer writes the project root as a path relative to the vendor
  *    directory it is handed, so a host-side dump of .vendor/php8.1 emits
  *    `$baseDir = dirname(dirname($vendorDir))` -- correct on the host, and `/`
@@ -215,13 +215,13 @@ function dump_autoloaders(string $root): void
         exec('docker info > /dev/null 2>&1', $ignored, $docker);
 
         if ($docker !== 0) {
-            $messages[] = '.vendor/php*: docker is not running -- run `./run composer-all dump-autoload`';
+            $messages[] = '.vendor/php*: docker is not running -- run `composer deps-all dump-autoload`';
         } else {
-            // Per version rather than `./run composer-all`, which iterates
+            // Per version rather than `composer deps-all`, which iterates
             // docker/ and would mount -- and therefore create -- a vendor tree
             // for versions nobody has installed. Those come out holding an
             // autoloader and no packages, which reads as installed and fails
-            // confusingly under `./run test-all`.
+            // confusingly under `composer test-all`.
             $dumped = 0;
             $failed = [];
 
@@ -244,7 +244,7 @@ function dump_autoloaders(string $root): void
             $messages[] = sprintf(
                 '.vendor/php*: %d autoloader(s) regenerated in docker%s',
                 $dumped,
-                $failed === [] ? '' : '; failed for '.implode(', ', $failed).' -- run `./run composer-all dump-autoload`'
+                $failed === [] ? '' : '; failed for '.implode(', ', $failed).' -- run `composer deps-all dump-autoload`'
             );
         }
     }
@@ -261,10 +261,10 @@ function dump_autoloaders(string $root): void
 /**
  * Rewrite the generated CLI-commands block in CLAUDE.md.
  *
- * `scripts/sdk` is renamed to `scripts/<slug>`, so `./run`'s command listing
- * changes and the block CLAUDE.md carries goes stale -- `./run check-claude-md`
- * fails on a package nobody has touched yet. The generator reads `./run` and
- * needs no container, so it can run here.
+ * `scripts/sdk` is renamed to `scripts/<slug>`, so the composer script listing
+ * changes and the block CLAUDE.md carries goes stale -- `composer check-claude-md`
+ * fails on a package nobody has touched yet. The generator shells out to composer
+ * and needs no container, so it can run here.
  */
 function regenerate_claude_md(string $root): void
 {
@@ -278,7 +278,7 @@ function regenerate_claude_md(string $root): void
 
     writeln($status === 0
         ? '  Regenerated the CLAUDE.md command listing.'
-        : '  CLAUDE.md listing not regenerated; run `./run generate-claude-md`.');
+        : '  CLAUDE.md listing not regenerated; run `composer generate-claude-md`.');
 }
 
 /**
@@ -287,7 +287,7 @@ function regenerate_claude_md(string $root): void
  * The rewrite above is a literal token substitution, so a namespace that used
  * to sort in one place can land in another -- `Zerotoprod\\Sdk\\Foo` becoming
  * `Zerotoprod\\GithubApi\\Foo` moves relative to its neighbours. That leaves the
- * tree failing `./run check-cs` on a fresh package, before its owner has
+ * tree failing `composer lint` on a fresh package, before its owner has
  * written a line, so the formatter runs once here. Silent no-op when
  * dependencies are not installed yet.
  */
@@ -297,7 +297,7 @@ function format(string $root): void
     $config = $root.'/.php-cs-fixer.dist.php';
 
     if (!is_file($fixer) || !is_file($config)) {
-        writeln('  Skipped formatting: run `composer install && ./run fix-cs`.');
+        writeln('  Skipped formatting: run `composer install && composer format`.');
 
         return;
     }
@@ -312,7 +312,7 @@ function format(string $root): void
 
     writeln($status === 0
         ? '  Formatted with php-cs-fixer.'
-        : '  Formatting reported problems; run `./run fix-cs`.');
+        : '  Formatting reported problems; run `composer format`.');
 }
 
 /**
@@ -320,17 +320,17 @@ function format(string $root): void
  */
 function generate_sdk(string $root): void
 {
-    $run = $root.'/run';
+    $script = $root.'/scripts/generate-sdk';
 
-    if (!is_file($run) || !is_executable($run)) {
-        writeln('  Skipped SDK generation: ./run script not found or not executable.');
+    if (!is_file($script) || !is_executable($script)) {
+        writeln('  Skipped SDK generation: scripts/generate-sdk not found or not executable.');
 
         return;
     }
 
     writeln('');
     exec(
-        sprintf('cd %s && %s generate-sdk 2>&1', escapeshellarg($root), escapeshellarg($run)),
+        sprintf('cd %s && %s 2>&1', escapeshellarg($root), escapeshellarg($script)),
         $output,
         $status
     );
@@ -338,7 +338,7 @@ function generate_sdk(string $root): void
     if ($status === 0) {
         writeln('  Generated data models from OpenAPI document.');
     } else {
-        writeln('  SDK generation failed; run `./run generate-sdk` to retry.');
+        writeln('  SDK generation failed; run `composer generate-sdk` to retry.');
     }
 
     foreach ($output as $line) {
@@ -528,7 +528,7 @@ function replacements(array $answers): array
         // every agent it ever runs starts from a false premise about what the
         // repository is and what its edits affect.
         TEMPLATE['claude_intro'] => sprintf(
-            'This package was generated from the `%s` template and keeps it as a git remote named `template`, so shared client code merges forward from there. Run `./run check-template` to verify the wiring and see `docs/template.md` for the runbook.',
+            'This package was generated from the `%s` template and keeps it as a git remote named `template`, so shared client code merges forward from there. Run `composer check-template` to verify the wiring and see `docs/template.md` for the runbook.',
             TEMPLATE['package']
         ),
     ];
@@ -563,6 +563,30 @@ function rewrite(string $root, array $answers): int
     return $changed + 2;
 }
 
+/**
+ * Rename one key in place, keeping the surrounding order.
+ *
+ * Composer prints its script listing in declaration order, so rebuilding the
+ * array would reshuffle the block CLAUDE.md is compared against.
+ *
+ * @param  array<string, mixed>  $map
+ * @return array<string, mixed>
+ */
+function rename_key(array $map, string $from, string $to): array
+{
+    if ($from === $to || ! array_key_exists($from, $map)) {
+        return $map;
+    }
+
+    $renamed = [];
+
+    foreach ($map as $key => $value) {
+        $renamed[$key === $from ? $to : $key] = $value;
+    }
+
+    return $renamed;
+}
+
 /** @param array<string, string> $answers */
 function rewrite_composer(string $root, array $answers): void
 {
@@ -592,6 +616,18 @@ function rewrite_composer(string $root, array $answers): void
     }
 
     $json['bin'] = ['bin/'.$answers['slug']];
+
+    // The composer script that runs the package CLI is named after the CLI, and
+    // scripts/listing.php reads that name for the block CLAUDE.md carries. The
+    // token pass above already repointed the script at `scripts/<slug>`, so
+    // renaming the file without renaming its key leaves the listing advertising
+    // a `sdk` command that no longer exists -- and check-claude-md failing on a
+    // package nobody has touched.
+    foreach (['scripts', 'scripts-descriptions'] as $block) {
+        if (isset($json[$block]) && is_array($json[$block])) {
+            $json[$block] = rename_key($json[$block], TEMPLATE['bin'], $answers['slug']);
+        }
+    }
 
     $repository = repository($answers);
 
@@ -832,25 +868,21 @@ function next_steps(array $answers): void
     writeln('');
     writeln('  Next:');
     writeln('');
-    writeln('    # README.md still describes the template, not '.composer_name($answers).'.');
-    writeln('    # Rewrite it for this package — its examples are no longer verified by a test,');
-    writeln('    # because ReadmeExamplesTest went with the template content it mirrored.');
-    writeln('');
-    writeln('    # sdk.json now carries base_url ('.($answers['base_url'] !== '' ? $answers['base_url'] : '(not set)').').');
-    writeln('    # '.$answers['config_class'].'::url still defaults to an empty string so tests need no host;');
-    writeln('    # pass the base URL explicitly, or read it from sdk.json in your own bootstrap.');
-    writeln('');
-    writeln('    # Keep the template as an ancestor you can merge from, forever:');
-    writeln('    git remote rename origin template          # when this repo was cloned from the template');
+    writeln('    composer setup');
+    writeln('    git remote rename origin template');
     writeln('    gh repo create '.trim(str_replace('https://github.com/', '', $repository)).' --source=. --remote=origin');
-    writeln('    git config merge.keepours.driver true      # once per clone, or merges resolve wrongly and silently');
+    writeln('    git config merge.keepours.driver true');
+    writeln('    git add -A && git commit -m "Initialise '.composer_name($answers).' from template"');
     writeln('');
-    writeln('    # Then, from now on:');
-    writeln('    git pull template main   # never --rebase: it destroys the shared ancestry');
+    // The generator refuses to overwrite uncommitted work under src/Models and
+    // src/ApiRoute.php, and the rename above touched both, so the commit has to
+    // land first.
+    writeln('    composer generate-sdk path/to/openapi.json');
+    writeln('    composer check');
     writeln('');
-    writeln('    ./run init && ./run check-all');
+    writeln('    # README.md still describes the template.');
     writeln('');
-    writeln('  See docs/template.md for the full runbook.');
+    writeln('  docs/template.md has the runbook.');
     writeln('');
 }
 

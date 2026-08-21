@@ -427,5 +427,5 @@ Key commands:
 
 ## Adding or changing routes
 
-- Generated package (`openapi.source` set in `sdk.json`): update the OpenAPI document, then `./run generate-sdk`. Never hand-edit `src/Models/` or `src/ApiRoute.php`.
-- Hand-maintained package (`openapi.source: null`): add an `ApiRoute` case with `#[HasRoute]` + `#[AdminApi]` and the models it references, then `./run fix-all`.
+- Generated package (`openapi.source` set in `sdk.json`): update the OpenAPI document, then `composer generate-sdk`. Never hand-edit `src/Models/` or `src/ApiRoute.php`.
+- Hand-maintained package (`openapi.source: null`): add an `ApiRoute` case with `#[HasRoute]` + `#[AdminApi]` and the models it references, then `composer fix`.

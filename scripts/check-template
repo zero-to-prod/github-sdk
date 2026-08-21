@@ -2,7 +2,7 @@
 # Verify the template ancestry wiring (template remote, keepours driver, lockfiles)
 set -euo pipefail
 
-SCRIPT_DIR="${SCRIPT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
 
 SDK_JSON="$SCRIPT_DIR/sdk.json"
 GITATTRIBUTES="$SCRIPT_DIR/.gitattributes"
@@ -16,7 +16,7 @@ fi
 name=$(php -r '$j = json_decode(file_get_contents($argv[1]), true); echo is_array($j) ? ($j["name"] ?? "") : "";' "$SDK_JSON")
 
 # In the template itself every finding below is advisory: the template has no
-# upstream to merge from, and ./run check-all has to stay green here.
+# upstream to merge from, and composer check has to stay green here.
 if [[ "$name" == "$TEMPLATE_PACKAGE" ]]; then
     fatal=0
     echo "This is the template ($TEMPLATE_PACKAGE). Ancestry checks are advisory here."

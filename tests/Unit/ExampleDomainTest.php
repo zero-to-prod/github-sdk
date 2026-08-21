@@ -31,7 +31,7 @@ use Zerotoprod\Sdk\SdkConfig;
  *
  * This is the ONLY test file that names any of them, and it is deliberately a
  * smoke test rather than a spec: everything it touches is example content that
- * `./run generate-sdk` overwrites or deletes on the first real generation, and
+ * `composer generate-sdk` overwrites or deletes on the first real generation, and
  * `php init` deletes this file. The dispatcher, `Route`, transports, hooks and
  * factory semantics are all specified in the other test files, against the
  * permanent fixtures in `tests/Fixtures/` — so deleting this one loses no

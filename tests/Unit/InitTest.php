@@ -235,7 +235,7 @@ class InitTest extends TestCase
         // the template: every judgement about blast radius follows from that.
         self::assertStringNotContainsString('This repo is the SDK **template**', $claude);
         self::assertStringContainsString('This package was generated from the `zero-to-prod/sdk` template', $claude);
-        self::assertStringContainsString('./run check-template', $claude);
+        self::assertStringContainsString('composer check-template', $claude);
         self::assertStringContainsString('docs/template.md', $claude);
     }
 
@@ -264,17 +264,17 @@ class InitTest extends TestCase
         self::assertFileDoesNotExist($sandbox . '/scripts/sdk');
 
         // Regenerating the listing shells out to scripts/generate-claude-md,
-        // which is bash, as is the `./run` it reads. The php:*-alpine images the
-        // docker services use ship no bash, so inside them `./run` exits 127 and
-        // init reports that it could not regenerate rather than pretending. The
-        // assertion only means anything where bash exists.
+        // which is bash. The php:*-alpine images the docker services use ship no
+        // bash, so inside them it exits 127 and init reports that it could not
+        // regenerate rather than pretending. The assertion only means anything
+        // where bash exists.
         if (trim((string) shell_exec('command -v bash 2>/dev/null')) === '') {
-            self::markTestSkipped('bash is unavailable, so ./run cannot produce the listing.');
+            self::markTestSkipped('bash is unavailable, so the listing cannot be regenerated.');
         }
 
-        // scripts/sdk is renamed, so ./run's listing changes and the block in
-        // CLAUDE.md goes stale -- check-claude-md would fail on an untouched
-        // package.
+        // scripts/sdk is renamed and its composer script key with it, so the
+        // listing changes and the block in CLAUDE.md goes stale --
+        // check-claude-md would fail on an untouched package.
         $claude = (string) file_get_contents($sandbox . '/CLAUDE.md');
 
         self::assertStringContainsString('github-api', $claude);
@@ -286,9 +286,9 @@ class InitTest extends TestCase
     {
         $sandbox = $this->initialise();
 
-        // ./run reads this line for its help listing, and check-claude-md
-        // compares that listing against CLAUDE.md. A name baked into the
-        // description goes stale the moment the script is renamed.
+        // This line is the script's own description comment. A name baked into
+        // it goes stale the moment the script is renamed, and scripts/listing.php
+        // reads the same header for the flag lines below it.
         $lines = (array) file($sandbox . '/scripts/github-api');
 
         self::assertSame('# Run the package CLI tool', rtrim((string) ($lines[1] ?? '')));

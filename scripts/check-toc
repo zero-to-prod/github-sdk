@@ -2,6 +2,8 @@
 # Verify README.md Table of Contents section is up-to-date
 set -euo pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 README="$SCRIPT_DIR/README.md"
 
 SECTION_START="## Table of Contents"
@@ -38,7 +40,7 @@ end_line=$(grep -n "^${SECTION_END}$" "$README" | head -1 | cut -d: -f1 || true)
 
 if [[ -z "$start_line" || -z "$end_line" ]]; then
     echo "README.md is missing the Table of Contents section." >&2
-    echo "Run ./run generate-toc to add it." >&2
+    echo "Run composer generate-toc to add it." >&2
     exit 1
 fi
 
@@ -46,7 +48,7 @@ actual=$(sed -n "${start_line},${end_line}p" "$README")
 
 if [[ "$expected" != "$actual" ]]; then
     echo "README.md Table of Contents section is out of date." >&2
-    echo "Run ./run generate-toc to update." >&2
+    echo "Run composer generate-toc to update." >&2
     exit 1
 fi
 

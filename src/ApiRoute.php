@@ -24,7 +24,7 @@ enum ApiRoute: string
 {
     /**
      * Example single-resource route. One case per path; one `#[AdminApi]`
-     * per HTTP operation on that path. `./run generate-sdk` rewrites this
+     * per HTTP operation on that path. `composer generate-sdk` rewrites this
      * file from the OpenAPI document declared in `sdk.json`.
      * @link https://example.com/docs
      */
