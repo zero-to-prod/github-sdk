@@ -75,12 +75,29 @@ Then graft. This records the template as an ancestor without changing a single
 file in your tree:
 
 ```bash
-git merge -s ours <template-sha> -m "Graft template history: <template-url>"
+git log --oneline template/main          # find the commit you copied from
+git merge -s ours --allow-unrelated-histories <template-sha> \
+    -m "Graft template history: <template-url>"
 ```
 
 `-s ours` keeps your tree exactly as it is and adds the template commit as a
 second parent. From that moment git can compute a merge base between the two
 histories, which is the only thing that was missing.
+
+`--allow-unrelated-histories` is not optional here. Two trees that never shared a
+commit are exactly what git refuses to merge, and it refuses before it looks at
+the strategy, so `-s ours` on its own fails with `fatal: refusing to merge
+unrelated histories` -- the same error that sent you to this section.
+
+**Graft at the commit you copied from, never at `template/main`.** The graft sets
+the merge base, and `-s ours` declares your side the winner for everything up to
+it. Graft at the tip and you have told git that every template change ever made
+is already merged and resolved in your favour: `git merge template/main` answers
+`Already up to date`, and the work you were trying to pull in is unreachable
+forever. Pick the oldest commit that makes sense -- the template's root commit is
+a safe default -- because only template work *after* the graft point can ever
+merge. The step below is what actually brings the template's code in; if it
+reports nothing to do, you grafted too late.
 
 Now declare what the package owns (next section), commit that, and take the
 first real merge:
@@ -216,6 +233,11 @@ files you thought were protected come up as conflicts — or worse, are resolved
 toward the template by whoever is clearing conflicts. This is the single most
 common way the arrangement fails, so `composer check-template` fails when it is
 unset.
+
+The key is `merge.keepours.driver`, and nothing validates a config key you invent.
+`merge.driver.keepours.driver` sets a key git never reads, and behaves exactly like
+having set nothing at all. `composer check-template` reads the one real key, so run
+it rather than trusting that the command you typed took.
 
 ### Two things that must never be `merge=keepours`
 
