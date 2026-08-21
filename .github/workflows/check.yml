@@ -21,8 +21,12 @@ jobs:
           php-version: '8.1'
           tools: composer
 
+      # The keepours merge driver lives in .git/config, never in the repo, so a
+      # fresh checkout can never satisfy scripts/check-template without this.
       - name: Setup environment
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          git config merge.keepours.driver true
 
       # Every check runs inside a per-version container that mounts .vendor/php8.X
       # over /app/vendor, so a host-side `composer install` would not be visible.
