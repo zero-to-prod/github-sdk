@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Enums", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "sanitized": {
+        "type": "string",
+        "description": "Every awkward enum value the GitHub spec contains.",
+        "enum": ["*", "-1", "+1", "/", "/docs", "040000", "100644", "100755", "120000", "160000",
+                 "2fa_disabled", "2fa_insecure", "author-date", "c-cpp", "committer-date",
+                 "critical-resource", "custom-pattern-backfill", "deleted ruleset", "false positive",
+                 "fast-forward", "gh-pages", "help-wanted-issues", "internet-exposed", "java-kotlin",
+                 "javascript-typescript", "lateral-movement", "long-running", "master /docs",
+                 "not-configured", "not-set", "off-topic", "pattern-version-backfill", "pull-requests",
+                 "reactions-+1", "reactions--1", "reactions-heart", "reactions-smile", "reactions-tada",
+                 "reactions-thinking_face", "read-only", "sensitive-data", "too heated",
+                 "used in tests", "won't fix", "", "class", "default", "unknown"]
+      },
+      "int-enum": {"type": "integer", "enum": [1, 2, 3]},
+      "mixed-enum": {"type": "string", "enum": ["a", 1, true]},
+      "boolean-enum": {"enum": [true, false]},
+      "float-enum": {"type": "number", "enum": [1.5, 2.5]},
+      "null-only-enum": {"type": "string", "enum": [null]},
+      "nullable-member-enum": {"type": "string", "enum": ["a", "b", null]},
+      "object-enum": {"enum": [{"a": 1}]},
+      "holder": {
+        "type": "object",
+        "required": ["required_enum", "required_int_enum"],
+        "properties": {
+          "required_enum": {"type": "string", "enum": ["open", "closed"]},
+          "optional_enum": {"type": "string", "enum": ["open", "closed"]},
+          "duplicate_enum": {"type": "string", "enum": ["open", "closed"]},
+          "different_enum": {"type": "string", "enum": ["red", "blue"]},
+          "required_int_enum": {"$ref": "#/components/schemas/int-enum"},
+          "nullable_required_enum": {"type": "string", "enum": ["a"], "nullable": true},
+          "enum_list": {"type": "array", "items": {"type": "string", "enum": ["x", "y"]}}
+        }
+      }
+    }
+  }
+}

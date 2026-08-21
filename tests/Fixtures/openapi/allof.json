@@ -1,0 +1,134 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AllOf",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "base": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "timestamps": {
+        "type": "object",
+        "required": [
+          "created_at"
+        ],
+        "properties": {
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "refs-only": {
+        "description": "Composed purely from refs.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/base"
+          },
+          {
+            "$ref": "#/components/schemas/timestamps"
+          }
+        ]
+      },
+      "mixed-allof": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/base"
+          },
+          {
+            "type": "object",
+            "required": [
+              "extra"
+            ],
+            "properties": {
+              "extra": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "integer"
+              }
+            }
+          }
+        ]
+      },
+      "own-props": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/base"
+          }
+        ],
+        "properties": {
+          "own": {
+            "type": "boolean"
+          }
+        }
+      },
+      "single-ref-wrapper": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/base"
+          }
+        ]
+      },
+      "nullable-wrapper": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/base"
+          }
+        ],
+        "nullable": true
+      },
+      "holder": {
+        "type": "object",
+        "properties": {
+          "wrapped": {
+            "$ref": "#/components/schemas/nullable-wrapper"
+          },
+          "inline": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/base"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "n": {
+                    "type": "integer"
+                  }
+                }
+              }
+            ]
+          },
+          "inline_wrapper": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/base"
+              }
+            ],
+            "nullable": true
+          },
+          "inline_wrapper_not_null": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/base"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

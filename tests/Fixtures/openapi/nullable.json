@@ -1,0 +1,24 @@
+{
+  "openapi": "3.1.0",
+  "info": {"title": "Nullable", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "simple-user": {"type": "object", "properties": {"login": {"type": "string"}}},
+      "nullable-simple-user": {"allOf": [{"$ref": "#/components/schemas/simple-user"}], "nullable": true},
+      "nullable-orphan": {"type": "object", "properties": {"note": {"type": "string"}}},
+      "nullable_underscore_orphan": {"type": "object", "properties": {"note": {"type": "string"}}},
+      "spellings": {
+        "type": "object",
+        "properties": {
+          "v30": {"type": "string", "nullable": true},
+          "v31": {"type": ["string", "null"]},
+          "v31_multi": {"type": ["string", "integer", "null"]},
+          "twin": {"$ref": "#/components/schemas/nullable-simple-user"},
+          "orphan": {"$ref": "#/components/schemas/nullable-orphan"},
+          "underscore_orphan": {"$ref": "#/components/schemas/nullable_underscore_orphan"}
+        }
+      }
+    }
+  }
+}

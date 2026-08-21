@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Apply all fixes (Rector, CS Fixer, link annotations) then run all checks
+set -euo pipefail
+
+"$SCRIPT_DIR/scripts/fix-rector" "$@"
+echo ""
+"$SCRIPT_DIR/scripts/fix-cs" "$@"
+echo ""
+"$SCRIPT_DIR/scripts/generate-links"
+echo ""
+"$SCRIPT_DIR/scripts/generate-api-methods"
+echo ""
+"$SCRIPT_DIR/scripts/generate-claude-md"
+echo ""
+"$SCRIPT_DIR/scripts/generate-readme"
+echo ""
+"$SCRIPT_DIR/scripts/generate-toc"
+echo ""
+"$SCRIPT_DIR/scripts/check-style" "$@"
+echo ""
+"$SCRIPT_DIR/scripts/test" "$@"

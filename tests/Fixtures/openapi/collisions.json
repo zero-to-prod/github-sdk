@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Collisions", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "foo-bar": {"type": "object", "properties": {"a": {"type": "string"}}},
+      "foo_bar": {"type": "object", "properties": {"b": {"type": "string"}}},
+      "FooBar": {"type": "object", "properties": {"c": {"type": "string"}}},
+      "class": {"type": "object", "properties": {"d": {"type": "string"}}},
+      "2fa": {"type": "object", "properties": {"e": {"type": "string"}}},
+      "member-collisions": {
+        "type": "object",
+        "properties": {
+          "foo-bar": {"type": "string"},
+          "foo_bar": {"type": "string"},
+          "this": {"type": "string"},
+          "class": {"type": "string"},
+          "+1": {"type": "integer"},
+          "-1": {"type": "integer"}
+        }
+      }
+    }
+  }
+}

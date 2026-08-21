@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+# Generate code coverage report for public API classes only
+set -euo pipefail
+
+version="${PHP_VERSION}"
+src_dir="$SCRIPT_DIR/src"
+tmpconfig="$SCRIPT_DIR/.phpunit-api-coverage.xml"
+
+# Package identity comes from the manifest (sdk.json), never hardcoded here
+manifest_value() {
+    php -r 'require getenv("SCRIPT_DIR")."/scripts/manifest.php"; echo manifestString($argv[1]);' -- "$1"
+}
+
+namespace_prefix="$(manifest_value namespace)"
+cli="$(manifest_value bin)"
+
+# Extract public API class FQCNs from list:api output
+fqcns=$(docker compose run --rm -T "php${version}" php "bin/$cli" list:api 2>/dev/null \
+    | grep -E '^# (class|interface|enum) ' \
+    | sed -E 's/^# (class|interface|enum) //')
+
+if [[ -z "$fqcns" ]]; then
+    echo "Error: no public API classes found" >&2
+    exit 1
+fi
+
+# Convert FQCNs to source file paths (PSR-4: <namespace>\ -> src/)
+files=()
+while IFS= read -r fqcn; do
+    relative="${fqcn#"$namespace_prefix"\\}"
+    path="$src_dir/${relative//\\//}.php"
+    if [[ -f "$path" ]]; then
+        files+=("$path")
+    else
+        echo "Warning: file not found for $fqcn: $path" >&2
+    fi
+done <<< "$fqcns"
+
+if [[ ${#files[@]} -eq 0 ]]; then
+    echo "Error: no source files resolved" >&2
+    exit 1
+fi
+
+# Build temporary phpunit.xml with only public API files as coverage source
+trap 'rm -f "$tmpconfig"' EXIT
+
+cat > "$tmpconfig" <<XMLHEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+XMLHEAD
+
+for f in "${files[@]}"; do
+    relative="${f#"$SCRIPT_DIR/"}"
+    echo "            <file>$relative</file>" >> "$tmpconfig"
+done
+
+cat >> "$tmpconfig" <<XMLTAIL
+        </include>
+    </source>
+</phpunit>
+XMLTAIL
+
+echo "Public API files included in coverage:"
+for f in "${files[@]}"; do
+    echo "  ${f#"$SCRIPT_DIR/"}"
+done
+echo ""
+
+docker compose run --rm -e XDEBUG_MODE=coverage "debug${version}" \
+    vendor/bin/phpunit --configuration .phpunit-api-coverage.xml --coverage-text "$@"

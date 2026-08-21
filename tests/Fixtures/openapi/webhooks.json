@@ -1,0 +1,19 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Webhooks", "version": "1.0.0"},
+  "paths": {
+    "/v1/pings": {"get": {"responses": {"200": {"description": "ok"}}}}
+  },
+  "x-webhooks": {
+    "branch_protection_rule_1": {
+      "post": {
+        "requestBody": {"content": {"application/json": {"schema": {
+          "type": "object", "properties": {"action": {"type": "string"}}
+        }}}},
+        "responses": {"200": {"description": "ok"}}
+      }
+    },
+    "no_body_event": {"post": {"responses": {"200": {"description": "ok"}}}}
+  },
+  "components": {"schemas": {}}
+}

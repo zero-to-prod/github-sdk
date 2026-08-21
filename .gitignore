@@ -1,0 +1,10 @@
+/vendor/
+.vendor
+composer.lock
+.idea
+.phpunit.cache
+.phpunit-api-coverage.xml
+.php-cs-fixer.cache
+.env
+/docs/repos/
+/coverage/

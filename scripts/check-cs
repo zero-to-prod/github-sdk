@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Run PHP CS Fixer in dry-run mode (no changes)
+set -euo pipefail
+
+version="${PHP_VERSION}"
+
+docker compose run --rm "php${version}" vendor/bin/php-cs-fixer fix --dry-run --diff "$@"

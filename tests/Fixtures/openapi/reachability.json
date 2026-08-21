@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Reachability", "version": "1.0.0"},
+  "paths": {
+    "/v1/hooks/{hook_id}/config": {
+      "get": {
+        "summary": "A webhook-shaped name on a schema a path returns.",
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/webhook-config"}}}}}
+      }
+    },
+    "/v1/tags": {
+      "get": {
+        "summary": "A bare array, so its element class is reachable only through items.",
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {
+          "type": "array", "items": {"$ref": "#/components/schemas/tag"}
+        }}}}}
+      }
+    }
+  },
+  "x-webhooks": {
+    "push": {
+      "post": {
+        "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/push-event"}}}},
+        "responses": {"200": {"description": "ok"}}
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "webhook-config": {
+        "type": "object",
+        "properties": {
+          "url": {"type": "string"},
+          "insecure_ssl": {"$ref": "#/components/schemas/webhook-config-insecure-ssl"}
+        }
+      },
+      "webhook-config-insecure-ssl": {"type": "object", "properties": {"value": {"type": "string"}}},
+      "tag": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "commit": {"$ref": "#/components/schemas/tag-commit"}
+        }
+      },
+      "tag-commit": {"type": "object", "properties": {"sha": {"type": "string"}}},
+      "push-event": {"type": "object", "properties": {"pusher": {"$ref": "#/components/schemas/pusher"}}},
+      "pusher": {"type": "object", "properties": {"name": {"type": "string"}}},
+      "orphan": {"type": "object", "properties": {"nobody": {"type": "string"}}}
+    }
+  }
+}

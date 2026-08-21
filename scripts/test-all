@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Run tests for all PHP versions
+set -euo pipefail
+
+for version in $(ls -1 "$SCRIPT_DIR/docker" | sort -V); do
+    docker compose run --rm "php${version}" vendor/bin/phpunit "$@"
+    echo ""
+done

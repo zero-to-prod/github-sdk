@@ -1,0 +1,81 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Widgets", "version": "1.0.0"},
+  "paths": {
+    "/v1/widgets": {
+      "get": {
+        "operationId": "widgets/list",
+        "summary": "List every widget.",
+        "parameters": [
+          {"name": "per_page", "in": "query", "schema": {"type": "integer"}},
+          {"$ref": "#/components/parameters/page"}
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {"application/json": {"schema": {
+              "type": "object",
+              "properties": {
+                "widgets": {"type": "array", "items": {"$ref": "#/components/schemas/widget"}},
+                "Pagination": {"$ref": "#/components/schemas/pagination"}
+              }
+            }}}
+          }
+        }
+      },
+      "post": {
+        "operationId": "widgets/create",
+        "requestBody": {"content": {"application/json": {"schema": {
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "name": {"type": "string"},
+            "status": {"$ref": "#/components/schemas/widget-status"}
+          }
+        }}}},
+        "responses": {"201": {"description": "created", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/widget"}}}}}
+      }
+    },
+    "/v1/widgets/{id}": {
+      "parameters": [{"name": "fields", "in": "query", "schema": {"type": "string"}}],
+      "get": {
+        "operationId": "widgets/get",
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/widget"}}}}}
+      },
+      "patch": {
+        "operationId": "widgets/update",
+        "requestBody": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/widget"}}}},
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/widget"}}}}}
+      },
+      "delete": {"operationId": "widgets/delete", "responses": {"204": {"description": "gone"}}},
+      "head": {"operationId": "widgets/head", "responses": {"200": {"description": "ok"}}}
+    }
+  },
+  "components": {
+    "parameters": {
+      "page": {"name": "page", "in": "query", "schema": {"type": "integer"}}
+    },
+    "schemas": {
+      "widget": {
+        "type": "object",
+        "description": "Example resource.",
+        "required": ["status", "tags"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string", "nullable": true},
+          "status": {"$ref": "#/components/schemas/widget-status"},
+          "created_at": {"type": "string", "format": "date-time"},
+          "tags": {"type": "array", "items": {"type": "string"}},
+          "owner": {"type": "object", "properties": {"login": {"type": "string"}}},
+          "meta": {"type": "object", "additionalProperties": true},
+          "2fa": {"type": "boolean"}
+        }
+      },
+      "widget-status": {"type": "string", "description": "Widget lifecycle state.", "enum": ["active", "archived"]},
+      "pagination": {
+        "type": "object",
+        "properties": {"current_page": {"type": "integer"}, "next_page_url": {"type": "string", "nullable": true}}
+      }
+    }
+  }
+}

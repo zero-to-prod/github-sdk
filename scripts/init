@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Initialize project: copy .env.example and pull doc repos
+set -euo pipefail
+
+if [[ ! -f "$SCRIPT_DIR/.env" ]]; then
+    cp "$SCRIPT_DIR/.env.example" "$SCRIPT_DIR/.env"
+    echo "Created .env from .env.example"
+else
+    echo ".env already exists, skipping"
+fi
+
+[[ -d "$SCRIPT_DIR/docs/repos" ]] || exit 0
+
+for repo in "$SCRIPT_DIR/docs/repos"/*/; do
+    [[ -d "$repo/.git" ]] || continue
+    echo "Pulling $(basename "$repo")..."
+    git -C "$repo" pull
+done

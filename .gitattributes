@@ -1,0 +1,57 @@
+/docker/                  export-ignore
+/tests/                   export-ignore
+/.env.example             export-ignore
+/.gitattributes           export-ignore
+/.gitignore               export-ignore
+/docker-compose.yml       export-ignore
+/phpunit.xml              export-ignore
+/composer.lock            export-ignore
+/scripts/                 export-ignore
+/phpstan.neon             export-ignore
+/run                      export-ignore
+/rector.php               export-ignore
+/.githooks/               export-ignore
+/CLAUDE.md                export-ignore
+/.php-cs-fixer.dist.php   export-ignore
+/init                     export-ignore
+
+# ------------------------------------------------------------------------------
+# Derived packages: declare what you own below this line
+# ------------------------------------------------------------------------------
+#
+# This repository is the template, and the template owns everything: there are
+# deliberately no `merge=keepours` entries here. Ownership is declared only in a
+# derived package, by appending lines to the BOTTOM of its own copy of this
+# file, underneath the template's lines above. Template-owned is the default and
+# there is no positive list, so anything a derived package does not claim here
+# keeps arriving from `git pull template main`.
+#
+# The merge driver named by those lines resolves to the derived package's side
+# unconditionally, so template changes to those paths are dropped rather than
+# conflicting. For this template the expected derived-owned surface is:
+#
+#     sdk.json               merge=keepours
+#     README.md              merge=keepours
+#     src/ApiRoute.php       merge=keepours
+#     src/Models/**          merge=keepours
+#     factories/**           merge=keepours
+#     .env                   merge=keepours
+#
+# `src/ApiRoute.php`, `src/Models/**` and `factories/**` are generated from the
+# package's own OpenAPI document. They are regenerated, never merged.
+#
+# Two categories must never appear as `merge=keepours`:
+#
+#   * Lockfiles. Resolving one to this side pins the package below what the
+#     newly merged code requires, and the failure surfaces later as a missing
+#     symbol rather than as a conflict. Let them conflict and regenerate.
+#   * Anything that differs only for branding. Move that difference into
+#     sdk.json instead, so the file itself can keep merging cleanly.
+#
+# The driver is not carried by this file. Each fresh clone must run, once:
+#
+#     git config merge.keepours.driver true
+#
+# Without it git falls back to an ordinary conflicting merge and says nothing,
+# so a clone that skipped the command looks fine until the first merge resolves
+# the wrong way. `./run check-template` fails when it is unset.

@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Generate Table of Contents section in README.md from ##/###/#### headings
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+README="$SCRIPT_DIR/README.md"
+
+SECTION_START="## Table of Contents"
+SECTION_END="<!-- end toc -->"
+
+toc=$(awk -v skip="$SECTION_START" '
+    BEGIN { in_fence = 0 }
+    /^```/ { in_fence = !in_fence; next }
+    in_fence { next }
+    /^#+ / {
+        match($0, /^#+/)
+        depth = RLENGTH
+        if (depth < 2 || depth > 4) next
+        title = substr($0, depth + 2)
+        sub(/[ \t]+$/, "", title)
+        if (("## " title) == skip) next
+        indent = ""
+        for (i = 2; i < depth; i++) indent = indent "  "
+        slug = tolower(title)
+        gsub(/[^a-z0-9 _-]/, "", slug)
+        gsub(/ /, "-", slug)
+        printf "%s- [%s](#%s)\n", indent, title, slug
+    }
+' "$README")
+
+new_section="$SECTION_START
+
+$toc
+
+$SECTION_END"
+
+if grep -q "^${SECTION_START}$" "$README"; then
+    tmpfile=$(mktemp)
+    start_line=$(grep -n "^${SECTION_START}$" "$README" | head -1 | cut -d: -f1)
+    end_line=$(grep -n "^${SECTION_END}$" "$README" | head -1 | cut -d: -f1)
+
+    if (( start_line > 1 )); then
+        head -n $(( start_line - 1 )) "$README" > "$tmpfile"
+    else
+        : > "$tmpfile"
+    fi
+
+    printf '%s\n' "$new_section" >> "$tmpfile"
+
+    total=$(wc -l < "$README")
+    if (( end_line < total )); then
+        tail -n $(( total - end_line )) "$README" >> "$tmpfile"
+    fi
+
+    mv "$tmpfile" "$README"
+else
+    # First-time creation: insert before the first top-level section heading
+    first_h2=$(grep -n "^## " "$README" | head -1 | cut -d: -f1 || true)
+    tmpfile=$(mktemp)
+    if [[ -n "$first_h2" ]]; then
+        head -n $(( first_h2 - 1 )) "$README" > "$tmpfile"
+        printf '%s\n\n' "$new_section" >> "$tmpfile"
+        tail -n +"$first_h2" "$README" >> "$tmpfile"
+    else
+        cat "$README" > "$tmpfile"
+        printf '\n%s\n' "$new_section" >> "$tmpfile"
+    fi
+    mv "$tmpfile" "$README"
+fi
+
+echo "Updated $README"

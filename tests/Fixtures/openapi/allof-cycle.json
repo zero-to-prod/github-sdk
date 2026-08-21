@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "AllOfCycle", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "cyclic": {
+        "allOf": [
+          {"$ref": "#/components/schemas/cyclic"},
+          {"type": "object", "properties": {"x": {"type": "string"}}}
+        ]
+      }
+    }
+  }
+}
