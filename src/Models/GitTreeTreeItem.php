@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Zerotoprod\GitHubSdk\Models;
+
+use Zerotoprod\DataModel\Describe;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
+
+/**
+ * @link https://docs.github.com/
+ */
+class GitTreeTreeItem
+{
+    use DataModel;
+
+    /** @see $path */
+    public const path = 'path';
+    #[Describe(['nullable' => true])]
+    public ?string $path = null;
+
+    /** @see $mode */
+    public const mode = 'mode';
+    #[Describe(['nullable' => true])]
+    public ?string $mode = null;
+
+    /** @see $type */
+    public const type = 'type';
+    #[Describe(['nullable' => true])]
+    public ?string $type = null;
+
+    /** @see $sha */
+    public const sha = 'sha';
+    #[Describe(['nullable' => true])]
+    public ?string $sha = null;
+
+    /** @see $size */
+    public const size = 'size';
+    #[Describe(['nullable' => true])]
+    public ?int $size = null;
+
+    /** @see $url */
+    public const url = 'url';
+    #[Describe(['nullable' => true])]
+    public ?string $url = null;
+}

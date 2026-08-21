@@ -11,23 +11,1967 @@ use Zerotoprod\GitHubSdk\Internal\Fake;
 use Zerotoprod\GitHubSdk\Internal\HttpMethod;
 use Zerotoprod\GitHubSdk\Internal\QueryNormalizer;
 use Zerotoprod\GitHubSdk\Internal\Route;
-use Zerotoprod\GitHubSdk\Models\CreateWidgetRequest;
-use Zerotoprod\GitHubSdk\Models\UpdateWidgetRequest;
-use Zerotoprod\GitHubSdk\Models\Widget;
-use Zerotoprod\GitHubSdk\Models\WidgetsResponse;
-use Zerotoprod\GitHubSdk\Models\WidgetTag;
+use Zerotoprod\GitHubSdk\Models\ActionsArtifactAndLogRetention;
+use Zerotoprod\GitHubSdk\Models\ActionsArtifactAndLogRetentionResponse;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheList;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheRetentionLimitForEnterprise;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheRetentionLimitForOrganization;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheRetentionLimitForRepository;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheStorageLimitForEnterprise;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheStorageLimitForOrganization;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheStorageLimitForRepository;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheUsageByRepository;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheUsageOrgEnterprise;
+use Zerotoprod\GitHubSdk\Models\ActionsForkPrContributorApproval;
+use Zerotoprod\GitHubSdk\Models\ActionsForkPrWorkflowsPrivateRepos;
+use Zerotoprod\GitHubSdk\Models\ActionsForkPrWorkflowsPrivateReposRequest;
+use Zerotoprod\GitHubSdk\Models\ActionsGetDefaultWorkflowPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunner;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunnerCustomImage;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunnerCustomImageVersion;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunnerLimits;
+use Zerotoprod\GitHubSdk\Models\ActionsOrganizationPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsPublicKey;
+use Zerotoprod\GitHubSdk\Models\ActionsRepositoryPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsSecret;
+use Zerotoprod\GitHubSdk\Models\ActionsSetDefaultWorkflowPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsVariable;
+use Zerotoprod\GitHubSdk\Models\ActionsWorkflowAccessToRepository;
+use Zerotoprod\GitHubSdk\Models\Activity;
+use Zerotoprod\GitHubSdk\Models\ApiInsightsSummaryStats;
+use Zerotoprod\GitHubSdk\Models\ApiOverview;
+use Zerotoprod\GitHubSdk\Models\Artifact;
+use Zerotoprod\GitHubSdk\Models\AuthenticationToken;
+use Zerotoprod\GitHubSdk\Models\Authorization;
+use Zerotoprod\GitHubSdk\Models\Autolink;
+use Zerotoprod\GitHubSdk\Models\BaseGist;
+use Zerotoprod\GitHubSdk\Models\BillingAiCreditUsageReportOrg;
+use Zerotoprod\GitHubSdk\Models\BillingAiCreditUsageReportUser;
+use Zerotoprod\GitHubSdk\Models\BillingPremiumRequestUsageReportOrg;
+use Zerotoprod\GitHubSdk\Models\BillingPremiumRequestUsageReportUser;
+use Zerotoprod\GitHubSdk\Models\BillingUsageReport;
+use Zerotoprod\GitHubSdk\Models\BillingUsageReportUser;
+use Zerotoprod\GitHubSdk\Models\BillingUsageSummaryReportOrg;
+use Zerotoprod\GitHubSdk\Models\BillingUsageSummaryReportUser;
+use Zerotoprod\GitHubSdk\Models\Blob;
+use Zerotoprod\GitHubSdk\Models\BranchProtection;
+use Zerotoprod\GitHubSdk\Models\BranchRestrictionPolicy;
+use Zerotoprod\GitHubSdk\Models\BranchShort;
+use Zerotoprod\GitHubSdk\Models\BranchWithProtection;
+use Zerotoprod\GitHubSdk\Models\CampaignSummary;
+use Zerotoprod\GitHubSdk\Models\CheckAnnotation;
+use Zerotoprod\GitHubSdk\Models\CheckAutomatedSecurityFixes;
+use Zerotoprod\GitHubSdk\Models\CheckImmutableReleases;
+use Zerotoprod\GitHubSdk\Models\CheckRun;
+use Zerotoprod\GitHubSdk\Models\CheckSuite;
+use Zerotoprod\GitHubSdk\Models\CheckSuitePreference;
+use Zerotoprod\GitHubSdk\Models\Classroom;
+use Zerotoprod\GitHubSdk\Models\ClassroomAcceptedAssignment;
+use Zerotoprod\GitHubSdk\Models\ClassroomAssignment;
+use Zerotoprod\GitHubSdk\Models\ClassroomAssignmentGrade;
+use Zerotoprod\GitHubSdk\Models\CloneTraffic;
+use Zerotoprod\GitHubSdk\Models\CodeOfConduct;
+use Zerotoprod\GitHubSdk\Models\CodeownersErrors;
+use Zerotoprod\GitHubSdk\Models\CodeQualityFinding;
+use Zerotoprod\GitHubSdk\Models\CodeQualitySetup;
+use Zerotoprod\GitHubSdk\Models\CodeQualitySetupUpdate;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAlert;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAlertInstanceList;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAlertItems;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAnalysis;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAnalysisDeletion;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAutofix;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAutofixCommits;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAutofixCommitsResponse;
+use Zerotoprod\GitHubSdk\Models\CodeScanningCodeqlDatabase;
+use Zerotoprod\GitHubSdk\Models\CodeScanningDefaultSetup;
+use Zerotoprod\GitHubSdk\Models\CodeScanningDefaultSetupUpdate;
+use Zerotoprod\GitHubSdk\Models\CodeScanningOrganizationAlertItems;
+use Zerotoprod\GitHubSdk\Models\CodeScanningSarifsReceipt;
+use Zerotoprod\GitHubSdk\Models\CodeScanningSarifsStatus;
+use Zerotoprod\GitHubSdk\Models\CodeScanningVariantAnalysis;
+use Zerotoprod\GitHubSdk\Models\CodeScanningVariantAnalysisRepoTask;
+use Zerotoprod\GitHubSdk\Models\CodeSecurityConfiguration;
+use Zerotoprod\GitHubSdk\Models\CodeSecurityConfigurationForRepository;
+use Zerotoprod\GitHubSdk\Models\CodeSecurityConfigurationRepositories;
+use Zerotoprod\GitHubSdk\Models\Codespace;
+use Zerotoprod\GitHubSdk\Models\CodespaceExportDetails;
+use Zerotoprod\GitHubSdk\Models\CodespacesOrgSecret;
+use Zerotoprod\GitHubSdk\Models\CodespacesPermissionsCheckForDevcontainer;
+use Zerotoprod\GitHubSdk\Models\CodespacesPublicKey;
+use Zerotoprod\GitHubSdk\Models\CodespacesSecret;
+use Zerotoprod\GitHubSdk\Models\CodespacesUserPublicKey;
+use Zerotoprod\GitHubSdk\Models\CodespaceWithFullRepository;
+use Zerotoprod\GitHubSdk\Models\Collaborator;
+use Zerotoprod\GitHubSdk\Models\CombinedCommitStatus;
+use Zerotoprod\GitHubSdk\Models\Commit;
+use Zerotoprod\GitHubSdk\Models\CommitActivity;
+use Zerotoprod\GitHubSdk\Models\CommitComment;
+use Zerotoprod\GitHubSdk\Models\CommitComparison;
+use Zerotoprod\GitHubSdk\Models\CommunityProfile;
+use Zerotoprod\GitHubSdk\Models\ConcurrencyGroup;
+use Zerotoprod\GitHubSdk\Models\ConcurrencyGroupList;
+use Zerotoprod\GitHubSdk\Models\ConcurrencyGroupRunList;
+use Zerotoprod\GitHubSdk\Models\ContentFile;
+use Zerotoprod\GitHubSdk\Models\ContentTraffic;
+use Zerotoprod\GitHubSdk\Models\Contributor;
+use Zerotoprod\GitHubSdk\Models\ContributorActivity;
+use Zerotoprod\GitHubSdk\Models\CopilotOrganizationDetails;
+use Zerotoprod\GitHubSdk\Models\CopilotSeatDetails;
+use Zerotoprod\GitHubSdk\Models\CopilotSpace;
+use Zerotoprod\GitHubSdk\Models\CopilotSpaceResource;
+use Zerotoprod\GitHubSdk\Models\CopilotUsageMetrics1DayReport;
+use Zerotoprod\GitHubSdk\Models\CopilotUsageMetrics28DayReport;
+use Zerotoprod\GitHubSdk\Models\CreateAgentRepoTaskRequest;
+use Zerotoprod\GitHubSdk\Models\CreateAgentRepoTaskResponse;
+use Zerotoprod\GitHubSdk\Models\CreateAppInstallationAccessTokenRequest;
+use Zerotoprod\GitHubSdk\Models\CreateApplicationTokenRequest;
+use Zerotoprod\GitHubSdk\Models\CreateApplicationTokenScopedRequest;
+use Zerotoprod\GitHubSdk\Models\CreateAppManifestConversionResponse;
+use Zerotoprod\GitHubSdk\Models\CreateBudget;
+use Zerotoprod\GitHubSdk\Models\CreateCredentialRevokeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseCodeSecurityConfigurationAttachRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseCopilotPolicyCodingAgentOrganizationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamMembershipAddRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamMembershipRemoveRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamOrganizationAddRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamOrganizationRemoveRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateGistCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateGistRequest;
+use Zerotoprod\GitHubSdk\Models\CreateMarkdownRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionHostedRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerGenerateJitconfigRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerGenerateJitconfigResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerGroupRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrganizationSettingBillingBudgetRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterJobRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterJobResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataStorageRecordRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataStorageRecordResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgAttestationBulkListRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgAttestationBulkListResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCodeSecurityConfigurationAttachRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCodespaceAccessSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedTeamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedTeamResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedUserResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgHookRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgInvitationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgMigrationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessToken2Request;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessTokenRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessTokenRequest2Request;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessTokenRequestRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPrivateRegistryRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgProjectsV2DraftRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgProjectsV2ViewRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgRepoRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgSecretScanningCustomPatternResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgSettingNetworkConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgTeamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionJobRerunRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerGenerateJitconfigRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerGenerateJitconfigResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunPendingDeploymentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunRerunFailedJobRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunRerunRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionWorkflowDispatchRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAttestationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAutolinkRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoBranchProtectionRestrictionAppRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoBranchProtectionRestrictionUserRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoBranchRenameRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCheckSuiteRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCodeScanningSarifRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCodespaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCommentReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCommitCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDependencyGraphSnapshotResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDeploymentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDeploymentStatusRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDispatchRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoEnvironmentDeploymentProtectionRuleRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoEnvironmentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoForkRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGenerateRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitBlobRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitCommitRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitRefRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitTagRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitTreeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoHookRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueAssigneeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueCommentReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueDependencyBlockedByRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueIssueFieldValueRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueSubIssueRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoLabelRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoMergeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoMergeUpstreamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoMilestoneRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPageDeploymentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCodespaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCommentReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCommentReplyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullReviewEventRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullReviewRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoReleaseGenerateNoteRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoReleaseReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoReleaseRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoSecretScanningCustomPatternResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoSecretScanningPushProtectionBypassRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackAddRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackAddResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackUnstackResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStatusRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoTransferRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserAttestationBulkListRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserAttestationBulkListResponse;
+use Zerotoprod\GitHubSdk\Models\CreateUserCodespacePublishRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserGpgKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserMigrationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserProjectsV2DraftRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserProjectsV2ViewRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserRepoRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserSocialAccountRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserSshSigningKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CustomProperty;
+use Zerotoprod\GitHubSdk\Models\CustomPropertySetPayload;
+use Zerotoprod\GitHubSdk\Models\CustomPropertyValue;
+use Zerotoprod\GitHubSdk\Models\DeleteApplicationGrantRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteApplicationTokenRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteBudget;
+use Zerotoprod\GitHubSdk\Models\DeleteEnterpriseCopilotPolicyCodingAgentOrganizationRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgActionRunnerLabel2Response;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCodeSecurityConfigurationDetachRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCodespaceAccessSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedTeamRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedTeamResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedUserResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoActionRunnerLabel2Response;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoBranchProtectionRestrictionAppRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoBranchProtectionRestrictionUserRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoContentRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoIssueAssigneeRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoIssueSubIssueRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoPullRequestedReviewerRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteUserSocialAccountRequest;
+use Zerotoprod\GitHubSdk\Models\DependabotAlert;
+use Zerotoprod\GitHubSdk\Models\DependabotAlertWithRepository;
+use Zerotoprod\GitHubSdk\Models\DependabotPublicKey;
+use Zerotoprod\GitHubSdk\Models\DependabotRepositoryAccessDetails;
+use Zerotoprod\GitHubSdk\Models\DependabotSecret;
+use Zerotoprod\GitHubSdk\Models\DependencyGraphSpdxSbom;
+use Zerotoprod\GitHubSdk\Models\DeployKey;
+use Zerotoprod\GitHubSdk\Models\Deployment;
+use Zerotoprod\GitHubSdk\Models\DeploymentBranchPolicy;
+use Zerotoprod\GitHubSdk\Models\DeploymentBranchPolicyNamePattern;
+use Zerotoprod\GitHubSdk\Models\DeploymentBranchPolicyNamePatternWithType;
+use Zerotoprod\GitHubSdk\Models\DeploymentProtectionRule;
+use Zerotoprod\GitHubSdk\Models\DeploymentStatus;
+use Zerotoprod\GitHubSdk\Models\DiffEntry;
+use Zerotoprod\GitHubSdk\Models\Email;
+use Zerotoprod\GitHubSdk\Models\EnterpriseTeam;
+use Zerotoprod\GitHubSdk\Models\Environment;
+use Zerotoprod\GitHubSdk\Models\EnvironmentApprovals;
+use Zerotoprod\GitHubSdk\Models\Event;
+use Zerotoprod\GitHubSdk\Models\Feed;
+use Zerotoprod\GitHubSdk\Models\FileCommit;
+use Zerotoprod\GitHubSdk\Models\FullRepository;
+use Zerotoprod\GitHubSdk\Models\GetAgentRepoTaskResponse;
+use Zerotoprod\GitHubSdk\Models\GetAgentTaskResponse;
+use Zerotoprod\GitHubSdk\Models\GetAllBudgets;
+use Zerotoprod\GitHubSdk\Models\GetBudget;
+use Zerotoprod\GitHubSdk\Models\GetOrgArtifactMetadataDeploymentRecordClusterJobResponse;
+use Zerotoprod\GitHubSdk\Models\GetOrgAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiRouteStatResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiTimeStatResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiTimeStatUserResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiUserStatResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetRepoAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\GetRepoDependencyGraphCompareResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetRepoStackResponse;
+use Zerotoprod\GitHubSdk\Models\GetUserAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\GistComment;
+use Zerotoprod\GitHubSdk\Models\GistCommit;
+use Zerotoprod\GitHubSdk\Models\GistSimple;
+use Zerotoprod\GitHubSdk\Models\GitCommit;
+use Zerotoprod\GitHubSdk\Models\GitignoreTemplate;
+use Zerotoprod\GitHubSdk\Models\GitRef;
+use Zerotoprod\GitHubSdk\Models\GitTag;
+use Zerotoprod\GitHubSdk\Models\GitTree;
+use Zerotoprod\GitHubSdk\Models\GlobalAdvisory;
+use Zerotoprod\GitHubSdk\Models\GpgKey;
+use Zerotoprod\GitHubSdk\Models\HookDelivery;
+use Zerotoprod\GitHubSdk\Models\HookDeliveryItem;
+use Zerotoprod\GitHubSdk\Models\Hovercard;
+use Zerotoprod\GitHubSdk\Models\ImmutableReleasesOrganizationSettings;
+use Zerotoprod\GitHubSdk\Models\Import;
+use Zerotoprod\GitHubSdk\Models\Installation;
+use Zerotoprod\GitHubSdk\Models\InstallationToken;
+use Zerotoprod\GitHubSdk\Models\Integration;
+use Zerotoprod\GitHubSdk\Models\IntegrationInstallationRequest;
+use Zerotoprod\GitHubSdk\Models\InteractionLimit;
+use Zerotoprod\GitHubSdk\Models\InteractionLimitPullRequestBypassList;
+use Zerotoprod\GitHubSdk\Models\InteractionLimitResponse;
+use Zerotoprod\GitHubSdk\Models\Issue;
+use Zerotoprod\GitHubSdk\Models\IssueComment;
+use Zerotoprod\GitHubSdk\Models\IssueEvent;
+use Zerotoprod\GitHubSdk\Models\IssueField;
+use Zerotoprod\GitHubSdk\Models\IssueFieldValue;
+use Zerotoprod\GitHubSdk\Models\IssueSuggestion;
+use Zerotoprod\GitHubSdk\Models\IssueType;
+use Zerotoprod\GitHubSdk\Models\Job;
+use Zerotoprod\GitHubSdk\Models\Key;
+use Zerotoprod\GitHubSdk\Models\KeySimple;
+use Zerotoprod\GitHubSdk\Models\Label;
+use Zerotoprod\GitHubSdk\Models\License;
+use Zerotoprod\GitHubSdk\Models\LicenseContent;
+use Zerotoprod\GitHubSdk\Models\LicenseSimple;
+use Zerotoprod\GitHubSdk\Models\ListAgentRepoTasksResponse;
+use Zerotoprod\GitHubSdk\Models\ListAgentTasksResponse;
+use Zerotoprod\GitHubSdk\Models\ListEnterpriseCodeSecurityConfigurationDefaultsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListInstallationRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionCacheUsageByRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImageCustomsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImageCustomVersionsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImageGithubOwnedsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImagePartnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerMachineSizesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerPlatformsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionPermissionRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionPermissionSelfHostedRunnerRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupHostedRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerLabelsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionVariableRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentVariableRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgArtifactMetadataDeploymentRecordsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgArtifactMetadataStorageRecordsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAttestationRepositoriesResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodeSecurityConfigurationDefaultsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodespaceSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodespaceSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotBillingSeatsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotCodingAgentPermissionRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotCodingAgentPermissionsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotSpaceCollaboratorsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotSpaceResourcesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotSpacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgDependabotSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgDependabotSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgInsightApiSubjectStatsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgInsightApiTimeStatsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgInstallations2Response;
+use Zerotoprod\GitHubSdk\Models\ListOrgInteractionLimitPullCreationCapsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgMemberCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgOrganizationRolesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgPrivateRegistriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgPrivateRegistryPublicKeysResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgRulesetRuleSuitesResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgSettingImmutableReleaseRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgSettingNetworkConfigurationsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionArtifactsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionOrganizationSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionOrganizationVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunArtifactsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunAttemptJobsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunJobsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunnerLabelsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionWorkflowRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionWorkflowsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentOrganizationSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentOrganizationVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCheckSuiteCheckRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceDevcontainersResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceMachinesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceNewsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCommitCheckRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCommitCheckSuitesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCopilotCloudAgentConfigurationsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoDependabotSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoDependencyGraphSbomGenerateReportsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentDeploymentBranchPoliciesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentDeploymentProtectionRuleAppsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentDeploymentProtectionRulesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoInteractionLimitPullCreationCapsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoPrivateVulnerabilityReportingsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoRulesetRuleSuitesResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListRepoStargazerCountsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchCodesResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchCommitsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchIssuesResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchLabelsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchTopicsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchUsersResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespaceMachinesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespaceSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespaceSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCopilotSpaceCollaboratorsResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCopilotSpaceResourcesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCopilotSpacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserInstallationRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserInstallationsResponse;
+use Zerotoprod\GitHubSdk\Models\MarketplaceListingPlan;
+use Zerotoprod\GitHubSdk\Models\MarketplacePurchase;
+use Zerotoprod\GitHubSdk\Models\MergedUpstream;
+use Zerotoprod\GitHubSdk\Models\Migration;
+use Zerotoprod\GitHubSdk\Models\Milestone;
+use Zerotoprod\GitHubSdk\Models\MinimalRepository;
+use Zerotoprod\GitHubSdk\Models\NetworkConfiguration;
+use Zerotoprod\GitHubSdk\Models\NetworkSettings;
+use Zerotoprod\GitHubSdk\Models\OidcCustomPropertyInclusion;
+use Zerotoprod\GitHubSdk\Models\OidcCustomPropertyInclusionInput;
+use Zerotoprod\GitHubSdk\Models\OidcCustomSub;
+use Zerotoprod\GitHubSdk\Models\OidcCustomSubRepo;
+use Zerotoprod\GitHubSdk\Models\OrganizationActionsSecret;
+use Zerotoprod\GitHubSdk\Models\OrganizationActionsVariable;
+use Zerotoprod\GitHubSdk\Models\OrganizationCreateIssueField;
+use Zerotoprod\GitHubSdk\Models\OrganizationCreateIssueType;
+use Zerotoprod\GitHubSdk\Models\OrganizationDependabotSecret;
+use Zerotoprod\GitHubSdk\Models\OrganizationFull;
+use Zerotoprod\GitHubSdk\Models\OrganizationInvitation;
+use Zerotoprod\GitHubSdk\Models\OrganizationProgrammaticAccessGrant;
+use Zerotoprod\GitHubSdk\Models\OrganizationProgrammaticAccessGrantRequest;
+use Zerotoprod\GitHubSdk\Models\OrganizationRole;
+use Zerotoprod\GitHubSdk\Models\OrganizationSecretScanningAlert;
+use Zerotoprod\GitHubSdk\Models\OrganizationSimple;
+use Zerotoprod\GitHubSdk\Models\OrganizationUpdateIssueField;
+use Zerotoprod\GitHubSdk\Models\OrganizationUpdateIssueType;
+use Zerotoprod\GitHubSdk\Models\OrgHook;
+use Zerotoprod\GitHubSdk\Models\OrgMembership;
+use Zerotoprod\GitHubSdk\Models\OrgPrivateRegistryConfiguration;
+use Zerotoprod\GitHubSdk\Models\OrgPrivateRegistryConfigurationWithSelectedRepositories;
+use Zerotoprod\GitHubSdk\Models\OrgRepoCustomPropertyValues;
+use Zerotoprod\GitHubSdk\Models\Package;
+use Zerotoprod\GitHubSdk\Models\PackageVersion;
+use Zerotoprod\GitHubSdk\Models\Page;
+use Zerotoprod\GitHubSdk\Models\PageBuild;
+use Zerotoprod\GitHubSdk\Models\PageBuildStatus;
+use Zerotoprod\GitHubSdk\Models\PageDeployment;
+use Zerotoprod\GitHubSdk\Models\PagesDeploymentStatus;
+use Zerotoprod\GitHubSdk\Models\PagesHealthCheck;
+use Zerotoprod\GitHubSdk\Models\ParticipationStats;
+use Zerotoprod\GitHubSdk\Models\PatchRepoImportRequest;
+use Zerotoprod\GitHubSdk\Models\PendingDeployment;
+use Zerotoprod\GitHubSdk\Models\PorterAuthor;
+use Zerotoprod\GitHubSdk\Models\PorterLargeFile;
+use Zerotoprod\GitHubSdk\Models\PrivateUser;
+use Zerotoprod\GitHubSdk\Models\PrivateVulnerabilityReportCreate;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2Field;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2ItemSimple;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2ItemWithContent;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2View;
+use Zerotoprod\GitHubSdk\Models\ProtectedBranch;
+use Zerotoprod\GitHubSdk\Models\ProtectedBranchAdminEnforced;
+use Zerotoprod\GitHubSdk\Models\ProtectedBranchPullRequestReview;
+use Zerotoprod\GitHubSdk\Models\PullRequest;
+use Zerotoprod\GitHubSdk\Models\PullRequestMergeAsyncResult;
+use Zerotoprod\GitHubSdk\Models\PullRequestMergeResult;
+use Zerotoprod\GitHubSdk\Models\PullRequestReview;
+use Zerotoprod\GitHubSdk\Models\PullRequestReviewComment;
+use Zerotoprod\GitHubSdk\Models\PullRequestReviewRequest;
+use Zerotoprod\GitHubSdk\Models\PullRequestSimple;
+use Zerotoprod\GitHubSdk\Models\PullRequestStackMinimal;
+use Zerotoprod\GitHubSdk\Models\RateLimitOverview;
+use Zerotoprod\GitHubSdk\Models\Reaction;
+use Zerotoprod\GitHubSdk\Models\ReferrerTraffic;
+use Zerotoprod\GitHubSdk\Models\Release;
+use Zerotoprod\GitHubSdk\Models\ReleaseAsset;
+use Zerotoprod\GitHubSdk\Models\ReleaseNotesContent;
+use Zerotoprod\GitHubSdk\Models\RepoCodespacesSecret;
+use Zerotoprod\GitHubSdk\Models\Repository;
+use Zerotoprod\GitHubSdk\Models\RepositoryAdvisory;
+use Zerotoprod\GitHubSdk\Models\RepositoryAdvisoryCreate;
+use Zerotoprod\GitHubSdk\Models\RepositoryAdvisoryUpdate;
+use Zerotoprod\GitHubSdk\Models\RepositoryCollaboratorPermission;
+use Zerotoprod\GitHubSdk\Models\RepositoryHashAlgorithm;
+use Zerotoprod\GitHubSdk\Models\RepositoryInvitation;
+use Zerotoprod\GitHubSdk\Models\RepositoryRuleset;
+use Zerotoprod\GitHubSdk\Models\RepositorySubscription;
+use Zerotoprod\GitHubSdk\Models\ReviewComment;
+use Zerotoprod\GitHubSdk\Models\Root;
+use Zerotoprod\GitHubSdk\Models\RulesetVersion;
+use Zerotoprod\GitHubSdk\Models\RulesetVersionWithState;
+use Zerotoprod\GitHubSdk\Models\RuleSuite;
+use Zerotoprod\GitHubSdk\Models\Runner;
+use Zerotoprod\GitHubSdk\Models\RunnerApplication;
+use Zerotoprod\GitHubSdk\Models\RunnerGroupsOrg;
+use Zerotoprod\GitHubSdk\Models\SecretScanningAlert;
+use Zerotoprod\GitHubSdk\Models\SecretScanningAlertWithMetadata;
+use Zerotoprod\GitHubSdk\Models\SecretScanningCustomPattern;
+use Zerotoprod\GitHubSdk\Models\SecretScanningCustomPatternToUpdate;
+use Zerotoprod\GitHubSdk\Models\SecretScanningLocation;
+use Zerotoprod\GitHubSdk\Models\SecretScanningPatternConfiguration;
+use Zerotoprod\GitHubSdk\Models\SecretScanningPushProtectionBypass;
+use Zerotoprod\GitHubSdk\Models\SecretScanningScanHistory;
+use Zerotoprod\GitHubSdk\Models\SelectedActions;
+use Zerotoprod\GitHubSdk\Models\SelfHostedRunnersSettings;
+use Zerotoprod\GitHubSdk\Models\ShortBlob;
+use Zerotoprod\GitHubSdk\Models\ShortBranch;
+use Zerotoprod\GitHubSdk\Models\SimpleClassroom;
+use Zerotoprod\GitHubSdk\Models\SimpleClassroomAssignment;
+use Zerotoprod\GitHubSdk\Models\SimpleUser;
+use Zerotoprod\GitHubSdk\Models\Snapshot;
+use Zerotoprod\GitHubSdk\Models\SocialAccount;
+use Zerotoprod\GitHubSdk\Models\SshSigningKey;
+use Zerotoprod\GitHubSdk\Models\Status;
+use Zerotoprod\GitHubSdk\Models\StatusCheckPolicy;
+use Zerotoprod\GitHubSdk\Models\Tag;
+use Zerotoprod\GitHubSdk\Models\Team;
+use Zerotoprod\GitHubSdk\Models\TeamFull;
+use Zerotoprod\GitHubSdk\Models\TeamMember;
+use Zerotoprod\GitHubSdk\Models\TeamMembership;
+use Zerotoprod\GitHubSdk\Models\TeamRepository;
+use Zerotoprod\GitHubSdk\Models\TeamRoleAssignment;
+use Zerotoprod\GitHubSdk\Models\TeamSimple;
+use Zerotoprod\GitHubSdk\Models\Thread;
+use Zerotoprod\GitHubSdk\Models\ThreadSubscription;
+use Zerotoprod\GitHubSdk\Models\Topic;
+use Zerotoprod\GitHubSdk\Models\UpdateAppHookConfigRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateApplicationTokenRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateBudget;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCodeSecurityConfigurationDefaultRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCodeSecurityConfigurationDefaultResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCopilotPolicyCodingAgentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseDependabotRepositoryAccessDefaultLevelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseDependabotRepositoryAccessRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseTeamRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateGistCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateGistRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateNotificationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateNotificationResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateNotificationThreadSubscriptionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionHostedRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionOidcCustomizationSubRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionSelfHostedRunnerRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionSelfHostedRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerGroupRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerGroupRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerGroupRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionVariableRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentVariableRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrganizationSettingBillingBudgetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCampaignRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodeSecurityConfigurationDefaultRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodeSecurityConfigurationDefaultResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodespaceAccessRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodespaceSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodespaceSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotCodingAgentPermissionRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotCodingAgentPermissionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotContentExclusionResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotRepositoryAccessDefaultLevelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotRepositoryAccessRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgHookConfigRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgHookRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgInteractionLimitPullCreationCapRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgInteractionLimitPullCreationCapResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgMembershipRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgOutsideCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgPrivateRegistryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgProjectsV2ItemRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgPropertySchemaRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgPropertyValueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSecretScanningPatternConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSecretScanningPatternConfigurationResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSettingImmutableReleaseRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSettingImmutableReleaseRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSettingNetworkConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgTeamMembershipRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgTeamRepoRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgTeamRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionOidcCustomizationSubRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionPermissionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoAgentSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRequiredPullRequestReviewRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRequiredStatusCheckRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRestrictionAppRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRestrictionUserRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCheckSuitePreferenceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCodespaceSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoContentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoDependabotSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoEnvironmentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoEnvironmentSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoEnvironmentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoGitRefRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoHookConfigRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoHookRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoImportAuthorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoImportLfRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoImportRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoInteractionLimitPullCreationCapRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoInteractionLimitPullCreationCapResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoInvitationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueIssueFieldValueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueLockRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueSubIssuePriorityRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoLabelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoMilestoneRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoNotificationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoNotificationResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPropertyValueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullMergeAsyncRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullMergeRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullReviewDismissalRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullReviewRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullUpdateBranchRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullUpdateBranchResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoReleaseAssetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoReleaseRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoSubscriptionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoTopicRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateTeamMembershipRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateTeamRepoRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateTeamRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCodespaceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCodespaceSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCodespaceSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserEmailVisibilityRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserMembershipOrgRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserProjectsV2ItemRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserRequest;
+use Zerotoprod\GitHubSdk\Models\UserMarketplacePurchase;
+use Zerotoprod\GitHubSdk\Models\UserRoleAssignment;
+use Zerotoprod\GitHubSdk\Models\ViewTraffic;
+use Zerotoprod\GitHubSdk\Models\WebhookConfig;
+use Zerotoprod\GitHubSdk\Models\Workflow;
+use Zerotoprod\GitHubSdk\Models\WorkflowDispatchResponse;
+use Zerotoprod\GitHubSdk\Models\WorkflowRun;
+use Zerotoprod\GitHubSdk\Models\WorkflowRunUsage;
+use Zerotoprod\GitHubSdk\Models\WorkflowUsage;
 
 /**
  * Wrapper client for the SDK.
  * The response type of HTTP methods is determined by the HttpTransport.
  *
  * @template TResponse
- * @method ApiResult<Widget>|Response getWidget(string $id, array<string, mixed> $options = [])
- * @method ApiResult<Widget>|Response updateWidget(string $id, UpdateWidgetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
- * @method ApiResult<null>|Response deleteWidget(string $id, array<string, mixed> $options = [])
- * @method ApiResult<WidgetsResponse>|Response listWidgets(array<string, mixed> $options = []) Query: where, where_in, where_not_in, per_page, with, fields
- * @method ApiResult<Widget>|Response createWidget(CreateWidgetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
- * @method ApiResult<array<int, WidgetTag>>|Response listWidgetTags(string $id, array<string, mixed> $options = [])
+ * @method ApiResult<Root>|Response listRoot(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GlobalAdvisory>>|Response listAdvisories(array<string, mixed> $options = []) Query: ghsa_id, type, cve_id, ecosystem, severity, cwes, is_withdrawn, affects, published, updated, modified, epss_percentage, epss_percentile, before, after, direction, per_page, sort
+ * @method ApiResult<GlobalAdvisory>|Response getAdvisory(string $ghsa_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListAgentRepoTasksResponse>|Response listAgentRepoTasks(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page, sort, direction, state, is_archived, since, creator_id
+ * @method ApiResult<CreateAgentRepoTaskResponse>|Response createAgentRepoTask(string $owner, string $repo, CreateAgentRepoTaskRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GetAgentRepoTaskResponse>|Response getAgentRepoTask(string $owner, string $repo, string $task_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListAgentTasksResponse>|Response listAgentTasks(array<string, mixed> $options = []) Query: per_page, page, sort, direction, state, is_archived, since
+ * @method ApiResult<GetAgentTaskResponse>|Response getAgentTask(string $task_id, array<string, mixed> $options = [])
+ * @method ApiResult<Integration>|Response listApps(array<string, mixed> $options = [])
+ * @method ApiResult<CreateAppManifestConversionResponse>|Response createAppManifestConversion(string $code, array<string, mixed> $options = [])
+ * @method ApiResult<WebhookConfig>|Response listAppHookConfigs(array<string, mixed> $options = [])
+ * @method ApiResult<WebhookConfig>|Response updateAppHookConfig(UpdateAppHookConfigRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, HookDeliveryItem>>|Response listAppHookDeliveries(array<string, mixed> $options = []) Query: per_page, cursor, status
+ * @method ApiResult<HookDelivery>|Response getAppHookDelivery(string $delivery_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createAppHookDeliveryAttempt(string $delivery_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IntegrationInstallationRequest>>|Response listAppInstallationRequests(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Installation>>|Response listAppInstallations(array<string, mixed> $options = []) Query: per_page, page, since, outdated
+ * @method ApiResult<Installation>|Response getAppInstallation(string $installation_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteAppInstallation(string $installation_id, array<string, mixed> $options = [])
+ * @method ApiResult<InstallationToken>|Response createAppInstallationAccessToken(string $installation_id, CreateAppInstallationAccessTokenRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateAppInstallationSuspended(string $installation_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteAppInstallationSuspended(string $installation_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteApplicationGrant(string $client_id, DeleteApplicationGrantRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Authorization>|Response createApplicationToken(string $client_id, CreateApplicationTokenRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Authorization>|Response updateApplicationToken(string $client_id, UpdateApplicationTokenRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteApplicationToken(string $client_id, DeleteApplicationTokenRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Authorization>|Response createApplicationTokenScoped(string $client_id, CreateApplicationTokenScopedRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Integration>|Response getApp(string $app_slug, array<string, mixed> $options = [])
+ * @method ApiResult<ClassroomAssignment>|Response getAssignment(string $assignment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ClassroomAcceptedAssignment>>|Response listAssignmentAcceptedAssignments(string $assignment_id, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<array<int, ClassroomAssignmentGrade>>|Response listAssignmentGrades(string $assignment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleClassroom>>|Response listClassrooms(array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<Classroom>|Response getClassroom(string $classroom_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleClassroomAssignment>>|Response listClassroomAssignments(string $classroom_id, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<array<int, CodeOfConduct>>|Response listCodesOfConducts(array<string, mixed> $options = [])
+ * @method ApiResult<CodeOfConduct>|Response getCodesOfConduct(string $key, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createCredentialRevoke(CreateCredentialRevokeRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listEmojis(array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheRetentionLimitForEnterprise>|Response listEnterpriseActionCacheRetentionLimits(string $enterprise, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateEnterpriseActionCacheRetentionLimit(string $enterprise, ActionsCacheRetentionLimitForEnterprise|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheStorageLimitForEnterprise>|Response listEnterpriseActionCacheStorageLimits(string $enterprise, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateEnterpriseActionCacheStorageLimit(string $enterprise, ActionsCacheStorageLimitForEnterprise|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OidcCustomPropertyInclusion>>|Response listEnterpriseActionOidcCustomizationPropertyRepos(string $enterprise, array<string, mixed> $options = [])
+ * @method ApiResult<OidcCustomPropertyInclusion>|Response createEnterpriseActionOidcCustomizationPropertyRepo(string $enterprise, OidcCustomPropertyInclusionInput|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteEnterpriseActionOidcCustomizationPropertyRepo(string $enterprise, string $custom_property_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeSecurityConfiguration>>|Response listEnterpriseCodeSecurityConfigurations(string $enterprise, array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<CodeSecurityConfiguration>|Response createEnterpriseCodeSecurityConfiguration(string $enterprise, CreateEnterpriseCodeSecurityConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ListEnterpriseCodeSecurityConfigurationDefaultsResponseItem>>|Response listEnterpriseCodeSecurityConfigurationDefaults(string $enterprise, array<string, mixed> $options = [])
+ * @method ApiResult<CodeSecurityConfiguration>|Response getEnterpriseCodeSecurityConfiguration(string $enterprise, string $configuration_id, array<string, mixed> $options = [])
+ * @method ApiResult<CodeSecurityConfiguration>|Response updateEnterpriseCodeSecurityConfiguration(string $enterprise, string $configuration_id, UpdateEnterpriseCodeSecurityConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteEnterpriseCodeSecurityConfiguration(string $enterprise, string $configuration_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createEnterpriseCodeSecurityConfigurationAttach(string $enterprise, string $configuration_id, CreateEnterpriseCodeSecurityConfigurationAttachRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<UpdateEnterpriseCodeSecurityConfigurationDefaultResponse>|Response updateEnterpriseCodeSecurityConfigurationDefault(string $enterprise, string $configuration_id, UpdateEnterpriseCodeSecurityConfigurationDefaultRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeSecurityConfigurationRepositories>>|Response listEnterpriseCodeSecurityConfigurationRepositories(string $enterprise, string $configuration_id, array<string, mixed> $options = []) Query: per_page, before, after, status
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listEnterpriseCopilotMetricReportEnterprise1Days(string $enterprise, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics28DayReport>|Response listEnterpriseCopilotMetricReportEnterprise28DayLatests(string $enterprise, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listEnterpriseCopilotMetricReportRepos1Days(string $enterprise, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listEnterpriseCopilotMetricReportUserTeams1Days(string $enterprise, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listEnterpriseCopilotMetricReportUsers1Days(string $enterprise, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics28DayReport>|Response listEnterpriseCopilotMetricReportUsers28DayLatests(string $enterprise, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateEnterpriseCopilotPolicyCodingAgent(string $enterprise, UpdateEnterpriseCopilotPolicyCodingAgentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createEnterpriseCopilotPolicyCodingAgentOrganization(string $enterprise, CreateEnterpriseCopilotPolicyCodingAgentOrganizationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteEnterpriseCopilotPolicyCodingAgentOrganization(string $enterprise, DeleteEnterpriseCopilotPolicyCodingAgentOrganizationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, DependabotAlertWithRepository>>|Response listEnterpriseDependabotAlerts(string $enterprise, array<string, mixed> $options = []) Query: classification, state, severity, ecosystem, package, epss_percentage, has, assignee, scope, relationship, sort, direction, before, after, per_page
+ * @method ApiResult<DependabotRepositoryAccessDetails>|Response listEnterpriseDependabotRepositoryAccesses(string $enterprise, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateEnterpriseDependabotRepositoryAccess(string $enterprise, UpdateEnterpriseDependabotRepositoryAccessRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateEnterpriseDependabotRepositoryAccessDefaultLevel(string $enterprise, UpdateEnterpriseDependabotRepositoryAccessDefaultLevelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, EnterpriseTeam>>|Response listEnterpriseTeams(string $enterprise, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<EnterpriseTeam>|Response createEnterpriseTeam(string $enterprise, CreateEnterpriseTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listEnterpriseTeamMemberships(string $enterprise, string $enterprise_team, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SimpleUser>>|Response createEnterpriseTeamMembershipAdd(string $enterprise, string $enterprise_team, CreateEnterpriseTeamMembershipAddRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response createEnterpriseTeamMembershipRemove(string $enterprise, string $enterprise_team, CreateEnterpriseTeamMembershipRemoveRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SimpleUser>|Response getEnterpriseTeamMembership(string $enterprise, string $enterprise_team, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<SimpleUser>|Response updateEnterpriseTeamMembership(string $enterprise, string $enterprise_team, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteEnterpriseTeamMembership(string $enterprise, string $enterprise_team, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrganizationSimple>>|Response listEnterpriseTeamOrganizations(string $enterprise, string $enterprise_team, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrganizationSimple>>|Response createEnterpriseTeamOrganizationAdd(string $enterprise, string $enterprise_team, CreateEnterpriseTeamOrganizationAddRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createEnterpriseTeamOrganizationRemove(string $enterprise, string $enterprise_team, CreateEnterpriseTeamOrganizationRemoveRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationSimple>|Response getEnterpriseTeamOrganization(string $enterprise, string $enterprise_team, string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationSimple>|Response updateEnterpriseTeamOrganization(string $enterprise, string $enterprise_team, string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteEnterpriseTeamOrganization(string $enterprise, string $enterprise_team, string $org, array<string, mixed> $options = [])
+ * @method ApiResult<EnterpriseTeam>|Response getEnterpriseTeam(string $enterprise, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<EnterpriseTeam>|Response updateEnterpriseTeam(string $enterprise, string $team_slug, UpdateEnterpriseTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteEnterpriseTeam(string $enterprise, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Event>>|Response listEvents(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Feed>|Response listFeeds(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, BaseGist>>|Response listGists(array<string, mixed> $options = []) Query: since, per_page, page
+ * @method ApiResult<GistSimple>|Response createGist(CreateGistRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, BaseGist>>|Response listGistPublics(array<string, mixed> $options = []) Query: since, per_page, page
+ * @method ApiResult<array<int, BaseGist>>|Response listGistStarreds(array<string, mixed> $options = []) Query: since, per_page, page
+ * @method ApiResult<GistSimple>|Response getGist(string $gist_id, array<string, mixed> $options = [])
+ * @method ApiResult<GistSimple>|Response updateGist(string $gist_id, UpdateGistRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteGist(string $gist_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GistComment>>|Response listGistComments(string $gist_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<GistComment>|Response createGistComment(string $gist_id, CreateGistCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GistComment>|Response getGistComment(string $gist_id, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<GistComment>|Response updateGistComment(string $gist_id, string $comment_id, UpdateGistCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteGistComment(string $gist_id, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GistCommit>>|Response listGistCommits(string $gist_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, GistSimple>>|Response listGistForks(string $gist_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<BaseGist>|Response createGistFork(string $gist_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listGistStars(string $gist_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateGistStar(string $gist_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteGistStar(string $gist_id, array<string, mixed> $options = [])
+ * @method ApiResult<GistSimple>|Response getGist2(string $gist_id, string $sha, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listGitignoreTemplates(array<string, mixed> $options = [])
+ * @method ApiResult<GitignoreTemplate>|Response getGitignoreTemplate(string $name, array<string, mixed> $options = [])
+ * @method ApiResult<ListInstallationRepositoriesResponse>|Response listInstallationRepositories(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response deleteInstallationToken(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listIssues(array<string, mixed> $options = []) Query: filter, state, labels, sort, direction, since, collab, orgs, owned, pulls, per_page, page
+ * @method ApiResult<array<int, LicenseSimple>>|Response listLicenses(array<string, mixed> $options = []) Query: featured, per_page, page
+ * @method ApiResult<License>|Response getLicense(string $license, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createMarkdown(CreateMarkdownRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createMarkdownRaw(array<string, mixed> $options = [])
+ * @method ApiResult<MarketplacePurchase>|Response getMarketplaceListingAccount(string $account_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MarketplaceListingPlan>>|Response listMarketplaceListingPlans(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, MarketplacePurchase>>|Response listMarketplaceListingPlanAccounts(string $plan_id, array<string, mixed> $options = []) Query: sort, direction, per_page, page
+ * @method ApiResult<MarketplacePurchase>|Response getMarketplaceListingStubbedAccount(string $account_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MarketplaceListingPlan>>|Response listMarketplaceListingStubbedPlans(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, MarketplacePurchase>>|Response listMarketplaceListingStubbedPlanAccounts(string $plan_id, array<string, mixed> $options = []) Query: sort, direction, per_page, page
+ * @method ApiResult<ApiOverview>|Response listMetas(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Event>>|Response listNetworkEvents(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Thread>>|Response listNotifications(array<string, mixed> $options = []) Query: all, participating, since, before, page, per_page
+ * @method ApiResult<UpdateNotificationResponse>|Response updateNotification(UpdateNotificationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Thread>|Response getNotificationThread(string $thread_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateNotificationThread(string $thread_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteNotificationThread(string $thread_id, array<string, mixed> $options = [])
+ * @method ApiResult<ThreadSubscription>|Response listNotificationThreadSubscriptions(string $thread_id, array<string, mixed> $options = [])
+ * @method ApiResult<ThreadSubscription>|Response updateNotificationThreadSubscription(string $thread_id, UpdateNotificationThreadSubscriptionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteNotificationThreadSubscription(string $thread_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listOctocats(array<string, mixed> $options = []) Query: s
+ * @method ApiResult<array<int, OrganizationSimple>>|Response listOrganizations(array<string, mixed> $options = []) Query: since, per_page
+ * @method ApiResult<ActionsCacheRetentionLimitForOrganization>|Response listOrganizationActionCacheRetentionLimits(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrganizationActionCacheRetentionLimit(string $org, ActionsCacheRetentionLimitForOrganization|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheStorageLimitForOrganization>|Response listOrganizationActionCacheStorageLimits(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrganizationActionCacheStorageLimit(string $org, ActionsCacheStorageLimitForOrganization|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<BillingAiCreditUsageReportOrg>|Response listOrganizationSettingBillingAiCreditUsages(string $org, array<string, mixed> $options = []) Query: year, month, day, user, model, product
+ * @method ApiResult<GetAllBudgets>|Response listOrganizationSettingBillingBudgets(string $org, array<string, mixed> $options = []) Query: page, per_page, scope, user
+ * @method ApiResult<CreateBudget>|Response createOrganizationSettingBillingBudget(string $org, CreateOrganizationSettingBillingBudgetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GetBudget>|Response getOrganizationSettingBillingBudget(string $org, string $budget_id, array<string, mixed> $options = [])
+ * @method ApiResult<UpdateBudget>|Response updateOrganizationSettingBillingBudget(string $org, string $budget_id, UpdateOrganizationSettingBillingBudgetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeleteBudget>|Response deleteOrganizationSettingBillingBudget(string $org, string $budget_id, array<string, mixed> $options = [])
+ * @method ApiResult<BillingPremiumRequestUsageReportOrg>|Response listOrganizationSettingBillingPremiumRequestUsages(string $org, array<string, mixed> $options = []) Query: year, month, day, user, model, product
+ * @method ApiResult<BillingUsageReport>|Response listOrganizationSettingBillingUsages(string $org, array<string, mixed> $options = []) Query: year, month, day
+ * @method ApiResult<BillingUsageSummaryReportOrg>|Response listOrganizationSettingBillingUsageSummaries(string $org, array<string, mixed> $options = []) Query: year, month, day, repository, product, sku
+ * @method ApiResult<OrganizationFull>|Response getOrg(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationFull>|Response updateOrg(string $org, UpdateOrgRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrg(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheUsageOrgEnterprise>|Response listOrgActionCacheUsages(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionCacheUsageByRepositoriesResponse>|Response listOrgActionCacheUsageByRepositories(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListOrgActionHostedRunnersResponse>|Response listOrgActionHostedRunners(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsHostedRunner>|Response createOrgActionHostedRunner(string $org, CreateOrgActionHostedRunnerRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionHostedRunnerImageCustomsResponse>|Response listOrgActionHostedRunnerImageCustoms(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsHostedRunnerCustomImage>|Response getOrgActionHostedRunnerImageCustom(string $org, string $image_definition_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionHostedRunnerImageCustom(string $org, string $image_definition_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionHostedRunnerImageCustomVersionsResponse>|Response listOrgActionHostedRunnerImageCustomVersions(string $org, string $image_definition_id, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsHostedRunnerCustomImageVersion>|Response getOrgActionHostedRunnerImageCustomVersion(string $org, string $image_definition_id, string $version, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionHostedRunnerImageCustomVersion(string $org, string $image_definition_id, string $version, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionHostedRunnerImageGithubOwnedsResponse>|Response listOrgActionHostedRunnerImageGithubOwneds(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionHostedRunnerImagePartnersResponse>|Response listOrgActionHostedRunnerImagePartners(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsHostedRunnerLimits>|Response listOrgActionHostedRunnerLimits(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionHostedRunnerMachineSizesResponse>|Response listOrgActionHostedRunnerMachineSizes(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionHostedRunnerPlatformsResponse>|Response listOrgActionHostedRunnerPlatforms(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsHostedRunner>|Response getOrgActionHostedRunner(string $org, string $hosted_runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsHostedRunner>|Response updateOrgActionHostedRunner(string $org, string $hosted_runner_id, UpdateOrgActionHostedRunnerRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsHostedRunner>|Response deleteOrgActionHostedRunner(string $org, string $hosted_runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OidcCustomPropertyInclusion>>|Response listOrgActionOidcCustomizationPropertyRepos(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OidcCustomPropertyInclusion>|Response createOrgActionOidcCustomizationPropertyRepo(string $org, OidcCustomPropertyInclusionInput|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionOidcCustomizationPropertyRepo(string $org, string $custom_property_name, array<string, mixed> $options = [])
+ * @method ApiResult<OidcCustomSub>|Response listOrgActionOidcCustomizationSubs(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionOidcCustomizationSub(string $org, UpdateOrgActionOidcCustomizationSubRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsOrganizationPermissions>|Response listOrgActionPermissions(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermission(string $org, UpdateOrgActionPermissionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsArtifactAndLogRetentionResponse>|Response listOrgActionPermissionArtifactAndLogRetentions(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionArtifactAndLogRetention(string $org, ActionsArtifactAndLogRetention|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsForkPrContributorApproval>|Response listOrgActionPermissionForkPrContributorApprovals(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionForkPrContributorApproval(string $org, ActionsForkPrContributorApproval|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsForkPrWorkflowsPrivateRepos>|Response listOrgActionPermissionForkPrWorkflowsPrivateRepos(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionForkPrWorkflowsPrivateRepo(string $org, ActionsForkPrWorkflowsPrivateReposRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionPermissionRepositoriesResponse>|Response listOrgActionPermissionRepositories(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateOrgActionPermissionRepository(string $org, UpdateOrgActionPermissionRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionRepository2(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionPermissionRepository(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<SelectedActions>|Response listOrgActionPermissionSelectedActions(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionSelectedAction(string $org, SelectedActions|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SelfHostedRunnersSettings>|Response listOrgActionPermissionSelfHostedRunners(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionSelfHostedRunner(string $org, UpdateOrgActionPermissionSelfHostedRunnerRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionPermissionSelfHostedRunnerRepositoriesResponse>|Response listOrgActionPermissionSelfHostedRunnerRepositories(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateOrgActionPermissionSelfHostedRunnerRepository(string $org, UpdateOrgActionPermissionSelfHostedRunnerRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionSelfHostedRunnerRepository2(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionPermissionSelfHostedRunnerRepository(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsGetDefaultWorkflowPermissions>|Response listOrgActionPermissionWorkflows(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionPermissionWorkflow(string $org, ActionsSetDefaultWorkflowPermissions|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionRunnerGroupsResponse>|Response listOrgActionRunnerGroups(string $org, array<string, mixed> $options = []) Query: per_page, page, visible_to_repository
+ * @method ApiResult<RunnerGroupsOrg>|Response createOrgActionRunnerGroup(string $org, CreateOrgActionRunnerGroupRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<RunnerGroupsOrg>|Response getOrgActionRunnerGroup(string $org, string $runner_group_id, array<string, mixed> $options = [])
+ * @method ApiResult<RunnerGroupsOrg>|Response updateOrgActionRunnerGroup(string $org, string $runner_group_id, UpdateOrgActionRunnerGroupRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionRunnerGroup(string $org, string $runner_group_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionRunnerGroupHostedRunnersResponse>|Response listOrgActionRunnerGroupHostedRunners(string $org, string $runner_group_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListOrgActionRunnerGroupRepositoriesResponse>|Response listOrgActionRunnerGroupRepositories(string $org, string $runner_group_id, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgActionRunnerGroupRepository(string $org, string $runner_group_id, UpdateOrgActionRunnerGroupRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionRunnerGroupRepository2(string $org, string $runner_group_id, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionRunnerGroupRepository(string $org, string $runner_group_id, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionRunnerGroupRunnersResponse>|Response listOrgActionRunnerGroupRunners(string $org, string $runner_group_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateOrgActionRunnerGroupRunner(string $org, string $runner_group_id, UpdateOrgActionRunnerGroupRunnerRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionRunnerGroupRunner2(string $org, string $runner_group_id, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionRunnerGroupRunner(string $org, string $runner_group_id, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionRunnersResponse>|Response listOrgActionRunners(string $org, array<string, mixed> $options = []) Query: name, per_page, page
+ * @method ApiResult<array<int, RunnerApplication>>|Response listOrgActionRunnerDownloads(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgActionRunnerGenerateJitconfigResponse>|Response createOrgActionRunnerGenerateJitconfig(string $org, CreateOrgActionRunnerGenerateJitconfigRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<AuthenticationToken>|Response createOrgActionRunnerRegistrationToken(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<AuthenticationToken>|Response createOrgActionRunnerRemoveToken(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<Runner>|Response getOrgActionRunner(string $org, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionRunner(string $org, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionRunnerLabelsResponse>|Response listOrgActionRunnerLabels(string $org, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgActionRunnerLabelResponse>|Response createOrgActionRunnerLabel(string $org, string $runner_id, CreateOrgActionRunnerLabelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<UpdateOrgActionRunnerLabelResponse>|Response updateOrgActionRunnerLabel(string $org, string $runner_id, UpdateOrgActionRunnerLabelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeleteOrgActionRunnerLabelResponse>|Response deleteOrgActionRunnerLabel(string $org, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<DeleteOrgActionRunnerLabel2Response>|Response deleteOrgActionRunnerLabel2(string $org, string $runner_id, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionSecretsResponse>|Response listOrgActionSecrets(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsPublicKey>|Response listOrgActionSecretPublicKeys(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationActionsSecret>|Response getOrgActionSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionSecret(string $org, string $secret_name, UpdateOrgActionSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionSecretRepositoriesResponse>|Response listOrgActionSecretRepositories(string $org, string $secret_name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgActionSecretRepository(string $org, string $secret_name, UpdateOrgActionSecretRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionSecretRepository2(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionSecretRepository(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionVariablesResponse>|Response listOrgActionVariables(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createOrgActionVariable(string $org, CreateOrgActionVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationActionsVariable>|Response getOrgActionVariable(string $org, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionVariable(string $org, string $name, UpdateOrgActionVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionVariable(string $org, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgActionVariableRepositoriesResponse>|Response listOrgActionVariableRepositories(string $org, string $name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgActionVariableRepository(string $org, string $name, UpdateOrgActionVariableRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgActionVariableRepository2(string $org, string $name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgActionVariableRepository(string $org, string $name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgAgentSecretsResponse>|Response listOrgAgentSecrets(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsPublicKey>|Response listOrgAgentSecretPublicKeys(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationActionsSecret>|Response getOrgAgentSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgAgentSecret(string $org, string $secret_name, UpdateOrgAgentSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgAgentSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgAgentSecretRepositoriesResponse>|Response listOrgAgentSecretRepositories(string $org, string $secret_name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgAgentSecretRepository(string $org, string $secret_name, UpdateOrgAgentSecretRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgAgentSecretRepository2(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgAgentSecretRepository(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgAgentVariablesResponse>|Response listOrgAgentVariables(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createOrgAgentVariable(string $org, CreateOrgAgentVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationActionsVariable>|Response getOrgAgentVariable(string $org, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgAgentVariable(string $org, string $name, UpdateOrgAgentVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgAgentVariable(string $org, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgAgentVariableRepositoriesResponse>|Response listOrgAgentVariableRepositories(string $org, string $name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgAgentVariableRepository(string $org, string $name, UpdateOrgAgentVariableRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgAgentVariableRepository2(string $org, string $name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgAgentVariableRepository(string $org, string $name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgArtifactMetadataDeploymentRecordResponse>|Response createOrgArtifactMetadataDeploymentRecord(string $org, CreateOrgArtifactMetadataDeploymentRecordRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgArtifactMetadataDeploymentRecordClusterResponse>|Response createOrgArtifactMetadataDeploymentRecordCluster(string $org, string $cluster, CreateOrgArtifactMetadataDeploymentRecordClusterRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgArtifactMetadataDeploymentRecordClusterJobResponse>|Response createOrgArtifactMetadataDeploymentRecordClusterJob(string $org, string $cluster, CreateOrgArtifactMetadataDeploymentRecordClusterJobRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GetOrgArtifactMetadataDeploymentRecordClusterJobResponse>|Response getOrgArtifactMetadataDeploymentRecordClusterJob(string $org, string $cluster, string $job_id, array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgArtifactMetadataStorageRecordResponse>|Response createOrgArtifactMetadataStorageRecord(string $org, CreateOrgArtifactMetadataStorageRecordRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgArtifactMetadataDeploymentRecordsResponse>|Response listOrgArtifactMetadataDeploymentRecords(string $org, string $subject_digest, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgArtifactMetadataStorageRecordsResponse>|Response listOrgArtifactMetadataStorageRecords(string $org, string $subject_digest, array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgAttestationBulkListResponse>|Response createOrgAttestationBulkList(string $org, CreateOrgAttestationBulkListRequest|array<string, mixed> $data = [], array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<null>|Response createOrgAttestationDeleteRequest(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgAttestationDigest(string $org, string $subject_digest, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ListOrgAttestationRepositoriesResponseItem>>|Response listOrgAttestationRepositories(string $org, array<string, mixed> $options = []) Query: per_page, before, after, predicate_type
+ * @method ApiResult<null>|Response deleteOrgAttestation(string $org, string $attestation_id, array<string, mixed> $options = [])
+ * @method ApiResult<GetOrgAttestationResponse>|Response getOrgAttestation(string $org, string $subject_digest, array<string, mixed> $options = []) Query: per_page, before, after, predicate_type
+ * @method ApiResult<array<int, SimpleUser>>|Response listOrgBlocks(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getOrgBlock(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgBlock(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgBlock(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CampaignSummary>>|Response listOrgCampaigns(string $org, array<string, mixed> $options = []) Query: page, per_page, direction, state, sort
+ * @method ApiResult<CampaignSummary>|Response createOrgCampaign(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<CampaignSummary>|Response getOrgCampaign(string $org, string $campaign_number, array<string, mixed> $options = [])
+ * @method ApiResult<CampaignSummary>|Response updateOrgCampaign(string $org, string $campaign_number, UpdateOrgCampaignRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCampaign(string $org, string $campaign_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeScanningOrganizationAlertItems>>|Response listOrgCodeScanningAlerts(string $org, array<string, mixed> $options = []) Query: tool_name, tool_guid, before, after, page, per_page, direction, state, sort, severity, assignees
+ * @method ApiResult<array<int, CodeSecurityConfiguration>>|Response listOrgCodeSecurityConfigurations(string $org, array<string, mixed> $options = []) Query: target_type, per_page, before, after
+ * @method ApiResult<CodeSecurityConfiguration>|Response createOrgCodeSecurityConfiguration(string $org, CreateOrgCodeSecurityConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ListOrgCodeSecurityConfigurationDefaultsResponseItem>>|Response listOrgCodeSecurityConfigurationDefaults(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCodeSecurityConfigurationDetach(string $org, DeleteOrgCodeSecurityConfigurationDetachRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CodeSecurityConfiguration>|Response getOrgCodeSecurityConfiguration(string $org, string $configuration_id, array<string, mixed> $options = [])
+ * @method ApiResult<CodeSecurityConfiguration>|Response updateOrgCodeSecurityConfiguration(string $org, string $configuration_id, UpdateOrgCodeSecurityConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCodeSecurityConfiguration(string $org, string $configuration_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgCodeSecurityConfigurationAttach(string $org, string $configuration_id, CreateOrgCodeSecurityConfigurationAttachRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<UpdateOrgCodeSecurityConfigurationDefaultResponse>|Response updateOrgCodeSecurityConfigurationDefault(string $org, string $configuration_id, UpdateOrgCodeSecurityConfigurationDefaultRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeSecurityConfigurationRepositories>>|Response listOrgCodeSecurityConfigurationRepositories(string $org, string $configuration_id, array<string, mixed> $options = []) Query: per_page, before, after, status
+ * @method ApiResult<ListOrgCodespacesResponse>|Response listOrgCodespaces(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateOrgCodespaceAccess(string $org, UpdateOrgCodespaceAccessRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgCodespaceAccessSelectedUser(string $org, CreateOrgCodespaceAccessSelectedUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCodespaceAccessSelectedUser(string $org, DeleteOrgCodespaceAccessSelectedUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCodespaceSecretsResponse>|Response listOrgCodespaceSecrets(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<CodespacesPublicKey>|Response listOrgCodespaceSecretPublicKeys(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<CodespacesOrgSecret>|Response getOrgCodespaceSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgCodespaceSecret(string $org, string $secret_name, UpdateOrgCodespaceSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCodespaceSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCodespaceSecretRepositoriesResponse>|Response listOrgCodespaceSecretRepositories(string $org, string $secret_name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgCodespaceSecretRepository(string $org, string $secret_name, UpdateOrgCodespaceSecretRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgCodespaceSecretRepository2(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCodespaceSecretRepository(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCopilotSpacesResponse>|Response listOrgCopilotSpaces(string $org, array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<CopilotSpace>|Response createOrgCopilotSpace(string $org, CreateOrgCopilotSpaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpace>|Response getOrgCopilotSpace(string $org, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpace>|Response updateOrgCopilotSpace(string $org, string $space_number, UpdateOrgCopilotSpaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCopilotSpace(string $org, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCopilotSpaceCollaboratorsResponse>|Response listOrgCopilotSpaceCollaborators(string $org, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgCopilotSpaceCollaborator(string $org, string $space_number, CreateOrgCopilotSpaceCollaboratorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgCopilotSpaceCollaborator(string $org, string $space_number, string $actor_type, string $actor_identifier, UpdateOrgCopilotSpaceCollaboratorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCopilotSpaceCollaborator(string $org, string $space_number, string $actor_type, string $actor_identifier, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCopilotSpaceResourcesResponse>|Response listOrgCopilotSpaceResources(string $org, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpaceResource>|Response createOrgCopilotSpaceResource(string $org, string $space_number, CreateOrgCopilotSpaceResourceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpaceResource>|Response getOrgCopilotSpaceResource(string $org, string $space_number, string $space_resource_id, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpaceResource>|Response updateOrgCopilotSpaceResource(string $org, string $space_number, string $space_resource_id, UpdateOrgCopilotSpaceResourceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCopilotSpaceResource(string $org, string $space_number, string $space_resource_id, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotOrganizationDetails>|Response listOrgCopilotBillings(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCopilotBillingSeatsResponse>|Response listOrgCopilotBillingSeats(string $org, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<CreateOrgCopilotBillingSelectedTeamResponse>|Response createOrgCopilotBillingSelectedTeam(string $org, CreateOrgCopilotBillingSelectedTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeleteOrgCopilotBillingSelectedTeamResponse>|Response deleteOrgCopilotBillingSelectedTeam(string $org, DeleteOrgCopilotBillingSelectedTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CreateOrgCopilotBillingSelectedUserResponse>|Response createOrgCopilotBillingSelectedUser(string $org, CreateOrgCopilotBillingSelectedUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeleteOrgCopilotBillingSelectedUserResponse>|Response deleteOrgCopilotBillingSelectedUser(string $org, DeleteOrgCopilotBillingSelectedUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCopilotCodingAgentPermissionsResponse>|Response listOrgCopilotCodingAgentPermissions(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgCopilotCodingAgentPermission(string $org, UpdateOrgCopilotCodingAgentPermissionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgCopilotCodingAgentPermissionRepositoriesResponse>|Response listOrgCopilotCodingAgentPermissionRepositories(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateOrgCopilotCodingAgentPermissionRepository(string $org, UpdateOrgCopilotCodingAgentPermissionRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgCopilotCodingAgentPermissionRepository2(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgCopilotCodingAgentPermissionRepository(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listOrgCopilotContentExclusions(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<UpdateOrgCopilotContentExclusionResponse>|Response updateOrgCopilotContentExclusion(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listOrgCopilotMetricReportOrganization1Days(string $org, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics28DayReport>|Response listOrgCopilotMetricReportOrganization28DayLatests(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listOrgCopilotMetricReportRepos1Days(string $org, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listOrgCopilotMetricReportUserTeams1Days(string $org, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics1DayReport>|Response listOrgCopilotMetricReportUsers1Days(string $org, array<string, mixed> $options = []) Query: day
+ * @method ApiResult<CopilotUsageMetrics28DayReport>|Response listOrgCopilotMetricReportUsers28DayLatests(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, DependabotAlertWithRepository>>|Response listOrgDependabotAlerts(string $org, array<string, mixed> $options = []) Query: classification, state, severity, ecosystem, package, epss_percentage, artifact_registry_url, artifact_registry, has, assignee, runtime_risk, scope, relationship, sort, direction, before, after, per_page
+ * @method ApiResult<DependabotRepositoryAccessDetails>|Response listOrgDependabotRepositoryAccesses(string $org, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgDependabotRepositoryAccess(string $org, UpdateOrgDependabotRepositoryAccessRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgDependabotRepositoryAccessDefaultLevel(string $org, UpdateOrgDependabotRepositoryAccessDefaultLevelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgDependabotSecretsResponse>|Response listOrgDependabotSecrets(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<DependabotPublicKey>|Response listOrgDependabotSecretPublicKeys(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationDependabotSecret>|Response getOrgDependabotSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgDependabotSecret(string $org, string $secret_name, UpdateOrgDependabotSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgDependabotSecret(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgDependabotSecretRepositoriesResponse>|Response listOrgDependabotSecretRepositories(string $org, string $secret_name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgDependabotSecretRepository(string $org, string $secret_name, UpdateOrgDependabotSecretRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgDependabotSecretRepository2(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgDependabotSecretRepository(string $org, string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Package>>|Response listOrgDockerConflicts(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Event>>|Response listOrgEvents(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrganizationInvitation>>|Response listOrgFailedInvitations(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrgHook>>|Response listOrgHooks(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<OrgHook>|Response createOrgHook(string $org, CreateOrgHookRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<OrgHook>|Response getOrgHook(string $org, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<OrgHook>|Response updateOrgHook(string $org, string $hook_id, UpdateOrgHookRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgHook(string $org, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<WebhookConfig>|Response listOrgHookConfigs(string $org, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<WebhookConfig>|Response updateOrgHookConfig(string $org, string $hook_id, UpdateOrgHookConfigRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, HookDeliveryItem>>|Response listOrgHookDeliveries(string $org, string $hook_id, array<string, mixed> $options = []) Query: per_page, cursor, status
+ * @method ApiResult<HookDelivery>|Response getOrgHookDelivery(string $org, string $hook_id, string $delivery_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgHookDeliveryAttempt(string $org, string $hook_id, string $delivery_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgHookPing(string $org, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GetOrgInsightApiRouteStatResponseItem>>|Response getOrgInsightApiRouteStat(string $org, string $actor_type, string $actor_id, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp, page, per_page, direction, sort, api_route_substring
+ * @method ApiResult<array<int, ListOrgInsightApiSubjectStatsResponseItem>>|Response listOrgInsightApiSubjectStats(string $org, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp, page, per_page, direction, sort, subject_name_substring
+ * @method ApiResult<ApiInsightsSummaryStats>|Response listOrgInsightApiSummaryStats(string $org, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp
+ * @method ApiResult<ApiInsightsSummaryStats>|Response getOrgInsightApiSummaryStatUser(string $org, string $user_id, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp
+ * @method ApiResult<ApiInsightsSummaryStats>|Response getOrgInsightApiSummaryStat(string $org, string $actor_type, string $actor_id, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp
+ * @method ApiResult<array<int, ListOrgInsightApiTimeStatsResponseItem>>|Response listOrgInsightApiTimeStats(string $org, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp, timestamp_increment
+ * @method ApiResult<array<int, GetOrgInsightApiTimeStatUserResponseItem>>|Response getOrgInsightApiTimeStatUser(string $org, string $user_id, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp, timestamp_increment
+ * @method ApiResult<array<int, GetOrgInsightApiTimeStatResponseItem>>|Response getOrgInsightApiTimeStat(string $org, string $actor_type, string $actor_id, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp, timestamp_increment
+ * @method ApiResult<array<int, GetOrgInsightApiUserStatResponseItem>>|Response getOrgInsightApiUserStat(string $org, string $user_id, array<string, mixed> $options = []) Query: min_timestamp, max_timestamp, page, per_page, direction, sort, actor_name_substring
+ * @method ApiResult<Installation>|Response listOrgInstallations(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgInstallations2Response>|Response listOrgInstallations2(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listOrgInteractionLimits(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<InteractionLimitResponse>|Response updateOrgInteractionLimit(string $org, InteractionLimit|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgInteractionLimit(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgInteractionLimitPullCreationCapsResponse>|Response listOrgInteractionLimitPullCreationCaps(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<UpdateOrgInteractionLimitPullCreationCapResponse>|Response updateOrgInteractionLimitPullCreationCap(string $org, UpdateOrgInteractionLimitPullCreationCapRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrganizationInvitation>>|Response listOrgInvitations(string $org, array<string, mixed> $options = []) Query: per_page, page, role, invitation_source
+ * @method ApiResult<OrganizationInvitation>|Response createOrgInvitation(string $org, CreateOrgInvitationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgInvitation(string $org, string $invitation_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response listOrgInvitationTeams(string $org, string $invitation_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, IssueField>>|Response listOrgIssueFields(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<IssueField>|Response createOrgIssueField(string $org, OrganizationCreateIssueField|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<IssueField>|Response updateOrgIssueField(string $org, string $issue_field_id, OrganizationUpdateIssueField|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgIssueField(string $org, string $issue_field_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueType>>|Response listOrgIssueTypes(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<IssueType>|Response createOrgIssueType(string $org, OrganizationCreateIssueType|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<IssueType>|Response updateOrgIssueType(string $org, string $issue_type_id, OrganizationUpdateIssueType|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgIssueType(string $org, string $issue_type_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listOrgIssues(string $org, array<string, mixed> $options = []) Query: filter, state, labels, type, sort, direction, since, per_page, page
+ * @method ApiResult<array<int, SimpleUser>>|Response listOrgMembers(string $org, array<string, mixed> $options = []) Query: filter, role, per_page, page
+ * @method ApiResult<null>|Response getOrgMember(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgMember(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgMemberCodespacesResponse>|Response listOrgMemberCodespaces(string $org, string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response deleteOrgMemberCodespace(string $org, string $username, string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<Codespace>|Response createOrgMemberCodespaceStop(string $org, string $username, string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSeatDetails>|Response listOrgMemberCopilots(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<OrgMembership>|Response getOrgMembership(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<OrgMembership>|Response updateOrgMembership(string $org, string $username, UpdateOrgMembershipRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgMembership(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Migration>>|Response listOrgMigrations(string $org, array<string, mixed> $options = []) Query: per_page, page, exclude
+ * @method ApiResult<Migration>|Response createOrgMigration(string $org, CreateOrgMigrationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Migration>|Response getOrgMigration(string $org, string $migration_id, array<string, mixed> $options = []) Query: exclude
+ * @method ApiResult<null>|Response listOrgMigrationArchives(string $org, string $migration_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgMigrationArchive(string $org, string $migration_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgMigrationRepoLock(string $org, string $migration_id, string $repo_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listOrgMigrationRepositories(string $org, string $migration_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListOrgOrganizationRolesResponse>|Response listOrgOrganizationRoles(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgOrganizationRoleTeam(string $org, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgOrganizationRoleTeam(string $org, string $team_slug, string $role_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgOrganizationRoleTeam2(string $org, string $team_slug, string $role_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgOrganizationRoleUser(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgOrganizationRoleUser(string $org, string $username, string $role_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgOrganizationRoleUser2(string $org, string $username, string $role_id, array<string, mixed> $options = [])
+ * @method ApiResult<OrganizationRole>|Response getOrgOrganizationRole(string $org, string $role_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, TeamRoleAssignment>>|Response listOrgOrganizationRoleTeams(string $org, string $role_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, UserRoleAssignment>>|Response listOrgOrganizationRoleUsers(string $org, string $role_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SimpleUser>>|Response listOrgOutsideCollaborators(string $org, array<string, mixed> $options = []) Query: filter, per_page, page
+ * @method ApiResult<null>|Response updateOrgOutsideCollaborator(string $org, string $username, UpdateOrgOutsideCollaboratorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgOutsideCollaborator(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Package>>|Response listOrgPackages(string $org, array<string, mixed> $options = []) Query: package_type, visibility, page, per_page
+ * @method ApiResult<Package>|Response getOrgPackage(string $org, string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgPackage(string $org, string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgPackageRestore(string $org, string $package_type, string $package_name, array<string, mixed> $options = []) Query: token
+ * @method ApiResult<array<int, PackageVersion>>|Response listOrgPackageVersions(string $org, string $package_type, string $package_name, array<string, mixed> $options = []) Query: page, per_page, state
+ * @method ApiResult<PackageVersion>|Response getOrgPackageVersion(string $org, string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgPackageVersion(string $org, string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgPackageVersionRestore(string $org, string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrganizationProgrammaticAccessGrantRequest>>|Response listOrgPersonalAccessTokenRequests(string $org, array<string, mixed> $options = []) Query: per_page, page, sort, direction, owner, repository, permission, last_used_before, last_used_after, token_id
+ * @method ApiResult<null>|Response createOrgPersonalAccessTokenRequest(string $org, CreateOrgPersonalAccessTokenRequestRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgPersonalAccessTokenRequest2(string $org, string $pat_request_id, CreateOrgPersonalAccessTokenRequest2Request|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listOrgPersonalAccessTokenRequestRepositories(string $org, string $pat_request_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrganizationProgrammaticAccessGrant>>|Response listOrgPersonalAccessTokens(string $org, array<string, mixed> $options = []) Query: per_page, page, sort, direction, owner, repository, permission, last_used_before, last_used_after, token_id
+ * @method ApiResult<null>|Response createOrgPersonalAccessToken(string $org, CreateOrgPersonalAccessTokenRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createOrgPersonalAccessToken2(string $org, string $pat_id, CreateOrgPersonalAccessToken2Request|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listOrgPersonalAccessTokenRepositories(string $org, string $pat_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListOrgPrivateRegistriesResponse>|Response listOrgPrivateRegistries(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<OrgPrivateRegistryConfigurationWithSelectedRepositories>|Response createOrgPrivateRegistry(string $org, CreateOrgPrivateRegistryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgPrivateRegistryPublicKeysResponse>|Response listOrgPrivateRegistryPublicKeys(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrgPrivateRegistryConfiguration>|Response getOrgPrivateRegistry(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgPrivateRegistry(string $org, string $secret_name, UpdateOrgPrivateRegistryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgPrivateRegistry(string $org, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2>>|Response listOrgProjectsV2s(string $org, array<string, mixed> $options = []) Query: q, before, after, per_page
+ * @method ApiResult<ProjectsV2>|Response getOrgProjectsV2(string $org, string $project_number, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2ItemSimple>|Response createOrgProjectsV2Draft(string $org, string $project_number, CreateOrgProjectsV2DraftRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2Field>>|Response listOrgProjectsV2Fields(string $org, string $project_number, array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<ProjectsV2Field>|Response createOrgProjectsV2Field(string $org, string $project_number, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2Field>|Response getOrgProjectsV2Field(string $org, string $project_number, string $field_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2ItemWithContent>>|Response listOrgProjectsV2Items(string $org, string $project_number, array<string, mixed> $options = []) Query: q, fields, before, after, per_page
+ * @method ApiResult<ProjectsV2ItemSimple>|Response createOrgProjectsV2Item(string $org, string $project_number, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2ItemWithContent>|Response getOrgProjectsV2Item(string $org, string $project_number, string $item_id, array<string, mixed> $options = []) Query: fields
+ * @method ApiResult<ProjectsV2ItemWithContent>|Response updateOrgProjectsV2Item(string $org, string $project_number, string $item_id, UpdateOrgProjectsV2ItemRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgProjectsV2Item(string $org, string $project_number, string $item_id, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2View>|Response createOrgProjectsV2View(string $org, string $project_number, CreateOrgProjectsV2ViewRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2ItemWithContent>>|Response listOrgProjectsV2ViewItems(string $org, string $project_number, string $view_number, array<string, mixed> $options = []) Query: fields, before, after, per_page
+ * @method ApiResult<array<int, CustomProperty>>|Response listOrgPropertySchemas(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CustomProperty>>|Response updateOrgPropertySchema(string $org, UpdateOrgPropertySchemaRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CustomProperty>|Response getOrgPropertySchema(string $org, string $custom_property_name, array<string, mixed> $options = [])
+ * @method ApiResult<CustomProperty>|Response updateOrgPropertySchema2(string $org, string $custom_property_name, CustomPropertySetPayload|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgPropertySchema(string $org, string $custom_property_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrgRepoCustomPropertyValues>>|Response listOrgPropertyValues(string $org, array<string, mixed> $options = []) Query: per_page, page, repository_query
+ * @method ApiResult<null>|Response updateOrgPropertyValue(string $org, UpdateOrgPropertyValueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listOrgPublicMembers(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getOrgPublicMember(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgPublicMember(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgPublicMember(string $org, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listOrgRepos(string $org, array<string, mixed> $options = []) Query: type, sort, direction, per_page, page
+ * @method ApiResult<FullRepository>|Response createOrgRepo(string $org, CreateOrgRepoRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RepositoryRuleset>>|Response listOrgRulesets(string $org, array<string, mixed> $options = []) Query: per_page, page, targets
+ * @method ApiResult<RepositoryRuleset>|Response createOrgRuleset(string $org, CreateOrgRulesetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ListOrgRulesetRuleSuitesResponseItem>>|Response listOrgRulesetRuleSuites(string $org, array<string, mixed> $options = []) Query: ref, repository_name, time_period, actor_name, rule_suite_result, evaluate_status, per_page, page
+ * @method ApiResult<RuleSuite>|Response getOrgRulesetRuleSuite(string $org, string $rule_suite_id, array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryRuleset>|Response getOrgRuleset(string $org, string $ruleset_id, array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryRuleset>|Response updateOrgRuleset(string $org, string $ruleset_id, UpdateOrgRulesetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgRuleset(string $org, string $ruleset_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RulesetVersion>>|Response listOrgRulesetHistories(string $org, string $ruleset_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<RulesetVersionWithState>|Response getOrgRulesetHistory(string $org, string $ruleset_id, string $version_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrganizationSecretScanningAlert>>|Response listOrgSecretScanningAlerts(string $org, array<string, mixed> $options = []) Query: state, secret_type, exclude_secret_types, exclude_providers, providers, resolution, assignee, sort, direction, page, per_page, before, after, validity, is_publicly_leaked, is_multi_repo, hide_secret, is_bypassed, included_metadata, owner_email_hash
+ * @method ApiResult<array<int, SecretScanningCustomPattern>>|Response listOrgSecretScanningCustomPatterns(string $org, array<string, mixed> $options = []) Query: state, push_protection, sort, direction, page, per_page, before, after
+ * @method ApiResult<CreateOrgSecretScanningCustomPatternResponse>|Response createOrgSecretScanningCustomPattern(string $org, CreateOrgSecretScanningCustomPatternRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgSecretScanningCustomPattern(string $org, DeleteOrgSecretScanningCustomPatternRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SecretScanningCustomPattern>|Response updateOrgSecretScanningCustomPattern(string $org, string $pattern_id, SecretScanningCustomPatternToUpdate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SecretScanningPatternConfiguration>|Response listOrgSecretScanningPatternConfigurations(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<UpdateOrgSecretScanningPatternConfigurationResponse>|Response updateOrgSecretScanningPatternConfiguration(string $org, UpdateOrgSecretScanningPatternConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RepositoryAdvisory>>|Response listOrgSecurityAdvisories(string $org, array<string, mixed> $options = []) Query: direction, sort, before, after, per_page, state
+ * @method ApiResult<array<int, TeamSimple>>|Response listOrgSecurityManagers(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgSecurityManagerTeam(string $org, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgSecurityManagerTeam(string $org, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<ImmutableReleasesOrganizationSettings>|Response listOrgSettingImmutableReleases(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgSettingImmutableRelease(string $org, UpdateOrgSettingImmutableReleaseRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgSettingImmutableReleaseRepositoriesResponse>|Response listOrgSettingImmutableReleaseRepositories(string $org, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response updateOrgSettingImmutableReleaseRepository(string $org, UpdateOrgSettingImmutableReleaseRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgSettingImmutableReleaseRepository2(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgSettingImmutableReleaseRepository(string $org, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListOrgSettingNetworkConfigurationsResponse>|Response listOrgSettingNetworkConfigurations(string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<NetworkConfiguration>|Response createOrgSettingNetworkConfiguration(string $org, CreateOrgSettingNetworkConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<NetworkConfiguration>|Response getOrgSettingNetworkConfiguration(string $org, string $network_configuration_id, array<string, mixed> $options = [])
+ * @method ApiResult<NetworkConfiguration>|Response updateOrgSettingNetworkConfiguration(string $org, string $network_configuration_id, UpdateOrgSettingNetworkConfigurationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgSettingNetworkConfiguration(string $org, string $network_configuration_id, array<string, mixed> $options = [])
+ * @method ApiResult<NetworkSettings>|Response getOrgSettingNetworkSetting(string $org, string $network_settings_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response listOrgTeams(string $org, array<string, mixed> $options = []) Query: per_page, page, team_type
+ * @method ApiResult<TeamFull>|Response createOrgTeam(string $org, CreateOrgTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<TeamFull>|Response getOrgTeam(string $org, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<TeamFull>|Response updateOrgTeam(string $org, string $team_slug, UpdateOrgTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgTeam(string $org, string $team_slug, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrganizationInvitation>>|Response listOrgTeamInvitations(string $org, string $team_slug, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, TeamMember>>|Response listOrgTeamMembers(string $org, string $team_slug, array<string, mixed> $options = []) Query: role, per_page, page
+ * @method ApiResult<TeamMembership>|Response getOrgTeamMembership(string $org, string $team_slug, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<TeamMembership>|Response updateOrgTeamMembership(string $org, string $team_slug, string $username, UpdateOrgTeamMembershipRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgTeamMembership(string $org, string $team_slug, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listOrgTeamRepos(string $org, string $team_slug, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<TeamRepository>|Response getOrgTeamRepo(string $org, string $team_slug, string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateOrgTeamRepo(string $org, string $team_slug, string $owner, string $repo, UpdateOrgTeamRepoRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteOrgTeamRepo(string $org, string $team_slug, string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response listOrgTeamTeams(string $org, string $team_slug, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createOrg(string $org, string $security_product, string $enablement, CreateOrgRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<RateLimitOverview>|Response listRateLimits(array<string, mixed> $options = [])
+ * @method ApiResult<FullRepository>|Response getRepo(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<FullRepository>|Response updateRepo(string $owner, string $repo, UpdateRepoRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepo(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionArtifactsResponse>|Response listRepoActionArtifacts(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page, name
+ * @method ApiResult<Artifact>|Response getRepoActionArtifact(string $owner, string $repo, string $artifact_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoActionArtifact(string $owner, string $repo, string $artifact_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response getRepoActionArtifact2(string $owner, string $repo, string $artifact_id, string $archive_format, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheRetentionLimitForRepository>|Response listRepoActionCacheRetentionLimits(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionCacheRetentionLimit(string $owner, string $repo, ActionsCacheRetentionLimitForRepository|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheStorageLimitForRepository>|Response listRepoActionCacheStorageLimits(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionCacheStorageLimit(string $owner, string $repo, ActionsCacheStorageLimitForRepository|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheUsageByRepository>|Response listRepoActionCacheUsages(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsCacheList>|Response listRepoActionCaches(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page, ref, key, sort, direction
+ * @method ApiResult<ActionsCacheList>|Response deleteRepoActionCach(string $owner, string $repo, array<string, mixed> $options = []) Query: key, ref
+ * @method ApiResult<null>|Response deleteRepoActionCach2(string $owner, string $repo, string $cache_id, array<string, mixed> $options = [])
+ * @method ApiResult<ConcurrencyGroupList>|Response listRepoActionConcurrencyGroups(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, after
+ * @method ApiResult<ConcurrencyGroup>|Response getRepoActionConcurrencyGroup(string $owner, string $repo, string $concurrency_group_name, array<string, mixed> $options = []) Query: ahead_of_run, ahead_of_job
+ * @method ApiResult<Job>|Response getRepoActionJob(string $owner, string $repo, string $job_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoActionJobLogs(string $owner, string $repo, string $job_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoActionJobRerun(string $owner, string $repo, string $job_id, CreateRepoActionJobRerunRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<OidcCustomSubRepo>|Response listRepoActionOidcCustomizationSubs(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionOidcCustomizationSub(string $owner, string $repo, UpdateRepoActionOidcCustomizationSubRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionOrganizationSecretsResponse>|Response listRepoActionOrganizationSecrets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListRepoActionOrganizationVariablesResponse>|Response listRepoActionOrganizationVariables(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsRepositoryPermissions>|Response listRepoActionPermissions(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermission(string $owner, string $repo, UpdateRepoActionPermissionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsWorkflowAccessToRepository>|Response listRepoActionPermissionAccesses(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermissionAccess(string $owner, string $repo, ActionsWorkflowAccessToRepository|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsArtifactAndLogRetentionResponse>|Response listRepoActionPermissionArtifactAndLogRetentions(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermissionArtifactAndLogRetention(string $owner, string $repo, ActionsArtifactAndLogRetention|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsForkPrContributorApproval>|Response listRepoActionPermissionForkPrContributorApprovals(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermissionForkPrContributorApproval(string $owner, string $repo, ActionsForkPrContributorApproval|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsForkPrWorkflowsPrivateRepos>|Response listRepoActionPermissionForkPrWorkflowsPrivateRepos(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermissionForkPrWorkflowsPrivateRepo(string $owner, string $repo, ActionsForkPrWorkflowsPrivateReposRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SelectedActions>|Response listRepoActionPermissionSelectedActions(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermissionSelectedAction(string $owner, string $repo, SelectedActions|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsGetDefaultWorkflowPermissions>|Response listRepoActionPermissionWorkflows(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionPermissionWorkflow(string $owner, string $repo, ActionsSetDefaultWorkflowPermissions|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionRunnersResponse>|Response listRepoActionRunners(string $owner, string $repo, array<string, mixed> $options = []) Query: name, per_page, page
+ * @method ApiResult<array<int, RunnerApplication>>|Response listRepoActionRunnerDownloads(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CreateRepoActionRunnerGenerateJitconfigResponse>|Response createRepoActionRunnerGenerateJitconfig(string $owner, string $repo, CreateRepoActionRunnerGenerateJitconfigRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<AuthenticationToken>|Response createRepoActionRunnerRegistrationToken(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<AuthenticationToken>|Response createRepoActionRunnerRemoveToken(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Runner>|Response getRepoActionRunner(string $owner, string $repo, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoActionRunner(string $owner, string $repo, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionRunnerLabelsResponse>|Response listRepoActionRunnerLabels(string $owner, string $repo, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<CreateRepoActionRunnerLabelResponse>|Response createRepoActionRunnerLabel(string $owner, string $repo, string $runner_id, CreateRepoActionRunnerLabelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<UpdateRepoActionRunnerLabelResponse>|Response updateRepoActionRunnerLabel(string $owner, string $repo, string $runner_id, UpdateRepoActionRunnerLabelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeleteRepoActionRunnerLabelResponse>|Response deleteRepoActionRunnerLabel(string $owner, string $repo, string $runner_id, array<string, mixed> $options = [])
+ * @method ApiResult<DeleteRepoActionRunnerLabel2Response>|Response deleteRepoActionRunnerLabel2(string $owner, string $repo, string $runner_id, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionRunsResponse>|Response listRepoActionRuns(string $owner, string $repo, array<string, mixed> $options = []) Query: actor, branch, event, status, per_page, page, created, exclude_pull_requests, check_suite_id, head_sha
+ * @method ApiResult<WorkflowRun>|Response getRepoActionRun(string $owner, string $repo, string $run_id, array<string, mixed> $options = []) Query: exclude_pull_requests
+ * @method ApiResult<null>|Response deleteRepoActionRun(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, EnvironmentApprovals>>|Response listRepoActionRunApprovals(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoActionRunApprove(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionRunArtifactsResponse>|Response listRepoActionRunArtifacts(string $owner, string $repo, string $run_id, array<string, mixed> $options = []) Query: per_page, page, name, direction
+ * @method ApiResult<WorkflowRun>|Response getRepoActionRunAttempt(string $owner, string $repo, string $run_id, string $attempt_number, array<string, mixed> $options = []) Query: exclude_pull_requests
+ * @method ApiResult<ListRepoActionRunAttemptJobsResponse>|Response listRepoActionRunAttemptJobs(string $owner, string $repo, string $run_id, string $attempt_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listRepoActionRunAttemptLogs(string $owner, string $repo, string $run_id, string $attempt_number, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoActionRunCancel(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<ConcurrencyGroupRunList>|Response listRepoActionRunConcurrencyGroups(string $owner, string $repo, string $run_id, array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<null>|Response createRepoActionRunDeploymentProtectionRule(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoActionRunForceCancel(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionRunJobsResponse>|Response listRepoActionRunJobs(string $owner, string $repo, string $run_id, array<string, mixed> $options = []) Query: filter, per_page, page
+ * @method ApiResult<null>|Response listRepoActionRunLogs(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoActionRunLog(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PendingDeployment>>|Response listRepoActionRunPendingDeployments(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Deployment>>|Response createRepoActionRunPendingDeployment(string $owner, string $repo, string $run_id, CreateRepoActionRunPendingDeploymentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoActionRunRerun(string $owner, string $repo, string $run_id, CreateRepoActionRunRerunRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoActionRunRerunFailedJob(string $owner, string $repo, string $run_id, CreateRepoActionRunRerunFailedJobRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<WorkflowRunUsage>|Response listRepoActionRunTimings(string $owner, string $repo, string $run_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionSecretsResponse>|Response listRepoActionSecrets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsPublicKey>|Response listRepoActionSecretPublicKeys(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsSecret>|Response getRepoActionSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionSecret(string $owner, string $repo, string $secret_name, UpdateRepoActionSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoActionSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionVariablesResponse>|Response listRepoActionVariables(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createRepoActionVariable(string $owner, string $repo, CreateRepoActionVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsVariable>|Response getRepoActionVariable(string $owner, string $repo, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionVariable(string $owner, string $repo, string $name, UpdateRepoActionVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoActionVariable(string $owner, string $repo, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionWorkflowsResponse>|Response listRepoActionWorkflows(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Workflow>|Response getRepoActionWorkflow(string $owner, string $repo, string $workflow_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionWorkflowDisable(string $owner, string $repo, string $workflow_id, array<string, mixed> $options = [])
+ * @method ApiResult<WorkflowDispatchResponse>|Response createRepoActionWorkflowDispatch(string $owner, string $repo, string $workflow_id, CreateRepoActionWorkflowDispatchRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoActionWorkflowEnable(string $owner, string $repo, string $workflow_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoActionWorkflowRunsResponse>|Response listRepoActionWorkflowRuns(string $owner, string $repo, string $workflow_id, array<string, mixed> $options = []) Query: actor, branch, event, status, per_page, page, created, exclude_pull_requests, check_suite_id, head_sha
+ * @method ApiResult<WorkflowUsage>|Response listRepoActionWorkflowTimings(string $owner, string $repo, string $workflow_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Activity>>|Response listRepoActivities(string $owner, string $repo, array<string, mixed> $options = []) Query: direction, per_page, before, after, ref, actor, time_period, activity_type
+ * @method ApiResult<ListRepoAgentOrganizationSecretsResponse>|Response listRepoAgentOrganizationSecrets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListRepoAgentOrganizationVariablesResponse>|Response listRepoAgentOrganizationVariables(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListRepoAgentSecretsResponse>|Response listRepoAgentSecrets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsPublicKey>|Response listRepoAgentSecretPublicKeys(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsSecret>|Response getRepoAgentSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoAgentSecret(string $owner, string $repo, string $secret_name, UpdateRepoAgentSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoAgentSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoAgentVariablesResponse>|Response listRepoAgentVariables(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createRepoAgentVariable(string $owner, string $repo, CreateRepoAgentVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsVariable>|Response getRepoAgentVariable(string $owner, string $repo, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoAgentVariable(string $owner, string $repo, string $name, UpdateRepoAgentVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoAgentVariable(string $owner, string $repo, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listRepoAssignees(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getRepoAssignee(string $owner, string $repo, string $assignee, array<string, mixed> $options = [])
+ * @method ApiResult<CreateRepoAttestationResponse>|Response createRepoAttestation(string $owner, string $repo, CreateRepoAttestationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GetRepoAttestationResponse>|Response getRepoAttestation(string $owner, string $repo, string $subject_digest, array<string, mixed> $options = []) Query: per_page, before, after, predicate_type
+ * @method ApiResult<array<int, Autolink>>|Response listRepoAutolinks(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Autolink>|Response createRepoAutolink(string $owner, string $repo, CreateRepoAutolinkRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Autolink>|Response getRepoAutolink(string $owner, string $repo, string $autolink_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoAutolink(string $owner, string $repo, string $autolink_id, array<string, mixed> $options = [])
+ * @method ApiResult<CheckAutomatedSecurityFixes>|Response listRepoAutomatedSecurityFixes(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoAutomatedSecurityFix(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoAutomatedSecurityFix(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ShortBranch>>|Response listRepoBranches(string $owner, string $repo, array<string, mixed> $options = []) Query: protected, per_page, page
+ * @method ApiResult<BranchWithProtection>|Response getRepoBranch(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<BranchProtection>|Response listRepoBranchProtections(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranch>|Response updateRepoBranchProtection(string $owner, string $repo, string $branch, UpdateRepoBranchProtectionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtection(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranchAdminEnforced>|Response listRepoBranchProtectionEnforceAdmins(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranchAdminEnforced>|Response createRepoBranchProtectionEnforceAdmin(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtectionEnforceAdmin(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranchPullRequestReview>|Response listRepoBranchProtectionRequiredPullRequestReviews(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranchPullRequestReview>|Response updateRepoBranchProtectionRequiredPullRequestReview(string $owner, string $repo, string $branch, UpdateRepoBranchProtectionRequiredPullRequestReviewRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtectionRequiredPullRequestReview(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranchAdminEnforced>|Response listRepoBranchProtectionRequiredSignatures(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<ProtectedBranchAdminEnforced>|Response createRepoBranchProtectionRequiredSignature(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtectionRequiredSignature(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<StatusCheckPolicy>|Response listRepoBranchProtectionRequiredStatusChecks(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<StatusCheckPolicy>|Response updateRepoBranchProtectionRequiredStatusCheck(string $owner, string $repo, string $branch, UpdateRepoBranchProtectionRequiredStatusCheckRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtectionRequiredStatusCheck(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoBranchProtectionRequiredStatusCheckContexts(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoBranchProtectionRequiredStatusCheckContext(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoBranchProtectionRequiredStatusCheckContext(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtectionRequiredStatusCheckContext(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<BranchRestrictionPolicy>|Response listRepoBranchProtectionRestrictions(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoBranchProtectionRestriction(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Integration>>|Response listRepoBranchProtectionRestrictionApps(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Integration>>|Response createRepoBranchProtectionRestrictionApp(string $owner, string $repo, string $branch, CreateRepoBranchProtectionRestrictionAppRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Integration>>|Response updateRepoBranchProtectionRestrictionApp(string $owner, string $repo, string $branch, UpdateRepoBranchProtectionRestrictionAppRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Integration>>|Response deleteRepoBranchProtectionRestrictionApp(string $owner, string $repo, string $branch, DeleteRepoBranchProtectionRestrictionAppRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response listRepoBranchProtectionRestrictionTeams(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response createRepoBranchProtectionRestrictionTeam(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response updateRepoBranchProtectionRestrictionTeam(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response deleteRepoBranchProtectionRestrictionTeam(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listRepoBranchProtectionRestrictionUsers(string $owner, string $repo, string $branch, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response createRepoBranchProtectionRestrictionUser(string $owner, string $repo, string $branch, CreateRepoBranchProtectionRestrictionUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response updateRepoBranchProtectionRestrictionUser(string $owner, string $repo, string $branch, UpdateRepoBranchProtectionRestrictionUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response deleteRepoBranchProtectionRestrictionUser(string $owner, string $repo, string $branch, DeleteRepoBranchProtectionRestrictionUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<BranchWithProtection>|Response createRepoBranchRename(string $owner, string $repo, string $branch, CreateRepoBranchRenameRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CheckRun>|Response createRepoCheckRun(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CheckRun>|Response getRepoCheckRun(string $owner, string $repo, string $check_run_id, array<string, mixed> $options = [])
+ * @method ApiResult<CheckRun>|Response updateRepoCheckRun(string $owner, string $repo, string $check_run_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CheckAnnotation>>|Response listRepoCheckRunAnnotations(string $owner, string $repo, string $check_run_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createRepoCheckRunRerequest(string $owner, string $repo, string $check_run_id, array<string, mixed> $options = [])
+ * @method ApiResult<CheckSuite>|Response createRepoCheckSuite(string $owner, string $repo, CreateRepoCheckSuiteRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CheckSuitePreference>|Response updateRepoCheckSuitePreference(string $owner, string $repo, UpdateRepoCheckSuitePreferenceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CheckSuite>|Response getRepoCheckSuite(string $owner, string $repo, string $check_suite_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoCheckSuiteCheckRunsResponse>|Response listRepoCheckSuiteCheckRuns(string $owner, string $repo, string $check_suite_id, array<string, mixed> $options = []) Query: check_name, status, filter, per_page, page
+ * @method ApiResult<null>|Response createRepoCheckSuiteRerequest(string $owner, string $repo, string $check_suite_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeQualityFinding>>|Response listRepoCodeQualityFindings(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, direction, before, after, state
+ * @method ApiResult<CodeQualityFinding>|Response getRepoCodeQualityFinding(string $owner, string $repo, string $finding_number, array<string, mixed> $options = [])
+ * @method ApiResult<CodeQualitySetup>|Response listRepoCodeQualitySetups(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoCodeQualitySetup(string $owner, string $repo, CodeQualitySetupUpdate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeScanningAlertItems>>|Response listRepoCodeScanningAlerts(string $owner, string $repo, array<string, mixed> $options = []) Query: tool_name, tool_guid, page, per_page, ref, pr, direction, before, after, sort, state, severity, assignees
+ * @method ApiResult<CodeScanningAlert>|Response getRepoCodeScanningAlert(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningAlert>|Response updateRepoCodeScanningAlert(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningAutofix>|Response listRepoCodeScanningAlertAutofixes(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningAutofix>|Response createRepoCodeScanningAlertAutofix(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningAutofixCommitsResponse>|Response createRepoCodeScanningAlertAutofixCommit(string $owner, string $repo, string $alert_number, CodeScanningAutofixCommits|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CodeScanningAlertInstanceList>>|Response listRepoCodeScanningAlertInstances(string $owner, string $repo, string $alert_number, array<string, mixed> $options = []) Query: page, per_page, ref, pr
+ * @method ApiResult<array<int, CodeScanningAnalysis>>|Response listRepoCodeScanningAnalyses(string $owner, string $repo, array<string, mixed> $options = []) Query: tool_name, tool_guid, page, per_page, pr, ref, sarif_id, direction, sort
+ * @method ApiResult<CodeScanningAnalysis>|Response getRepoCodeScanningAnalyse(string $owner, string $repo, string $analysis_id, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningAnalysisDeletion>|Response deleteRepoCodeScanningAnalyse(string $owner, string $repo, string $analysis_id, array<string, mixed> $options = []) Query: confirm_delete
+ * @method ApiResult<array<int, CodeScanningCodeqlDatabase>>|Response listRepoCodeScanningCodeqlDatabases(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningCodeqlDatabase>|Response getRepoCodeScanningCodeqlDatabase(string $owner, string $repo, string $language, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoCodeScanningCodeqlDatabase(string $owner, string $repo, string $language, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningVariantAnalysis>|Response createRepoCodeScanningCodeqlVariantAnalyse(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningVariantAnalysis>|Response getRepoCodeScanningCodeqlVariantAnalyse(string $owner, string $repo, string $codeql_variant_analysis_id, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningVariantAnalysisRepoTask>|Response getRepoCodeScanningCodeqlVariantAnalyseRepo(string $owner, string $repo, string $codeql_variant_analysis_id, string $repo_owner, string $repo_name, array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningDefaultSetup>|Response listRepoCodeScanningDefaultSetups(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoCodeScanningDefaultSetup(string $owner, string $repo, CodeScanningDefaultSetupUpdate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningSarifsReceipt>|Response createRepoCodeScanningSarif(string $owner, string $repo, CreateRepoCodeScanningSarifRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CodeScanningSarifsStatus>|Response getRepoCodeScanningSarif(string $owner, string $repo, string $sarif_id, array<string, mixed> $options = [])
+ * @method ApiResult<CodeSecurityConfigurationForRepository>|Response listRepoCodeSecurityConfigurations(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CodeownersErrors>|Response listRepoCodeownerErrors(string $owner, string $repo, array<string, mixed> $options = []) Query: ref
+ * @method ApiResult<ListRepoCodespacesResponse>|Response listRepoCodespaces(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Codespace>|Response createRepoCodespace(string $owner, string $repo, CreateRepoCodespaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoCodespaceDevcontainersResponse>|Response listRepoCodespaceDevcontainers(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListRepoCodespaceMachinesResponse>|Response listRepoCodespaceMachines(string $owner, string $repo, array<string, mixed> $options = []) Query: location, client_ip, ref
+ * @method ApiResult<ListRepoCodespaceNewsResponse>|Response listRepoCodespaceNews(string $owner, string $repo, array<string, mixed> $options = []) Query: ref, client_ip
+ * @method ApiResult<CodespacesPermissionsCheckForDevcontainer>|Response listRepoCodespacePermissionsChecks(string $owner, string $repo, array<string, mixed> $options = []) Query: ref, devcontainer_path
+ * @method ApiResult<ListRepoCodespaceSecretsResponse>|Response listRepoCodespaceSecrets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<CodespacesPublicKey>|Response listRepoCodespaceSecretPublicKeys(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<RepoCodespacesSecret>|Response getRepoCodespaceSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoCodespaceSecret(string $owner, string $repo, string $secret_name, UpdateRepoCodespaceSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoCodespaceSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Collaborator>>|Response listRepoCollaborators(string $owner, string $repo, array<string, mixed> $options = []) Query: affiliation, permission, per_page, page
+ * @method ApiResult<null>|Response getRepoCollaborator(string $owner, string $repo, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryInvitation>|Response updateRepoCollaborator(string $owner, string $repo, string $username, UpdateRepoCollaboratorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoCollaborator(string $owner, string $repo, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryCollaboratorPermission>|Response listRepoCollaboratorPermissions(string $owner, string $repo, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CommitComment>>|Response listRepoComments(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<CommitComment>|Response getRepoComment(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<CommitComment>|Response updateRepoComment(string $owner, string $repo, string $comment_id, UpdateRepoCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoComment(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Reaction>>|Response listRepoCommentReactions(string $owner, string $repo, string $comment_id, array<string, mixed> $options = []) Query: content, per_page, page
+ * @method ApiResult<Reaction>|Response createRepoCommentReaction(string $owner, string $repo, string $comment_id, CreateRepoCommentReactionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoCommentReaction(string $owner, string $repo, string $comment_id, string $reaction_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Commit>>|Response listRepoCommits(string $owner, string $repo, array<string, mixed> $options = []) Query: sha, path, author, committer, since, until, per_page, page
+ * @method ApiResult<array<int, BranchShort>>|Response listRepoCommitBranchesWhereHeads(string $owner, string $repo, string $commit_sha, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CommitComment>>|Response listRepoCommitComments(string $owner, string $repo, string $commit_sha, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<CommitComment>|Response createRepoCommitComment(string $owner, string $repo, string $commit_sha, CreateRepoCommitCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PullRequestSimple>>|Response listRepoCommitPulls(string $owner, string $repo, string $commit_sha, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Commit>|Response getRepoCommit(string $owner, string $repo, string $ref, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<ListRepoCommitCheckRunsResponse>|Response listRepoCommitCheckRuns(string $owner, string $repo, string $ref, array<string, mixed> $options = []) Query: check_name, status, filter, per_page, page, app_id
+ * @method ApiResult<ListRepoCommitCheckSuitesResponse>|Response listRepoCommitCheckSuites(string $owner, string $repo, string $ref, array<string, mixed> $options = []) Query: app_id, check_name, per_page, page
+ * @method ApiResult<CombinedCommitStatus>|Response listRepoCommitStatuses(string $owner, string $repo, string $ref, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Status>>|Response listRepoCommitStatuses2(string $owner, string $repo, string $ref, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<CommunityProfile>|Response listRepoCommunityProfiles(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CommitComparison>|Response getRepoCompare(string $owner, string $repo, string $basehead, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<null>|Response getRepoContent(string $owner, string $repo, string $path, array<string, mixed> $options = []) Query: ref
+ * @method ApiResult<FileCommit>|Response updateRepoContent(string $owner, string $repo, string $path, UpdateRepoContentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<FileCommit>|Response deleteRepoContent(string $owner, string $repo, string $path, DeleteRepoContentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Contributor>>|Response listRepoContributors(string $owner, string $repo, array<string, mixed> $options = []) Query: anon, per_page, page
+ * @method ApiResult<ListRepoCopilotCloudAgentConfigurationsResponse>|Response listRepoCopilotCloudAgentConfigurations(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, DependabotAlert>>|Response listRepoDependabotAlerts(string $owner, string $repo, array<string, mixed> $options = []) Query: classification, state, severity, ecosystem, package, manifest, epss_percentage, has, assignee, scope, relationship, sort, direction, before, after, per_page
+ * @method ApiResult<DependabotAlert>|Response getRepoDependabotAlert(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<DependabotAlert>|Response updateRepoDependabotAlert(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoDependabotSecretsResponse>|Response listRepoDependabotSecrets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<DependabotPublicKey>|Response listRepoDependabotSecretPublicKeys(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<DependabotSecret>|Response getRepoDependabotSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoDependabotSecret(string $owner, string $repo, string $secret_name, UpdateRepoDependabotSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoDependabotSecret(string $owner, string $repo, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GetRepoDependencyGraphCompareResponseItem>>|Response getRepoDependencyGraphCompare(string $owner, string $repo, string $basehead, array<string, mixed> $options = []) Query: name
+ * @method ApiResult<DependencyGraphSpdxSbom>|Response listRepoDependencyGraphSboms(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response getRepoDependencyGraphSbomFetchReport(string $owner, string $repo, string $sbom_uuid, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoDependencyGraphSbomGenerateReportsResponse>|Response listRepoDependencyGraphSbomGenerateReports(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<CreateRepoDependencyGraphSnapshotResponse>|Response createRepoDependencyGraphSnapshot(string $owner, string $repo, Snapshot|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Deployment>>|Response listRepoDeployments(string $owner, string $repo, array<string, mixed> $options = []) Query: sha, ref, task, environment, per_page, page
+ * @method ApiResult<Deployment>|Response createRepoDeployment(string $owner, string $repo, CreateRepoDeploymentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Deployment>|Response getRepoDeployment(string $owner, string $repo, string $deployment_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoDeployment(string $owner, string $repo, string $deployment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, DeploymentStatus>>|Response listRepoDeploymentStatuses(string $owner, string $repo, string $deployment_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<DeploymentStatus>|Response createRepoDeploymentStatus(string $owner, string $repo, string $deployment_id, CreateRepoDeploymentStatusRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeploymentStatus>|Response getRepoDeploymentStatus(string $owner, string $repo, string $deployment_id, string $status_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoDispatch(string $owner, string $repo, CreateRepoDispatchRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoEnvironmentsResponse>|Response listRepoEnvironments(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Environment>|Response getRepoEnvironment(string $owner, string $repo, string $environment_name, array<string, mixed> $options = [])
+ * @method ApiResult<Environment>|Response updateRepoEnvironment(string $owner, string $repo, string $environment_name, UpdateRepoEnvironmentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoEnvironment(string $owner, string $repo, string $environment_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoEnvironmentDeploymentBranchPoliciesResponse>|Response listRepoEnvironmentDeploymentBranchPolicies(string $owner, string $repo, string $environment_name, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<DeploymentBranchPolicy>|Response createRepoEnvironmentDeploymentBranchPolicy(string $owner, string $repo, string $environment_name, DeploymentBranchPolicyNamePatternWithType|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeploymentBranchPolicy>|Response getRepoEnvironmentDeploymentBranchPolicy(string $owner, string $repo, string $environment_name, string $branch_policy_id, array<string, mixed> $options = [])
+ * @method ApiResult<DeploymentBranchPolicy>|Response updateRepoEnvironmentDeploymentBranchPolicy(string $owner, string $repo, string $environment_name, string $branch_policy_id, DeploymentBranchPolicyNamePattern|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoEnvironmentDeploymentBranchPolicy(string $owner, string $repo, string $environment_name, string $branch_policy_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoEnvironmentDeploymentProtectionRulesResponse>|Response listRepoEnvironmentDeploymentProtectionRules(string $owner, string $repo, string $environment_name, array<string, mixed> $options = [])
+ * @method ApiResult<DeploymentProtectionRule>|Response createRepoEnvironmentDeploymentProtectionRule(string $owner, string $repo, string $environment_name, CreateRepoEnvironmentDeploymentProtectionRuleRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoEnvironmentDeploymentProtectionRuleAppsResponse>|Response listRepoEnvironmentDeploymentProtectionRuleApps(string $owner, string $repo, string $environment_name, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<DeploymentProtectionRule>|Response getRepoEnvironmentDeploymentProtectionRule(string $owner, string $repo, string $environment_name, string $protection_rule_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoEnvironmentDeploymentProtectionRule(string $owner, string $repo, string $environment_name, string $protection_rule_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoEnvironmentSecretsResponse>|Response listRepoEnvironmentSecrets(string $owner, string $repo, string $environment_name, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ActionsPublicKey>|Response listRepoEnvironmentSecretPublicKeys(string $owner, string $repo, string $environment_name, array<string, mixed> $options = [])
+ * @method ApiResult<ActionsSecret>|Response getRepoEnvironmentSecret(string $owner, string $repo, string $environment_name, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoEnvironmentSecret(string $owner, string $repo, string $environment_name, string $secret_name, UpdateRepoEnvironmentSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoEnvironmentSecret(string $owner, string $repo, string $environment_name, string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoEnvironmentVariablesResponse>|Response listRepoEnvironmentVariables(string $owner, string $repo, string $environment_name, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response createRepoEnvironmentVariable(string $owner, string $repo, string $environment_name, CreateRepoEnvironmentVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ActionsVariable>|Response getRepoEnvironmentVariable(string $owner, string $repo, string $environment_name, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoEnvironmentVariable(string $owner, string $repo, string $environment_name, string $name, UpdateRepoEnvironmentVariableRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoEnvironmentVariable(string $owner, string $repo, string $environment_name, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Event>>|Response listRepoEvents(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, MinimalRepository>>|Response listRepoForks(string $owner, string $repo, array<string, mixed> $options = []) Query: sort, per_page, page
+ * @method ApiResult<FullRepository>|Response createRepoFork(string $owner, string $repo, CreateRepoForkRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ShortBlob>|Response createRepoGitBlob(string $owner, string $repo, CreateRepoGitBlobRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Blob>|Response getRepoGitBlob(string $owner, string $repo, string $file_sha, array<string, mixed> $options = [])
+ * @method ApiResult<GitCommit>|Response createRepoGitCommit(string $owner, string $repo, CreateRepoGitCommitRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GitCommit>|Response getRepoGitCommit(string $owner, string $repo, string $commit_sha, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GitRef>>|Response getRepoGitMatchingRef(string $owner, string $repo, string $ref, array<string, mixed> $options = [])
+ * @method ApiResult<GitRef>|Response getRepoGitRef(string $owner, string $repo, string $ref, array<string, mixed> $options = [])
+ * @method ApiResult<GitRef>|Response createRepoGitRef(string $owner, string $repo, CreateRepoGitRefRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GitRef>|Response updateRepoGitRef(string $owner, string $repo, string $ref, UpdateRepoGitRefRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoGitRef(string $owner, string $repo, string $ref, array<string, mixed> $options = [])
+ * @method ApiResult<GitTag>|Response createRepoGitTag(string $owner, string $repo, CreateRepoGitTagRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GitTag>|Response getRepoGitTag(string $owner, string $repo, string $tag_sha, array<string, mixed> $options = [])
+ * @method ApiResult<GitTree>|Response createRepoGitTree(string $owner, string $repo, CreateRepoGitTreeRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GitTree>|Response getRepoGitTree(string $owner, string $repo, string $tree_sha, array<string, mixed> $options = []) Query: recursive
+ * @method ApiResult<RepositoryHashAlgorithm>|Response listRepoHashAlgorithms(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, \Zerotoprod\GitHubSdk\Models\Hook>>|Response listRepoHooks(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<\Zerotoprod\GitHubSdk\Models\Hook>|Response createRepoHook(string $owner, string $repo, CreateRepoHookRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<\Zerotoprod\GitHubSdk\Models\Hook>|Response getRepoHook(string $owner, string $repo, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<\Zerotoprod\GitHubSdk\Models\Hook>|Response updateRepoHook(string $owner, string $repo, string $hook_id, UpdateRepoHookRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoHook(string $owner, string $repo, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<WebhookConfig>|Response listRepoHookConfigs(string $owner, string $repo, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<WebhookConfig>|Response updateRepoHookConfig(string $owner, string $repo, string $hook_id, UpdateRepoHookConfigRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, HookDeliveryItem>>|Response listRepoHookDeliveries(string $owner, string $repo, string $hook_id, array<string, mixed> $options = []) Query: per_page, cursor, status
+ * @method ApiResult<HookDelivery>|Response getRepoHookDelivery(string $owner, string $repo, string $hook_id, string $delivery_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoHookDeliveryAttempt(string $owner, string $repo, string $hook_id, string $delivery_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoHookPing(string $owner, string $repo, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoHookTest(string $owner, string $repo, string $hook_id, array<string, mixed> $options = [])
+ * @method ApiResult<CheckImmutableReleases>|Response listRepoImmutableReleases(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoImmutableRelease(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoImmutableRelease(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Import>|Response listRepoImports(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Import>|Response updateRepoImport(string $owner, string $repo, UpdateRepoImportRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Import>|Response patchRepoImport(string $owner, string $repo, PatchRepoImportRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoImport(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PorterAuthor>>|Response listRepoImportAuthors(string $owner, string $repo, array<string, mixed> $options = []) Query: since
+ * @method ApiResult<PorterAuthor>|Response updateRepoImportAuthor(string $owner, string $repo, string $author_id, UpdateRepoImportAuthorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PorterLargeFile>>|Response listRepoImportLargeFiles(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Import>|Response updateRepoImportLf(string $owner, string $repo, UpdateRepoImportLfRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Installation>|Response listRepoInstallations(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoInteractionLimits(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<InteractionLimitResponse>|Response updateRepoInteractionLimit(string $owner, string $repo, InteractionLimit|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoInteractionLimit(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listRepoInteractionLimitPullBypassLists(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoInteractionLimitPullBypassList(string $owner, string $repo, InteractionLimitPullRequestBypassList|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoInteractionLimitPullBypassList(string $owner, string $repo, InteractionLimitPullRequestBypassList|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoInteractionLimitPullCreationCapsResponse>|Response listRepoInteractionLimitPullCreationCaps(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<UpdateRepoInteractionLimitPullCreationCapResponse>|Response updateRepoInteractionLimitPullCreationCap(string $owner, string $repo, UpdateRepoInteractionLimitPullCreationCapRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RepositoryInvitation>>|Response listRepoInvitations(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<RepositoryInvitation>|Response updateRepoInvitation(string $owner, string $repo, string $invitation_id, UpdateRepoInvitationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoInvitation(string $owner, string $repo, string $invitation_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueType>>|Response listRepoIssueTypes(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listRepoIssues(string $owner, string $repo, array<string, mixed> $options = []) Query: milestone, state, assignee, type, creator, mentioned, issue_field_values, labels, sort, direction, since, per_page, page
+ * @method ApiResult<Issue>|Response createRepoIssue(string $owner, string $repo, CreateRepoIssueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueComment>>|Response listRepoIssueComments(string $owner, string $repo, array<string, mixed> $options = []) Query: sort, direction, since, per_page, page
+ * @method ApiResult<IssueComment>|Response getRepoIssueComment(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<IssueComment>|Response updateRepoIssueComment(string $owner, string $repo, string $comment_id, UpdateRepoIssueCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueComment(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<IssueComment>|Response updateRepoIssueCommentPin(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueCommentPin(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Reaction>>|Response listRepoIssueCommentReactions(string $owner, string $repo, string $comment_id, array<string, mixed> $options = []) Query: content, per_page, page
+ * @method ApiResult<Reaction>|Response createRepoIssueCommentReaction(string $owner, string $repo, string $comment_id, CreateRepoIssueCommentReactionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueCommentReaction(string $owner, string $repo, string $comment_id, string $reaction_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueEvent>>|Response listRepoIssueEvents(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<IssueEvent>|Response getRepoIssueEvent(string $owner, string $repo, string $event_id, array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response getRepoIssue(string $owner, string $repo, string $issue_number, array<string, mixed> $options = [])
+ * @method ApiResult<UpdateRepoIssueResponse>|Response updateRepoIssue(string $owner, string $repo, string $issue_number, UpdateRepoIssueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response createRepoIssueAssignee(string $owner, string $repo, string $issue_number, CreateRepoIssueAssigneeRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response deleteRepoIssueAssignee(string $owner, string $repo, string $issue_number, DeleteRepoIssueAssigneeRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response getRepoIssueAssignee(string $owner, string $repo, string $issue_number, string $assignee, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueComment>>|Response listRepoIssueComments2(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: since, per_page, page
+ * @method ApiResult<IssueComment>|Response createRepoIssueComment(string $owner, string $repo, string $issue_number, CreateRepoIssueCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listRepoIssueDependencyBlockedBies(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Issue>|Response createRepoIssueDependencyBlockedBy(string $owner, string $repo, string $issue_number, CreateRepoIssueDependencyBlockedByRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response deleteRepoIssueDependencyBlockedBy(string $owner, string $repo, string $issue_number, string $issue_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listRepoIssueDependencyBlockings(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listRepoIssueEvents2(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, IssueFieldValue>>|Response listRepoIssueIssueFieldValues(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, IssueFieldValue>>|Response createRepoIssueIssueFieldValue(string $owner, string $repo, string $issue_number, CreateRepoIssueIssueFieldValueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueFieldValue>>|Response updateRepoIssueIssueFieldValue(string $owner, string $repo, string $issue_number, UpdateRepoIssueIssueFieldValueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueIssueFieldValue(string $owner, string $repo, string $issue_number, string $issue_field_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Label>>|Response listRepoIssueLabels(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Label>>|Response createRepoIssueLabel(string $owner, string $repo, string $issue_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Label>>|Response updateRepoIssueLabel(string $owner, string $repo, string $issue_number, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueLabel(string $owner, string $repo, string $issue_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Label>>|Response deleteRepoIssueLabel2(string $owner, string $repo, string $issue_number, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoIssueLock(string $owner, string $repo, string $issue_number, UpdateRepoIssueLockRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueLock(string $owner, string $repo, string $issue_number, array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response listRepoIssueParents(string $owner, string $repo, string $issue_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Reaction>>|Response listRepoIssueReactions(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: content, per_page, page
+ * @method ApiResult<Reaction>|Response createRepoIssueReaction(string $owner, string $repo, string $issue_number, CreateRepoIssueReactionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoIssueReaction(string $owner, string $repo, string $issue_number, string $reaction_id, array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response deleteRepoIssueSubIssue(string $owner, string $repo, string $issue_number, DeleteRepoIssueSubIssueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listRepoIssueSubIssues(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Issue>|Response createRepoIssueSubIssue(string $owner, string $repo, string $issue_number, CreateRepoIssueSubIssueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Issue>|Response updateRepoIssueSubIssuePriority(string $owner, string $repo, string $issue_number, UpdateRepoIssueSubIssuePriorityRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, IssueSuggestion>>|Response listRepoIssueSuggestions(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: state, action, per_page, page
+ * @method ApiResult<IssueSuggestion>|Response createRepoIssueSuggestionApprove(string $owner, string $repo, string $issue_number, string $suggestion_id, array<string, mixed> $options = [])
+ * @method ApiResult<IssueSuggestion>|Response createRepoIssueSuggestionDismiss(string $owner, string $repo, string $issue_number, string $suggestion_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoIssueTimelines(string $owner, string $repo, string $issue_number, array<string, mixed> $options = []) Query: per_page, page, exclude
+ * @method ApiResult<array<int, DeployKey>>|Response listRepoKeys(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<DeployKey>|Response createRepoKey(string $owner, string $repo, CreateRepoKeyRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<DeployKey>|Response getRepoKey(string $owner, string $repo, string $key_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoKey(string $owner, string $repo, string $key_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Label>>|Response listRepoLabels(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Label>|Response createRepoLabel(string $owner, string $repo, CreateRepoLabelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Label>|Response getRepoLabel(string $owner, string $repo, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<Label>|Response updateRepoLabel(string $owner, string $repo, string $name, UpdateRepoLabelRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoLabel(string $owner, string $repo, string $name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoLanguages(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<LicenseContent>|Response listRepoLicenses(string $owner, string $repo, array<string, mixed> $options = []) Query: ref
+ * @method ApiResult<MergedUpstream>|Response createRepoMergeUpstream(string $owner, string $repo, CreateRepoMergeUpstreamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Commit>|Response createRepoMerge(string $owner, string $repo, CreateRepoMergeRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Milestone>>|Response listRepoMilestones(string $owner, string $repo, array<string, mixed> $options = []) Query: state, sort, direction, per_page, page
+ * @method ApiResult<Milestone>|Response createRepoMilestone(string $owner, string $repo, CreateRepoMilestoneRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Milestone>|Response getRepoMilestone(string $owner, string $repo, string $milestone_number, array<string, mixed> $options = [])
+ * @method ApiResult<Milestone>|Response updateRepoMilestone(string $owner, string $repo, string $milestone_number, UpdateRepoMilestoneRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoMilestone(string $owner, string $repo, string $milestone_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Label>>|Response listRepoMilestoneLabels(string $owner, string $repo, string $milestone_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Thread>>|Response listRepoNotifications(string $owner, string $repo, array<string, mixed> $options = []) Query: all, participating, since, before, per_page, page
+ * @method ApiResult<UpdateRepoNotificationResponse>|Response updateRepoNotification(string $owner, string $repo, UpdateRepoNotificationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Page>|Response listRepoPages(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Page>|Response createRepoPage(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoPage(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoPage(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PageBuild>>|Response listRepoPageBuilds(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<PageBuildStatus>|Response createRepoPageBuild(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<PageBuild>|Response listRepoPageBuildLatests(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<PageBuild>|Response getRepoPageBuild(string $owner, string $repo, string $build_id, array<string, mixed> $options = [])
+ * @method ApiResult<PageDeployment>|Response createRepoPageDeployment(string $owner, string $repo, CreateRepoPageDeploymentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PagesDeploymentStatus>|Response getRepoPageDeployment(string $owner, string $repo, string $pages_deployment_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoPageDeploymentCancel(string $owner, string $repo, string $pages_deployment_id, array<string, mixed> $options = [])
+ * @method ApiResult<PagesHealthCheck>|Response listRepoPageHealths(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ListRepoPrivateVulnerabilityReportingsResponse>|Response listRepoPrivateVulnerabilityReportings(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoPrivateVulnerabilityReporting(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoPrivateVulnerabilityReporting(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CustomPropertyValue>>|Response listRepoPropertyValues(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoPropertyValue(string $owner, string $repo, UpdateRepoPropertyValueRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PullRequestSimple>>|Response listRepoPulls(string $owner, string $repo, array<string, mixed> $options = []) Query: state, head, base, sort, direction, per_page, page
+ * @method ApiResult<PullRequest>|Response createRepoPull(string $owner, string $repo, CreateRepoPullRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PullRequestReviewComment>>|Response listRepoPullComments(string $owner, string $repo, array<string, mixed> $options = []) Query: sort, direction, since, per_page, page
+ * @method ApiResult<PullRequestReviewComment>|Response getRepoPullComment(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReviewComment>|Response updateRepoPullComment(string $owner, string $repo, string $comment_id, UpdateRepoPullCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoPullComment(string $owner, string $repo, string $comment_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Reaction>>|Response listRepoPullCommentReactions(string $owner, string $repo, string $comment_id, array<string, mixed> $options = []) Query: content, per_page, page
+ * @method ApiResult<Reaction>|Response createRepoPullCommentReaction(string $owner, string $repo, string $comment_id, CreateRepoPullCommentReactionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoPullCommentReaction(string $owner, string $repo, string $comment_id, string $reaction_id, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequest>|Response getRepoPull(string $owner, string $repo, string $pull_number, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequest>|Response updateRepoPull(string $owner, string $repo, string $pull_number, UpdateRepoPullRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Codespace>|Response createRepoPullCodespace(string $owner, string $repo, string $pull_number, CreateRepoPullCodespaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PullRequestReviewComment>>|Response listRepoPullComments2(string $owner, string $repo, string $pull_number, array<string, mixed> $options = []) Query: sort, direction, since, per_page, page
+ * @method ApiResult<PullRequestReviewComment>|Response createRepoPullComment(string $owner, string $repo, string $pull_number, CreateRepoPullCommentRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReviewComment>|Response createRepoPullCommentReply(string $owner, string $repo, string $pull_number, string $comment_id, CreateRepoPullCommentReplyRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Commit>>|Response listRepoPullCommits(string $owner, string $repo, string $pull_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, DiffEntry>>|Response listRepoPullFiles(string $owner, string $repo, string $pull_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listRepoPullMerges(string $owner, string $repo, string $pull_number, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestMergeResult>|Response updateRepoPullMerge(string $owner, string $repo, string $pull_number, UpdateRepoPullMergeRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestMergeAsyncResult>|Response updateRepoPullMergeAsync(string $owner, string $repo, string $pull_number, UpdateRepoPullMergeAsyncRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestMergeAsyncResult>|Response getRepoPullMergeAsync(string $owner, string $repo, string $pull_number, string $uuid, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReviewRequest>|Response listRepoPullRequestedReviewers(string $owner, string $repo, string $pull_number, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestSimple>|Response createRepoPullRequestedReviewer(string $owner, string $repo, string $pull_number, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestSimple>|Response deleteRepoPullRequestedReviewer(string $owner, string $repo, string $pull_number, DeleteRepoPullRequestedReviewerRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PullRequestReview>>|Response listRepoPullReviews(string $owner, string $repo, string $pull_number, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<PullRequestReview>|Response createRepoPullReview(string $owner, string $repo, string $pull_number, CreateRepoPullReviewRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReview>|Response getRepoPullReview(string $owner, string $repo, string $pull_number, string $review_id, array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReview>|Response updateRepoPullReview(string $owner, string $repo, string $pull_number, string $review_id, UpdateRepoPullReviewRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReview>|Response deleteRepoPullReview(string $owner, string $repo, string $pull_number, string $review_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ReviewComment>>|Response listRepoPullReviewComments(string $owner, string $repo, string $pull_number, string $review_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<PullRequestReview>|Response updateRepoPullReviewDismissal(string $owner, string $repo, string $pull_number, string $review_id, UpdateRepoPullReviewDismissalRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<PullRequestReview>|Response createRepoPullReviewEvent(string $owner, string $repo, string $pull_number, string $review_id, CreateRepoPullReviewEventRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<UpdateRepoPullUpdateBranchResponse>|Response updateRepoPullUpdateBranch(string $owner, string $repo, string $pull_number, UpdateRepoPullUpdateBranchRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ContentFile>|Response listRepoReadmes(string $owner, string $repo, array<string, mixed> $options = []) Query: ref
+ * @method ApiResult<ContentFile>|Response getRepoReadme(string $owner, string $repo, string $dir, array<string, mixed> $options = []) Query: ref
+ * @method ApiResult<array<int, Release>>|Response listRepoReleases(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Release>|Response createRepoRelease(string $owner, string $repo, CreateRepoReleaseRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<ReleaseAsset>|Response getRepoReleaseAsset(string $owner, string $repo, string $asset_id, array<string, mixed> $options = [])
+ * @method ApiResult<ReleaseAsset>|Response updateRepoReleaseAsset(string $owner, string $repo, string $asset_id, UpdateRepoReleaseAssetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoReleaseAsset(string $owner, string $repo, string $asset_id, array<string, mixed> $options = [])
+ * @method ApiResult<ReleaseNotesContent>|Response createRepoReleaseGenerateNote(string $owner, string $repo, CreateRepoReleaseGenerateNoteRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Release>|Response listRepoReleaseLatests(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Release>|Response getRepoReleaseTag(string $owner, string $repo, string $tag, array<string, mixed> $options = [])
+ * @method ApiResult<Release>|Response getRepoRelease(string $owner, string $repo, string $release_id, array<string, mixed> $options = [])
+ * @method ApiResult<Release>|Response updateRepoRelease(string $owner, string $repo, string $release_id, UpdateRepoReleaseRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoRelease(string $owner, string $repo, string $release_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ReleaseAsset>>|Response listRepoReleaseAssets(string $owner, string $repo, string $release_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ReleaseAsset>|Response createRepoReleaseAsset(string $owner, string $repo, string $release_id, array<string, mixed> $options = []) Query: name, label
+ * @method ApiResult<array<int, Reaction>>|Response listRepoReleaseReactions(string $owner, string $repo, string $release_id, array<string, mixed> $options = []) Query: content, per_page, page
+ * @method ApiResult<Reaction>|Response createRepoReleaseReaction(string $owner, string $repo, string $release_id, CreateRepoReleaseReactionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoReleaseReaction(string $owner, string $repo, string $release_id, string $reaction_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response getRepoRuleBranch(string $owner, string $repo, string $branch, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, RepositoryRuleset>>|Response listRepoRulesets(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page, includes_parents, targets
+ * @method ApiResult<RepositoryRuleset>|Response createRepoRuleset(string $owner, string $repo, CreateRepoRulesetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ListRepoRulesetRuleSuitesResponseItem>>|Response listRepoRulesetRuleSuites(string $owner, string $repo, array<string, mixed> $options = []) Query: ref, time_period, actor_name, rule_suite_result, evaluate_status, per_page, page
+ * @method ApiResult<RuleSuite>|Response getRepoRulesetRuleSuite(string $owner, string $repo, string $rule_suite_id, array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryRuleset>|Response getRepoRuleset(string $owner, string $repo, string $ruleset_id, array<string, mixed> $options = []) Query: includes_parents
+ * @method ApiResult<RepositoryRuleset>|Response updateRepoRuleset(string $owner, string $repo, string $ruleset_id, UpdateRepoRulesetRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoRuleset(string $owner, string $repo, string $ruleset_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RulesetVersion>>|Response listRepoRulesetHistories(string $owner, string $repo, string $ruleset_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<RulesetVersionWithState>|Response getRepoRulesetHistory(string $owner, string $repo, string $ruleset_id, string $version_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SecretScanningAlert>>|Response listRepoSecretScanningAlerts(string $owner, string $repo, array<string, mixed> $options = []) Query: state, secret_type, exclude_secret_types, exclude_providers, providers, resolution, assignee, sort, direction, page, per_page, before, after, validity, is_publicly_leaked, is_multi_repo, hide_secret, is_bypassed, included_metadata, owner_email_hash
+ * @method ApiResult<SecretScanningAlertWithMetadata>|Response getRepoSecretScanningAlert(string $owner, string $repo, string $alert_number, array<string, mixed> $options = []) Query: hide_secret
+ * @method ApiResult<SecretScanningAlertWithMetadata>|Response updateRepoSecretScanningAlert(string $owner, string $repo, string $alert_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SecretScanningLocation>>|Response listRepoSecretScanningAlertLocations(string $owner, string $repo, string $alert_number, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<array<int, SecretScanningCustomPattern>>|Response listRepoSecretScanningCustomPatterns(string $owner, string $repo, array<string, mixed> $options = []) Query: state, push_protection, sort, direction, page, per_page, before, after
+ * @method ApiResult<CreateRepoSecretScanningCustomPatternResponse>|Response createRepoSecretScanningCustomPattern(string $owner, string $repo, CreateRepoSecretScanningCustomPatternRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoSecretScanningCustomPattern(string $owner, string $repo, DeleteRepoSecretScanningCustomPatternRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SecretScanningCustomPattern>|Response updateRepoSecretScanningCustomPattern(string $owner, string $repo, string $pattern_id, SecretScanningCustomPatternToUpdate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SecretScanningPushProtectionBypass>|Response createRepoSecretScanningPushProtectionBypass(string $owner, string $repo, CreateRepoSecretScanningPushProtectionBypassRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SecretScanningScanHistory>|Response listRepoSecretScanningScanHistories(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RepositoryAdvisory>>|Response listRepoSecurityAdvisories(string $owner, string $repo, array<string, mixed> $options = []) Query: direction, sort, before, after, per_page, state
+ * @method ApiResult<RepositoryAdvisory>|Response createRepoSecurityAdvisory(string $owner, string $repo, RepositoryAdvisoryCreate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryAdvisory>|Response createRepoSecurityAdvisoryReport(string $owner, string $repo, PrivateVulnerabilityReportCreate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryAdvisory>|Response getRepoSecurityAdvisory(string $owner, string $repo, string $ghsa_id, array<string, mixed> $options = [])
+ * @method ApiResult<RepositoryAdvisory>|Response updateRepoSecurityAdvisory(string $owner, string $repo, string $ghsa_id, RepositoryAdvisoryUpdate|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createRepoSecurityAdvisoryCve(string $owner, string $repo, string $ghsa_id, array<string, mixed> $options = [])
+ * @method ApiResult<FullRepository>|Response createRepoSecurityAdvisoryFork(string $owner, string $repo, string $ghsa_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, PullRequestStackMinimal>>|Response listRepoStacks(string $owner, string $repo, array<string, mixed> $options = []) Query: pull_request, per_page, page
+ * @method ApiResult<CreateRepoStackResponse>|Response createRepoStack(string $owner, string $repo, CreateRepoStackRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GetRepoStackResponse>|Response getRepoStack(string $owner, string $repo, string $stack_number, array<string, mixed> $options = [])
+ * @method ApiResult<CreateRepoStackAddResponse>|Response createRepoStackAdd(string $owner, string $repo, string $stack_number, CreateRepoStackAddRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CreateRepoStackUnstackResponse>|Response createRepoStackUnstack(string $owner, string $repo, string $stack_number, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoStargazers(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListRepoStargazerCountsResponse>|Response listRepoStargazerCounts(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoStatCodeFrequencies(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, CommitActivity>>|Response listRepoStatCommitActivities(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ContributorActivity>>|Response listRepoStatContributors(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ParticipationStats>|Response listRepoStatParticipations(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoStatPunchCards(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<Status>|Response createRepoStatus(string $owner, string $repo, string $sha, CreateRepoStatusRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listRepoSubscribers(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<RepositorySubscription>|Response listRepoSubscriptions(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<RepositorySubscription>|Response updateRepoSubscription(string $owner, string $repo, UpdateRepoSubscriptionRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoSubscription(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Tag>>|Response listRepoTags(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getRepoTarball(string $owner, string $repo, string $ref, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response listRepoTeams(string $owner, string $repo, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Topic>|Response listRepoTopics(string $owner, string $repo, array<string, mixed> $options = []) Query: page, per_page
+ * @method ApiResult<Topic>|Response updateRepoTopic(string $owner, string $repo, UpdateRepoTopicRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CloneTraffic>|Response listRepoTrafficClones(string $owner, string $repo, array<string, mixed> $options = []) Query: per
+ * @method ApiResult<array<int, ContentTraffic>>|Response listRepoTrafficPopularPaths(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ReferrerTraffic>>|Response listRepoTrafficPopularReferrers(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<ViewTraffic>|Response listRepoTrafficViews(string $owner, string $repo, array<string, mixed> $options = []) Query: per
+ * @method ApiResult<MinimalRepository>|Response createRepoTransfer(string $owner, string $repo, CreateRepoTransferRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listRepoVulnerabilityAlerts(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateRepoVulnerabilityAlert(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteRepoVulnerabilityAlert(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response getRepoZipball(string $owner, string $repo, string $ref, array<string, mixed> $options = [])
+ * @method ApiResult<FullRepository>|Response createRepoGenerate(string $template_owner, string $template_repo, CreateRepoGenerateRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listRepositories(array<string, mixed> $options = []) Query: since
+ * @method ApiResult<ListSearchCodesResponse>|Response listSearchCodes(array<string, mixed> $options = []) Query: q, sort, order, per_page, page
+ * @method ApiResult<ListSearchCommitsResponse>|Response listSearchCommits(array<string, mixed> $options = []) Query: q, sort, order, per_page, page
+ * @method ApiResult<ListSearchIssuesResponse>|Response listSearchIssues(array<string, mixed> $options = []) Query: q, sort, order, per_page, page, advanced_search, search_type
+ * @method ApiResult<ListSearchLabelsResponse>|Response listSearchLabels(array<string, mixed> $options = []) Query: repository_id, q, sort, order, per_page, page
+ * @method ApiResult<ListSearchRepositoriesResponse>|Response listSearchRepositories(array<string, mixed> $options = []) Query: q, sort, order, per_page, page
+ * @method ApiResult<ListSearchTopicsResponse>|Response listSearchTopics(array<string, mixed> $options = []) Query: q, per_page, page
+ * @method ApiResult<ListSearchUsersResponse>|Response listSearchUsers(array<string, mixed> $options = []) Query: q, sort, order, per_page, page
+ * @method ApiResult<TeamFull>|Response getTeam(string $team_id, array<string, mixed> $options = [])
+ * @method ApiResult<TeamFull>|Response updateTeam(string $team_id, UpdateTeamRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteTeam(string $team_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, OrganizationInvitation>>|Response listTeamInvitations(string $team_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, TeamMember>>|Response listTeamMembers(string $team_id, array<string, mixed> $options = []) Query: role, per_page, page
+ * @method ApiResult<null>|Response getTeamMember(string $team_id, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateTeamMember(string $team_id, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteTeamMember(string $team_id, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<TeamMembership>|Response getTeamMembership(string $team_id, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<TeamMembership>|Response updateTeamMembership(string $team_id, string $username, UpdateTeamMembershipRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteTeamMembership(string $team_id, string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listTeamRepos(string $team_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<TeamRepository>|Response getTeamRepo(string $team_id, string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateTeamRepo(string $team_id, string $owner, string $repo, UpdateTeamRepoRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteTeamRepo(string $team_id, string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Team>>|Response listTeamTeams(string $team_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listUsers(array<string, mixed> $options = [])
+ * @method ApiResult<PrivateUser>|Response updateUser(UpdateUserRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listUserBlocks(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getUserBlock(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserBlock(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserBlock(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<ListUserCodespacesResponse>|Response listUserCodespaces(array<string, mixed> $options = []) Query: per_page, page, repository_id
+ * @method ApiResult<Codespace>|Response createUserCodespace(array<string, mixed> $options = [])
+ * @method ApiResult<ListUserCodespaceSecretsResponse>|Response listUserCodespaceSecrets(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<CodespacesUserPublicKey>|Response listUserCodespaceSecretPublicKeys(array<string, mixed> $options = [])
+ * @method ApiResult<CodespacesSecret>|Response getUserCodespaceSecret(string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserCodespaceSecret(string $secret_name, UpdateUserCodespaceSecretRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserCodespaceSecret(string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<ListUserCodespaceSecretRepositoriesResponse>|Response listUserCodespaceSecretRepositories(string $secret_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserCodespaceSecretRepository(string $secret_name, UpdateUserCodespaceSecretRepositoryRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserCodespaceSecretRepository2(string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserCodespaceSecretRepository(string $secret_name, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<Codespace>|Response getUserCodespace(string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<Codespace>|Response updateUserCodespace(string $codespace_name, UpdateUserCodespaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserCodespace(string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<CodespaceExportDetails>|Response createUserCodespaceExport(string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<CodespaceExportDetails>|Response getUserCodespaceExport(string $codespace_name, string $export_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListUserCodespaceMachinesResponse>|Response listUserCodespaceMachines(string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<CodespaceWithFullRepository>|Response createUserCodespacePublish(string $codespace_name, CreateUserCodespacePublishRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Codespace>|Response createUserCodespaceStart(string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<Codespace>|Response createUserCodespaceStop(string $codespace_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Package>>|Response listUserDockerConflicts(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Email>>|Response updateUserEmailVisibility(UpdateUserEmailVisibilityRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Email>>|Response listUserEmails(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Email>>|Response createUserEmail(array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserEmail(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listUserFollowers(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SimpleUser>>|Response listUserFollowings(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getUserFollowing(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserFollowing(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserFollowing(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, GpgKey>>|Response listUserGpgKeys(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<GpgKey>|Response createUserGpgKey(CreateUserGpgKeyRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<GpgKey>|Response getUserGpgKey(string $gpg_key_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserGpgKey(string $gpg_key_id, array<string, mixed> $options = [])
+ * @method ApiResult<ListUserInstallationsResponse>|Response listUserInstallations(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<ListUserInstallationRepositoriesResponse>|Response listUserInstallationRepositories(string $installation_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateUserInstallationRepository(string $installation_id, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserInstallationRepository(string $installation_id, string $repository_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listUserInteractionLimits(array<string, mixed> $options = [])
+ * @method ApiResult<InteractionLimitResponse>|Response updateUserInteractionLimit(InteractionLimit|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserInteractionLimit(array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Issue>>|Response listUserIssues(array<string, mixed> $options = []) Query: filter, state, labels, sort, direction, since, per_page, page
+ * @method ApiResult<array<int, Key>>|Response listUserKeys(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Key>|Response createUserKey(CreateUserKeyRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Key>|Response getUserKey(string $key_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserKey(string $key_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, UserMarketplacePurchase>>|Response listUserMarketplacePurchases(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, UserMarketplacePurchase>>|Response listUserMarketplacePurchaseStubbeds(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrgMembership>>|Response listUserMembershipOrgs(array<string, mixed> $options = []) Query: state, per_page, page
+ * @method ApiResult<OrgMembership>|Response getUserMembershipOrg(string $org, array<string, mixed> $options = [])
+ * @method ApiResult<OrgMembership>|Response updateUserMembershipOrg(string $org, UpdateUserMembershipOrgRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Migration>>|Response listUserMigrations(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Migration>|Response createUserMigration(CreateUserMigrationRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<Migration>|Response getUserMigration(string $migration_id, array<string, mixed> $options = []) Query: exclude
+ * @method ApiResult<null>|Response listUserMigrationArchives(string $migration_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserMigrationArchive(string $migration_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserMigrationRepoLock(string $migration_id, string $repo_name, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listUserMigrationRepositories(string $migration_id, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrganizationSimple>>|Response listUserOrgs(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Package>>|Response listUserPackages(array<string, mixed> $options = []) Query: package_type, visibility, page, per_page
+ * @method ApiResult<Package>|Response getUserPackage(string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserPackage(string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createUserPackageRestore(string $package_type, string $package_name, array<string, mixed> $options = []) Query: token
+ * @method ApiResult<array<int, PackageVersion>>|Response listUserPackageVersions(string $package_type, string $package_name, array<string, mixed> $options = []) Query: page, per_page, state
+ * @method ApiResult<PackageVersion>|Response getUserPackageVersion(string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserPackageVersion(string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createUserPackageVersionRestore(string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Email>>|Response listUserPublicEmails(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Repository>>|Response listUserRepos(array<string, mixed> $options = []) Query: visibility, affiliation, type, sort, direction, per_page, page, since, before
+ * @method ApiResult<FullRepository>|Response createUserRepo(CreateUserRepoRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, RepositoryInvitation>>|Response listUserRepositoryInvitations(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response updateUserRepositoryInvitation(string $invitation_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserRepositoryInvitation(string $invitation_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SocialAccount>>|Response listUserSocialAccounts(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SocialAccount>>|Response createUserSocialAccount(CreateUserSocialAccountRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserSocialAccount(DeleteUserSocialAccountRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SshSigningKey>>|Response listUserSshSigningKeys(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<SshSigningKey>|Response createUserSshSigningKey(CreateUserSshSigningKeyRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<SshSigningKey>|Response getUserSshSigningKey(string $ssh_signing_key_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserSshSigningKey(string $ssh_signing_key_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Repository>>|Response listUserStarreds(array<string, mixed> $options = []) Query: sort, direction, per_page, page
+ * @method ApiResult<null>|Response getUserStarred(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserStarred(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserStarred(string $owner, string $repo, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, MinimalRepository>>|Response listUserSubscriptions(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, TeamFull>>|Response listUserTeams(array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getUser(string $account_id, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2ItemSimple>|Response createUserProjectsV2Draft(string $user_id, string $project_number, CreateUserProjectsV2DraftRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<array<int, SimpleUser>>|Response listUsers2(array<string, mixed> $options = []) Query: since, per_page
+ * @method ApiResult<ProjectsV2View>|Response createUserProjectsV2View(string $user_id, string $project_number, CreateUserProjectsV2ViewRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response getUser2(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<CreateUserAttestationBulkListResponse>|Response createUserAttestationBulkList(string $username, CreateUserAttestationBulkListRequest|array<string, mixed> $data = [], array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<null>|Response createUserAttestationDeleteRequest(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserAttestationDigest(string $username, string $subject_digest, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserAttestation(string $username, string $attestation_id, array<string, mixed> $options = [])
+ * @method ApiResult<GetUserAttestationResponse>|Response getUserAttestation(string $username, string $subject_digest, array<string, mixed> $options = []) Query: per_page, before, after, predicate_type
+ * @method ApiResult<ListUserCopilotSpacesResponse>|Response listUserCopilotSpaces(string $username, array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<CopilotSpace>|Response createUserCopilotSpace(string $username, CreateUserCopilotSpaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpace>|Response getUserCopilotSpace(string $username, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpace>|Response updateUserCopilotSpace(string $username, string $space_number, UpdateUserCopilotSpaceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserCopilotSpace(string $username, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<ListUserCopilotSpaceCollaboratorsResponse>|Response listUserCopilotSpaceCollaborators(string $username, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createUserCopilotSpaceCollaborator(string $username, string $space_number, CreateUserCopilotSpaceCollaboratorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response updateUserCopilotSpaceCollaborator(string $username, string $space_number, string $actor_type, string $actor_identifier, UpdateUserCopilotSpaceCollaboratorRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserCopilotSpaceCollaborator(string $username, string $space_number, string $actor_type, string $actor_identifier, array<string, mixed> $options = [])
+ * @method ApiResult<ListUserCopilotSpaceResourcesResponse>|Response listUserCopilotSpaceResources(string $username, string $space_number, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpaceResource>|Response createUserCopilotSpaceResource(string $username, string $space_number, CreateUserCopilotSpaceResourceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpaceResource>|Response getUserCopilotSpaceResource(string $username, string $space_number, string $space_resource_id, array<string, mixed> $options = [])
+ * @method ApiResult<CopilotSpaceResource>|Response updateUserCopilotSpaceResource(string $username, string $space_number, string $space_resource_id, UpdateUserCopilotSpaceResourceRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserCopilotSpaceResource(string $username, string $space_number, string $space_resource_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Package>>|Response listUserDockerConflicts2(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, Event>>|Response listUserEvents(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Event>>|Response getUserEventOrg(string $username, string $org, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Event>>|Response listUserEventPublics(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SimpleUser>>|Response listUserFollowers2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SimpleUser>>|Response listUserFollowings2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response getUserFollowing2(string $username, string $target_user, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, BaseGist>>|Response listUserGists(string $username, array<string, mixed> $options = []) Query: since, per_page, page
+ * @method ApiResult<array<int, GpgKey>>|Response listUserGpgKeys2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<Hovercard>|Response listUserHovercards(string $username, array<string, mixed> $options = []) Query: subject_type, subject_id
+ * @method ApiResult<Installation>|Response listUserInstallations2(string $username, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, KeySimple>>|Response listUserKeys2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, OrganizationSimple>>|Response listUserOrgs2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Package>>|Response listUserPackages2(string $username, array<string, mixed> $options = []) Query: package_type, visibility, page, per_page
+ * @method ApiResult<Package>|Response getUserPackage2(string $username, string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserPackage2(string $username, string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createUserPackageRestore2(string $username, string $package_type, string $package_name, array<string, mixed> $options = []) Query: token
+ * @method ApiResult<array<int, PackageVersion>>|Response listUserPackageVersions2(string $username, string $package_type, string $package_name, array<string, mixed> $options = [])
+ * @method ApiResult<PackageVersion>|Response getUserPackageVersion2(string $username, string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserPackageVersion2(string $username, string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response createUserPackageVersionRestore2(string $username, string $package_type, string $package_name, string $package_version_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2>>|Response listUserProjectsV2s(string $username, array<string, mixed> $options = []) Query: q, before, after, per_page
+ * @method ApiResult<ProjectsV2>|Response getUserProjectsV2(string $username, string $project_number, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2Field>>|Response listUserProjectsV2Fields(string $username, string $project_number, array<string, mixed> $options = []) Query: per_page, before, after
+ * @method ApiResult<ProjectsV2Field>|Response createUserProjectsV2Field(string $username, string $project_number, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2Field>|Response getUserProjectsV2Field(string $username, string $project_number, string $field_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2ItemWithContent>>|Response listUserProjectsV2Items(string $username, string $project_number, array<string, mixed> $options = []) Query: before, after, per_page, q, fields
+ * @method ApiResult<ProjectsV2ItemSimple>|Response createUserProjectsV2Item(string $username, string $project_number, array<string, mixed> $options = [])
+ * @method ApiResult<ProjectsV2ItemWithContent>|Response getUserProjectsV2Item(string $username, string $project_number, string $item_id, array<string, mixed> $options = []) Query: fields
+ * @method ApiResult<ProjectsV2ItemWithContent>|Response updateUserProjectsV2Item(string $username, string $project_number, string $item_id, UpdateUserProjectsV2ItemRequest|array<string, mixed> $data = [], array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response deleteUserProjectsV2Item(string $username, string $project_number, string $item_id, array<string, mixed> $options = [])
+ * @method ApiResult<array<int, ProjectsV2ItemWithContent>>|Response listUserProjectsV2ViewItems(string $username, string $project_number, string $view_number, array<string, mixed> $options = []) Query: fields, before, after, per_page
+ * @method ApiResult<array<int, Event>>|Response listUserReceivedEvents(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, Event>>|Response listUserReceivedEventPublics(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, MinimalRepository>>|Response listUserRepos2(string $username, array<string, mixed> $options = []) Query: type, sort, direction, per_page, page
+ * @method ApiResult<BillingAiCreditUsageReportUser>|Response listUserSettingBillingAiCreditUsages(string $username, array<string, mixed> $options = []) Query: year, month, day, model, product
+ * @method ApiResult<BillingPremiumRequestUsageReportUser>|Response listUserSettingBillingPremiumRequestUsages(string $username, array<string, mixed> $options = []) Query: year, month, day, model, product
+ * @method ApiResult<BillingUsageReportUser>|Response listUserSettingBillingUsages(string $username, array<string, mixed> $options = []) Query: year, month, day
+ * @method ApiResult<BillingUsageSummaryReportUser>|Response listUserSettingBillingUsageSummaries(string $username, array<string, mixed> $options = []) Query: year, month, day, repository, product, sku
+ * @method ApiResult<array<int, SocialAccount>>|Response listUserSocialAccounts2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<array<int, SshSigningKey>>|Response listUserSshSigningKeys2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listUserStarreds2(string $username, array<string, mixed> $options = []) Query: sort, direction, per_page, page
+ * @method ApiResult<array<int, MinimalRepository>>|Response listUserSubscriptions2(string $username, array<string, mixed> $options = []) Query: per_page, page
+ * @method ApiResult<null>|Response listVersions(array<string, mixed> $options = [])
+ * @method ApiResult<null>|Response listZens(array<string, mixed> $options = [])
  */
 class GitHubSdk
 {

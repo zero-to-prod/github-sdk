@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Zerotoprod\GitHubSdk\Models;
+
+/**
+ * The default value for a squash merge commit title: - `PR_TITLE` - default
+ * to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the
+ * commit's title (if only one commit) or the pull request's title (when more
+ * than one commit).
+ * @link https://docs.github.com/
+ */
+enum RepositorySquashMergeCommitTitle: string
+{
+    case unknown = 'unknown';
+    case PR_TITLE = 'PR_TITLE';
+    case COMMIT_OR_PR_TITLE = 'COMMIT_OR_PR_TITLE';
+}

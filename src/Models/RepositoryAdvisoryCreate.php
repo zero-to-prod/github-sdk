@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Zerotoprod\GitHubSdk\Models;
+
+use Zerotoprod\DataModel\Describe;
+use Zerotoprod\GitHubSdk\Internal\DataModel;
+
+/**
+ * @link https://docs.github.com/
+ */
+class RepositoryAdvisoryCreate
+{
+    use DataModel;
+
+    /** @see $summary */
+    public const summary = 'summary';
+    #[Describe(['nullable' => true])]
+    public ?string $summary = null;
+
+    /** @see $description */
+    public const description = 'description';
+    #[Describe(['nullable' => true])]
+    public ?string $description = null;
+
+    /** @see $cve_id */
+    public const cve_id = 'cve_id';
+    #[Describe(['nullable' => true])]
+    public ?string $cve_id = null;
+
+    /** @see $vulnerabilities */
+    public const vulnerabilities = 'vulnerabilities';
+    /** @var array<int, RepositoryAdvisoryCreateVulnerabilitiesItem> */
+    #[Describe([
+        'cast' => [self::class, 'mapOf'],
+        'type' => RepositoryAdvisoryCreateVulnerabilitiesItem::class,
+        'default' => [],
+    ])]
+    public array $vulnerabilities;
+
+    /** @see $cwe_ids */
+    public const cwe_ids = 'cwe_ids';
+    /** @var array<int, string> */
+    #[Describe(['default' => []])]
+    public array $cwe_ids;
+
+    /** @see $credits */
+    public const credits = 'credits';
+    /** @var array<int, RepositoryAdvisoryCreateCreditsItem> */
+    #[Describe([
+        'cast' => [self::class, 'mapOf'],
+        'type' => RepositoryAdvisoryCreateCreditsItem::class,
+        'default' => [],
+    ])]
+    public array $credits;
+
+    /** @see $severity */
+    public const severity = 'severity';
+    #[Describe(['nullable' => true])]
+    public ?RepositoryAdvisorySeverity $severity = null;
+
+    /** @see $cvss_vector_string */
+    public const cvss_vector_string = 'cvss_vector_string';
+    #[Describe(['nullable' => true])]
+    public ?string $cvss_vector_string = null;
+
+    /** @see $start_private_fork */
+    public const start_private_fork = 'start_private_fork';
+    #[Describe(['nullable' => true])]
+    public ?bool $start_private_fork = null;
+}

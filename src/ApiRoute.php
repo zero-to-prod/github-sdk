@@ -8,50 +8,8486 @@ use Zerotoprod\GitHubSdk\Internal\AdminApi;
 use Zerotoprod\GitHubSdk\Internal\HasRoute;
 use Zerotoprod\GitHubSdk\Internal\HttpMethod;
 use Zerotoprod\GitHubSdk\Internal\Route;
-use Zerotoprod\GitHubSdk\Models\CreateWidgetRequest;
-use Zerotoprod\GitHubSdk\Models\Query;
-use Zerotoprod\GitHubSdk\Models\UpdateWidgetRequest;
-use Zerotoprod\GitHubSdk\Models\Widget;
-use Zerotoprod\GitHubSdk\Models\WidgetsResponse;
-use Zerotoprod\GitHubSdk\Models\WidgetTag;
+use Zerotoprod\GitHubSdk\Models\ActionsArtifactAndLogRetention;
+use Zerotoprod\GitHubSdk\Models\ActionsArtifactAndLogRetentionResponse;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheList;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheRetentionLimitForEnterprise;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheRetentionLimitForOrganization;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheRetentionLimitForRepository;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheStorageLimitForEnterprise;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheStorageLimitForOrganization;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheStorageLimitForRepository;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheUsageByRepository;
+use Zerotoprod\GitHubSdk\Models\ActionsCacheUsageOrgEnterprise;
+use Zerotoprod\GitHubSdk\Models\ActionsForkPrContributorApproval;
+use Zerotoprod\GitHubSdk\Models\ActionsForkPrWorkflowsPrivateRepos;
+use Zerotoprod\GitHubSdk\Models\ActionsForkPrWorkflowsPrivateReposRequest;
+use Zerotoprod\GitHubSdk\Models\ActionsGetDefaultWorkflowPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunner;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunnerCustomImage;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunnerCustomImageVersion;
+use Zerotoprod\GitHubSdk\Models\ActionsHostedRunnerLimits;
+use Zerotoprod\GitHubSdk\Models\ActionsOrganizationPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsPublicKey;
+use Zerotoprod\GitHubSdk\Models\ActionsRepositoryPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsSecret;
+use Zerotoprod\GitHubSdk\Models\ActionsSetDefaultWorkflowPermissions;
+use Zerotoprod\GitHubSdk\Models\ActionsVariable;
+use Zerotoprod\GitHubSdk\Models\ActionsWorkflowAccessToRepository;
+use Zerotoprod\GitHubSdk\Models\Activity;
+use Zerotoprod\GitHubSdk\Models\ApiInsightsSummaryStats;
+use Zerotoprod\GitHubSdk\Models\ApiOverview;
+use Zerotoprod\GitHubSdk\Models\Artifact;
+use Zerotoprod\GitHubSdk\Models\AuthenticationToken;
+use Zerotoprod\GitHubSdk\Models\Authorization;
+use Zerotoprod\GitHubSdk\Models\Autolink;
+use Zerotoprod\GitHubSdk\Models\BaseGist;
+use Zerotoprod\GitHubSdk\Models\BillingAiCreditUsageReportOrg;
+use Zerotoprod\GitHubSdk\Models\BillingAiCreditUsageReportUser;
+use Zerotoprod\GitHubSdk\Models\BillingPremiumRequestUsageReportOrg;
+use Zerotoprod\GitHubSdk\Models\BillingPremiumRequestUsageReportUser;
+use Zerotoprod\GitHubSdk\Models\BillingUsageReport;
+use Zerotoprod\GitHubSdk\Models\BillingUsageReportUser;
+use Zerotoprod\GitHubSdk\Models\BillingUsageSummaryReportOrg;
+use Zerotoprod\GitHubSdk\Models\BillingUsageSummaryReportUser;
+use Zerotoprod\GitHubSdk\Models\Blob;
+use Zerotoprod\GitHubSdk\Models\BranchProtection;
+use Zerotoprod\GitHubSdk\Models\BranchRestrictionPolicy;
+use Zerotoprod\GitHubSdk\Models\BranchShort;
+use Zerotoprod\GitHubSdk\Models\BranchWithProtection;
+use Zerotoprod\GitHubSdk\Models\CampaignSummary;
+use Zerotoprod\GitHubSdk\Models\CheckAnnotation;
+use Zerotoprod\GitHubSdk\Models\CheckAutomatedSecurityFixes;
+use Zerotoprod\GitHubSdk\Models\CheckImmutableReleases;
+use Zerotoprod\GitHubSdk\Models\CheckRun;
+use Zerotoprod\GitHubSdk\Models\CheckSuite;
+use Zerotoprod\GitHubSdk\Models\CheckSuitePreference;
+use Zerotoprod\GitHubSdk\Models\Classroom;
+use Zerotoprod\GitHubSdk\Models\ClassroomAcceptedAssignment;
+use Zerotoprod\GitHubSdk\Models\ClassroomAssignment;
+use Zerotoprod\GitHubSdk\Models\ClassroomAssignmentGrade;
+use Zerotoprod\GitHubSdk\Models\CloneTraffic;
+use Zerotoprod\GitHubSdk\Models\CodeOfConduct;
+use Zerotoprod\GitHubSdk\Models\CodeownersErrors;
+use Zerotoprod\GitHubSdk\Models\CodeQualityFinding;
+use Zerotoprod\GitHubSdk\Models\CodeQualitySetup;
+use Zerotoprod\GitHubSdk\Models\CodeQualitySetupUpdate;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAlert;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAlertInstanceList;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAlertItems;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAnalysis;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAnalysisDeletion;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAutofix;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAutofixCommits;
+use Zerotoprod\GitHubSdk\Models\CodeScanningAutofixCommitsResponse;
+use Zerotoprod\GitHubSdk\Models\CodeScanningCodeqlDatabase;
+use Zerotoprod\GitHubSdk\Models\CodeScanningDefaultSetup;
+use Zerotoprod\GitHubSdk\Models\CodeScanningDefaultSetupUpdate;
+use Zerotoprod\GitHubSdk\Models\CodeScanningOrganizationAlertItems;
+use Zerotoprod\GitHubSdk\Models\CodeScanningSarifsReceipt;
+use Zerotoprod\GitHubSdk\Models\CodeScanningSarifsStatus;
+use Zerotoprod\GitHubSdk\Models\CodeScanningVariantAnalysis;
+use Zerotoprod\GitHubSdk\Models\CodeScanningVariantAnalysisRepoTask;
+use Zerotoprod\GitHubSdk\Models\CodeSecurityConfiguration;
+use Zerotoprod\GitHubSdk\Models\CodeSecurityConfigurationForRepository;
+use Zerotoprod\GitHubSdk\Models\CodeSecurityConfigurationRepositories;
+use Zerotoprod\GitHubSdk\Models\Codespace;
+use Zerotoprod\GitHubSdk\Models\CodespaceExportDetails;
+use Zerotoprod\GitHubSdk\Models\CodespacesOrgSecret;
+use Zerotoprod\GitHubSdk\Models\CodespacesPermissionsCheckForDevcontainer;
+use Zerotoprod\GitHubSdk\Models\CodespacesPublicKey;
+use Zerotoprod\GitHubSdk\Models\CodespacesSecret;
+use Zerotoprod\GitHubSdk\Models\CodespacesUserPublicKey;
+use Zerotoprod\GitHubSdk\Models\CodespaceWithFullRepository;
+use Zerotoprod\GitHubSdk\Models\Collaborator;
+use Zerotoprod\GitHubSdk\Models\CombinedCommitStatus;
+use Zerotoprod\GitHubSdk\Models\Commit;
+use Zerotoprod\GitHubSdk\Models\CommitActivity;
+use Zerotoprod\GitHubSdk\Models\CommitComment;
+use Zerotoprod\GitHubSdk\Models\CommitComparison;
+use Zerotoprod\GitHubSdk\Models\CommunityProfile;
+use Zerotoprod\GitHubSdk\Models\ConcurrencyGroup;
+use Zerotoprod\GitHubSdk\Models\ConcurrencyGroupList;
+use Zerotoprod\GitHubSdk\Models\ConcurrencyGroupRunList;
+use Zerotoprod\GitHubSdk\Models\ContentFile;
+use Zerotoprod\GitHubSdk\Models\ContentTraffic;
+use Zerotoprod\GitHubSdk\Models\Contributor;
+use Zerotoprod\GitHubSdk\Models\ContributorActivity;
+use Zerotoprod\GitHubSdk\Models\CopilotOrganizationDetails;
+use Zerotoprod\GitHubSdk\Models\CopilotSeatDetails;
+use Zerotoprod\GitHubSdk\Models\CopilotSpace;
+use Zerotoprod\GitHubSdk\Models\CopilotSpaceResource;
+use Zerotoprod\GitHubSdk\Models\CopilotUsageMetrics1DayReport;
+use Zerotoprod\GitHubSdk\Models\CopilotUsageMetrics28DayReport;
+use Zerotoprod\GitHubSdk\Models\CreateAgentRepoTaskRequest;
+use Zerotoprod\GitHubSdk\Models\CreateAgentRepoTaskResponse;
+use Zerotoprod\GitHubSdk\Models\CreateAppInstallationAccessTokenRequest;
+use Zerotoprod\GitHubSdk\Models\CreateApplicationTokenRequest;
+use Zerotoprod\GitHubSdk\Models\CreateApplicationTokenScopedRequest;
+use Zerotoprod\GitHubSdk\Models\CreateAppManifestConversionResponse;
+use Zerotoprod\GitHubSdk\Models\CreateBudget;
+use Zerotoprod\GitHubSdk\Models\CreateCredentialRevokeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseCodeSecurityConfigurationAttachRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseCopilotPolicyCodingAgentOrganizationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamMembershipAddRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamMembershipRemoveRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamOrganizationAddRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamOrganizationRemoveRequest;
+use Zerotoprod\GitHubSdk\Models\CreateEnterpriseTeamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateGistCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateGistRequest;
+use Zerotoprod\GitHubSdk\Models\CreateMarkdownRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionHostedRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerGenerateJitconfigRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerGenerateJitconfigResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerGroupRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrganizationSettingBillingBudgetRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterJobRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterJobResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordClusterResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataDeploymentRecordResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataStorageRecordRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgArtifactMetadataStorageRecordResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgAttestationBulkListRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgAttestationBulkListResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCodeSecurityConfigurationAttachRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCodespaceAccessSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedTeamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedTeamResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotBillingSelectedUserResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgHookRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgInvitationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgMigrationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessToken2Request;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessTokenRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessTokenRequest2Request;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPersonalAccessTokenRequestRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgPrivateRegistryRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgProjectsV2DraftRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgProjectsV2ViewRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgRepoRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgSecretScanningCustomPatternResponse;
+use Zerotoprod\GitHubSdk\Models\CreateOrgSettingNetworkConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateOrgTeamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionJobRerunRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerGenerateJitconfigRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerGenerateJitconfigResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunPendingDeploymentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunRerunFailedJobRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionRunRerunRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoActionWorkflowDispatchRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAttestationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoAutolinkRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoBranchProtectionRestrictionAppRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoBranchProtectionRestrictionUserRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoBranchRenameRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCheckSuiteRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCodeScanningSarifRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCodespaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCommentReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoCommitCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDependencyGraphSnapshotResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDeploymentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDeploymentStatusRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoDispatchRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoEnvironmentDeploymentProtectionRuleRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoEnvironmentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoForkRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGenerateRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitBlobRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitCommitRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitRefRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitTagRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoGitTreeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoHookRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueAssigneeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueCommentReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueDependencyBlockedByRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueIssueFieldValueRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoIssueSubIssueRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoLabelRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoMergeRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoMergeUpstreamRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoMilestoneRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPageDeploymentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCodespaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCommentReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCommentReplyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullCommentRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullReviewEventRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoPullReviewRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoReleaseGenerateNoteRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoReleaseReactionRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoReleaseRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoSecretScanningCustomPatternResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoSecretScanningPushProtectionBypassRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackAddRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackAddResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStackUnstackResponse;
+use Zerotoprod\GitHubSdk\Models\CreateRepoStatusRequest;
+use Zerotoprod\GitHubSdk\Models\CreateRepoTransferRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserAttestationBulkListRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserAttestationBulkListResponse;
+use Zerotoprod\GitHubSdk\Models\CreateUserCodespacePublishRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserGpgKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserMigrationRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserProjectsV2DraftRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserProjectsV2ViewRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserRepoRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserSocialAccountRequest;
+use Zerotoprod\GitHubSdk\Models\CreateUserSshSigningKeyRequest;
+use Zerotoprod\GitHubSdk\Models\CustomProperty;
+use Zerotoprod\GitHubSdk\Models\CustomPropertySetPayload;
+use Zerotoprod\GitHubSdk\Models\CustomPropertyValue;
+use Zerotoprod\GitHubSdk\Models\DeleteApplicationGrantRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteApplicationTokenRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteBudget;
+use Zerotoprod\GitHubSdk\Models\DeleteEnterpriseCopilotPolicyCodingAgentOrganizationRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgActionRunnerLabel2Response;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCodeSecurityConfigurationDetachRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCodespaceAccessSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedTeamRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedTeamResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedUserRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgCopilotBillingSelectedUserResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteOrgSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoActionRunnerLabel2Response;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoBranchProtectionRestrictionAppRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoBranchProtectionRestrictionUserRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoContentRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoIssueAssigneeRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoIssueSubIssueRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoPullRequestedReviewerRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteRepoSecretScanningCustomPatternRequest;
+use Zerotoprod\GitHubSdk\Models\DeleteUserSocialAccountRequest;
+use Zerotoprod\GitHubSdk\Models\DependabotAlert;
+use Zerotoprod\GitHubSdk\Models\DependabotAlertWithRepository;
+use Zerotoprod\GitHubSdk\Models\DependabotPublicKey;
+use Zerotoprod\GitHubSdk\Models\DependabotRepositoryAccessDetails;
+use Zerotoprod\GitHubSdk\Models\DependabotSecret;
+use Zerotoprod\GitHubSdk\Models\DependencyGraphSpdxSbom;
+use Zerotoprod\GitHubSdk\Models\DeployKey;
+use Zerotoprod\GitHubSdk\Models\Deployment;
+use Zerotoprod\GitHubSdk\Models\DeploymentBranchPolicy;
+use Zerotoprod\GitHubSdk\Models\DeploymentBranchPolicyNamePattern;
+use Zerotoprod\GitHubSdk\Models\DeploymentBranchPolicyNamePatternWithType;
+use Zerotoprod\GitHubSdk\Models\DeploymentProtectionRule;
+use Zerotoprod\GitHubSdk\Models\DeploymentStatus;
+use Zerotoprod\GitHubSdk\Models\DiffEntry;
+use Zerotoprod\GitHubSdk\Models\Email;
+use Zerotoprod\GitHubSdk\Models\EnterpriseTeam;
+use Zerotoprod\GitHubSdk\Models\Environment;
+use Zerotoprod\GitHubSdk\Models\EnvironmentApprovals;
+use Zerotoprod\GitHubSdk\Models\Event;
+use Zerotoprod\GitHubSdk\Models\Feed;
+use Zerotoprod\GitHubSdk\Models\FileCommit;
+use Zerotoprod\GitHubSdk\Models\FullRepository;
+use Zerotoprod\GitHubSdk\Models\GetAgentRepoTaskResponse;
+use Zerotoprod\GitHubSdk\Models\GetAgentTaskResponse;
+use Zerotoprod\GitHubSdk\Models\GetAllBudgets;
+use Zerotoprod\GitHubSdk\Models\GetBudget;
+use Zerotoprod\GitHubSdk\Models\GetOrgArtifactMetadataDeploymentRecordClusterJobResponse;
+use Zerotoprod\GitHubSdk\Models\GetOrgAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiRouteStatResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiTimeStatResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiTimeStatUserResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetOrgInsightApiUserStatResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetRepoAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\GetRepoDependencyGraphCompareResponseItem;
+use Zerotoprod\GitHubSdk\Models\GetRepoStackResponse;
+use Zerotoprod\GitHubSdk\Models\GetUserAttestationResponse;
+use Zerotoprod\GitHubSdk\Models\GistComment;
+use Zerotoprod\GitHubSdk\Models\GistCommit;
+use Zerotoprod\GitHubSdk\Models\GistSimple;
+use Zerotoprod\GitHubSdk\Models\GitCommit;
+use Zerotoprod\GitHubSdk\Models\GitignoreTemplate;
+use Zerotoprod\GitHubSdk\Models\GitRef;
+use Zerotoprod\GitHubSdk\Models\GitTag;
+use Zerotoprod\GitHubSdk\Models\GitTree;
+use Zerotoprod\GitHubSdk\Models\GlobalAdvisory;
+use Zerotoprod\GitHubSdk\Models\GpgKey;
+use Zerotoprod\GitHubSdk\Models\Hook;
+use Zerotoprod\GitHubSdk\Models\HookDelivery;
+use Zerotoprod\GitHubSdk\Models\HookDeliveryItem;
+use Zerotoprod\GitHubSdk\Models\Hovercard;
+use Zerotoprod\GitHubSdk\Models\ImmutableReleasesOrganizationSettings;
+use Zerotoprod\GitHubSdk\Models\Import;
+use Zerotoprod\GitHubSdk\Models\Installation;
+use Zerotoprod\GitHubSdk\Models\InstallationToken;
+use Zerotoprod\GitHubSdk\Models\Integration;
+use Zerotoprod\GitHubSdk\Models\IntegrationInstallationRequest;
+use Zerotoprod\GitHubSdk\Models\InteractionLimit;
+use Zerotoprod\GitHubSdk\Models\InteractionLimitPullRequestBypassList;
+use Zerotoprod\GitHubSdk\Models\InteractionLimitResponse;
+use Zerotoprod\GitHubSdk\Models\Issue;
+use Zerotoprod\GitHubSdk\Models\IssueComment;
+use Zerotoprod\GitHubSdk\Models\IssueEvent;
+use Zerotoprod\GitHubSdk\Models\IssueField;
+use Zerotoprod\GitHubSdk\Models\IssueFieldValue;
+use Zerotoprod\GitHubSdk\Models\IssueSuggestion;
+use Zerotoprod\GitHubSdk\Models\IssueType;
+use Zerotoprod\GitHubSdk\Models\Job;
+use Zerotoprod\GitHubSdk\Models\Key;
+use Zerotoprod\GitHubSdk\Models\KeySimple;
+use Zerotoprod\GitHubSdk\Models\Label;
+use Zerotoprod\GitHubSdk\Models\License;
+use Zerotoprod\GitHubSdk\Models\LicenseContent;
+use Zerotoprod\GitHubSdk\Models\LicenseSimple;
+use Zerotoprod\GitHubSdk\Models\ListAgentRepoTasksResponse;
+use Zerotoprod\GitHubSdk\Models\ListAgentTasksResponse;
+use Zerotoprod\GitHubSdk\Models\ListEnterpriseCodeSecurityConfigurationDefaultsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListInstallationRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionCacheUsageByRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImageCustomsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImageCustomVersionsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImageGithubOwnedsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerImagePartnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerMachineSizesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnerPlatformsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionHostedRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionPermissionRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionPermissionSelfHostedRunnerRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupHostedRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerGroupsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnerLabelsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionVariableRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgActionVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentVariableRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAgentVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgArtifactMetadataDeploymentRecordsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgArtifactMetadataStorageRecordsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgAttestationRepositoriesResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodeSecurityConfigurationDefaultsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodespaceSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodespaceSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotBillingSeatsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotCodingAgentPermissionRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotCodingAgentPermissionsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotSpaceCollaboratorsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotSpaceResourcesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgCopilotSpacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgDependabotSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgDependabotSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgInsightApiSubjectStatsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgInsightApiTimeStatsResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgInstallations2Response;
+use Zerotoprod\GitHubSdk\Models\ListOrgInteractionLimitPullCreationCapsResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgMemberCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgOrganizationRolesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgPrivateRegistriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgPrivateRegistryPublicKeysResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgRulesetRuleSuitesResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListOrgSettingImmutableReleaseRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListOrgSettingNetworkConfigurationsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionArtifactsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionOrganizationSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionOrganizationVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunArtifactsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunAttemptJobsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunJobsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunnerLabelsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunnersResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionWorkflowRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoActionWorkflowsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentOrganizationSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentOrganizationVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoAgentVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCheckSuiteCheckRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceDevcontainersResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceMachinesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceNewsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespaceSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCommitCheckRunsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCommitCheckSuitesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoCopilotCloudAgentConfigurationsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoDependabotSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoDependencyGraphSbomGenerateReportsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentDeploymentBranchPoliciesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentDeploymentProtectionRuleAppsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentDeploymentProtectionRulesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoEnvironmentVariablesResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoInteractionLimitPullCreationCapsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoPrivateVulnerabilityReportingsResponse;
+use Zerotoprod\GitHubSdk\Models\ListRepoRulesetRuleSuitesResponseItem;
+use Zerotoprod\GitHubSdk\Models\ListRepoStargazerCountsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchCodesResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchCommitsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchIssuesResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchLabelsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchTopicsResponse;
+use Zerotoprod\GitHubSdk\Models\ListSearchUsersResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespaceMachinesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespaceSecretRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespaceSecretsResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCodespacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCopilotSpaceCollaboratorsResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCopilotSpaceResourcesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserCopilotSpacesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserInstallationRepositoriesResponse;
+use Zerotoprod\GitHubSdk\Models\ListUserInstallationsResponse;
+use Zerotoprod\GitHubSdk\Models\MarketplaceListingPlan;
+use Zerotoprod\GitHubSdk\Models\MarketplacePurchase;
+use Zerotoprod\GitHubSdk\Models\MergedUpstream;
+use Zerotoprod\GitHubSdk\Models\Migration;
+use Zerotoprod\GitHubSdk\Models\Milestone;
+use Zerotoprod\GitHubSdk\Models\MinimalRepository;
+use Zerotoprod\GitHubSdk\Models\NetworkConfiguration;
+use Zerotoprod\GitHubSdk\Models\NetworkSettings;
+use Zerotoprod\GitHubSdk\Models\OidcCustomPropertyInclusion;
+use Zerotoprod\GitHubSdk\Models\OidcCustomPropertyInclusionInput;
+use Zerotoprod\GitHubSdk\Models\OidcCustomSub;
+use Zerotoprod\GitHubSdk\Models\OidcCustomSubRepo;
+use Zerotoprod\GitHubSdk\Models\OrganizationActionsSecret;
+use Zerotoprod\GitHubSdk\Models\OrganizationActionsVariable;
+use Zerotoprod\GitHubSdk\Models\OrganizationCreateIssueField;
+use Zerotoprod\GitHubSdk\Models\OrganizationCreateIssueType;
+use Zerotoprod\GitHubSdk\Models\OrganizationDependabotSecret;
+use Zerotoprod\GitHubSdk\Models\OrganizationFull;
+use Zerotoprod\GitHubSdk\Models\OrganizationInvitation;
+use Zerotoprod\GitHubSdk\Models\OrganizationProgrammaticAccessGrant;
+use Zerotoprod\GitHubSdk\Models\OrganizationProgrammaticAccessGrantRequest;
+use Zerotoprod\GitHubSdk\Models\OrganizationRole;
+use Zerotoprod\GitHubSdk\Models\OrganizationSecretScanningAlert;
+use Zerotoprod\GitHubSdk\Models\OrganizationSimple;
+use Zerotoprod\GitHubSdk\Models\OrganizationUpdateIssueField;
+use Zerotoprod\GitHubSdk\Models\OrganizationUpdateIssueType;
+use Zerotoprod\GitHubSdk\Models\OrgHook;
+use Zerotoprod\GitHubSdk\Models\OrgMembership;
+use Zerotoprod\GitHubSdk\Models\OrgPrivateRegistryConfiguration;
+use Zerotoprod\GitHubSdk\Models\OrgPrivateRegistryConfigurationWithSelectedRepositories;
+use Zerotoprod\GitHubSdk\Models\OrgRepoCustomPropertyValues;
+use Zerotoprod\GitHubSdk\Models\Package;
+use Zerotoprod\GitHubSdk\Models\PackageVersion;
+use Zerotoprod\GitHubSdk\Models\Page;
+use Zerotoprod\GitHubSdk\Models\PageBuild;
+use Zerotoprod\GitHubSdk\Models\PageBuildStatus;
+use Zerotoprod\GitHubSdk\Models\PageDeployment;
+use Zerotoprod\GitHubSdk\Models\PagesDeploymentStatus;
+use Zerotoprod\GitHubSdk\Models\PagesHealthCheck;
+use Zerotoprod\GitHubSdk\Models\ParticipationStats;
+use Zerotoprod\GitHubSdk\Models\PatchRepoImportRequest;
+use Zerotoprod\GitHubSdk\Models\PendingDeployment;
+use Zerotoprod\GitHubSdk\Models\PorterAuthor;
+use Zerotoprod\GitHubSdk\Models\PorterLargeFile;
+use Zerotoprod\GitHubSdk\Models\PrivateUser;
+use Zerotoprod\GitHubSdk\Models\PrivateVulnerabilityReportCreate;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2Field;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2ItemSimple;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2ItemWithContent;
+use Zerotoprod\GitHubSdk\Models\ProjectsV2View;
+use Zerotoprod\GitHubSdk\Models\ProtectedBranch;
+use Zerotoprod\GitHubSdk\Models\ProtectedBranchAdminEnforced;
+use Zerotoprod\GitHubSdk\Models\ProtectedBranchPullRequestReview;
+use Zerotoprod\GitHubSdk\Models\PullRequest;
+use Zerotoprod\GitHubSdk\Models\PullRequestMergeAsyncResult;
+use Zerotoprod\GitHubSdk\Models\PullRequestMergeResult;
+use Zerotoprod\GitHubSdk\Models\PullRequestReview;
+use Zerotoprod\GitHubSdk\Models\PullRequestReviewComment;
+use Zerotoprod\GitHubSdk\Models\PullRequestReviewRequest;
+use Zerotoprod\GitHubSdk\Models\PullRequestSimple;
+use Zerotoprod\GitHubSdk\Models\PullRequestStackMinimal;
+use Zerotoprod\GitHubSdk\Models\RateLimitOverview;
+use Zerotoprod\GitHubSdk\Models\Reaction;
+use Zerotoprod\GitHubSdk\Models\ReferrerTraffic;
+use Zerotoprod\GitHubSdk\Models\Release;
+use Zerotoprod\GitHubSdk\Models\ReleaseAsset;
+use Zerotoprod\GitHubSdk\Models\ReleaseNotesContent;
+use Zerotoprod\GitHubSdk\Models\RepoCodespacesSecret;
+use Zerotoprod\GitHubSdk\Models\Repository;
+use Zerotoprod\GitHubSdk\Models\RepositoryAdvisory;
+use Zerotoprod\GitHubSdk\Models\RepositoryAdvisoryCreate;
+use Zerotoprod\GitHubSdk\Models\RepositoryAdvisoryUpdate;
+use Zerotoprod\GitHubSdk\Models\RepositoryCollaboratorPermission;
+use Zerotoprod\GitHubSdk\Models\RepositoryHashAlgorithm;
+use Zerotoprod\GitHubSdk\Models\RepositoryInvitation;
+use Zerotoprod\GitHubSdk\Models\RepositoryRuleset;
+use Zerotoprod\GitHubSdk\Models\RepositorySubscription;
+use Zerotoprod\GitHubSdk\Models\ReviewComment;
+use Zerotoprod\GitHubSdk\Models\Root;
+use Zerotoprod\GitHubSdk\Models\RulesetVersion;
+use Zerotoprod\GitHubSdk\Models\RulesetVersionWithState;
+use Zerotoprod\GitHubSdk\Models\RuleSuite;
+use Zerotoprod\GitHubSdk\Models\Runner;
+use Zerotoprod\GitHubSdk\Models\RunnerApplication;
+use Zerotoprod\GitHubSdk\Models\RunnerGroupsOrg;
+use Zerotoprod\GitHubSdk\Models\SecretScanningAlert;
+use Zerotoprod\GitHubSdk\Models\SecretScanningAlertWithMetadata;
+use Zerotoprod\GitHubSdk\Models\SecretScanningCustomPattern;
+use Zerotoprod\GitHubSdk\Models\SecretScanningCustomPatternToUpdate;
+use Zerotoprod\GitHubSdk\Models\SecretScanningLocation;
+use Zerotoprod\GitHubSdk\Models\SecretScanningPatternConfiguration;
+use Zerotoprod\GitHubSdk\Models\SecretScanningPushProtectionBypass;
+use Zerotoprod\GitHubSdk\Models\SecretScanningScanHistory;
+use Zerotoprod\GitHubSdk\Models\SelectedActions;
+use Zerotoprod\GitHubSdk\Models\SelfHostedRunnersSettings;
+use Zerotoprod\GitHubSdk\Models\ShortBlob;
+use Zerotoprod\GitHubSdk\Models\ShortBranch;
+use Zerotoprod\GitHubSdk\Models\SimpleClassroom;
+use Zerotoprod\GitHubSdk\Models\SimpleClassroomAssignment;
+use Zerotoprod\GitHubSdk\Models\SimpleUser;
+use Zerotoprod\GitHubSdk\Models\Snapshot;
+use Zerotoprod\GitHubSdk\Models\SocialAccount;
+use Zerotoprod\GitHubSdk\Models\SshSigningKey;
+use Zerotoprod\GitHubSdk\Models\Status;
+use Zerotoprod\GitHubSdk\Models\StatusCheckPolicy;
+use Zerotoprod\GitHubSdk\Models\Tag;
+use Zerotoprod\GitHubSdk\Models\Team;
+use Zerotoprod\GitHubSdk\Models\TeamFull;
+use Zerotoprod\GitHubSdk\Models\TeamMember;
+use Zerotoprod\GitHubSdk\Models\TeamMembership;
+use Zerotoprod\GitHubSdk\Models\TeamRepository;
+use Zerotoprod\GitHubSdk\Models\TeamRoleAssignment;
+use Zerotoprod\GitHubSdk\Models\TeamSimple;
+use Zerotoprod\GitHubSdk\Models\Thread;
+use Zerotoprod\GitHubSdk\Models\ThreadSubscription;
+use Zerotoprod\GitHubSdk\Models\Topic;
+use Zerotoprod\GitHubSdk\Models\UpdateAppHookConfigRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateApplicationTokenRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateBudget;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCodeSecurityConfigurationDefaultRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCodeSecurityConfigurationDefaultResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseCopilotPolicyCodingAgentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseDependabotRepositoryAccessDefaultLevelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseDependabotRepositoryAccessRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateEnterpriseTeamRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateGistCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateGistRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateNotificationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateNotificationResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateNotificationThreadSubscriptionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionHostedRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionOidcCustomizationSubRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionSelfHostedRunnerRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionPermissionSelfHostedRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerGroupRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerGroupRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerGroupRunnerRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionVariableRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentVariableRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrganizationSettingBillingBudgetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCampaignRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodeSecurityConfigurationDefaultRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodeSecurityConfigurationDefaultResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodeSecurityConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodespaceAccessRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodespaceSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCodespaceSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotCodingAgentPermissionRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotCodingAgentPermissionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotContentExclusionResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotRepositoryAccessDefaultLevelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotRepositoryAccessRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgDependabotSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgHookConfigRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgHookRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgInteractionLimitPullCreationCapRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgInteractionLimitPullCreationCapResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgMembershipRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgOutsideCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgPrivateRegistryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgProjectsV2ItemRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgPropertySchemaRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgPropertyValueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSecretScanningPatternConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSecretScanningPatternConfigurationResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSettingImmutableReleaseRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSettingImmutableReleaseRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgSettingNetworkConfigurationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgTeamMembershipRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgTeamRepoRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateOrgTeamRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionOidcCustomizationSubRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionPermissionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionRunnerLabelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionRunnerLabelResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoActionVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoAgentSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoAgentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRequiredPullRequestReviewRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRequiredStatusCheckRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRestrictionAppRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoBranchProtectionRestrictionUserRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCheckSuitePreferenceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCodespaceSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoContentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoDependabotSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoEnvironmentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoEnvironmentSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoEnvironmentVariableRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoGitRefRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoHookConfigRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoHookRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoImportAuthorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoImportLfRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoImportRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoInteractionLimitPullCreationCapRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoInteractionLimitPullCreationCapResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoInvitationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueIssueFieldValueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueLockRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoIssueSubIssuePriorityRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoLabelRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoMilestoneRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoNotificationRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoNotificationResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPropertyValueRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullCommentRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullMergeAsyncRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullMergeRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullReviewDismissalRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullReviewRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullUpdateBranchRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoPullUpdateBranchResponse;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoReleaseAssetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoReleaseRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoRulesetRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoSubscriptionRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateRepoTopicRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateTeamMembershipRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateTeamRepoRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateTeamRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCodespaceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCodespaceSecretRepositoryRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCodespaceSecretRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCopilotSpaceCollaboratorRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCopilotSpaceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserCopilotSpaceResourceRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserEmailVisibilityRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserMembershipOrgRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserProjectsV2ItemRequest;
+use Zerotoprod\GitHubSdk\Models\UpdateUserRequest;
+use Zerotoprod\GitHubSdk\Models\UserMarketplacePurchase;
+use Zerotoprod\GitHubSdk\Models\UserRoleAssignment;
+use Zerotoprod\GitHubSdk\Models\ViewTraffic;
+use Zerotoprod\GitHubSdk\Models\WebhookConfig;
+use Zerotoprod\GitHubSdk\Models\Workflow;
+use Zerotoprod\GitHubSdk\Models\WorkflowDispatchResponse;
+use Zerotoprod\GitHubSdk\Models\WorkflowRun;
+use Zerotoprod\GitHubSdk\Models\WorkflowRunUsage;
+use Zerotoprod\GitHubSdk\Models\WorkflowUsage;
 
 /**
- * @method static Route widget(array<string, mixed> $params = [])
- * @method static Route widgets(array<string, mixed> $params = [])
- * @method static Route widgetTags(array<string, mixed> $params = [])
+ * @method static Route root(array<string, mixed> $params = [])
+ * @method static Route advisories(array<string, mixed> $params = [])
+ * @method static Route advisory(array<string, mixed> $params = [])
+ * @method static Route agent_repo_tasks(array<string, mixed> $params = [])
+ * @method static Route agent_repo_task(array<string, mixed> $params = [])
+ * @method static Route agent_tasks(array<string, mixed> $params = [])
+ * @method static Route agent_task(array<string, mixed> $params = [])
+ * @method static Route app(array<string, mixed> $params = [])
+ * @method static Route app_manifest_conversions(array<string, mixed> $params = [])
+ * @method static Route app_hook_config(array<string, mixed> $params = [])
+ * @method static Route app_hook_deliveries(array<string, mixed> $params = [])
+ * @method static Route app_hook_delivery(array<string, mixed> $params = [])
+ * @method static Route app_hook_delivery_attempts(array<string, mixed> $params = [])
+ * @method static Route app_installation_requests(array<string, mixed> $params = [])
+ * @method static Route app_installations(array<string, mixed> $params = [])
+ * @method static Route app_installation(array<string, mixed> $params = [])
+ * @method static Route app_installation_access_tokens(array<string, mixed> $params = [])
+ * @method static Route app_installation_suspended(array<string, mixed> $params = [])
+ * @method static Route application_grant(array<string, mixed> $params = [])
+ * @method static Route application_token(array<string, mixed> $params = [])
+ * @method static Route application_token_scoped(array<string, mixed> $params = [])
+ * @method static Route app2(array<string, mixed> $params = [])
+ * @method static Route assignment(array<string, mixed> $params = [])
+ * @method static Route assignment_accepted_assignments(array<string, mixed> $params = [])
+ * @method static Route assignment_grades(array<string, mixed> $params = [])
+ * @method static Route classrooms(array<string, mixed> $params = [])
+ * @method static Route classroom(array<string, mixed> $params = [])
+ * @method static Route classroom_assignments(array<string, mixed> $params = [])
+ * @method static Route codes_of_conduct(array<string, mixed> $params = [])
+ * @method static Route codes_of_conduct2(array<string, mixed> $params = [])
+ * @method static Route credential_revoke(array<string, mixed> $params = [])
+ * @method static Route emojis(array<string, mixed> $params = [])
+ * @method static Route enterprise_action_cache_retention_limit(array<string, mixed> $params = [])
+ * @method static Route enterprise_action_cache_storage_limit(array<string, mixed> $params = [])
+ * @method static Route enterprise_action_oidc_customization_property_repo(array<string, mixed> $params = [])
+ * @method static Route enterprise_action_oidc_customization_property_repo2(array<string, mixed> $params = [])
+ * @method static Route enterprise_code_security_configurations(array<string, mixed> $params = [])
+ * @method static Route enterprise_code_security_configuration_defaults(array<string, mixed> $params = [])
+ * @method static Route enterprise_code_security_configuration(array<string, mixed> $params = [])
+ * @method static Route enterprise_code_security_configuration_attach(array<string, mixed> $params = [])
+ * @method static Route enterprise_code_security_configuration_defaults2(array<string, mixed> $params = [])
+ * @method static Route enterprise_code_security_configuration_repositories(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_metric_report_enterprise_1_day(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_metric_report_enterprise_28_day_latest(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_metric_report_repos_1_day(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_metric_report_user_teams_1_day(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_metric_report_users_1_day(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_metric_report_users_28_day_latest(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_policy_coding_agent(array<string, mixed> $params = [])
+ * @method static Route enterprise_copilot_policy_coding_agent_organizations(array<string, mixed> $params = [])
+ * @method static Route enterprise_dependabot_alerts(array<string, mixed> $params = [])
+ * @method static Route enterprise_dependabot_repository_access(array<string, mixed> $params = [])
+ * @method static Route enterprise_dependabot_repository_access_default_level(array<string, mixed> $params = [])
+ * @method static Route enterprise_teams(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_memberships(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_membership_add(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_membership_remove(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_membership(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_organizations(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_organization_add(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_organization_remove(array<string, mixed> $params = [])
+ * @method static Route enterprise_team_organization(array<string, mixed> $params = [])
+ * @method static Route enterprise_team(array<string, mixed> $params = [])
+ * @method static Route events(array<string, mixed> $params = [])
+ * @method static Route feeds(array<string, mixed> $params = [])
+ * @method static Route gists(array<string, mixed> $params = [])
+ * @method static Route gist_public(array<string, mixed> $params = [])
+ * @method static Route gist_starred(array<string, mixed> $params = [])
+ * @method static Route gist(array<string, mixed> $params = [])
+ * @method static Route gist_comments(array<string, mixed> $params = [])
+ * @method static Route gist_comment(array<string, mixed> $params = [])
+ * @method static Route gist_commits(array<string, mixed> $params = [])
+ * @method static Route gist_forks(array<string, mixed> $params = [])
+ * @method static Route gist_star(array<string, mixed> $params = [])
+ * @method static Route gist2(array<string, mixed> $params = [])
+ * @method static Route gitignore_templates(array<string, mixed> $params = [])
+ * @method static Route gitignore_template(array<string, mixed> $params = [])
+ * @method static Route installation_repositories(array<string, mixed> $params = [])
+ * @method static Route installation_token(array<string, mixed> $params = [])
+ * @method static Route issues(array<string, mixed> $params = [])
+ * @method static Route licenses(array<string, mixed> $params = [])
+ * @method static Route license(array<string, mixed> $params = [])
+ * @method static Route markdown(array<string, mixed> $params = [])
+ * @method static Route markdown_raw(array<string, mixed> $params = [])
+ * @method static Route marketplace_listing_account(array<string, mixed> $params = [])
+ * @method static Route marketplace_listing_plans(array<string, mixed> $params = [])
+ * @method static Route marketplace_listing_plan_accounts(array<string, mixed> $params = [])
+ * @method static Route marketplace_listing_stubbed_account(array<string, mixed> $params = [])
+ * @method static Route marketplace_listing_stubbed_plans(array<string, mixed> $params = [])
+ * @method static Route marketplace_listing_stubbed_plan_accounts(array<string, mixed> $params = [])
+ * @method static Route meta(array<string, mixed> $params = [])
+ * @method static Route network_events(array<string, mixed> $params = [])
+ * @method static Route notifications(array<string, mixed> $params = [])
+ * @method static Route notification_thread(array<string, mixed> $params = [])
+ * @method static Route notification_thread_subscription(array<string, mixed> $params = [])
+ * @method static Route octocat(array<string, mixed> $params = [])
+ * @method static Route organizations(array<string, mixed> $params = [])
+ * @method static Route organization_action_cache_retention_limit(array<string, mixed> $params = [])
+ * @method static Route organization_action_cache_storage_limit(array<string, mixed> $params = [])
+ * @method static Route organization_setting_billing_ai_credit_usage(array<string, mixed> $params = [])
+ * @method static Route organization_setting_billing_budgets(array<string, mixed> $params = [])
+ * @method static Route organization_setting_billing_budget(array<string, mixed> $params = [])
+ * @method static Route organization_setting_billing_premium_request_usage(array<string, mixed> $params = [])
+ * @method static Route organization_setting_billing_usage(array<string, mixed> $params = [])
+ * @method static Route organization_setting_billing_usage_summary(array<string, mixed> $params = [])
+ * @method static Route org(array<string, mixed> $params = [])
+ * @method static Route org_action_cache_usage(array<string, mixed> $params = [])
+ * @method static Route org_action_cache_usage_by_repository(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runners(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_image_custom(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_image_custom2(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_image_custom_versions(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_image_custom_version(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_image_github_owned(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_image_partner(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_limits(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_machine_sizes(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner_platforms(array<string, mixed> $params = [])
+ * @method static Route org_action_hosted_runner(array<string, mixed> $params = [])
+ * @method static Route org_action_oidc_customization_property_repo(array<string, mixed> $params = [])
+ * @method static Route org_action_oidc_customization_property_repo2(array<string, mixed> $params = [])
+ * @method static Route org_action_oidc_customization_sub(array<string, mixed> $params = [])
+ * @method static Route org_action_permissions(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_artifact_and_log_retention(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_fork_pr_contributor_approval(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_fork_pr_workflows_private_repos(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_repositories(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_repository(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_selected_actions(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_self_hosted_runners(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_self_hosted_runner_repositories(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_self_hosted_runner_repository(array<string, mixed> $params = [])
+ * @method static Route org_action_permission_workflow(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_groups(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_group(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_group_hosted_runners(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_group_repositories(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_group_repository(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_group_runners(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_group_runner(array<string, mixed> $params = [])
+ * @method static Route org_action_runners(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_downloads(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_generate_jitconfig(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_registration_token(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_remove_token(array<string, mixed> $params = [])
+ * @method static Route org_action_runner(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_labels(array<string, mixed> $params = [])
+ * @method static Route org_action_runner_label(array<string, mixed> $params = [])
+ * @method static Route org_action_secrets(array<string, mixed> $params = [])
+ * @method static Route org_action_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route org_action_secret(array<string, mixed> $params = [])
+ * @method static Route org_action_secret_repositories(array<string, mixed> $params = [])
+ * @method static Route org_action_secret_repository(array<string, mixed> $params = [])
+ * @method static Route org_action_variables(array<string, mixed> $params = [])
+ * @method static Route org_action_variable(array<string, mixed> $params = [])
+ * @method static Route org_action_variable_repositories(array<string, mixed> $params = [])
+ * @method static Route org_action_variable_repository(array<string, mixed> $params = [])
+ * @method static Route org_agent_secrets(array<string, mixed> $params = [])
+ * @method static Route org_agent_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route org_agent_secret(array<string, mixed> $params = [])
+ * @method static Route org_agent_secret_repositories(array<string, mixed> $params = [])
+ * @method static Route org_agent_secret_repository(array<string, mixed> $params = [])
+ * @method static Route org_agent_variables(array<string, mixed> $params = [])
+ * @method static Route org_agent_variable(array<string, mixed> $params = [])
+ * @method static Route org_agent_variable_repositories(array<string, mixed> $params = [])
+ * @method static Route org_agent_variable_repository(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_deployment_record(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_deployment_record_cluster(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_deployment_record_cluster_jobs(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_deployment_record_cluster_job(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_storage_record(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_deployment_records(array<string, mixed> $params = [])
+ * @method static Route org_artifact_metadata_storage_records(array<string, mixed> $params = [])
+ * @method static Route org_attestation_bulk_list(array<string, mixed> $params = [])
+ * @method static Route org_attestation_delete_request(array<string, mixed> $params = [])
+ * @method static Route org_attestation_digest(array<string, mixed> $params = [])
+ * @method static Route org_attestation_repositories(array<string, mixed> $params = [])
+ * @method static Route org_attestation(array<string, mixed> $params = [])
+ * @method static Route org_attestation2(array<string, mixed> $params = [])
+ * @method static Route org_blocks(array<string, mixed> $params = [])
+ * @method static Route org_block(array<string, mixed> $params = [])
+ * @method static Route org_campaigns(array<string, mixed> $params = [])
+ * @method static Route org_campaign(array<string, mixed> $params = [])
+ * @method static Route org_code_scanning_alerts(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configurations(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configuration_defaults(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configuration_detach(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configuration(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configuration_attach(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configuration_defaults2(array<string, mixed> $params = [])
+ * @method static Route org_code_security_configuration_repositories(array<string, mixed> $params = [])
+ * @method static Route org_codespaces(array<string, mixed> $params = [])
+ * @method static Route org_codespace_access(array<string, mixed> $params = [])
+ * @method static Route org_codespace_access_selected_users(array<string, mixed> $params = [])
+ * @method static Route org_codespace_secrets(array<string, mixed> $params = [])
+ * @method static Route org_codespace_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route org_codespace_secret(array<string, mixed> $params = [])
+ * @method static Route org_codespace_secret_repositories(array<string, mixed> $params = [])
+ * @method static Route org_codespace_secret_repository(array<string, mixed> $params = [])
+ * @method static Route org_copilot_spaces(array<string, mixed> $params = [])
+ * @method static Route org_copilot_space(array<string, mixed> $params = [])
+ * @method static Route org_copilot_space_collaborators(array<string, mixed> $params = [])
+ * @method static Route org_copilot_space_collaborator(array<string, mixed> $params = [])
+ * @method static Route org_copilot_space_resources(array<string, mixed> $params = [])
+ * @method static Route org_copilot_space_resource(array<string, mixed> $params = [])
+ * @method static Route org_copilot_billing(array<string, mixed> $params = [])
+ * @method static Route org_copilot_billing_seats(array<string, mixed> $params = [])
+ * @method static Route org_copilot_billing_selected_teams(array<string, mixed> $params = [])
+ * @method static Route org_copilot_billing_selected_users(array<string, mixed> $params = [])
+ * @method static Route org_copilot_coding_agent_permissions(array<string, mixed> $params = [])
+ * @method static Route org_copilot_coding_agent_permission_repositories(array<string, mixed> $params = [])
+ * @method static Route org_copilot_coding_agent_permission_repository(array<string, mixed> $params = [])
+ * @method static Route org_copilot_content_exclusion(array<string, mixed> $params = [])
+ * @method static Route org_copilot_metric_report_organization_1_day(array<string, mixed> $params = [])
+ * @method static Route org_copilot_metric_report_organization_28_day_latest(array<string, mixed> $params = [])
+ * @method static Route org_copilot_metric_report_repos_1_day(array<string, mixed> $params = [])
+ * @method static Route org_copilot_metric_report_user_teams_1_day(array<string, mixed> $params = [])
+ * @method static Route org_copilot_metric_report_users_1_day(array<string, mixed> $params = [])
+ * @method static Route org_copilot_metric_report_users_28_day_latest(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_alerts(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_repository_access(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_repository_access_default_level(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_secrets(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_secret(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_secret_repositories(array<string, mixed> $params = [])
+ * @method static Route org_dependabot_secret_repository(array<string, mixed> $params = [])
+ * @method static Route org_docker_conflicts(array<string, mixed> $params = [])
+ * @method static Route org_events(array<string, mixed> $params = [])
+ * @method static Route org_failed_invitations(array<string, mixed> $params = [])
+ * @method static Route org_hooks(array<string, mixed> $params = [])
+ * @method static Route org_hook(array<string, mixed> $params = [])
+ * @method static Route org_hook_config(array<string, mixed> $params = [])
+ * @method static Route org_hook_deliveries(array<string, mixed> $params = [])
+ * @method static Route org_hook_delivery(array<string, mixed> $params = [])
+ * @method static Route org_hook_delivery_attempts(array<string, mixed> $params = [])
+ * @method static Route org_hook_pings(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_route_stat(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_subject_stats(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_summary_stats(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_summary_stat_user(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_summary_stat(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_time_stats(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_time_stat_user(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_time_stat(array<string, mixed> $params = [])
+ * @method static Route org_insight_api_user_stat(array<string, mixed> $params = [])
+ * @method static Route org_installation(array<string, mixed> $params = [])
+ * @method static Route org_installations(array<string, mixed> $params = [])
+ * @method static Route org_interaction_limits(array<string, mixed> $params = [])
+ * @method static Route org_interaction_limit_pull_creation_cap(array<string, mixed> $params = [])
+ * @method static Route org_invitations(array<string, mixed> $params = [])
+ * @method static Route org_invitation(array<string, mixed> $params = [])
+ * @method static Route org_invitation_teams(array<string, mixed> $params = [])
+ * @method static Route org_issue_fields(array<string, mixed> $params = [])
+ * @method static Route org_issue_field(array<string, mixed> $params = [])
+ * @method static Route org_issue_types(array<string, mixed> $params = [])
+ * @method static Route org_issue_type(array<string, mixed> $params = [])
+ * @method static Route org_issues(array<string, mixed> $params = [])
+ * @method static Route org_members(array<string, mixed> $params = [])
+ * @method static Route org_member(array<string, mixed> $params = [])
+ * @method static Route org_member_codespaces(array<string, mixed> $params = [])
+ * @method static Route org_member_codespace(array<string, mixed> $params = [])
+ * @method static Route org_member_codespace_stop(array<string, mixed> $params = [])
+ * @method static Route org_member_copilot(array<string, mixed> $params = [])
+ * @method static Route org_membership(array<string, mixed> $params = [])
+ * @method static Route org_migrations(array<string, mixed> $params = [])
+ * @method static Route org_migration(array<string, mixed> $params = [])
+ * @method static Route org_migration_archive(array<string, mixed> $params = [])
+ * @method static Route org_migration_repo_lock(array<string, mixed> $params = [])
+ * @method static Route org_migration_repositories(array<string, mixed> $params = [])
+ * @method static Route org_organization_roles(array<string, mixed> $params = [])
+ * @method static Route org_organization_role_team(array<string, mixed> $params = [])
+ * @method static Route org_organization_role_team2(array<string, mixed> $params = [])
+ * @method static Route org_organization_role_user(array<string, mixed> $params = [])
+ * @method static Route org_organization_role_user2(array<string, mixed> $params = [])
+ * @method static Route org_organization_role(array<string, mixed> $params = [])
+ * @method static Route org_organization_role_teams(array<string, mixed> $params = [])
+ * @method static Route org_organization_role_users(array<string, mixed> $params = [])
+ * @method static Route org_outside_collaborators(array<string, mixed> $params = [])
+ * @method static Route org_outside_collaborator(array<string, mixed> $params = [])
+ * @method static Route org_packages(array<string, mixed> $params = [])
+ * @method static Route org_package(array<string, mixed> $params = [])
+ * @method static Route org_package_restore(array<string, mixed> $params = [])
+ * @method static Route org_package_versions(array<string, mixed> $params = [])
+ * @method static Route org_package_version(array<string, mixed> $params = [])
+ * @method static Route org_package_version_restore(array<string, mixed> $params = [])
+ * @method static Route org_personal_access_token_requests(array<string, mixed> $params = [])
+ * @method static Route org_personal_access_token_request(array<string, mixed> $params = [])
+ * @method static Route org_personal_access_token_request_repositories(array<string, mixed> $params = [])
+ * @method static Route org_personal_access_tokens(array<string, mixed> $params = [])
+ * @method static Route org_personal_access_token(array<string, mixed> $params = [])
+ * @method static Route org_personal_access_token_repositories(array<string, mixed> $params = [])
+ * @method static Route org_private_registries(array<string, mixed> $params = [])
+ * @method static Route org_private_registry_public_key(array<string, mixed> $params = [])
+ * @method static Route org_private_registry(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2(array<string, mixed> $params = [])
+ * @method static Route org_projects_v22(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_drafts(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_fields(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_field(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_items(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_item(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_views(array<string, mixed> $params = [])
+ * @method static Route org_projects_v2_view_items(array<string, mixed> $params = [])
+ * @method static Route org_property_schema(array<string, mixed> $params = [])
+ * @method static Route org_property_schema2(array<string, mixed> $params = [])
+ * @method static Route org_property_values(array<string, mixed> $params = [])
+ * @method static Route org_public_members(array<string, mixed> $params = [])
+ * @method static Route org_public_member(array<string, mixed> $params = [])
+ * @method static Route org_repos(array<string, mixed> $params = [])
+ * @method static Route org_rulesets(array<string, mixed> $params = [])
+ * @method static Route org_ruleset_rule_suites(array<string, mixed> $params = [])
+ * @method static Route org_ruleset_rule_suite(array<string, mixed> $params = [])
+ * @method static Route org_ruleset(array<string, mixed> $params = [])
+ * @method static Route org_ruleset_history(array<string, mixed> $params = [])
+ * @method static Route org_ruleset_history2(array<string, mixed> $params = [])
+ * @method static Route org_secret_scanning_alerts(array<string, mixed> $params = [])
+ * @method static Route org_secret_scanning_custom_patterns(array<string, mixed> $params = [])
+ * @method static Route org_secret_scanning_custom_pattern(array<string, mixed> $params = [])
+ * @method static Route org_secret_scanning_pattern_configurations(array<string, mixed> $params = [])
+ * @method static Route org_security_advisories(array<string, mixed> $params = [])
+ * @method static Route org_security_managers(array<string, mixed> $params = [])
+ * @method static Route org_security_manager_team(array<string, mixed> $params = [])
+ * @method static Route org_setting_immutable_releases(array<string, mixed> $params = [])
+ * @method static Route org_setting_immutable_release_repositories(array<string, mixed> $params = [])
+ * @method static Route org_setting_immutable_release_repository(array<string, mixed> $params = [])
+ * @method static Route org_setting_network_configurations(array<string, mixed> $params = [])
+ * @method static Route org_setting_network_configuration(array<string, mixed> $params = [])
+ * @method static Route org_setting_network_setting(array<string, mixed> $params = [])
+ * @method static Route org_teams(array<string, mixed> $params = [])
+ * @method static Route org_team(array<string, mixed> $params = [])
+ * @method static Route org_team_invitations(array<string, mixed> $params = [])
+ * @method static Route org_team_members(array<string, mixed> $params = [])
+ * @method static Route org_team_membership(array<string, mixed> $params = [])
+ * @method static Route org_team_repos(array<string, mixed> $params = [])
+ * @method static Route org_team_repo(array<string, mixed> $params = [])
+ * @method static Route org_team_teams(array<string, mixed> $params = [])
+ * @method static Route org2(array<string, mixed> $params = [])
+ * @method static Route rate_limit(array<string, mixed> $params = [])
+ * @method static Route repo(array<string, mixed> $params = [])
+ * @method static Route repo_action_artifacts(array<string, mixed> $params = [])
+ * @method static Route repo_action_artifact(array<string, mixed> $params = [])
+ * @method static Route repo_action_artifact2(array<string, mixed> $params = [])
+ * @method static Route repo_action_cache_retention_limit(array<string, mixed> $params = [])
+ * @method static Route repo_action_cache_storage_limit(array<string, mixed> $params = [])
+ * @method static Route repo_action_cache_usage(array<string, mixed> $params = [])
+ * @method static Route repo_action_caches(array<string, mixed> $params = [])
+ * @method static Route repo_action_cach(array<string, mixed> $params = [])
+ * @method static Route repo_action_concurrency_groups(array<string, mixed> $params = [])
+ * @method static Route repo_action_concurrency_group(array<string, mixed> $params = [])
+ * @method static Route repo_action_job(array<string, mixed> $params = [])
+ * @method static Route repo_action_job_logs(array<string, mixed> $params = [])
+ * @method static Route repo_action_job_rerun(array<string, mixed> $params = [])
+ * @method static Route repo_action_oidc_customization_sub(array<string, mixed> $params = [])
+ * @method static Route repo_action_organization_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_action_organization_variables(array<string, mixed> $params = [])
+ * @method static Route repo_action_permissions(array<string, mixed> $params = [])
+ * @method static Route repo_action_permission_access(array<string, mixed> $params = [])
+ * @method static Route repo_action_permission_artifact_and_log_retention(array<string, mixed> $params = [])
+ * @method static Route repo_action_permission_fork_pr_contributor_approval(array<string, mixed> $params = [])
+ * @method static Route repo_action_permission_fork_pr_workflows_private_repos(array<string, mixed> $params = [])
+ * @method static Route repo_action_permission_selected_actions(array<string, mixed> $params = [])
+ * @method static Route repo_action_permission_workflow(array<string, mixed> $params = [])
+ * @method static Route repo_action_runners(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner_downloads(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner_generate_jitconfig(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner_registration_token(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner_remove_token(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner_labels(array<string, mixed> $params = [])
+ * @method static Route repo_action_runner_label(array<string, mixed> $params = [])
+ * @method static Route repo_action_runs(array<string, mixed> $params = [])
+ * @method static Route repo_action_run(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_approvals(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_approve(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_artifacts(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_attempt(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_attempt_jobs(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_attempt_logs(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_cancel(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_concurrency_groups(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_deployment_protection_rule(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_force_cancel(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_jobs(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_logs(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_pending_deployments(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_rerun(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_rerun_failed_jobs(array<string, mixed> $params = [])
+ * @method static Route repo_action_run_timing(array<string, mixed> $params = [])
+ * @method static Route repo_action_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_action_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route repo_action_secret(array<string, mixed> $params = [])
+ * @method static Route repo_action_variables(array<string, mixed> $params = [])
+ * @method static Route repo_action_variable(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflows(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflow(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflow_disable(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflow_dispatches(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflow_enable(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflow_runs(array<string, mixed> $params = [])
+ * @method static Route repo_action_workflow_timing(array<string, mixed> $params = [])
+ * @method static Route repo_activity(array<string, mixed> $params = [])
+ * @method static Route repo_agent_organization_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_agent_organization_variables(array<string, mixed> $params = [])
+ * @method static Route repo_agent_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_agent_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route repo_agent_secret(array<string, mixed> $params = [])
+ * @method static Route repo_agent_variables(array<string, mixed> $params = [])
+ * @method static Route repo_agent_variable(array<string, mixed> $params = [])
+ * @method static Route repo_assignees(array<string, mixed> $params = [])
+ * @method static Route repo_assignee(array<string, mixed> $params = [])
+ * @method static Route repo_attestations(array<string, mixed> $params = [])
+ * @method static Route repo_attestation(array<string, mixed> $params = [])
+ * @method static Route repo_autolinks(array<string, mixed> $params = [])
+ * @method static Route repo_autolink(array<string, mixed> $params = [])
+ * @method static Route repo_automated_security_fixes(array<string, mixed> $params = [])
+ * @method static Route repo_branches(array<string, mixed> $params = [])
+ * @method static Route repo_branch(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_enforce_admins(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_required_pull_request_reviews(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_required_signatures(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_required_status_checks(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_required_status_check_contexts(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_restrictions(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_restriction_apps(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_restriction_teams(array<string, mixed> $params = [])
+ * @method static Route repo_branch_protection_restriction_users(array<string, mixed> $params = [])
+ * @method static Route repo_branch_rename(array<string, mixed> $params = [])
+ * @method static Route repo_check_runs(array<string, mixed> $params = [])
+ * @method static Route repo_check_run(array<string, mixed> $params = [])
+ * @method static Route repo_check_run_annotations(array<string, mixed> $params = [])
+ * @method static Route repo_check_run_rerequest(array<string, mixed> $params = [])
+ * @method static Route repo_check_suites(array<string, mixed> $params = [])
+ * @method static Route repo_check_suite_preferences(array<string, mixed> $params = [])
+ * @method static Route repo_check_suite(array<string, mixed> $params = [])
+ * @method static Route repo_check_suite_check_runs(array<string, mixed> $params = [])
+ * @method static Route repo_check_suite_rerequest(array<string, mixed> $params = [])
+ * @method static Route repo_code_quality_findings(array<string, mixed> $params = [])
+ * @method static Route repo_code_quality_finding(array<string, mixed> $params = [])
+ * @method static Route repo_code_quality_setup(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_alerts(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_alert(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_alert_autofix(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_alert_autofix_commits(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_alert_instances(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_analyses(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_analyse(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_codeql_databases(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_codeql_database(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_codeql_variant_analyses(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_codeql_variant_analyse(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_codeql_variant_analyse_repo(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_default_setup(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_sarifs(array<string, mixed> $params = [])
+ * @method static Route repo_code_scanning_sarif(array<string, mixed> $params = [])
+ * @method static Route repo_code_security_configuration(array<string, mixed> $params = [])
+ * @method static Route repo_codeowner_errors(array<string, mixed> $params = [])
+ * @method static Route repo_codespaces(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_devcontainers(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_machines(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_new(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_permissions_check(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route repo_codespace_secret(array<string, mixed> $params = [])
+ * @method static Route repo_collaborators(array<string, mixed> $params = [])
+ * @method static Route repo_collaborator(array<string, mixed> $params = [])
+ * @method static Route repo_collaborator_permission(array<string, mixed> $params = [])
+ * @method static Route repo_comments(array<string, mixed> $params = [])
+ * @method static Route repo_comment(array<string, mixed> $params = [])
+ * @method static Route repo_comment_reactions(array<string, mixed> $params = [])
+ * @method static Route repo_comment_reaction(array<string, mixed> $params = [])
+ * @method static Route repo_commits(array<string, mixed> $params = [])
+ * @method static Route repo_commit_branches_where_head(array<string, mixed> $params = [])
+ * @method static Route repo_commit_comments(array<string, mixed> $params = [])
+ * @method static Route repo_commit_pulls(array<string, mixed> $params = [])
+ * @method static Route repo_commit(array<string, mixed> $params = [])
+ * @method static Route repo_commit_check_runs(array<string, mixed> $params = [])
+ * @method static Route repo_commit_check_suites(array<string, mixed> $params = [])
+ * @method static Route repo_commit_status(array<string, mixed> $params = [])
+ * @method static Route repo_commit_statuses(array<string, mixed> $params = [])
+ * @method static Route repo_community_profile(array<string, mixed> $params = [])
+ * @method static Route repo_compare(array<string, mixed> $params = [])
+ * @method static Route repo_content(array<string, mixed> $params = [])
+ * @method static Route repo_contributors(array<string, mixed> $params = [])
+ * @method static Route repo_copilot_cloud_agent_configuration(array<string, mixed> $params = [])
+ * @method static Route repo_dependabot_alerts(array<string, mixed> $params = [])
+ * @method static Route repo_dependabot_alert(array<string, mixed> $params = [])
+ * @method static Route repo_dependabot_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_dependabot_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route repo_dependabot_secret(array<string, mixed> $params = [])
+ * @method static Route repo_dependency_graph_compare(array<string, mixed> $params = [])
+ * @method static Route repo_dependency_graph_sbom(array<string, mixed> $params = [])
+ * @method static Route repo_dependency_graph_sbom_fetch_report(array<string, mixed> $params = [])
+ * @method static Route repo_dependency_graph_sbom_generate_report(array<string, mixed> $params = [])
+ * @method static Route repo_dependency_graph_snapshots(array<string, mixed> $params = [])
+ * @method static Route repo_deployments(array<string, mixed> $params = [])
+ * @method static Route repo_deployment(array<string, mixed> $params = [])
+ * @method static Route repo_deployment_statuses(array<string, mixed> $params = [])
+ * @method static Route repo_deployment_status(array<string, mixed> $params = [])
+ * @method static Route repo_dispatches(array<string, mixed> $params = [])
+ * @method static Route repo_environments(array<string, mixed> $params = [])
+ * @method static Route repo_environment(array<string, mixed> $params = [])
+ * @method static Route repo_environment_deployment_branch_policies(array<string, mixed> $params = [])
+ * @method static Route repo_environment_deployment_branch_policy(array<string, mixed> $params = [])
+ * @method static Route repo_environment_deployment_protection_rules(array<string, mixed> $params = [])
+ * @method static Route repo_environment_deployment_protection_rule_apps(array<string, mixed> $params = [])
+ * @method static Route repo_environment_deployment_protection_rule(array<string, mixed> $params = [])
+ * @method static Route repo_environment_secrets(array<string, mixed> $params = [])
+ * @method static Route repo_environment_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route repo_environment_secret(array<string, mixed> $params = [])
+ * @method static Route repo_environment_variables(array<string, mixed> $params = [])
+ * @method static Route repo_environment_variable(array<string, mixed> $params = [])
+ * @method static Route repo_events(array<string, mixed> $params = [])
+ * @method static Route repo_forks(array<string, mixed> $params = [])
+ * @method static Route repo_git_blobs(array<string, mixed> $params = [])
+ * @method static Route repo_git_blob(array<string, mixed> $params = [])
+ * @method static Route repo_git_commits(array<string, mixed> $params = [])
+ * @method static Route repo_git_commit(array<string, mixed> $params = [])
+ * @method static Route repo_git_matching_ref(array<string, mixed> $params = [])
+ * @method static Route repo_git_ref(array<string, mixed> $params = [])
+ * @method static Route repo_git_refs(array<string, mixed> $params = [])
+ * @method static Route repo_git_ref2(array<string, mixed> $params = [])
+ * @method static Route repo_git_tags(array<string, mixed> $params = [])
+ * @method static Route repo_git_tag(array<string, mixed> $params = [])
+ * @method static Route repo_git_trees(array<string, mixed> $params = [])
+ * @method static Route repo_git_tree(array<string, mixed> $params = [])
+ * @method static Route repo_hash_algorithm(array<string, mixed> $params = [])
+ * @method static Route repo_hooks(array<string, mixed> $params = [])
+ * @method static Route repo_hook(array<string, mixed> $params = [])
+ * @method static Route repo_hook_config(array<string, mixed> $params = [])
+ * @method static Route repo_hook_deliveries(array<string, mixed> $params = [])
+ * @method static Route repo_hook_delivery(array<string, mixed> $params = [])
+ * @method static Route repo_hook_delivery_attempts(array<string, mixed> $params = [])
+ * @method static Route repo_hook_pings(array<string, mixed> $params = [])
+ * @method static Route repo_hook_tests(array<string, mixed> $params = [])
+ * @method static Route repo_immutable_releases(array<string, mixed> $params = [])
+ * @method static Route repo_import(array<string, mixed> $params = [])
+ * @method static Route repo_import_authors(array<string, mixed> $params = [])
+ * @method static Route repo_import_author(array<string, mixed> $params = [])
+ * @method static Route repo_import_large_files(array<string, mixed> $params = [])
+ * @method static Route repo_import_lfs(array<string, mixed> $params = [])
+ * @method static Route repo_installation(array<string, mixed> $params = [])
+ * @method static Route repo_interaction_limits(array<string, mixed> $params = [])
+ * @method static Route repo_interaction_limit_pull_bypass_list(array<string, mixed> $params = [])
+ * @method static Route repo_interaction_limit_pull_creation_cap(array<string, mixed> $params = [])
+ * @method static Route repo_invitations(array<string, mixed> $params = [])
+ * @method static Route repo_invitation(array<string, mixed> $params = [])
+ * @method static Route repo_issue_types(array<string, mixed> $params = [])
+ * @method static Route repo_issues(array<string, mixed> $params = [])
+ * @method static Route repo_issue_comments(array<string, mixed> $params = [])
+ * @method static Route repo_issue_comment(array<string, mixed> $params = [])
+ * @method static Route repo_issue_comment_pin(array<string, mixed> $params = [])
+ * @method static Route repo_issue_comment_reactions(array<string, mixed> $params = [])
+ * @method static Route repo_issue_comment_reaction(array<string, mixed> $params = [])
+ * @method static Route repo_issue_events(array<string, mixed> $params = [])
+ * @method static Route repo_issue_event(array<string, mixed> $params = [])
+ * @method static Route repo_issue(array<string, mixed> $params = [])
+ * @method static Route repo_issue_assignees(array<string, mixed> $params = [])
+ * @method static Route repo_issue_assignee(array<string, mixed> $params = [])
+ * @method static Route repo_issue_comments2(array<string, mixed> $params = [])
+ * @method static Route repo_issue_dependency_blocked_by(array<string, mixed> $params = [])
+ * @method static Route repo_issue_dependency_blocked_by2(array<string, mixed> $params = [])
+ * @method static Route repo_issue_dependency_blocking(array<string, mixed> $params = [])
+ * @method static Route repo_issue_events2(array<string, mixed> $params = [])
+ * @method static Route repo_issue_issue_field_values(array<string, mixed> $params = [])
+ * @method static Route repo_issue_issue_field_value(array<string, mixed> $params = [])
+ * @method static Route repo_issue_labels(array<string, mixed> $params = [])
+ * @method static Route repo_issue_label(array<string, mixed> $params = [])
+ * @method static Route repo_issue_lock(array<string, mixed> $params = [])
+ * @method static Route repo_issue_parent(array<string, mixed> $params = [])
+ * @method static Route repo_issue_reactions(array<string, mixed> $params = [])
+ * @method static Route repo_issue_reaction(array<string, mixed> $params = [])
+ * @method static Route repo_issue_sub_issue(array<string, mixed> $params = [])
+ * @method static Route repo_issue_sub_issues(array<string, mixed> $params = [])
+ * @method static Route repo_issue_sub_issue_priority(array<string, mixed> $params = [])
+ * @method static Route repo_issue_suggestions(array<string, mixed> $params = [])
+ * @method static Route repo_issue_suggestion_approve(array<string, mixed> $params = [])
+ * @method static Route repo_issue_suggestion_dismiss(array<string, mixed> $params = [])
+ * @method static Route repo_issue_timeline(array<string, mixed> $params = [])
+ * @method static Route repo_keys(array<string, mixed> $params = [])
+ * @method static Route repo_key(array<string, mixed> $params = [])
+ * @method static Route repo_labels(array<string, mixed> $params = [])
+ * @method static Route repo_label(array<string, mixed> $params = [])
+ * @method static Route repo_languages(array<string, mixed> $params = [])
+ * @method static Route repo_license(array<string, mixed> $params = [])
+ * @method static Route repo_merge_upstream(array<string, mixed> $params = [])
+ * @method static Route repo_merges(array<string, mixed> $params = [])
+ * @method static Route repo_milestones(array<string, mixed> $params = [])
+ * @method static Route repo_milestone(array<string, mixed> $params = [])
+ * @method static Route repo_milestone_labels(array<string, mixed> $params = [])
+ * @method static Route repo_notifications(array<string, mixed> $params = [])
+ * @method static Route repo_pages(array<string, mixed> $params = [])
+ * @method static Route repo_page_builds(array<string, mixed> $params = [])
+ * @method static Route repo_page_build_latest(array<string, mixed> $params = [])
+ * @method static Route repo_page_build(array<string, mixed> $params = [])
+ * @method static Route repo_page_deployments(array<string, mixed> $params = [])
+ * @method static Route repo_page_deployment(array<string, mixed> $params = [])
+ * @method static Route repo_page_deployment_cancel(array<string, mixed> $params = [])
+ * @method static Route repo_page_health(array<string, mixed> $params = [])
+ * @method static Route repo_private_vulnerability_reporting(array<string, mixed> $params = [])
+ * @method static Route repo_property_values(array<string, mixed> $params = [])
+ * @method static Route repo_pulls(array<string, mixed> $params = [])
+ * @method static Route repo_pull_comments(array<string, mixed> $params = [])
+ * @method static Route repo_pull_comment(array<string, mixed> $params = [])
+ * @method static Route repo_pull_comment_reactions(array<string, mixed> $params = [])
+ * @method static Route repo_pull_comment_reaction(array<string, mixed> $params = [])
+ * @method static Route repo_pull(array<string, mixed> $params = [])
+ * @method static Route repo_pull_codespaces(array<string, mixed> $params = [])
+ * @method static Route repo_pull_comments2(array<string, mixed> $params = [])
+ * @method static Route repo_pull_comment_replies(array<string, mixed> $params = [])
+ * @method static Route repo_pull_commits(array<string, mixed> $params = [])
+ * @method static Route repo_pull_files(array<string, mixed> $params = [])
+ * @method static Route repo_pull_merge(array<string, mixed> $params = [])
+ * @method static Route repo_pull_merge_async(array<string, mixed> $params = [])
+ * @method static Route repo_pull_merge_async2(array<string, mixed> $params = [])
+ * @method static Route repo_pull_requested_reviewers(array<string, mixed> $params = [])
+ * @method static Route repo_pull_reviews(array<string, mixed> $params = [])
+ * @method static Route repo_pull_review(array<string, mixed> $params = [])
+ * @method static Route repo_pull_review_comments(array<string, mixed> $params = [])
+ * @method static Route repo_pull_review_dismissals(array<string, mixed> $params = [])
+ * @method static Route repo_pull_review_events(array<string, mixed> $params = [])
+ * @method static Route repo_pull_update_branch(array<string, mixed> $params = [])
+ * @method static Route repo_readme(array<string, mixed> $params = [])
+ * @method static Route repo_readme2(array<string, mixed> $params = [])
+ * @method static Route repo_releases(array<string, mixed> $params = [])
+ * @method static Route repo_release_asset(array<string, mixed> $params = [])
+ * @method static Route repo_release_generate_notes(array<string, mixed> $params = [])
+ * @method static Route repo_release_latest(array<string, mixed> $params = [])
+ * @method static Route repo_release_tag(array<string, mixed> $params = [])
+ * @method static Route repo_release(array<string, mixed> $params = [])
+ * @method static Route repo_release_assets(array<string, mixed> $params = [])
+ * @method static Route repo_release_reactions(array<string, mixed> $params = [])
+ * @method static Route repo_release_reaction(array<string, mixed> $params = [])
+ * @method static Route repo_rule_branch(array<string, mixed> $params = [])
+ * @method static Route repo_rulesets(array<string, mixed> $params = [])
+ * @method static Route repo_ruleset_rule_suites(array<string, mixed> $params = [])
+ * @method static Route repo_ruleset_rule_suite(array<string, mixed> $params = [])
+ * @method static Route repo_ruleset(array<string, mixed> $params = [])
+ * @method static Route repo_ruleset_history(array<string, mixed> $params = [])
+ * @method static Route repo_ruleset_history2(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_alerts(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_alert(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_alert_locations(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_custom_patterns(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_custom_pattern(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_push_protection_bypasses(array<string, mixed> $params = [])
+ * @method static Route repo_secret_scanning_scan_history(array<string, mixed> $params = [])
+ * @method static Route repo_security_advisories(array<string, mixed> $params = [])
+ * @method static Route repo_security_advisory_reports(array<string, mixed> $params = [])
+ * @method static Route repo_security_advisory(array<string, mixed> $params = [])
+ * @method static Route repo_security_advisory_cve(array<string, mixed> $params = [])
+ * @method static Route repo_security_advisory_forks(array<string, mixed> $params = [])
+ * @method static Route repo_stacks(array<string, mixed> $params = [])
+ * @method static Route repo_stack(array<string, mixed> $params = [])
+ * @method static Route repo_stack_add(array<string, mixed> $params = [])
+ * @method static Route repo_stack_unstack(array<string, mixed> $params = [])
+ * @method static Route repo_stargazers(array<string, mixed> $params = [])
+ * @method static Route repo_stargazer_count(array<string, mixed> $params = [])
+ * @method static Route repo_stat_code_frequency(array<string, mixed> $params = [])
+ * @method static Route repo_stat_commit_activity(array<string, mixed> $params = [])
+ * @method static Route repo_stat_contributors(array<string, mixed> $params = [])
+ * @method static Route repo_stat_participation(array<string, mixed> $params = [])
+ * @method static Route repo_stat_punch_card(array<string, mixed> $params = [])
+ * @method static Route repo_status(array<string, mixed> $params = [])
+ * @method static Route repo_subscribers(array<string, mixed> $params = [])
+ * @method static Route repo_subscription(array<string, mixed> $params = [])
+ * @method static Route repo_tags(array<string, mixed> $params = [])
+ * @method static Route repo_tarball(array<string, mixed> $params = [])
+ * @method static Route repo_teams(array<string, mixed> $params = [])
+ * @method static Route repo_topics(array<string, mixed> $params = [])
+ * @method static Route repo_traffic_clones(array<string, mixed> $params = [])
+ * @method static Route repo_traffic_popular_paths(array<string, mixed> $params = [])
+ * @method static Route repo_traffic_popular_referrers(array<string, mixed> $params = [])
+ * @method static Route repo_traffic_views(array<string, mixed> $params = [])
+ * @method static Route repo_transfer(array<string, mixed> $params = [])
+ * @method static Route repo_vulnerability_alerts(array<string, mixed> $params = [])
+ * @method static Route repo_zipball(array<string, mixed> $params = [])
+ * @method static Route repo_generate(array<string, mixed> $params = [])
+ * @method static Route repositories(array<string, mixed> $params = [])
+ * @method static Route search_code(array<string, mixed> $params = [])
+ * @method static Route search_commits(array<string, mixed> $params = [])
+ * @method static Route search_issues(array<string, mixed> $params = [])
+ * @method static Route search_labels(array<string, mixed> $params = [])
+ * @method static Route search_repositories(array<string, mixed> $params = [])
+ * @method static Route search_topics(array<string, mixed> $params = [])
+ * @method static Route search_users(array<string, mixed> $params = [])
+ * @method static Route team(array<string, mixed> $params = [])
+ * @method static Route team_invitations(array<string, mixed> $params = [])
+ * @method static Route team_members(array<string, mixed> $params = [])
+ * @method static Route team_member(array<string, mixed> $params = [])
+ * @method static Route team_membership(array<string, mixed> $params = [])
+ * @method static Route team_repos(array<string, mixed> $params = [])
+ * @method static Route team_repo(array<string, mixed> $params = [])
+ * @method static Route team_teams(array<string, mixed> $params = [])
+ * @method static Route user(array<string, mixed> $params = [])
+ * @method static Route user_blocks(array<string, mixed> $params = [])
+ * @method static Route user_block(array<string, mixed> $params = [])
+ * @method static Route user_codespaces(array<string, mixed> $params = [])
+ * @method static Route user_codespace_secrets(array<string, mixed> $params = [])
+ * @method static Route user_codespace_secret_public_key(array<string, mixed> $params = [])
+ * @method static Route user_codespace_secret(array<string, mixed> $params = [])
+ * @method static Route user_codespace_secret_repositories(array<string, mixed> $params = [])
+ * @method static Route user_codespace_secret_repository(array<string, mixed> $params = [])
+ * @method static Route user_codespace(array<string, mixed> $params = [])
+ * @method static Route user_codespace_exports(array<string, mixed> $params = [])
+ * @method static Route user_codespace_export(array<string, mixed> $params = [])
+ * @method static Route user_codespace_machines(array<string, mixed> $params = [])
+ * @method static Route user_codespace_publish(array<string, mixed> $params = [])
+ * @method static Route user_codespace_start(array<string, mixed> $params = [])
+ * @method static Route user_codespace_stop(array<string, mixed> $params = [])
+ * @method static Route user_docker_conflicts(array<string, mixed> $params = [])
+ * @method static Route user_email_visibility(array<string, mixed> $params = [])
+ * @method static Route user_emails(array<string, mixed> $params = [])
+ * @method static Route user_followers(array<string, mixed> $params = [])
+ * @method static Route user_following(array<string, mixed> $params = [])
+ * @method static Route user_following2(array<string, mixed> $params = [])
+ * @method static Route user_gpg_keys(array<string, mixed> $params = [])
+ * @method static Route user_gpg_key(array<string, mixed> $params = [])
+ * @method static Route user_installations(array<string, mixed> $params = [])
+ * @method static Route user_installation_repositories(array<string, mixed> $params = [])
+ * @method static Route user_installation_repository(array<string, mixed> $params = [])
+ * @method static Route user_interaction_limits(array<string, mixed> $params = [])
+ * @method static Route user_issues(array<string, mixed> $params = [])
+ * @method static Route user_keys(array<string, mixed> $params = [])
+ * @method static Route user_key(array<string, mixed> $params = [])
+ * @method static Route user_marketplace_purchases(array<string, mixed> $params = [])
+ * @method static Route user_marketplace_purchase_stubbed(array<string, mixed> $params = [])
+ * @method static Route user_membership_orgs(array<string, mixed> $params = [])
+ * @method static Route user_membership_org(array<string, mixed> $params = [])
+ * @method static Route user_migrations(array<string, mixed> $params = [])
+ * @method static Route user_migration(array<string, mixed> $params = [])
+ * @method static Route user_migration_archive(array<string, mixed> $params = [])
+ * @method static Route user_migration_repo_lock(array<string, mixed> $params = [])
+ * @method static Route user_migration_repositories(array<string, mixed> $params = [])
+ * @method static Route user_orgs(array<string, mixed> $params = [])
+ * @method static Route user_packages(array<string, mixed> $params = [])
+ * @method static Route user_package(array<string, mixed> $params = [])
+ * @method static Route user_package_restore(array<string, mixed> $params = [])
+ * @method static Route user_package_versions(array<string, mixed> $params = [])
+ * @method static Route user_package_version(array<string, mixed> $params = [])
+ * @method static Route user_package_version_restore(array<string, mixed> $params = [])
+ * @method static Route user_public_emails(array<string, mixed> $params = [])
+ * @method static Route user_repos(array<string, mixed> $params = [])
+ * @method static Route user_repository_invitations(array<string, mixed> $params = [])
+ * @method static Route user_repository_invitation(array<string, mixed> $params = [])
+ * @method static Route user_social_accounts(array<string, mixed> $params = [])
+ * @method static Route user_ssh_signing_keys(array<string, mixed> $params = [])
+ * @method static Route user_ssh_signing_key(array<string, mixed> $params = [])
+ * @method static Route user_starred(array<string, mixed> $params = [])
+ * @method static Route user_starred2(array<string, mixed> $params = [])
+ * @method static Route user_subscriptions(array<string, mixed> $params = [])
+ * @method static Route user_teams(array<string, mixed> $params = [])
+ * @method static Route user2(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_drafts(array<string, mixed> $params = [])
+ * @method static Route users(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_views(array<string, mixed> $params = [])
+ * @method static Route user3(array<string, mixed> $params = [])
+ * @method static Route user_attestation_bulk_list(array<string, mixed> $params = [])
+ * @method static Route user_attestation_delete_request(array<string, mixed> $params = [])
+ * @method static Route user_attestation_digest(array<string, mixed> $params = [])
+ * @method static Route user_attestation(array<string, mixed> $params = [])
+ * @method static Route user_attestation2(array<string, mixed> $params = [])
+ * @method static Route user_copilot_spaces(array<string, mixed> $params = [])
+ * @method static Route user_copilot_space(array<string, mixed> $params = [])
+ * @method static Route user_copilot_space_collaborators(array<string, mixed> $params = [])
+ * @method static Route user_copilot_space_collaborator(array<string, mixed> $params = [])
+ * @method static Route user_copilot_space_resources(array<string, mixed> $params = [])
+ * @method static Route user_copilot_space_resource(array<string, mixed> $params = [])
+ * @method static Route user_docker_conflicts2(array<string, mixed> $params = [])
+ * @method static Route user_events(array<string, mixed> $params = [])
+ * @method static Route user_event_org(array<string, mixed> $params = [])
+ * @method static Route user_event_public(array<string, mixed> $params = [])
+ * @method static Route user_followers2(array<string, mixed> $params = [])
+ * @method static Route user_following3(array<string, mixed> $params = [])
+ * @method static Route user_following4(array<string, mixed> $params = [])
+ * @method static Route user_gists(array<string, mixed> $params = [])
+ * @method static Route user_gpg_keys2(array<string, mixed> $params = [])
+ * @method static Route user_hovercard(array<string, mixed> $params = [])
+ * @method static Route user_installation(array<string, mixed> $params = [])
+ * @method static Route user_keys2(array<string, mixed> $params = [])
+ * @method static Route user_orgs2(array<string, mixed> $params = [])
+ * @method static Route user_packages2(array<string, mixed> $params = [])
+ * @method static Route user_package2(array<string, mixed> $params = [])
+ * @method static Route user_package_restore2(array<string, mixed> $params = [])
+ * @method static Route user_package_versions2(array<string, mixed> $params = [])
+ * @method static Route user_package_version2(array<string, mixed> $params = [])
+ * @method static Route user_package_version_restore2(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2(array<string, mixed> $params = [])
+ * @method static Route user_projects_v22(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_fields(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_field(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_items(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_item(array<string, mixed> $params = [])
+ * @method static Route user_projects_v2_view_items(array<string, mixed> $params = [])
+ * @method static Route user_received_events(array<string, mixed> $params = [])
+ * @method static Route user_received_event_public(array<string, mixed> $params = [])
+ * @method static Route user_repos2(array<string, mixed> $params = [])
+ * @method static Route user_setting_billing_ai_credit_usage(array<string, mixed> $params = [])
+ * @method static Route user_setting_billing_premium_request_usage(array<string, mixed> $params = [])
+ * @method static Route user_setting_billing_usage(array<string, mixed> $params = [])
+ * @method static Route user_setting_billing_usage_summary(array<string, mixed> $params = [])
+ * @method static Route user_social_accounts2(array<string, mixed> $params = [])
+ * @method static Route user_ssh_signing_keys2(array<string, mixed> $params = [])
+ * @method static Route user_starred3(array<string, mixed> $params = [])
+ * @method static Route user_subscriptions2(array<string, mixed> $params = [])
+ * @method static Route versions(array<string, mixed> $params = [])
+ * @method static Route zen(array<string, mixed> $params = [])
  */
 enum ApiRoute: string
 {
     /**
-     * Example single-resource route. One case per path; one `#[AdminApi]`
-     * per HTTP operation on that path. `./run generate-sdk` rewrites this
-     * file from the OpenAPI document declared in `sdk.json`.
+     * GitHub API Root
      * @link https://docs.github.com/
      */
     #[HasRoute]
-    #[AdminApi(HttpMethod::GET, 'getWidget', pathParams: ['id'], response: Widget::class)]
-    #[AdminApi(HttpMethod::PATCH, 'updateWidget', pathParams: ['id'], request: UpdateWidgetRequest::class, response: Widget::class)]
-    #[AdminApi(HttpMethod::DELETE, 'deleteWidget', pathParams: ['id'])]
-    case widget = '/v1/widgets/{id}';
+    #[AdminApi(HttpMethod::GET, 'listRoot', response: Root::class)]
+    case root = '/';
 
     /**
-     * Example collection route.
+     * List global security advisories
      * @link https://docs.github.com/
      */
     #[HasRoute]
-    #[AdminApi(HttpMethod::GET, 'listWidgets', queryParams: [Query::where, Query::where_in, Query::where_not_in, Query::per_page, Query::with, Query::fields], response: WidgetsResponse::class)]
-    #[AdminApi(HttpMethod::POST, 'createWidget', request: CreateWidgetRequest::class, response: Widget::class)]
-    case widgets = '/v1/widgets';
+    #[AdminApi(HttpMethod::GET, 'listAdvisories', queryParams: ['ghsa_id', 'type', 'cve_id', 'ecosystem', 'severity', 'cwes', 'is_withdrawn', 'affects', 'published', 'updated', 'modified', 'epss_percentage', 'epss_percentile', 'before', 'after', 'direction', 'per_page', 'sort'], listOf: GlobalAdvisory::class)]
+    case advisories = '/advisories';
 
     /**
-     * Example bare-list route: the body is a JSON array, not an object, so the
-     * operation declares `listOf:` instead of `response:` and `$result->data`
-     * comes back as an `array<int, WidgetTag>`.
+     * Get a global security advisory
      * @link https://docs.github.com/
      */
     #[HasRoute]
-    #[AdminApi(HttpMethod::GET, 'listWidgetTags', pathParams: ['id'], listOf: WidgetTag::class)]
-    case widgetTags = '/v1/widgets/{id}/tags';
+    #[AdminApi(HttpMethod::GET, 'getAdvisory', pathParams: ['ghsa_id'], response: GlobalAdvisory::class)]
+    case advisory = '/advisories/{ghsa_id}';
+
+    /**
+     * List tasks for repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAgentRepoTasks', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page', 'sort', 'direction', 'state', 'is_archived', 'since', 'creator_id'], response: ListAgentRepoTasksResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createAgentRepoTask', pathParams: ['owner', 'repo'], request: CreateAgentRepoTaskRequest::class, response: CreateAgentRepoTaskResponse::class)]
+    case agent_repo_tasks = '/agents/repos/{owner}/{repo}/tasks';
+
+    /**
+     * Get a task by repo
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getAgentRepoTask', pathParams: ['owner', 'repo', 'task_id'], response: GetAgentRepoTaskResponse::class)]
+    case agent_repo_task = '/agents/repos/{owner}/{repo}/tasks/{task_id}';
+
+    /**
+     * List tasks
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAgentTasks', queryParams: ['per_page', 'page', 'sort', 'direction', 'state', 'is_archived', 'since'], response: ListAgentTasksResponse::class)]
+    case agent_tasks = '/agents/tasks';
+
+    /**
+     * Get a task by ID
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getAgentTask', pathParams: ['task_id'], response: GetAgentTaskResponse::class)]
+    case agent_task = '/agents/tasks/{task_id}';
+
+    /**
+     * Get the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listApps', response: Integration::class)]
+    case app = '/app';
+
+    /**
+     * Create a GitHub App from a manifest
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createAppManifestConversion', pathParams: ['code'], response: CreateAppManifestConversionResponse::class)]
+    case app_manifest_conversions = '/app-manifests/{code}/conversions';
+
+    /**
+     * Get a webhook configuration for an app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAppHookConfigs', response: WebhookConfig::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateAppHookConfig', request: UpdateAppHookConfigRequest::class, response: WebhookConfig::class)]
+    case app_hook_config = '/app/hook/config';
+
+    /**
+     * List deliveries for an app webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAppHookDeliveries', queryParams: ['per_page', 'cursor', 'status'], listOf: HookDeliveryItem::class)]
+    case app_hook_deliveries = '/app/hook/deliveries';
+
+    /**
+     * Get a delivery for an app webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getAppHookDelivery', pathParams: ['delivery_id'], response: HookDelivery::class)]
+    case app_hook_delivery = '/app/hook/deliveries/{delivery_id}';
+
+    /**
+     * Redeliver a delivery for an app webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createAppHookDeliveryAttempt', pathParams: ['delivery_id'])]
+    case app_hook_delivery_attempts = '/app/hook/deliveries/{delivery_id}/attempts';
+
+    /**
+     * List installation requests for the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAppInstallationRequests', queryParams: ['per_page', 'page'], listOf: IntegrationInstallationRequest::class)]
+    case app_installation_requests = '/app/installation-requests';
+
+    /**
+     * List installations for the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAppInstallations', queryParams: ['per_page', 'page', 'since', 'outdated'], listOf: Installation::class)]
+    case app_installations = '/app/installations';
+
+    /**
+     * Get an installation for the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getAppInstallation', pathParams: ['installation_id'], response: Installation::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteAppInstallation', pathParams: ['installation_id'])]
+    case app_installation = '/app/installations/{installation_id}';
+
+    /**
+     * Create an installation access token for an app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createAppInstallationAccessToken', pathParams: ['installation_id'], request: CreateAppInstallationAccessTokenRequest::class, response: InstallationToken::class)]
+    case app_installation_access_tokens = '/app/installations/{installation_id}/access_tokens';
+
+    /**
+     * Suspend an app installation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateAppInstallationSuspended', pathParams: ['installation_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteAppInstallationSuspended', pathParams: ['installation_id'])]
+    case app_installation_suspended = '/app/installations/{installation_id}/suspended';
+
+    /**
+     * Delete an app authorization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteApplicationGrant', pathParams: ['client_id'], request: DeleteApplicationGrantRequest::class)]
+    case application_grant = '/applications/{client_id}/grant';
+
+    /**
+     * Check a token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createApplicationToken', pathParams: ['client_id'], request: CreateApplicationTokenRequest::class, response: Authorization::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateApplicationToken', pathParams: ['client_id'], request: UpdateApplicationTokenRequest::class, response: Authorization::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteApplicationToken', pathParams: ['client_id'], request: DeleteApplicationTokenRequest::class)]
+    case application_token = '/applications/{client_id}/token';
+
+    /**
+     * Create a scoped access token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createApplicationTokenScoped', pathParams: ['client_id'], request: CreateApplicationTokenScopedRequest::class, response: Authorization::class)]
+    case application_token_scoped = '/applications/{client_id}/token/scoped';
+
+    /**
+     * Get an app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getApp', pathParams: ['app_slug'], response: Integration::class)]
+    case app2 = '/apps/{app_slug}';
+
+    /**
+     * Closing down - Get an assignment
+     * @deprecated getAssignment — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getAssignment', pathParams: ['assignment_id'], response: ClassroomAssignment::class)]
+    case assignment = '/assignments/{assignment_id}';
+
+    /**
+     * Closing down - List accepted assignments for an assignment
+     * @deprecated listAssignmentAcceptedAssignments — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAssignmentAcceptedAssignments', pathParams: ['assignment_id'], queryParams: ['page', 'per_page'], listOf: ClassroomAcceptedAssignment::class)]
+    case assignment_accepted_assignments = '/assignments/{assignment_id}/accepted_assignments';
+
+    /**
+     * Closing down - Get assignment grades
+     * @deprecated listAssignmentGrades — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listAssignmentGrades', pathParams: ['assignment_id'], listOf: ClassroomAssignmentGrade::class)]
+    case assignment_grades = '/assignments/{assignment_id}/grades';
+
+    /**
+     * Closing down - List classrooms
+     * @deprecated listClassrooms — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listClassrooms', queryParams: ['page', 'per_page'], listOf: SimpleClassroom::class)]
+    case classrooms = '/classrooms';
+
+    /**
+     * Closing down - Get a classroom
+     * @deprecated getClassroom — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getClassroom', pathParams: ['classroom_id'], response: Classroom::class)]
+    case classroom = '/classrooms/{classroom_id}';
+
+    /**
+     * Closing down - List assignments for a classroom
+     * @deprecated listClassroomAssignments — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listClassroomAssignments', pathParams: ['classroom_id'], queryParams: ['page', 'per_page'], listOf: SimpleClassroomAssignment::class)]
+    case classroom_assignments = '/classrooms/{classroom_id}/assignments';
+
+    /**
+     * Get all codes of conduct
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listCodesOfConducts', listOf: CodeOfConduct::class)]
+    case codes_of_conduct = '/codes_of_conduct';
+
+    /**
+     * Get a code of conduct
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getCodesOfConduct', pathParams: ['key'], response: CodeOfConduct::class)]
+    case codes_of_conduct2 = '/codes_of_conduct/{key}';
+
+    /**
+     * Revoke a list of credentials
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createCredentialRevoke', request: CreateCredentialRevokeRequest::class)]
+    case credential_revoke = '/credentials/revoke';
+
+    /**
+     * Get emojis
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEmojis')]
+    case emojis = '/emojis';
+
+    /**
+     * Get GitHub Actions cache retention limit for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseActionCacheRetentionLimits', pathParams: ['enterprise'], response: ActionsCacheRetentionLimitForEnterprise::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseActionCacheRetentionLimit', pathParams: ['enterprise'], request: ActionsCacheRetentionLimitForEnterprise::class)]
+    case enterprise_action_cache_retention_limit = '/enterprises/{enterprise}/actions/cache/retention-limit';
+
+    /**
+     * Get GitHub Actions cache storage limit for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseActionCacheStorageLimits', pathParams: ['enterprise'], response: ActionsCacheStorageLimitForEnterprise::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseActionCacheStorageLimit', pathParams: ['enterprise'], request: ActionsCacheStorageLimitForEnterprise::class)]
+    case enterprise_action_cache_storage_limit = '/enterprises/{enterprise}/actions/cache/storage-limit';
+
+    /**
+     * List OIDC custom property inclusions for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseActionOidcCustomizationPropertyRepos', pathParams: ['enterprise'], listOf: OidcCustomPropertyInclusion::class)]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseActionOidcCustomizationPropertyRepo', pathParams: ['enterprise'], request: OidcCustomPropertyInclusionInput::class, response: OidcCustomPropertyInclusion::class)]
+    case enterprise_action_oidc_customization_property_repo = '/enterprises/{enterprise}/actions/oidc/customization/properties/repo';
+
+    /**
+     * Delete an OIDC custom property inclusion for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteEnterpriseActionOidcCustomizationPropertyRepo', pathParams: ['enterprise', 'custom_property_name'])]
+    case enterprise_action_oidc_customization_property_repo2 = '/enterprises/{enterprise}/actions/oidc/customization/properties/repo/{custom_property_name}';
+
+    /**
+     * Get code security configurations for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCodeSecurityConfigurations', pathParams: ['enterprise'], queryParams: ['per_page', 'before', 'after'], listOf: CodeSecurityConfiguration::class)]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseCodeSecurityConfiguration', pathParams: ['enterprise'], request: CreateEnterpriseCodeSecurityConfigurationRequest::class, response: CodeSecurityConfiguration::class)]
+    case enterprise_code_security_configurations = '/enterprises/{enterprise}/code-security/configurations';
+
+    /**
+     * Get default code security configurations for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCodeSecurityConfigurationDefaults', pathParams: ['enterprise'], listOf: ListEnterpriseCodeSecurityConfigurationDefaultsResponseItem::class)]
+    case enterprise_code_security_configuration_defaults = '/enterprises/{enterprise}/code-security/configurations/defaults';
+
+    /**
+     * Retrieve a code security configuration of an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getEnterpriseCodeSecurityConfiguration', pathParams: ['enterprise', 'configuration_id'], response: CodeSecurityConfiguration::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateEnterpriseCodeSecurityConfiguration', pathParams: ['enterprise', 'configuration_id'], request: UpdateEnterpriseCodeSecurityConfigurationRequest::class, response: CodeSecurityConfiguration::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteEnterpriseCodeSecurityConfiguration', pathParams: ['enterprise', 'configuration_id'])]
+    case enterprise_code_security_configuration = '/enterprises/{enterprise}/code-security/configurations/{configuration_id}';
+
+    /**
+     * Attach an enterprise configuration to repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseCodeSecurityConfigurationAttach', pathParams: ['enterprise', 'configuration_id'], request: CreateEnterpriseCodeSecurityConfigurationAttachRequest::class)]
+    case enterprise_code_security_configuration_attach = '/enterprises/{enterprise}/code-security/configurations/{configuration_id}/attach';
+
+    /**
+     * Set a code security configuration as a default for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseCodeSecurityConfigurationDefault', pathParams: ['enterprise', 'configuration_id'], request: UpdateEnterpriseCodeSecurityConfigurationDefaultRequest::class, response: UpdateEnterpriseCodeSecurityConfigurationDefaultResponse::class)]
+    case enterprise_code_security_configuration_defaults2 = '/enterprises/{enterprise}/code-security/configurations/{configuration_id}/defaults';
+
+    /**
+     * Get repositories associated with an enterprise code security configuration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCodeSecurityConfigurationRepositories', pathParams: ['enterprise', 'configuration_id'], queryParams: ['per_page', 'before', 'after', 'status'], listOf: CodeSecurityConfigurationRepositories::class)]
+    case enterprise_code_security_configuration_repositories = '/enterprises/{enterprise}/code-security/configurations/{configuration_id}/repositories';
+
+    /**
+     * Get Copilot enterprise usage metrics for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCopilotMetricReportEnterprise1Days', pathParams: ['enterprise'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case enterprise_copilot_metric_report_enterprise_1_day = '/enterprises/{enterprise}/copilot/metrics/reports/enterprise-1-day';
+
+    /**
+     * Get Copilot enterprise usage metrics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCopilotMetricReportEnterprise28DayLatests', pathParams: ['enterprise'], response: CopilotUsageMetrics28DayReport::class)]
+    case enterprise_copilot_metric_report_enterprise_28_day_latest = '/enterprises/{enterprise}/copilot/metrics/reports/enterprise-28-day/latest';
+
+    /**
+     * Get Copilot enterprise repository report for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCopilotMetricReportRepos1Days', pathParams: ['enterprise'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case enterprise_copilot_metric_report_repos_1_day = '/enterprises/{enterprise}/copilot/metrics/reports/repos-1-day';
+
+    /**
+     * Get Copilot enterprise user-teams report for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCopilotMetricReportUserTeams1Days', pathParams: ['enterprise'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case enterprise_copilot_metric_report_user_teams_1_day = '/enterprises/{enterprise}/copilot/metrics/reports/user-teams-1-day';
+
+    /**
+     * Get Copilot users usage metrics for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCopilotMetricReportUsers1Days', pathParams: ['enterprise'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case enterprise_copilot_metric_report_users_1_day = '/enterprises/{enterprise}/copilot/metrics/reports/users-1-day';
+
+    /**
+     * Get Copilot users usage metrics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseCopilotMetricReportUsers28DayLatests', pathParams: ['enterprise'], response: CopilotUsageMetrics28DayReport::class)]
+    case enterprise_copilot_metric_report_users_28_day_latest = '/enterprises/{enterprise}/copilot/metrics/reports/users-28-day/latest';
+
+    /**
+     * Set the coding agent policy for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseCopilotPolicyCodingAgent', pathParams: ['enterprise'], request: UpdateEnterpriseCopilotPolicyCodingAgentRequest::class)]
+    case enterprise_copilot_policy_coding_agent = '/enterprises/{enterprise}/copilot/policies/coding_agent';
+
+    /**
+     * Add organizations to the enterprise coding agent policy
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseCopilotPolicyCodingAgentOrganization', pathParams: ['enterprise'], request: CreateEnterpriseCopilotPolicyCodingAgentOrganizationRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteEnterpriseCopilotPolicyCodingAgentOrganization', pathParams: ['enterprise'], request: DeleteEnterpriseCopilotPolicyCodingAgentOrganizationRequest::class)]
+    case enterprise_copilot_policy_coding_agent_organizations = '/enterprises/{enterprise}/copilot/policies/coding_agent/organizations';
+
+    /**
+     * List Dependabot alerts for an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseDependabotAlerts', pathParams: ['enterprise'], queryParams: ['classification', 'state', 'severity', 'ecosystem', 'package', 'epss_percentage', 'has', 'assignee', 'scope', 'relationship', 'sort', 'direction', 'before', 'after', 'per_page'], listOf: DependabotAlertWithRepository::class)]
+    case enterprise_dependabot_alerts = '/enterprises/{enterprise}/dependabot/alerts';
+
+    /**
+     * Lists the repositories Dependabot can access in an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseDependabotRepositoryAccesses', pathParams: ['enterprise'], queryParams: ['page', 'per_page'], response: DependabotRepositoryAccessDetails::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateEnterpriseDependabotRepositoryAccess', pathParams: ['enterprise'], request: UpdateEnterpriseDependabotRepositoryAccessRequest::class)]
+    case enterprise_dependabot_repository_access = '/enterprises/{enterprise}/dependabot/repository-access';
+
+    /**
+     * Set the default repository access level for Dependabot in an enterprise
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseDependabotRepositoryAccessDefaultLevel', pathParams: ['enterprise'], request: UpdateEnterpriseDependabotRepositoryAccessDefaultLevelRequest::class)]
+    case enterprise_dependabot_repository_access_default_level = '/enterprises/{enterprise}/dependabot/repository-access/default-level';
+
+    /**
+     * List enterprise teams
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseTeams', pathParams: ['enterprise'], queryParams: ['per_page', 'page'], listOf: EnterpriseTeam::class)]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseTeam', pathParams: ['enterprise'], request: CreateEnterpriseTeamRequest::class, response: EnterpriseTeam::class)]
+    case enterprise_teams = '/enterprises/{enterprise}/teams';
+
+    /**
+     * List members in an enterprise team
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseTeamMemberships', pathParams: ['enterprise', 'enterprise-team'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case enterprise_team_memberships = '/enterprises/{enterprise}/teams/{enterprise-team}/memberships';
+
+    /**
+     * Bulk add team members
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseTeamMembershipAdd', pathParams: ['enterprise', 'enterprise-team'], request: CreateEnterpriseTeamMembershipAddRequest::class, listOf: SimpleUser::class)]
+    case enterprise_team_membership_add = '/enterprises/{enterprise}/teams/{enterprise-team}/memberships/add';
+
+    /**
+     * Bulk remove team members
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseTeamMembershipRemove', pathParams: ['enterprise', 'enterprise-team'], request: CreateEnterpriseTeamMembershipRemoveRequest::class, listOf: SimpleUser::class)]
+    case enterprise_team_membership_remove = '/enterprises/{enterprise}/teams/{enterprise-team}/memberships/remove';
+
+    /**
+     * Get enterprise team membership
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getEnterpriseTeamMembership', pathParams: ['enterprise', 'enterprise-team', 'username'], response: SimpleUser::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseTeamMembership', pathParams: ['enterprise', 'enterprise-team', 'username'], response: SimpleUser::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteEnterpriseTeamMembership', pathParams: ['enterprise', 'enterprise-team', 'username'])]
+    case enterprise_team_membership = '/enterprises/{enterprise}/teams/{enterprise-team}/memberships/{username}';
+
+    /**
+     * Get organization assignments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEnterpriseTeamOrganizations', pathParams: ['enterprise', 'enterprise-team'], queryParams: ['per_page', 'page'], listOf: OrganizationSimple::class)]
+    case enterprise_team_organizations = '/enterprises/{enterprise}/teams/{enterprise-team}/organizations';
+
+    /**
+     * Add organization assignments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseTeamOrganizationAdd', pathParams: ['enterprise', 'enterprise-team'], request: CreateEnterpriseTeamOrganizationAddRequest::class, listOf: OrganizationSimple::class)]
+    case enterprise_team_organization_add = '/enterprises/{enterprise}/teams/{enterprise-team}/organizations/add';
+
+    /**
+     * Remove organization assignments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createEnterpriseTeamOrganizationRemove', pathParams: ['enterprise', 'enterprise-team'], request: CreateEnterpriseTeamOrganizationRemoveRequest::class)]
+    case enterprise_team_organization_remove = '/enterprises/{enterprise}/teams/{enterprise-team}/organizations/remove';
+
+    /**
+     * Get organization assignment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getEnterpriseTeamOrganization', pathParams: ['enterprise', 'enterprise-team', 'org'], response: OrganizationSimple::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateEnterpriseTeamOrganization', pathParams: ['enterprise', 'enterprise-team', 'org'], response: OrganizationSimple::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteEnterpriseTeamOrganization', pathParams: ['enterprise', 'enterprise-team', 'org'])]
+    case enterprise_team_organization = '/enterprises/{enterprise}/teams/{enterprise-team}/organizations/{org}';
+
+    /**
+     * Get an enterprise team
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getEnterpriseTeam', pathParams: ['enterprise', 'team_slug'], response: EnterpriseTeam::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateEnterpriseTeam', pathParams: ['enterprise', 'team_slug'], request: UpdateEnterpriseTeamRequest::class, response: EnterpriseTeam::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteEnterpriseTeam', pathParams: ['enterprise', 'team_slug'])]
+    case enterprise_team = '/enterprises/{enterprise}/teams/{team_slug}';
+
+    /**
+     * List public events
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listEvents', queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case events = '/events';
+
+    /**
+     * Get feeds
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listFeeds', response: Feed::class)]
+    case feeds = '/feeds';
+
+    /**
+     * List gists for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGists', queryParams: ['since', 'per_page', 'page'], listOf: BaseGist::class)]
+    #[AdminApi(HttpMethod::POST, 'createGist', request: CreateGistRequest::class, response: GistSimple::class)]
+    case gists = '/gists';
+
+    /**
+     * List public gists
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGistPublics', queryParams: ['since', 'per_page', 'page'], listOf: BaseGist::class)]
+    case gist_public = '/gists/public';
+
+    /**
+     * List starred gists
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGistStarreds', queryParams: ['since', 'per_page', 'page'], listOf: BaseGist::class)]
+    case gist_starred = '/gists/starred';
+
+    /**
+     * Get a gist
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getGist', pathParams: ['gist_id'], response: GistSimple::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateGist', pathParams: ['gist_id'], request: UpdateGistRequest::class, response: GistSimple::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteGist', pathParams: ['gist_id'])]
+    case gist = '/gists/{gist_id}';
+
+    /**
+     * List gist comments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGistComments', pathParams: ['gist_id'], queryParams: ['per_page', 'page'], listOf: GistComment::class)]
+    #[AdminApi(HttpMethod::POST, 'createGistComment', pathParams: ['gist_id'], request: CreateGistCommentRequest::class, response: GistComment::class)]
+    case gist_comments = '/gists/{gist_id}/comments';
+
+    /**
+     * Get a gist comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getGistComment', pathParams: ['gist_id', 'comment_id'], response: GistComment::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateGistComment', pathParams: ['gist_id', 'comment_id'], request: UpdateGistCommentRequest::class, response: GistComment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteGistComment', pathParams: ['gist_id', 'comment_id'])]
+    case gist_comment = '/gists/{gist_id}/comments/{comment_id}';
+
+    /**
+     * List gist commits
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGistCommits', pathParams: ['gist_id'], queryParams: ['per_page', 'page'], listOf: GistCommit::class)]
+    case gist_commits = '/gists/{gist_id}/commits';
+
+    /**
+     * List gist forks
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGistForks', pathParams: ['gist_id'], queryParams: ['per_page', 'page'], listOf: GistSimple::class)]
+    #[AdminApi(HttpMethod::POST, 'createGistFork', pathParams: ['gist_id'], response: BaseGist::class)]
+    case gist_forks = '/gists/{gist_id}/forks';
+
+    /**
+     * Check if a gist is starred
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGistStars', pathParams: ['gist_id'])]
+    #[AdminApi(HttpMethod::PUT, 'updateGistStar', pathParams: ['gist_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteGistStar', pathParams: ['gist_id'])]
+    case gist_star = '/gists/{gist_id}/star';
+
+    /**
+     * Get a gist revision
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getGist2', pathParams: ['gist_id', 'sha'], response: GistSimple::class)]
+    case gist2 = '/gists/{gist_id}/{sha}';
+
+    /**
+     * Get all gitignore templates
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listGitignoreTemplates')]
+    case gitignore_templates = '/gitignore/templates';
+
+    /**
+     * Get a gitignore template
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getGitignoreTemplate', pathParams: ['name'], response: GitignoreTemplate::class)]
+    case gitignore_template = '/gitignore/templates/{name}';
+
+    /**
+     * List repositories accessible to the app installation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listInstallationRepositories', queryParams: ['per_page', 'page'], response: ListInstallationRepositoriesResponse::class)]
+    case installation_repositories = '/installation/repositories';
+
+    /**
+     * Revoke an installation access token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteInstallationToken')]
+    case installation_token = '/installation/token';
+
+    /**
+     * List issues assigned to the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listIssues', queryParams: ['filter', 'state', 'labels', 'sort', 'direction', 'since', 'collab', 'orgs', 'owned', 'pulls', 'per_page', 'page'], listOf: Issue::class)]
+    case issues = '/issues';
+
+    /**
+     * Get all commonly used licenses
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listLicenses', queryParams: ['featured', 'per_page', 'page'], listOf: LicenseSimple::class)]
+    case licenses = '/licenses';
+
+    /**
+     * Get a license
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getLicense', pathParams: ['license'], response: License::class)]
+    case license = '/licenses/{license}';
+
+    /**
+     * Render a Markdown document
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createMarkdown', request: CreateMarkdownRequest::class)]
+    case markdown = '/markdown';
+
+    /**
+     * Render a Markdown document in raw mode
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createMarkdownRaw')]
+    case markdown_raw = '/markdown/raw';
+
+    /**
+     * Get a subscription plan for an account
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getMarketplaceListingAccount', pathParams: ['account_id'], response: MarketplacePurchase::class)]
+    case marketplace_listing_account = '/marketplace_listing/accounts/{account_id}';
+
+    /**
+     * List plans
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listMarketplaceListingPlans', queryParams: ['per_page', 'page'], listOf: MarketplaceListingPlan::class)]
+    case marketplace_listing_plans = '/marketplace_listing/plans';
+
+    /**
+     * List accounts for a plan
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listMarketplaceListingPlanAccounts', pathParams: ['plan_id'], queryParams: ['sort', 'direction', 'per_page', 'page'], listOf: MarketplacePurchase::class)]
+    case marketplace_listing_plan_accounts = '/marketplace_listing/plans/{plan_id}/accounts';
+
+    /**
+     * Get a subscription plan for an account (stubbed)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getMarketplaceListingStubbedAccount', pathParams: ['account_id'], response: MarketplacePurchase::class)]
+    case marketplace_listing_stubbed_account = '/marketplace_listing/stubbed/accounts/{account_id}';
+
+    /**
+     * List plans (stubbed)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listMarketplaceListingStubbedPlans', queryParams: ['per_page', 'page'], listOf: MarketplaceListingPlan::class)]
+    case marketplace_listing_stubbed_plans = '/marketplace_listing/stubbed/plans';
+
+    /**
+     * List accounts for a plan (stubbed)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listMarketplaceListingStubbedPlanAccounts', pathParams: ['plan_id'], queryParams: ['sort', 'direction', 'per_page', 'page'], listOf: MarketplacePurchase::class)]
+    case marketplace_listing_stubbed_plan_accounts = '/marketplace_listing/stubbed/plans/{plan_id}/accounts';
+
+    /**
+     * Get GitHub meta information
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listMetas', response: ApiOverview::class)]
+    case meta = '/meta';
+
+    /**
+     * List public events for a network of repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listNetworkEvents', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case network_events = '/networks/{owner}/{repo}/events';
+
+    /**
+     * List notifications for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listNotifications', queryParams: ['all', 'participating', 'since', 'before', 'page', 'per_page'], listOf: Thread::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateNotification', request: UpdateNotificationRequest::class, response: UpdateNotificationResponse::class)]
+    case notifications = '/notifications';
+
+    /**
+     * Get a thread
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getNotificationThread', pathParams: ['thread_id'], response: Thread::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateNotificationThread', pathParams: ['thread_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteNotificationThread', pathParams: ['thread_id'])]
+    case notification_thread = '/notifications/threads/{thread_id}';
+
+    /**
+     * Get a thread subscription for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listNotificationThreadSubscriptions', pathParams: ['thread_id'], response: ThreadSubscription::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateNotificationThreadSubscription', pathParams: ['thread_id'], request: UpdateNotificationThreadSubscriptionRequest::class, response: ThreadSubscription::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteNotificationThreadSubscription', pathParams: ['thread_id'])]
+    case notification_thread_subscription = '/notifications/threads/{thread_id}/subscription';
+
+    /**
+     * Get Octocat
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOctocats', queryParams: ['s'])]
+    case octocat = '/octocat';
+
+    /**
+     * List organizations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizations', queryParams: ['since', 'per_page'], listOf: OrganizationSimple::class)]
+    case organizations = '/organizations';
+
+    /**
+     * Get GitHub Actions cache retention limit for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationActionCacheRetentionLimits', pathParams: ['org'], response: ActionsCacheRetentionLimitForOrganization::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrganizationActionCacheRetentionLimit', pathParams: ['org'], request: ActionsCacheRetentionLimitForOrganization::class)]
+    case organization_action_cache_retention_limit = '/organizations/{org}/actions/cache/retention-limit';
+
+    /**
+     * Get GitHub Actions cache storage limit for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationActionCacheStorageLimits', pathParams: ['org'], response: ActionsCacheStorageLimitForOrganization::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrganizationActionCacheStorageLimit', pathParams: ['org'], request: ActionsCacheStorageLimitForOrganization::class)]
+    case organization_action_cache_storage_limit = '/organizations/{org}/actions/cache/storage-limit';
+
+    /**
+     * Get billing AI credit usage report for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationSettingBillingAiCreditUsages', pathParams: ['org'], queryParams: ['year', 'month', 'day', 'user', 'model', 'product'], response: BillingAiCreditUsageReportOrg::class)]
+    case organization_setting_billing_ai_credit_usage = '/organizations/{org}/settings/billing/ai_credit/usage';
+
+    /**
+     * Get all budgets for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationSettingBillingBudgets', pathParams: ['org'], queryParams: ['page', 'per_page', 'scope', 'user'], response: GetAllBudgets::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrganizationSettingBillingBudget', pathParams: ['org'], request: CreateOrganizationSettingBillingBudgetRequest::class, response: CreateBudget::class)]
+    case organization_setting_billing_budgets = '/organizations/{org}/settings/billing/budgets';
+
+    /**
+     * Get a budget by ID for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrganizationSettingBillingBudget', pathParams: ['org', 'budget_id'], response: GetBudget::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrganizationSettingBillingBudget', pathParams: ['org', 'budget_id'], request: UpdateOrganizationSettingBillingBudgetRequest::class, response: UpdateBudget::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrganizationSettingBillingBudget', pathParams: ['org', 'budget_id'], response: DeleteBudget::class)]
+    case organization_setting_billing_budget = '/organizations/{org}/settings/billing/budgets/{budget_id}';
+
+    /**
+     * Get billing premium request usage report for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationSettingBillingPremiumRequestUsages', pathParams: ['org'], queryParams: ['year', 'month', 'day', 'user', 'model', 'product'], response: BillingPremiumRequestUsageReportOrg::class)]
+    case organization_setting_billing_premium_request_usage = '/organizations/{org}/settings/billing/premium_request/usage';
+
+    /**
+     * Get billing usage report for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationSettingBillingUsages', pathParams: ['org'], queryParams: ['year', 'month', 'day'], response: BillingUsageReport::class)]
+    case organization_setting_billing_usage = '/organizations/{org}/settings/billing/usage';
+
+    /**
+     * Get billing usage summary for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrganizationSettingBillingUsageSummaries', pathParams: ['org'], queryParams: ['year', 'month', 'day', 'repository', 'product', 'sku'], response: BillingUsageSummaryReportOrg::class)]
+    case organization_setting_billing_usage_summary = '/organizations/{org}/settings/billing/usage/summary';
+
+    /**
+     * Get an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrg', pathParams: ['org'], response: OrganizationFull::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrg', pathParams: ['org'], request: UpdateOrgRequest::class, response: OrganizationFull::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrg', pathParams: ['org'])]
+    case org = '/orgs/{org}';
+
+    /**
+     * Get GitHub Actions cache usage for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionCacheUsages', pathParams: ['org'], response: ActionsCacheUsageOrgEnterprise::class)]
+    case org_action_cache_usage = '/orgs/{org}/actions/cache/usage';
+
+    /**
+     * List repositories with GitHub Actions cache usage for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionCacheUsageByRepositories', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgActionCacheUsageByRepositoriesResponse::class)]
+    case org_action_cache_usage_by_repository = '/orgs/{org}/actions/cache/usage-by-repository';
+
+    /**
+     * List GitHub-hosted runners for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunners', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgActionHostedRunnersResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionHostedRunner', pathParams: ['org'], request: CreateOrgActionHostedRunnerRequest::class, response: ActionsHostedRunner::class)]
+    case org_action_hosted_runners = '/orgs/{org}/actions/hosted-runners';
+
+    /**
+     * List custom images for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerImageCustoms', pathParams: ['org'], response: ListOrgActionHostedRunnerImageCustomsResponse::class)]
+    case org_action_hosted_runner_image_custom = '/orgs/{org}/actions/hosted-runners/images/custom';
+
+    /**
+     * Get a custom image definition for GitHub Actions Hosted Runners
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionHostedRunnerImageCustom', pathParams: ['org', 'image_definition_id'], response: ActionsHostedRunnerCustomImage::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionHostedRunnerImageCustom', pathParams: ['org', 'image_definition_id'])]
+    case org_action_hosted_runner_image_custom2 = '/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}';
+
+    /**
+     * List image versions of a custom image for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerImageCustomVersions', pathParams: ['org', 'image_definition_id'], response: ListOrgActionHostedRunnerImageCustomVersionsResponse::class)]
+    case org_action_hosted_runner_image_custom_versions = '/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions';
+
+    /**
+     * Get an image version of a custom image for GitHub Actions Hosted Runners
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionHostedRunnerImageCustomVersion', pathParams: ['org', 'image_definition_id', 'version'], response: ActionsHostedRunnerCustomImageVersion::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionHostedRunnerImageCustomVersion', pathParams: ['org', 'image_definition_id', 'version'])]
+    case org_action_hosted_runner_image_custom_version = '/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions/{version}';
+
+    /**
+     * Get GitHub-owned images for GitHub-hosted runners in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerImageGithubOwneds', pathParams: ['org'], response: ListOrgActionHostedRunnerImageGithubOwnedsResponse::class)]
+    case org_action_hosted_runner_image_github_owned = '/orgs/{org}/actions/hosted-runners/images/github-owned';
+
+    /**
+     * Get partner images for GitHub-hosted runners in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerImagePartners', pathParams: ['org'], response: ListOrgActionHostedRunnerImagePartnersResponse::class)]
+    case org_action_hosted_runner_image_partner = '/orgs/{org}/actions/hosted-runners/images/partner';
+
+    /**
+     * Get limits on GitHub-hosted runners for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerLimits', pathParams: ['org'], response: ActionsHostedRunnerLimits::class)]
+    case org_action_hosted_runner_limits = '/orgs/{org}/actions/hosted-runners/limits';
+
+    /**
+     * Get GitHub-hosted runners machine specs for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerMachineSizes', pathParams: ['org'], response: ListOrgActionHostedRunnerMachineSizesResponse::class)]
+    case org_action_hosted_runner_machine_sizes = '/orgs/{org}/actions/hosted-runners/machine-sizes';
+
+    /**
+     * Get platforms for GitHub-hosted runners in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionHostedRunnerPlatforms', pathParams: ['org'], response: ListOrgActionHostedRunnerPlatformsResponse::class)]
+    case org_action_hosted_runner_platforms = '/orgs/{org}/actions/hosted-runners/platforms';
+
+    /**
+     * Get a GitHub-hosted runner for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionHostedRunner', pathParams: ['org', 'hosted_runner_id'], response: ActionsHostedRunner::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgActionHostedRunner', pathParams: ['org', 'hosted_runner_id'], request: UpdateOrgActionHostedRunnerRequest::class, response: ActionsHostedRunner::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionHostedRunner', pathParams: ['org', 'hosted_runner_id'], response: ActionsHostedRunner::class)]
+    case org_action_hosted_runner = '/orgs/{org}/actions/hosted-runners/{hosted_runner_id}';
+
+    /**
+     * List OIDC custom property inclusions for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionOidcCustomizationPropertyRepos', pathParams: ['org'], listOf: OidcCustomPropertyInclusion::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionOidcCustomizationPropertyRepo', pathParams: ['org'], request: OidcCustomPropertyInclusionInput::class, response: OidcCustomPropertyInclusion::class)]
+    case org_action_oidc_customization_property_repo = '/orgs/{org}/actions/oidc/customization/properties/repo';
+
+    /**
+     * Delete an OIDC custom property inclusion for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionOidcCustomizationPropertyRepo', pathParams: ['org', 'custom_property_name'])]
+    case org_action_oidc_customization_property_repo2 = '/orgs/{org}/actions/oidc/customization/properties/repo/{custom_property_name}';
+
+    /**
+     * Get the customization template for an OIDC subject claim for an
+     * organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionOidcCustomizationSubs', pathParams: ['org'], response: OidcCustomSub::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionOidcCustomizationSub', pathParams: ['org'], request: UpdateOrgActionOidcCustomizationSubRequest::class)]
+    case org_action_oidc_customization_sub = '/orgs/{org}/actions/oidc/customization/sub';
+
+    /**
+     * Get GitHub Actions permissions for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissions', pathParams: ['org'], response: ActionsOrganizationPermissions::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermission', pathParams: ['org'], request: UpdateOrgActionPermissionRequest::class)]
+    case org_action_permissions = '/orgs/{org}/actions/permissions';
+
+    /**
+     * Get artifact and log retention settings for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionArtifactAndLogRetentions', pathParams: ['org'], response: ActionsArtifactAndLogRetentionResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionArtifactAndLogRetention', pathParams: ['org'], request: ActionsArtifactAndLogRetention::class)]
+    case org_action_permission_artifact_and_log_retention = '/orgs/{org}/actions/permissions/artifact-and-log-retention';
+
+    /**
+     * Get fork PR contributor approval permissions for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionForkPrContributorApprovals', pathParams: ['org'], response: ActionsForkPrContributorApproval::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionForkPrContributorApproval', pathParams: ['org'], request: ActionsForkPrContributorApproval::class)]
+    case org_action_permission_fork_pr_contributor_approval = '/orgs/{org}/actions/permissions/fork-pr-contributor-approval';
+
+    /**
+     * Get private repo fork PR workflow settings for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionForkPrWorkflowsPrivateRepos', pathParams: ['org'], response: ActionsForkPrWorkflowsPrivateRepos::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionForkPrWorkflowsPrivateRepo', pathParams: ['org'], request: ActionsForkPrWorkflowsPrivateReposRequest::class)]
+    case org_action_permission_fork_pr_workflows_private_repos = '/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos';
+
+    /**
+     * List selected repositories enabled for GitHub Actions in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionRepositories', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgActionPermissionRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionRepository', pathParams: ['org'], request: UpdateOrgActionPermissionRepositoryRequest::class)]
+    case org_action_permission_repositories = '/orgs/{org}/actions/permissions/repositories';
+
+    /**
+     * Enable a selected repository for GitHub Actions in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionRepository2', pathParams: ['org', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionPermissionRepository', pathParams: ['org', 'repository_id'])]
+    case org_action_permission_repository = '/orgs/{org}/actions/permissions/repositories/{repository_id}';
+
+    /**
+     * Get allowed actions and reusable workflows for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionSelectedActions', pathParams: ['org'], response: SelectedActions::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionSelectedAction', pathParams: ['org'], request: SelectedActions::class)]
+    case org_action_permission_selected_actions = '/orgs/{org}/actions/permissions/selected-actions';
+
+    /**
+     * Get self-hosted runners settings for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionSelfHostedRunners', pathParams: ['org'], response: SelfHostedRunnersSettings::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionSelfHostedRunner', pathParams: ['org'], request: UpdateOrgActionPermissionSelfHostedRunnerRequest::class)]
+    case org_action_permission_self_hosted_runners = '/orgs/{org}/actions/permissions/self-hosted-runners';
+
+    /**
+     * List repositories allowed to use self-hosted runners in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionSelfHostedRunnerRepositories', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgActionPermissionSelfHostedRunnerRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionSelfHostedRunnerRepository', pathParams: ['org'], request: UpdateOrgActionPermissionSelfHostedRunnerRepositoryRequest::class)]
+    case org_action_permission_self_hosted_runner_repositories = '/orgs/{org}/actions/permissions/self-hosted-runners/repositories';
+
+    /**
+     * Add a repository to the list of repositories allowed to use self-hosted
+     * runners in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionSelfHostedRunnerRepository2', pathParams: ['org', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionPermissionSelfHostedRunnerRepository', pathParams: ['org', 'repository_id'])]
+    case org_action_permission_self_hosted_runner_repository = '/orgs/{org}/actions/permissions/self-hosted-runners/repositories/{repository_id}';
+
+    /**
+     * Get default workflow permissions for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionPermissionWorkflows', pathParams: ['org'], response: ActionsGetDefaultWorkflowPermissions::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionPermissionWorkflow', pathParams: ['org'], request: ActionsSetDefaultWorkflowPermissions::class)]
+    case org_action_permission_workflow = '/orgs/{org}/actions/permissions/workflow';
+
+    /**
+     * List self-hosted runner groups for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunnerGroups', pathParams: ['org'], queryParams: ['per_page', 'page', 'visible_to_repository'], response: ListOrgActionRunnerGroupsResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionRunnerGroup', pathParams: ['org'], request: CreateOrgActionRunnerGroupRequest::class, response: RunnerGroupsOrg::class)]
+    case org_action_runner_groups = '/orgs/{org}/actions/runner-groups';
+
+    /**
+     * Get a self-hosted runner group for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionRunnerGroup', pathParams: ['org', 'runner_group_id'], response: RunnerGroupsOrg::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgActionRunnerGroup', pathParams: ['org', 'runner_group_id'], request: UpdateOrgActionRunnerGroupRequest::class, response: RunnerGroupsOrg::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionRunnerGroup', pathParams: ['org', 'runner_group_id'])]
+    case org_action_runner_group = '/orgs/{org}/actions/runner-groups/{runner_group_id}';
+
+    /**
+     * List GitHub-hosted runners in a group for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunnerGroupHostedRunners', pathParams: ['org', 'runner_group_id'], queryParams: ['per_page', 'page'], response: ListOrgActionRunnerGroupHostedRunnersResponse::class)]
+    case org_action_runner_group_hosted_runners = '/orgs/{org}/actions/runner-groups/{runner_group_id}/hosted-runners';
+
+    /**
+     * List repository access to a self-hosted runner group in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunnerGroupRepositories', pathParams: ['org', 'runner_group_id'], queryParams: ['page', 'per_page'], response: ListOrgActionRunnerGroupRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionRunnerGroupRepository', pathParams: ['org', 'runner_group_id'], request: UpdateOrgActionRunnerGroupRepositoryRequest::class)]
+    case org_action_runner_group_repositories = '/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories';
+
+    /**
+     * Add repository access to a self-hosted runner group in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionRunnerGroupRepository2', pathParams: ['org', 'runner_group_id', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionRunnerGroupRepository', pathParams: ['org', 'runner_group_id', 'repository_id'])]
+    case org_action_runner_group_repository = '/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories/{repository_id}';
+
+    /**
+     * List self-hosted runners in a group for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunnerGroupRunners', pathParams: ['org', 'runner_group_id'], queryParams: ['per_page', 'page'], response: ListOrgActionRunnerGroupRunnersResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionRunnerGroupRunner', pathParams: ['org', 'runner_group_id'], request: UpdateOrgActionRunnerGroupRunnerRequest::class)]
+    case org_action_runner_group_runners = '/orgs/{org}/actions/runner-groups/{runner_group_id}/runners';
+
+    /**
+     * Add a self-hosted runner to a group for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionRunnerGroupRunner2', pathParams: ['org', 'runner_group_id', 'runner_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionRunnerGroupRunner', pathParams: ['org', 'runner_group_id', 'runner_id'])]
+    case org_action_runner_group_runner = '/orgs/{org}/actions/runner-groups/{runner_group_id}/runners/{runner_id}';
+
+    /**
+     * List self-hosted runners for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunners', pathParams: ['org'], queryParams: ['name', 'per_page', 'page'], response: ListOrgActionRunnersResponse::class)]
+    case org_action_runners = '/orgs/{org}/actions/runners';
+
+    /**
+     * List runner applications for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunnerDownloads', pathParams: ['org'], listOf: RunnerApplication::class)]
+    case org_action_runner_downloads = '/orgs/{org}/actions/runners/downloads';
+
+    /**
+     * Create configuration for a just-in-time runner for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionRunnerGenerateJitconfig', pathParams: ['org'], request: CreateOrgActionRunnerGenerateJitconfigRequest::class, response: CreateOrgActionRunnerGenerateJitconfigResponse::class)]
+    case org_action_runner_generate_jitconfig = '/orgs/{org}/actions/runners/generate-jitconfig';
+
+    /**
+     * Create a registration token for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionRunnerRegistrationToken', pathParams: ['org'], response: AuthenticationToken::class)]
+    case org_action_runner_registration_token = '/orgs/{org}/actions/runners/registration-token';
+
+    /**
+     * Create a remove token for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionRunnerRemoveToken', pathParams: ['org'], response: AuthenticationToken::class)]
+    case org_action_runner_remove_token = '/orgs/{org}/actions/runners/remove-token';
+
+    /**
+     * Get a self-hosted runner for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionRunner', pathParams: ['org', 'runner_id'], response: Runner::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionRunner', pathParams: ['org', 'runner_id'])]
+    case org_action_runner = '/orgs/{org}/actions/runners/{runner_id}';
+
+    /**
+     * List labels for a self-hosted runner for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionRunnerLabels', pathParams: ['org', 'runner_id'], response: ListOrgActionRunnerLabelsResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionRunnerLabel', pathParams: ['org', 'runner_id'], request: CreateOrgActionRunnerLabelRequest::class, response: CreateOrgActionRunnerLabelResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionRunnerLabel', pathParams: ['org', 'runner_id'], request: UpdateOrgActionRunnerLabelRequest::class, response: UpdateOrgActionRunnerLabelResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionRunnerLabel', pathParams: ['org', 'runner_id'], response: DeleteOrgActionRunnerLabelResponse::class)]
+    case org_action_runner_labels = '/orgs/{org}/actions/runners/{runner_id}/labels';
+
+    /**
+     * Remove a custom label from a self-hosted runner for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionRunnerLabel2', pathParams: ['org', 'runner_id', 'name'], response: DeleteOrgActionRunnerLabel2Response::class)]
+    case org_action_runner_label = '/orgs/{org}/actions/runners/{runner_id}/labels/{name}';
+
+    /**
+     * List organization secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionSecrets', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgActionSecretsResponse::class)]
+    case org_action_secrets = '/orgs/{org}/actions/secrets';
+
+    /**
+     * Get an organization public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionSecretPublicKeys', pathParams: ['org'], response: ActionsPublicKey::class)]
+    case org_action_secret_public_key = '/orgs/{org}/actions/secrets/public-key';
+
+    /**
+     * Get an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionSecret', pathParams: ['org', 'secret_name'], response: OrganizationActionsSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionSecret', pathParams: ['org', 'secret_name'], request: UpdateOrgActionSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionSecret', pathParams: ['org', 'secret_name'])]
+    case org_action_secret = '/orgs/{org}/actions/secrets/{secret_name}';
+
+    /**
+     * List selected repositories for an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionSecretRepositories', pathParams: ['org', 'secret_name'], queryParams: ['page', 'per_page'], response: ListOrgActionSecretRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionSecretRepository', pathParams: ['org', 'secret_name'], request: UpdateOrgActionSecretRepositoryRequest::class)]
+    case org_action_secret_repositories = '/orgs/{org}/actions/secrets/{secret_name}/repositories';
+
+    /**
+     * Add selected repository to an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionSecretRepository2', pathParams: ['org', 'secret_name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionSecretRepository', pathParams: ['org', 'secret_name', 'repository_id'])]
+    case org_action_secret_repository = '/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}';
+
+    /**
+     * List organization variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionVariables', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgActionVariablesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgActionVariable', pathParams: ['org'], request: CreateOrgActionVariableRequest::class)]
+    case org_action_variables = '/orgs/{org}/actions/variables';
+
+    /**
+     * Get an organization variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgActionVariable', pathParams: ['org', 'name'], response: OrganizationActionsVariable::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgActionVariable', pathParams: ['org', 'name'], request: UpdateOrgActionVariableRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionVariable', pathParams: ['org', 'name'])]
+    case org_action_variable = '/orgs/{org}/actions/variables/{name}';
+
+    /**
+     * List selected repositories for an organization variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgActionVariableRepositories', pathParams: ['org', 'name'], queryParams: ['page', 'per_page'], response: ListOrgActionVariableRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionVariableRepository', pathParams: ['org', 'name'], request: UpdateOrgActionVariableRepositoryRequest::class)]
+    case org_action_variable_repositories = '/orgs/{org}/actions/variables/{name}/repositories';
+
+    /**
+     * Add selected repository to an organization variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgActionVariableRepository2', pathParams: ['org', 'name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgActionVariableRepository', pathParams: ['org', 'name', 'repository_id'])]
+    case org_action_variable_repository = '/orgs/{org}/actions/variables/{name}/repositories/{repository_id}';
+
+    /**
+     * List organization secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgAgentSecrets', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgAgentSecretsResponse::class)]
+    case org_agent_secrets = '/orgs/{org}/agents/secrets';
+
+    /**
+     * Get an organization public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgAgentSecretPublicKeys', pathParams: ['org'], response: ActionsPublicKey::class)]
+    case org_agent_secret_public_key = '/orgs/{org}/agents/secrets/public-key';
+
+    /**
+     * Get an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgAgentSecret', pathParams: ['org', 'secret_name'], response: OrganizationActionsSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgAgentSecret', pathParams: ['org', 'secret_name'], request: UpdateOrgAgentSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgAgentSecret', pathParams: ['org', 'secret_name'])]
+    case org_agent_secret = '/orgs/{org}/agents/secrets/{secret_name}';
+
+    /**
+     * List selected repositories for an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgAgentSecretRepositories', pathParams: ['org', 'secret_name'], queryParams: ['page', 'per_page'], response: ListOrgAgentSecretRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgAgentSecretRepository', pathParams: ['org', 'secret_name'], request: UpdateOrgAgentSecretRepositoryRequest::class)]
+    case org_agent_secret_repositories = '/orgs/{org}/agents/secrets/{secret_name}/repositories';
+
+    /**
+     * Add selected repository to an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgAgentSecretRepository2', pathParams: ['org', 'secret_name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgAgentSecretRepository', pathParams: ['org', 'secret_name', 'repository_id'])]
+    case org_agent_secret_repository = '/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}';
+
+    /**
+     * List organization variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgAgentVariables', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgAgentVariablesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgAgentVariable', pathParams: ['org'], request: CreateOrgAgentVariableRequest::class)]
+    case org_agent_variables = '/orgs/{org}/agents/variables';
+
+    /**
+     * Get an organization variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgAgentVariable', pathParams: ['org', 'name'], response: OrganizationActionsVariable::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgAgentVariable', pathParams: ['org', 'name'], request: UpdateOrgAgentVariableRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgAgentVariable', pathParams: ['org', 'name'])]
+    case org_agent_variable = '/orgs/{org}/agents/variables/{name}';
+
+    /**
+     * List selected repositories for an organization variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgAgentVariableRepositories', pathParams: ['org', 'name'], queryParams: ['page', 'per_page'], response: ListOrgAgentVariableRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgAgentVariableRepository', pathParams: ['org', 'name'], request: UpdateOrgAgentVariableRepositoryRequest::class)]
+    case org_agent_variable_repositories = '/orgs/{org}/agents/variables/{name}/repositories';
+
+    /**
+     * Add selected repository to an organization variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgAgentVariableRepository2', pathParams: ['org', 'name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgAgentVariableRepository', pathParams: ['org', 'name', 'repository_id'])]
+    case org_agent_variable_repository = '/orgs/{org}/agents/variables/{name}/repositories/{repository_id}';
+
+    /**
+     * Create an artifact deployment record
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgArtifactMetadataDeploymentRecord', pathParams: ['org'], request: CreateOrgArtifactMetadataDeploymentRecordRequest::class, response: CreateOrgArtifactMetadataDeploymentRecordResponse::class)]
+    case org_artifact_metadata_deployment_record = '/orgs/{org}/artifacts/metadata/deployment-record';
+
+    /**
+     * Set cluster deployment records
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgArtifactMetadataDeploymentRecordCluster', pathParams: ['org', 'cluster'], request: CreateOrgArtifactMetadataDeploymentRecordClusterRequest::class, response: CreateOrgArtifactMetadataDeploymentRecordClusterResponse::class)]
+    case org_artifact_metadata_deployment_record_cluster = '/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}';
+
+    /**
+     * Create a cluster deployment records job
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgArtifactMetadataDeploymentRecordClusterJob', pathParams: ['org', 'cluster'], request: CreateOrgArtifactMetadataDeploymentRecordClusterJobRequest::class, response: CreateOrgArtifactMetadataDeploymentRecordClusterJobResponse::class)]
+    case org_artifact_metadata_deployment_record_cluster_jobs = '/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}/jobs';
+
+    /**
+     * Get cluster deployment records job status
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgArtifactMetadataDeploymentRecordClusterJob', pathParams: ['org', 'cluster', 'job_id'], response: GetOrgArtifactMetadataDeploymentRecordClusterJobResponse::class)]
+    case org_artifact_metadata_deployment_record_cluster_job = '/orgs/{org}/artifacts/metadata/deployment-record/cluster/{cluster}/jobs/{job_id}';
+
+    /**
+     * Create artifact metadata storage record
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgArtifactMetadataStorageRecord', pathParams: ['org'], request: CreateOrgArtifactMetadataStorageRecordRequest::class, response: CreateOrgArtifactMetadataStorageRecordResponse::class)]
+    case org_artifact_metadata_storage_record = '/orgs/{org}/artifacts/metadata/storage-record';
+
+    /**
+     * List artifact deployment records
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgArtifactMetadataDeploymentRecords', pathParams: ['org', 'subject_digest'], response: ListOrgArtifactMetadataDeploymentRecordsResponse::class)]
+    case org_artifact_metadata_deployment_records = '/orgs/{org}/artifacts/{subject_digest}/metadata/deployment-records';
+
+    /**
+     * List artifact storage records
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgArtifactMetadataStorageRecords', pathParams: ['org', 'subject_digest'], response: ListOrgArtifactMetadataStorageRecordsResponse::class)]
+    case org_artifact_metadata_storage_records = '/orgs/{org}/artifacts/{subject_digest}/metadata/storage-records';
+
+    /**
+     * List attestations by bulk subject digests
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgAttestationBulkList', pathParams: ['org'], queryParams: ['per_page', 'before', 'after'], request: CreateOrgAttestationBulkListRequest::class, response: CreateOrgAttestationBulkListResponse::class)]
+    case org_attestation_bulk_list = '/orgs/{org}/attestations/bulk-list';
+
+    /**
+     * Delete attestations in bulk
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgAttestationDeleteRequest', pathParams: ['org'])]
+    case org_attestation_delete_request = '/orgs/{org}/attestations/delete-request';
+
+    /**
+     * Delete attestations by subject digest
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgAttestationDigest', pathParams: ['org', 'subject_digest'])]
+    case org_attestation_digest = '/orgs/{org}/attestations/digest/{subject_digest}';
+
+    /**
+     * List attestation repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgAttestationRepositories', pathParams: ['org'], queryParams: ['per_page', 'before', 'after', 'predicate_type'], listOf: ListOrgAttestationRepositoriesResponseItem::class)]
+    case org_attestation_repositories = '/orgs/{org}/attestations/repositories';
+
+    /**
+     * Delete attestations by ID
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgAttestation', pathParams: ['org', 'attestation_id'])]
+    case org_attestation = '/orgs/{org}/attestations/{attestation_id}';
+
+    /**
+     * List attestations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgAttestation', pathParams: ['org', 'subject_digest'], queryParams: ['per_page', 'before', 'after', 'predicate_type'], response: GetOrgAttestationResponse::class)]
+    case org_attestation2 = '/orgs/{org}/attestations/{subject_digest}';
+
+    /**
+     * List users blocked by an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgBlocks', pathParams: ['org'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case org_blocks = '/orgs/{org}/blocks';
+
+    /**
+     * Check if a user is blocked by an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgBlock', pathParams: ['org', 'username'])]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgBlock', pathParams: ['org', 'username'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgBlock', pathParams: ['org', 'username'])]
+    case org_block = '/orgs/{org}/blocks/{username}';
+
+    /**
+     * List campaigns for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCampaigns', pathParams: ['org'], queryParams: ['page', 'per_page', 'direction', 'state', 'sort'], listOf: CampaignSummary::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgCampaign', pathParams: ['org'], response: CampaignSummary::class)]
+    case org_campaigns = '/orgs/{org}/campaigns';
+
+    /**
+     * Get a campaign for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgCampaign', pathParams: ['org', 'campaign_number'], response: CampaignSummary::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgCampaign', pathParams: ['org', 'campaign_number'], request: UpdateOrgCampaignRequest::class, response: CampaignSummary::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCampaign', pathParams: ['org', 'campaign_number'])]
+    case org_campaign = '/orgs/{org}/campaigns/{campaign_number}';
+
+    /**
+     * List code scanning alerts for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodeScanningAlerts', pathParams: ['org'], queryParams: ['tool_name', 'tool_guid', 'before', 'after', 'page', 'per_page', 'direction', 'state', 'sort', 'severity', 'assignees'], listOf: CodeScanningOrganizationAlertItems::class)]
+    case org_code_scanning_alerts = '/orgs/{org}/code-scanning/alerts';
+
+    /**
+     * Get code security configurations for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodeSecurityConfigurations', pathParams: ['org'], queryParams: ['target_type', 'per_page', 'before', 'after'], listOf: CodeSecurityConfiguration::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgCodeSecurityConfiguration', pathParams: ['org'], request: CreateOrgCodeSecurityConfigurationRequest::class, response: CodeSecurityConfiguration::class)]
+    case org_code_security_configurations = '/orgs/{org}/code-security/configurations';
+
+    /**
+     * Get default code security configurations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodeSecurityConfigurationDefaults', pathParams: ['org'], listOf: ListOrgCodeSecurityConfigurationDefaultsResponseItem::class)]
+    case org_code_security_configuration_defaults = '/orgs/{org}/code-security/configurations/defaults';
+
+    /**
+     * Detach configurations from repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCodeSecurityConfigurationDetach', pathParams: ['org'], request: DeleteOrgCodeSecurityConfigurationDetachRequest::class)]
+    case org_code_security_configuration_detach = '/orgs/{org}/code-security/configurations/detach';
+
+    /**
+     * Get a code security configuration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgCodeSecurityConfiguration', pathParams: ['org', 'configuration_id'], response: CodeSecurityConfiguration::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgCodeSecurityConfiguration', pathParams: ['org', 'configuration_id'], request: UpdateOrgCodeSecurityConfigurationRequest::class, response: CodeSecurityConfiguration::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCodeSecurityConfiguration', pathParams: ['org', 'configuration_id'])]
+    case org_code_security_configuration = '/orgs/{org}/code-security/configurations/{configuration_id}';
+
+    /**
+     * Attach a configuration to repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgCodeSecurityConfigurationAttach', pathParams: ['org', 'configuration_id'], request: CreateOrgCodeSecurityConfigurationAttachRequest::class)]
+    case org_code_security_configuration_attach = '/orgs/{org}/code-security/configurations/{configuration_id}/attach';
+
+    /**
+     * Set a code security configuration as a default for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCodeSecurityConfigurationDefault', pathParams: ['org', 'configuration_id'], request: UpdateOrgCodeSecurityConfigurationDefaultRequest::class, response: UpdateOrgCodeSecurityConfigurationDefaultResponse::class)]
+    case org_code_security_configuration_defaults2 = '/orgs/{org}/code-security/configurations/{configuration_id}/defaults';
+
+    /**
+     * Get repositories associated with a code security configuration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodeSecurityConfigurationRepositories', pathParams: ['org', 'configuration_id'], queryParams: ['per_page', 'before', 'after', 'status'], listOf: CodeSecurityConfigurationRepositories::class)]
+    case org_code_security_configuration_repositories = '/orgs/{org}/code-security/configurations/{configuration_id}/repositories';
+
+    /**
+     * List codespaces for the organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodespaces', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgCodespacesResponse::class)]
+    case org_codespaces = '/orgs/{org}/codespaces';
+
+    /**
+     * Manage access control for organization codespaces
+     * @deprecated updateOrgCodespaceAccess — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCodespaceAccess', pathParams: ['org'], request: UpdateOrgCodespaceAccessRequest::class)]
+    case org_codespace_access = '/orgs/{org}/codespaces/access';
+
+    /**
+     * Add users to Codespaces access for an organization
+     * @deprecated createOrgCodespaceAccessSelectedUser — the API marks this operation deprecated.
+     * @deprecated deleteOrgCodespaceAccessSelectedUser — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgCodespaceAccessSelectedUser', pathParams: ['org'], request: CreateOrgCodespaceAccessSelectedUserRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCodespaceAccessSelectedUser', pathParams: ['org'], request: DeleteOrgCodespaceAccessSelectedUserRequest::class)]
+    case org_codespace_access_selected_users = '/orgs/{org}/codespaces/access/selected_users';
+
+    /**
+     * List organization secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodespaceSecrets', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgCodespaceSecretsResponse::class)]
+    case org_codespace_secrets = '/orgs/{org}/codespaces/secrets';
+
+    /**
+     * Get an organization public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodespaceSecretPublicKeys', pathParams: ['org'], response: CodespacesPublicKey::class)]
+    case org_codespace_secret_public_key = '/orgs/{org}/codespaces/secrets/public-key';
+
+    /**
+     * Get an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgCodespaceSecret', pathParams: ['org', 'secret_name'], response: CodespacesOrgSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCodespaceSecret', pathParams: ['org', 'secret_name'], request: UpdateOrgCodespaceSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCodespaceSecret', pathParams: ['org', 'secret_name'])]
+    case org_codespace_secret = '/orgs/{org}/codespaces/secrets/{secret_name}';
+
+    /**
+     * List selected repositories for an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCodespaceSecretRepositories', pathParams: ['org', 'secret_name'], queryParams: ['page', 'per_page'], response: ListOrgCodespaceSecretRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCodespaceSecretRepository', pathParams: ['org', 'secret_name'], request: UpdateOrgCodespaceSecretRepositoryRequest::class)]
+    case org_codespace_secret_repositories = '/orgs/{org}/codespaces/secrets/{secret_name}/repositories';
+
+    /**
+     * Add selected repository to an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCodespaceSecretRepository2', pathParams: ['org', 'secret_name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCodespaceSecretRepository', pathParams: ['org', 'secret_name', 'repository_id'])]
+    case org_codespace_secret_repository = '/orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id}';
+
+    /**
+     * List organization Copilot Spaces
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotSpaces', pathParams: ['org'], queryParams: ['per_page', 'before', 'after'], response: ListOrgCopilotSpacesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgCopilotSpace', pathParams: ['org'], request: CreateOrgCopilotSpaceRequest::class, response: CopilotSpace::class)]
+    case org_copilot_spaces = '/orgs/{org}/copilot-spaces';
+
+    /**
+     * Get an organization Copilot Space
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgCopilotSpace', pathParams: ['org', 'space_number'], response: CopilotSpace::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotSpace', pathParams: ['org', 'space_number'], request: UpdateOrgCopilotSpaceRequest::class, response: CopilotSpace::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCopilotSpace', pathParams: ['org', 'space_number'])]
+    case org_copilot_space = '/orgs/{org}/copilot-spaces/{space_number}';
+
+    /**
+     * List collaborators for an organization Copilot Space
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotSpaceCollaborators', pathParams: ['org', 'space_number'], response: ListOrgCopilotSpaceCollaboratorsResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgCopilotSpaceCollaborator', pathParams: ['org', 'space_number'], request: CreateOrgCopilotSpaceCollaboratorRequest::class)]
+    case org_copilot_space_collaborators = '/orgs/{org}/copilot-spaces/{space_number}/collaborators';
+
+    /**
+     * Set a collaborator role for an organization Copilot Space
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotSpaceCollaborator', pathParams: ['org', 'space_number', 'actor_type', 'actor_identifier'], request: UpdateOrgCopilotSpaceCollaboratorRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCopilotSpaceCollaborator', pathParams: ['org', 'space_number', 'actor_type', 'actor_identifier'])]
+    case org_copilot_space_collaborator = '/orgs/{org}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}';
+
+    /**
+     * List resources for an organization Copilot Space
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotSpaceResources', pathParams: ['org', 'space_number'], response: ListOrgCopilotSpaceResourcesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgCopilotSpaceResource', pathParams: ['org', 'space_number'], request: CreateOrgCopilotSpaceResourceRequest::class, response: CopilotSpaceResource::class)]
+    case org_copilot_space_resources = '/orgs/{org}/copilot-spaces/{space_number}/resources';
+
+    /**
+     * Get a resource for an organization Copilot Space
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgCopilotSpaceResource', pathParams: ['org', 'space_number', 'space_resource_id'], response: CopilotSpaceResource::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotSpaceResource', pathParams: ['org', 'space_number', 'space_resource_id'], request: UpdateOrgCopilotSpaceResourceRequest::class, response: CopilotSpaceResource::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCopilotSpaceResource', pathParams: ['org', 'space_number', 'space_resource_id'])]
+    case org_copilot_space_resource = '/orgs/{org}/copilot-spaces/{space_number}/resources/{space_resource_id}';
+
+    /**
+     * Get Copilot seat information and settings for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotBillings', pathParams: ['org'], response: CopilotOrganizationDetails::class)]
+    case org_copilot_billing = '/orgs/{org}/copilot/billing';
+
+    /**
+     * List all Copilot seat assignments for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotBillingSeats', pathParams: ['org'], queryParams: ['page', 'per_page'], response: ListOrgCopilotBillingSeatsResponse::class)]
+    case org_copilot_billing_seats = '/orgs/{org}/copilot/billing/seats';
+
+    /**
+     * Add teams to the Copilot subscription for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgCopilotBillingSelectedTeam', pathParams: ['org'], request: CreateOrgCopilotBillingSelectedTeamRequest::class, response: CreateOrgCopilotBillingSelectedTeamResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCopilotBillingSelectedTeam', pathParams: ['org'], request: DeleteOrgCopilotBillingSelectedTeamRequest::class, response: DeleteOrgCopilotBillingSelectedTeamResponse::class)]
+    case org_copilot_billing_selected_teams = '/orgs/{org}/copilot/billing/selected_teams';
+
+    /**
+     * Add users to the Copilot subscription for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgCopilotBillingSelectedUser', pathParams: ['org'], request: CreateOrgCopilotBillingSelectedUserRequest::class, response: CreateOrgCopilotBillingSelectedUserResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCopilotBillingSelectedUser', pathParams: ['org'], request: DeleteOrgCopilotBillingSelectedUserRequest::class, response: DeleteOrgCopilotBillingSelectedUserResponse::class)]
+    case org_copilot_billing_selected_users = '/orgs/{org}/copilot/billing/selected_users';
+
+    /**
+     * Get Copilot cloud agent permissions for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotCodingAgentPermissions', pathParams: ['org'], response: ListOrgCopilotCodingAgentPermissionsResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotCodingAgentPermission', pathParams: ['org'], request: UpdateOrgCopilotCodingAgentPermissionRequest::class)]
+    case org_copilot_coding_agent_permissions = '/orgs/{org}/copilot/coding-agent/permissions';
+
+    /**
+     * List repositories enabled for Copilot cloud agent in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotCodingAgentPermissionRepositories', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgCopilotCodingAgentPermissionRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotCodingAgentPermissionRepository', pathParams: ['org'], request: UpdateOrgCopilotCodingAgentPermissionRepositoryRequest::class)]
+    case org_copilot_coding_agent_permission_repositories = '/orgs/{org}/copilot/coding-agent/permissions/repositories';
+
+    /**
+     * Enable a repository for Copilot cloud agent in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotCodingAgentPermissionRepository2', pathParams: ['org', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgCopilotCodingAgentPermissionRepository', pathParams: ['org', 'repository_id'])]
+    case org_copilot_coding_agent_permission_repository = '/orgs/{org}/copilot/coding-agent/permissions/repositories/{repository_id}';
+
+    /**
+     * Get Copilot content exclusion rules for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotContentExclusions', pathParams: ['org'])]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgCopilotContentExclusion', pathParams: ['org'], response: UpdateOrgCopilotContentExclusionResponse::class)]
+    case org_copilot_content_exclusion = '/orgs/{org}/copilot/content_exclusion';
+
+    /**
+     * Get Copilot organization usage metrics for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotMetricReportOrganization1Days', pathParams: ['org'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case org_copilot_metric_report_organization_1_day = '/orgs/{org}/copilot/metrics/reports/organization-1-day';
+
+    /**
+     * Get Copilot organization usage metrics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotMetricReportOrganization28DayLatests', pathParams: ['org'], response: CopilotUsageMetrics28DayReport::class)]
+    case org_copilot_metric_report_organization_28_day_latest = '/orgs/{org}/copilot/metrics/reports/organization-28-day/latest';
+
+    /**
+     * Get Copilot organization repository report for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotMetricReportRepos1Days', pathParams: ['org'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case org_copilot_metric_report_repos_1_day = '/orgs/{org}/copilot/metrics/reports/repos-1-day';
+
+    /**
+     * Get Copilot organization user-teams report for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotMetricReportUserTeams1Days', pathParams: ['org'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case org_copilot_metric_report_user_teams_1_day = '/orgs/{org}/copilot/metrics/reports/user-teams-1-day';
+
+    /**
+     * Get Copilot organization users usage metrics for a specific day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotMetricReportUsers1Days', pathParams: ['org'], queryParams: ['day'], response: CopilotUsageMetrics1DayReport::class)]
+    case org_copilot_metric_report_users_1_day = '/orgs/{org}/copilot/metrics/reports/users-1-day';
+
+    /**
+     * Get Copilot organization users usage metrics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgCopilotMetricReportUsers28DayLatests', pathParams: ['org'], response: CopilotUsageMetrics28DayReport::class)]
+    case org_copilot_metric_report_users_28_day_latest = '/orgs/{org}/copilot/metrics/reports/users-28-day/latest';
+
+    /**
+     * List Dependabot alerts for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgDependabotAlerts', pathParams: ['org'], queryParams: ['classification', 'state', 'severity', 'ecosystem', 'package', 'epss_percentage', 'artifact_registry_url', 'artifact_registry', 'has', 'assignee', 'runtime_risk', 'scope', 'relationship', 'sort', 'direction', 'before', 'after', 'per_page'], listOf: DependabotAlertWithRepository::class)]
+    case org_dependabot_alerts = '/orgs/{org}/dependabot/alerts';
+
+    /**
+     * Lists the repositories Dependabot can access in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgDependabotRepositoryAccesses', pathParams: ['org'], queryParams: ['page', 'per_page'], response: DependabotRepositoryAccessDetails::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgDependabotRepositoryAccess', pathParams: ['org'], request: UpdateOrgDependabotRepositoryAccessRequest::class)]
+    case org_dependabot_repository_access = '/orgs/{org}/dependabot/repository-access';
+
+    /**
+     * Set the default repository access level for Dependabot
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgDependabotRepositoryAccessDefaultLevel', pathParams: ['org'], request: UpdateOrgDependabotRepositoryAccessDefaultLevelRequest::class)]
+    case org_dependabot_repository_access_default_level = '/orgs/{org}/dependabot/repository-access/default-level';
+
+    /**
+     * List organization secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgDependabotSecrets', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgDependabotSecretsResponse::class)]
+    case org_dependabot_secrets = '/orgs/{org}/dependabot/secrets';
+
+    /**
+     * Get an organization public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgDependabotSecretPublicKeys', pathParams: ['org'], response: DependabotPublicKey::class)]
+    case org_dependabot_secret_public_key = '/orgs/{org}/dependabot/secrets/public-key';
+
+    /**
+     * Get an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgDependabotSecret', pathParams: ['org', 'secret_name'], response: OrganizationDependabotSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgDependabotSecret', pathParams: ['org', 'secret_name'], request: UpdateOrgDependabotSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgDependabotSecret', pathParams: ['org', 'secret_name'])]
+    case org_dependabot_secret = '/orgs/{org}/dependabot/secrets/{secret_name}';
+
+    /**
+     * List selected repositories for an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgDependabotSecretRepositories', pathParams: ['org', 'secret_name'], queryParams: ['page', 'per_page'], response: ListOrgDependabotSecretRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgDependabotSecretRepository', pathParams: ['org', 'secret_name'], request: UpdateOrgDependabotSecretRepositoryRequest::class)]
+    case org_dependabot_secret_repositories = '/orgs/{org}/dependabot/secrets/{secret_name}/repositories';
+
+    /**
+     * Add selected repository to an organization secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgDependabotSecretRepository2', pathParams: ['org', 'secret_name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgDependabotSecretRepository', pathParams: ['org', 'secret_name', 'repository_id'])]
+    case org_dependabot_secret_repository = '/orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}';
+
+    /**
+     * Get list of conflicting packages during Docker migration for organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgDockerConflicts', pathParams: ['org'], listOf: Package::class)]
+    case org_docker_conflicts = '/orgs/{org}/docker/conflicts';
+
+    /**
+     * List public organization events
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgEvents', pathParams: ['org'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case org_events = '/orgs/{org}/events';
+
+    /**
+     * List failed organization invitations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgFailedInvitations', pathParams: ['org'], queryParams: ['per_page', 'page'], listOf: OrganizationInvitation::class)]
+    case org_failed_invitations = '/orgs/{org}/failed_invitations';
+
+    /**
+     * List organization webhooks
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgHooks', pathParams: ['org'], queryParams: ['per_page', 'page'], listOf: OrgHook::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgHook', pathParams: ['org'], request: CreateOrgHookRequest::class, response: OrgHook::class)]
+    case org_hooks = '/orgs/{org}/hooks';
+
+    /**
+     * Get an organization webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgHook', pathParams: ['org', 'hook_id'], response: OrgHook::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgHook', pathParams: ['org', 'hook_id'], request: UpdateOrgHookRequest::class, response: OrgHook::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgHook', pathParams: ['org', 'hook_id'])]
+    case org_hook = '/orgs/{org}/hooks/{hook_id}';
+
+    /**
+     * Get a webhook configuration for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgHookConfigs', pathParams: ['org', 'hook_id'], response: WebhookConfig::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgHookConfig', pathParams: ['org', 'hook_id'], request: UpdateOrgHookConfigRequest::class, response: WebhookConfig::class)]
+    case org_hook_config = '/orgs/{org}/hooks/{hook_id}/config';
+
+    /**
+     * List deliveries for an organization webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgHookDeliveries', pathParams: ['org', 'hook_id'], queryParams: ['per_page', 'cursor', 'status'], listOf: HookDeliveryItem::class)]
+    case org_hook_deliveries = '/orgs/{org}/hooks/{hook_id}/deliveries';
+
+    /**
+     * Get a webhook delivery for an organization webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgHookDelivery', pathParams: ['org', 'hook_id', 'delivery_id'], response: HookDelivery::class)]
+    case org_hook_delivery = '/orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}';
+
+    /**
+     * Redeliver a delivery for an organization webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgHookDeliveryAttempt', pathParams: ['org', 'hook_id', 'delivery_id'])]
+    case org_hook_delivery_attempts = '/orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts';
+
+    /**
+     * Ping an organization webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgHookPing', pathParams: ['org', 'hook_id'])]
+    case org_hook_pings = '/orgs/{org}/hooks/{hook_id}/pings';
+
+    /**
+     * Get route stats by actor
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgInsightApiRouteStat', pathParams: ['org', 'actor_type', 'actor_id'], queryParams: ['min_timestamp', 'max_timestamp', 'page', 'per_page', 'direction', 'sort', 'api_route_substring'], listOf: GetOrgInsightApiRouteStatResponseItem::class)]
+    case org_insight_api_route_stat = '/orgs/{org}/insights/api/route-stats/{actor_type}/{actor_id}';
+
+    /**
+     * Get subject stats
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInsightApiSubjectStats', pathParams: ['org'], queryParams: ['min_timestamp', 'max_timestamp', 'page', 'per_page', 'direction', 'sort', 'subject_name_substring'], listOf: ListOrgInsightApiSubjectStatsResponseItem::class)]
+    case org_insight_api_subject_stats = '/orgs/{org}/insights/api/subject-stats';
+
+    /**
+     * Get summary stats
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInsightApiSummaryStats', pathParams: ['org'], queryParams: ['min_timestamp', 'max_timestamp'], response: ApiInsightsSummaryStats::class)]
+    case org_insight_api_summary_stats = '/orgs/{org}/insights/api/summary-stats';
+
+    /**
+     * Get summary stats by user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgInsightApiSummaryStatUser', pathParams: ['org', 'user_id'], queryParams: ['min_timestamp', 'max_timestamp'], response: ApiInsightsSummaryStats::class)]
+    case org_insight_api_summary_stat_user = '/orgs/{org}/insights/api/summary-stats/users/{user_id}';
+
+    /**
+     * Get summary stats by actor
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgInsightApiSummaryStat', pathParams: ['org', 'actor_type', 'actor_id'], queryParams: ['min_timestamp', 'max_timestamp'], response: ApiInsightsSummaryStats::class)]
+    case org_insight_api_summary_stat = '/orgs/{org}/insights/api/summary-stats/{actor_type}/{actor_id}';
+
+    /**
+     * Get time stats
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInsightApiTimeStats', pathParams: ['org'], queryParams: ['min_timestamp', 'max_timestamp', 'timestamp_increment'], listOf: ListOrgInsightApiTimeStatsResponseItem::class)]
+    case org_insight_api_time_stats = '/orgs/{org}/insights/api/time-stats';
+
+    /**
+     * Get time stats by user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgInsightApiTimeStatUser', pathParams: ['org', 'user_id'], queryParams: ['min_timestamp', 'max_timestamp', 'timestamp_increment'], listOf: GetOrgInsightApiTimeStatUserResponseItem::class)]
+    case org_insight_api_time_stat_user = '/orgs/{org}/insights/api/time-stats/users/{user_id}';
+
+    /**
+     * Get time stats by actor
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgInsightApiTimeStat', pathParams: ['org', 'actor_type', 'actor_id'], queryParams: ['min_timestamp', 'max_timestamp', 'timestamp_increment'], listOf: GetOrgInsightApiTimeStatResponseItem::class)]
+    case org_insight_api_time_stat = '/orgs/{org}/insights/api/time-stats/{actor_type}/{actor_id}';
+
+    /**
+     * Get user stats
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgInsightApiUserStat', pathParams: ['org', 'user_id'], queryParams: ['min_timestamp', 'max_timestamp', 'page', 'per_page', 'direction', 'sort', 'actor_name_substring'], listOf: GetOrgInsightApiUserStatResponseItem::class)]
+    case org_insight_api_user_stat = '/orgs/{org}/insights/api/user-stats/{user_id}';
+
+    /**
+     * Get an organization installation for the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInstallations', pathParams: ['org'], response: Installation::class)]
+    case org_installation = '/orgs/{org}/installation';
+
+    /**
+     * List app installations for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInstallations2', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgInstallations2Response::class)]
+    case org_installations = '/orgs/{org}/installations';
+
+    /**
+     * Get interaction restrictions for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInteractionLimits', pathParams: ['org'])]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgInteractionLimit', pathParams: ['org'], request: InteractionLimit::class, response: InteractionLimitResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgInteractionLimit', pathParams: ['org'])]
+    case org_interaction_limits = '/orgs/{org}/interaction-limits';
+
+    /**
+     * Get pull request creation cap for an org
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInteractionLimitPullCreationCaps', pathParams: ['org'], response: ListOrgInteractionLimitPullCreationCapsResponse::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgInteractionLimitPullCreationCap', pathParams: ['org'], request: UpdateOrgInteractionLimitPullCreationCapRequest::class, response: UpdateOrgInteractionLimitPullCreationCapResponse::class)]
+    case org_interaction_limit_pull_creation_cap = '/orgs/{org}/interaction-limits/pulls/creation-cap';
+
+    /**
+     * List pending organization invitations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInvitations', pathParams: ['org'], queryParams: ['per_page', 'page', 'role', 'invitation_source'], listOf: OrganizationInvitation::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgInvitation', pathParams: ['org'], request: CreateOrgInvitationRequest::class, response: OrganizationInvitation::class)]
+    case org_invitations = '/orgs/{org}/invitations';
+
+    /**
+     * Cancel an organization invitation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgInvitation', pathParams: ['org', 'invitation_id'])]
+    case org_invitation = '/orgs/{org}/invitations/{invitation_id}';
+
+    /**
+     * List organization invitation teams
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgInvitationTeams', pathParams: ['org', 'invitation_id'], queryParams: ['per_page', 'page'], listOf: Team::class)]
+    case org_invitation_teams = '/orgs/{org}/invitations/{invitation_id}/teams';
+
+    /**
+     * List issue fields for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgIssueFields', pathParams: ['org'], listOf: IssueField::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgIssueField', pathParams: ['org'], request: OrganizationCreateIssueField::class, response: IssueField::class)]
+    case org_issue_fields = '/orgs/{org}/issue-fields';
+
+    /**
+     * Update issue field for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgIssueField', pathParams: ['org', 'issue_field_id'], request: OrganizationUpdateIssueField::class, response: IssueField::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgIssueField', pathParams: ['org', 'issue_field_id'])]
+    case org_issue_field = '/orgs/{org}/issue-fields/{issue_field_id}';
+
+    /**
+     * List issue types for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgIssueTypes', pathParams: ['org'], listOf: IssueType::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgIssueType', pathParams: ['org'], request: OrganizationCreateIssueType::class, response: IssueType::class)]
+    case org_issue_types = '/orgs/{org}/issue-types';
+
+    /**
+     * Update issue type for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgIssueType', pathParams: ['org', 'issue_type_id'], request: OrganizationUpdateIssueType::class, response: IssueType::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgIssueType', pathParams: ['org', 'issue_type_id'])]
+    case org_issue_type = '/orgs/{org}/issue-types/{issue_type_id}';
+
+    /**
+     * List organization issues assigned to the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgIssues', pathParams: ['org'], queryParams: ['filter', 'state', 'labels', 'type', 'sort', 'direction', 'since', 'per_page', 'page'], listOf: Issue::class)]
+    case org_issues = '/orgs/{org}/issues';
+
+    /**
+     * List organization members
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgMembers', pathParams: ['org'], queryParams: ['filter', 'role', 'per_page', 'page'], listOf: SimpleUser::class)]
+    case org_members = '/orgs/{org}/members';
+
+    /**
+     * Check organization membership for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgMember', pathParams: ['org', 'username'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgMember', pathParams: ['org', 'username'])]
+    case org_member = '/orgs/{org}/members/{username}';
+
+    /**
+     * List codespaces for a user in organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgMemberCodespaces', pathParams: ['org', 'username'], queryParams: ['per_page', 'page'], response: ListOrgMemberCodespacesResponse::class)]
+    case org_member_codespaces = '/orgs/{org}/members/{username}/codespaces';
+
+    /**
+     * Delete a codespace from the organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgMemberCodespace', pathParams: ['org', 'username', 'codespace_name'])]
+    case org_member_codespace = '/orgs/{org}/members/{username}/codespaces/{codespace_name}';
+
+    /**
+     * Stop a codespace for an organization user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgMemberCodespaceStop', pathParams: ['org', 'username', 'codespace_name'], response: Codespace::class)]
+    case org_member_codespace_stop = '/orgs/{org}/members/{username}/codespaces/{codespace_name}/stop';
+
+    /**
+     * Get Copilot seat assignment details for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgMemberCopilots', pathParams: ['org', 'username'], response: CopilotSeatDetails::class)]
+    case org_member_copilot = '/orgs/{org}/members/{username}/copilot';
+
+    /**
+     * Get organization membership for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgMembership', pathParams: ['org', 'username'], response: OrgMembership::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgMembership', pathParams: ['org', 'username'], request: UpdateOrgMembershipRequest::class, response: OrgMembership::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgMembership', pathParams: ['org', 'username'])]
+    case org_membership = '/orgs/{org}/memberships/{username}';
+
+    /**
+     * List organization migrations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgMigrations', pathParams: ['org'], queryParams: ['per_page', 'page', 'exclude'], listOf: Migration::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgMigration', pathParams: ['org'], request: CreateOrgMigrationRequest::class, response: Migration::class)]
+    case org_migrations = '/orgs/{org}/migrations';
+
+    /**
+     * Get an organization migration status
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgMigration', pathParams: ['org', 'migration_id'], queryParams: ['exclude'], response: Migration::class)]
+    case org_migration = '/orgs/{org}/migrations/{migration_id}';
+
+    /**
+     * Download an organization migration archive
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgMigrationArchives', pathParams: ['org', 'migration_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgMigrationArchive', pathParams: ['org', 'migration_id'])]
+    case org_migration_archive = '/orgs/{org}/migrations/{migration_id}/archive';
+
+    /**
+     * Unlock an organization repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgMigrationRepoLock', pathParams: ['org', 'migration_id', 'repo_name'])]
+    case org_migration_repo_lock = '/orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock';
+
+    /**
+     * List repositories in an organization migration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgMigrationRepositories', pathParams: ['org', 'migration_id'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case org_migration_repositories = '/orgs/{org}/migrations/{migration_id}/repositories';
+
+    /**
+     * Get all organization roles for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgOrganizationRoles', pathParams: ['org'], response: ListOrgOrganizationRolesResponse::class)]
+    case org_organization_roles = '/orgs/{org}/organization-roles';
+
+    /**
+     * Remove all organization roles for a team
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgOrganizationRoleTeam', pathParams: ['org', 'team_slug'])]
+    case org_organization_role_team = '/orgs/{org}/organization-roles/teams/{team_slug}';
+
+    /**
+     * Assign an organization role to a team
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgOrganizationRoleTeam', pathParams: ['org', 'team_slug', 'role_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgOrganizationRoleTeam2', pathParams: ['org', 'team_slug', 'role_id'])]
+    case org_organization_role_team2 = '/orgs/{org}/organization-roles/teams/{team_slug}/{role_id}';
+
+    /**
+     * Remove all organization roles for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgOrganizationRoleUser', pathParams: ['org', 'username'])]
+    case org_organization_role_user = '/orgs/{org}/organization-roles/users/{username}';
+
+    /**
+     * Assign an organization role to a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgOrganizationRoleUser', pathParams: ['org', 'username', 'role_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgOrganizationRoleUser2', pathParams: ['org', 'username', 'role_id'])]
+    case org_organization_role_user2 = '/orgs/{org}/organization-roles/users/{username}/{role_id}';
+
+    /**
+     * Get an organization role
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgOrganizationRole', pathParams: ['org', 'role_id'], response: OrganizationRole::class)]
+    case org_organization_role = '/orgs/{org}/organization-roles/{role_id}';
+
+    /**
+     * List teams that are assigned to an organization role
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgOrganizationRoleTeams', pathParams: ['org', 'role_id'], queryParams: ['per_page', 'page'], listOf: TeamRoleAssignment::class)]
+    case org_organization_role_teams = '/orgs/{org}/organization-roles/{role_id}/teams';
+
+    /**
+     * List users that are assigned to an organization role
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgOrganizationRoleUsers', pathParams: ['org', 'role_id'], queryParams: ['per_page', 'page'], listOf: UserRoleAssignment::class)]
+    case org_organization_role_users = '/orgs/{org}/organization-roles/{role_id}/users';
+
+    /**
+     * List outside collaborators for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgOutsideCollaborators', pathParams: ['org'], queryParams: ['filter', 'per_page', 'page'], listOf: SimpleUser::class)]
+    case org_outside_collaborators = '/orgs/{org}/outside_collaborators';
+
+    /**
+     * Convert an organization member to outside collaborator
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgOutsideCollaborator', pathParams: ['org', 'username'], request: UpdateOrgOutsideCollaboratorRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgOutsideCollaborator', pathParams: ['org', 'username'])]
+    case org_outside_collaborator = '/orgs/{org}/outside_collaborators/{username}';
+
+    /**
+     * List packages for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPackages', pathParams: ['org'], queryParams: ['package_type', 'visibility', 'page', 'per_page'], listOf: Package::class)]
+    case org_packages = '/orgs/{org}/packages';
+
+    /**
+     * Get a package for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgPackage', pathParams: ['org', 'package_type', 'package_name'], response: Package::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgPackage', pathParams: ['org', 'package_type', 'package_name'])]
+    case org_package = '/orgs/{org}/packages/{package_type}/{package_name}';
+
+    /**
+     * Restore a package for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgPackageRestore', pathParams: ['org', 'package_type', 'package_name'], queryParams: ['token'])]
+    case org_package_restore = '/orgs/{org}/packages/{package_type}/{package_name}/restore';
+
+    /**
+     * List package versions for a package owned by an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPackageVersions', pathParams: ['org', 'package_type', 'package_name'], queryParams: ['page', 'per_page', 'state'], listOf: PackageVersion::class)]
+    case org_package_versions = '/orgs/{org}/packages/{package_type}/{package_name}/versions';
+
+    /**
+     * Get a package version for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgPackageVersion', pathParams: ['org', 'package_type', 'package_name', 'package_version_id'], response: PackageVersion::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgPackageVersion', pathParams: ['org', 'package_type', 'package_name', 'package_version_id'])]
+    case org_package_version = '/orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}';
+
+    /**
+     * Restore package version for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgPackageVersionRestore', pathParams: ['org', 'package_type', 'package_name', 'package_version_id'])]
+    case org_package_version_restore = '/orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore';
+
+    /**
+     * List requests to access organization resources with fine-grained personal
+     * access tokens
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPersonalAccessTokenRequests', pathParams: ['org'], queryParams: ['per_page', 'page', 'sort', 'direction', 'owner', 'repository', 'permission', 'last_used_before', 'last_used_after', 'token_id'], listOf: OrganizationProgrammaticAccessGrantRequest::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgPersonalAccessTokenRequest', pathParams: ['org'], request: CreateOrgPersonalAccessTokenRequestRequest::class)]
+    case org_personal_access_token_requests = '/orgs/{org}/personal-access-token-requests';
+
+    /**
+     * Review a request to access organization resources with a fine-grained
+     * personal access token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgPersonalAccessTokenRequest2', pathParams: ['org', 'pat_request_id'], request: CreateOrgPersonalAccessTokenRequest2Request::class)]
+    case org_personal_access_token_request = '/orgs/{org}/personal-access-token-requests/{pat_request_id}';
+
+    /**
+     * List repositories requested to be accessed by a fine-grained personal
+     * access token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPersonalAccessTokenRequestRepositories', pathParams: ['org', 'pat_request_id'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case org_personal_access_token_request_repositories = '/orgs/{org}/personal-access-token-requests/{pat_request_id}/repositories';
+
+    /**
+     * List fine-grained personal access tokens with access to organization
+     * resources
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPersonalAccessTokens', pathParams: ['org'], queryParams: ['per_page', 'page', 'sort', 'direction', 'owner', 'repository', 'permission', 'last_used_before', 'last_used_after', 'token_id'], listOf: OrganizationProgrammaticAccessGrant::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgPersonalAccessToken', pathParams: ['org'], request: CreateOrgPersonalAccessTokenRequest::class)]
+    case org_personal_access_tokens = '/orgs/{org}/personal-access-tokens';
+
+    /**
+     * Update the access a fine-grained personal access token has to organization
+     * resources
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgPersonalAccessToken2', pathParams: ['org', 'pat_id'], request: CreateOrgPersonalAccessToken2Request::class)]
+    case org_personal_access_token = '/orgs/{org}/personal-access-tokens/{pat_id}';
+
+    /**
+     * List repositories a fine-grained personal access token has access to
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPersonalAccessTokenRepositories', pathParams: ['org', 'pat_id'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case org_personal_access_token_repositories = '/orgs/{org}/personal-access-tokens/{pat_id}/repositories';
+
+    /**
+     * List private registries for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPrivateRegistries', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgPrivateRegistriesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgPrivateRegistry', pathParams: ['org'], request: CreateOrgPrivateRegistryRequest::class, response: OrgPrivateRegistryConfigurationWithSelectedRepositories::class)]
+    case org_private_registries = '/orgs/{org}/private-registries';
+
+    /**
+     * Get private registries public key for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPrivateRegistryPublicKeys', pathParams: ['org'], response: ListOrgPrivateRegistryPublicKeysResponse::class)]
+    case org_private_registry_public_key = '/orgs/{org}/private-registries/public-key';
+
+    /**
+     * Get a private registry for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgPrivateRegistry', pathParams: ['org', 'secret_name'], response: OrgPrivateRegistryConfiguration::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgPrivateRegistry', pathParams: ['org', 'secret_name'], request: UpdateOrgPrivateRegistryRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgPrivateRegistry', pathParams: ['org', 'secret_name'])]
+    case org_private_registry = '/orgs/{org}/private-registries/{secret_name}';
+
+    /**
+     * List projects for organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgProjectsV2s', pathParams: ['org'], queryParams: ['q', 'before', 'after', 'per_page'], listOf: ProjectsV2::class)]
+    case org_projects_v2 = '/orgs/{org}/projectsV2';
+
+    /**
+     * Get project for organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgProjectsV2', pathParams: ['org', 'project_number'], response: ProjectsV2::class)]
+    case org_projects_v22 = '/orgs/{org}/projectsV2/{project_number}';
+
+    /**
+     * Create draft item for organization owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgProjectsV2Draft', pathParams: ['org', 'project_number'], request: CreateOrgProjectsV2DraftRequest::class, response: ProjectsV2ItemSimple::class)]
+    case org_projects_v2_drafts = '/orgs/{org}/projectsV2/{project_number}/drafts';
+
+    /**
+     * List project fields for organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgProjectsV2Fields', pathParams: ['org', 'project_number'], queryParams: ['per_page', 'before', 'after'], listOf: ProjectsV2Field::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgProjectsV2Field', pathParams: ['org', 'project_number'], response: ProjectsV2Field::class)]
+    case org_projects_v2_fields = '/orgs/{org}/projectsV2/{project_number}/fields';
+
+    /**
+     * Get project field for organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgProjectsV2Field', pathParams: ['org', 'project_number', 'field_id'], response: ProjectsV2Field::class)]
+    case org_projects_v2_field = '/orgs/{org}/projectsV2/{project_number}/fields/{field_id}';
+
+    /**
+     * List items for an organization owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgProjectsV2Items', pathParams: ['org', 'project_number'], queryParams: ['q', 'fields', 'before', 'after', 'per_page'], listOf: ProjectsV2ItemWithContent::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgProjectsV2Item', pathParams: ['org', 'project_number'], response: ProjectsV2ItemSimple::class)]
+    case org_projects_v2_items = '/orgs/{org}/projectsV2/{project_number}/items';
+
+    /**
+     * Get an item for an organization owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgProjectsV2Item', pathParams: ['org', 'project_number', 'item_id'], queryParams: ['fields'], response: ProjectsV2ItemWithContent::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgProjectsV2Item', pathParams: ['org', 'project_number', 'item_id'], request: UpdateOrgProjectsV2ItemRequest::class, response: ProjectsV2ItemWithContent::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgProjectsV2Item', pathParams: ['org', 'project_number', 'item_id'])]
+    case org_projects_v2_item = '/orgs/{org}/projectsV2/{project_number}/items/{item_id}';
+
+    /**
+     * Create a view for an organization-owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrgProjectsV2View', pathParams: ['org', 'project_number'], request: CreateOrgProjectsV2ViewRequest::class, response: ProjectsV2View::class)]
+    case org_projects_v2_views = '/orgs/{org}/projectsV2/{project_number}/views';
+
+    /**
+     * List items for an organization project view
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgProjectsV2ViewItems', pathParams: ['org', 'project_number', 'view_number'], queryParams: ['fields', 'before', 'after', 'per_page'], listOf: ProjectsV2ItemWithContent::class)]
+    case org_projects_v2_view_items = '/orgs/{org}/projectsV2/{project_number}/views/{view_number}/items';
+
+    /**
+     * Get all custom properties for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPropertySchemas', pathParams: ['org'], listOf: CustomProperty::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgPropertySchema', pathParams: ['org'], request: UpdateOrgPropertySchemaRequest::class, listOf: CustomProperty::class)]
+    case org_property_schema = '/orgs/{org}/properties/schema';
+
+    /**
+     * Get a custom property for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgPropertySchema', pathParams: ['org', 'custom_property_name'], response: CustomProperty::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgPropertySchema2', pathParams: ['org', 'custom_property_name'], request: CustomPropertySetPayload::class, response: CustomProperty::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgPropertySchema', pathParams: ['org', 'custom_property_name'])]
+    case org_property_schema2 = '/orgs/{org}/properties/schema/{custom_property_name}';
+
+    /**
+     * List custom property values for organization repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPropertyValues', pathParams: ['org'], queryParams: ['per_page', 'page', 'repository_query'], listOf: OrgRepoCustomPropertyValues::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgPropertyValue', pathParams: ['org'], request: UpdateOrgPropertyValueRequest::class)]
+    case org_property_values = '/orgs/{org}/properties/values';
+
+    /**
+     * List public organization members
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgPublicMembers', pathParams: ['org'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case org_public_members = '/orgs/{org}/public_members';
+
+    /**
+     * Check public organization membership for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgPublicMember', pathParams: ['org', 'username'])]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgPublicMember', pathParams: ['org', 'username'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgPublicMember', pathParams: ['org', 'username'])]
+    case org_public_member = '/orgs/{org}/public_members/{username}';
+
+    /**
+     * List organization repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgRepos', pathParams: ['org'], queryParams: ['type', 'sort', 'direction', 'per_page', 'page'], listOf: MinimalRepository::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgRepo', pathParams: ['org'], request: CreateOrgRepoRequest::class, response: FullRepository::class)]
+    case org_repos = '/orgs/{org}/repos';
+
+    /**
+     * Get all organization repository rulesets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgRulesets', pathParams: ['org'], queryParams: ['per_page', 'page', 'targets'], listOf: RepositoryRuleset::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgRuleset', pathParams: ['org'], request: CreateOrgRulesetRequest::class, response: RepositoryRuleset::class)]
+    case org_rulesets = '/orgs/{org}/rulesets';
+
+    /**
+     * List organization rule suites
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgRulesetRuleSuites', pathParams: ['org'], queryParams: ['ref', 'repository_name', 'time_period', 'actor_name', 'rule_suite_result', 'evaluate_status', 'per_page', 'page'], listOf: ListOrgRulesetRuleSuitesResponseItem::class)]
+    case org_ruleset_rule_suites = '/orgs/{org}/rulesets/rule-suites';
+
+    /**
+     * Get an organization rule suite
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgRulesetRuleSuite', pathParams: ['org', 'rule_suite_id'], response: RuleSuite::class)]
+    case org_ruleset_rule_suite = '/orgs/{org}/rulesets/rule-suites/{rule_suite_id}';
+
+    /**
+     * Get an organization repository ruleset
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgRuleset', pathParams: ['org', 'ruleset_id'], response: RepositoryRuleset::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgRuleset', pathParams: ['org', 'ruleset_id'], request: UpdateOrgRulesetRequest::class, response: RepositoryRuleset::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgRuleset', pathParams: ['org', 'ruleset_id'])]
+    case org_ruleset = '/orgs/{org}/rulesets/{ruleset_id}';
+
+    /**
+     * Get organization ruleset history
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgRulesetHistories', pathParams: ['org', 'ruleset_id'], queryParams: ['per_page', 'page'], listOf: RulesetVersion::class)]
+    case org_ruleset_history = '/orgs/{org}/rulesets/{ruleset_id}/history';
+
+    /**
+     * Get organization ruleset version
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgRulesetHistory', pathParams: ['org', 'ruleset_id', 'version_id'], response: RulesetVersionWithState::class)]
+    case org_ruleset_history2 = '/orgs/{org}/rulesets/{ruleset_id}/history/{version_id}';
+
+    /**
+     * List secret scanning alerts for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSecretScanningAlerts', pathParams: ['org'], queryParams: ['state', 'secret_type', 'exclude_secret_types', 'exclude_providers', 'providers', 'resolution', 'assignee', 'sort', 'direction', 'page', 'per_page', 'before', 'after', 'validity', 'is_publicly_leaked', 'is_multi_repo', 'hide_secret', 'is_bypassed', 'included_metadata', 'owner_email_hash'], listOf: OrganizationSecretScanningAlert::class)]
+    case org_secret_scanning_alerts = '/orgs/{org}/secret-scanning/alerts';
+
+    /**
+     * List organization custom patterns
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSecretScanningCustomPatterns', pathParams: ['org'], queryParams: ['state', 'push_protection', 'sort', 'direction', 'page', 'per_page', 'before', 'after'], listOf: SecretScanningCustomPattern::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgSecretScanningCustomPattern', pathParams: ['org'], request: CreateOrgSecretScanningCustomPatternRequest::class, response: CreateOrgSecretScanningCustomPatternResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgSecretScanningCustomPattern', pathParams: ['org'], request: DeleteOrgSecretScanningCustomPatternRequest::class)]
+    case org_secret_scanning_custom_patterns = '/orgs/{org}/secret-scanning/custom-patterns';
+
+    /**
+     * Update an organization custom pattern
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgSecretScanningCustomPattern', pathParams: ['org', 'pattern_id'], request: SecretScanningCustomPatternToUpdate::class, response: SecretScanningCustomPattern::class)]
+    case org_secret_scanning_custom_pattern = '/orgs/{org}/secret-scanning/custom-patterns/{pattern_id}';
+
+    /**
+     * List organization pattern configurations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSecretScanningPatternConfigurations', pathParams: ['org'], response: SecretScanningPatternConfiguration::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgSecretScanningPatternConfiguration', pathParams: ['org'], request: UpdateOrgSecretScanningPatternConfigurationRequest::class, response: UpdateOrgSecretScanningPatternConfigurationResponse::class)]
+    case org_secret_scanning_pattern_configurations = '/orgs/{org}/secret-scanning/pattern-configurations';
+
+    /**
+     * List repository security advisories for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSecurityAdvisories', pathParams: ['org'], queryParams: ['direction', 'sort', 'before', 'after', 'per_page', 'state'], listOf: RepositoryAdvisory::class)]
+    case org_security_advisories = '/orgs/{org}/security-advisories';
+
+    /**
+     * List security manager teams
+     * @deprecated listOrgSecurityManagers — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSecurityManagers', pathParams: ['org'], listOf: TeamSimple::class)]
+    case org_security_managers = '/orgs/{org}/security-managers';
+
+    /**
+     * Add a security manager team
+     * @deprecated updateOrgSecurityManagerTeam — the API marks this operation deprecated.
+     * @deprecated deleteOrgSecurityManagerTeam — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgSecurityManagerTeam', pathParams: ['org', 'team_slug'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgSecurityManagerTeam', pathParams: ['org', 'team_slug'])]
+    case org_security_manager_team = '/orgs/{org}/security-managers/teams/{team_slug}';
+
+    /**
+     * Get immutable releases settings for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSettingImmutableReleases', pathParams: ['org'], response: ImmutableReleasesOrganizationSettings::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgSettingImmutableRelease', pathParams: ['org'], request: UpdateOrgSettingImmutableReleaseRequest::class)]
+    case org_setting_immutable_releases = '/orgs/{org}/settings/immutable-releases';
+
+    /**
+     * List selected repositories for immutable releases enforcement
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSettingImmutableReleaseRepositories', pathParams: ['org'], queryParams: ['page', 'per_page'], response: ListOrgSettingImmutableReleaseRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgSettingImmutableReleaseRepository', pathParams: ['org'], request: UpdateOrgSettingImmutableReleaseRepositoryRequest::class)]
+    case org_setting_immutable_release_repositories = '/orgs/{org}/settings/immutable-releases/repositories';
+
+    /**
+     * Enable a selected repository for immutable releases in an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgSettingImmutableReleaseRepository2', pathParams: ['org', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgSettingImmutableReleaseRepository', pathParams: ['org', 'repository_id'])]
+    case org_setting_immutable_release_repository = '/orgs/{org}/settings/immutable-releases/repositories/{repository_id}';
+
+    /**
+     * List hosted compute network configurations for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgSettingNetworkConfigurations', pathParams: ['org'], queryParams: ['per_page', 'page'], response: ListOrgSettingNetworkConfigurationsResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgSettingNetworkConfiguration', pathParams: ['org'], request: CreateOrgSettingNetworkConfigurationRequest::class, response: NetworkConfiguration::class)]
+    case org_setting_network_configurations = '/orgs/{org}/settings/network-configurations';
+
+    /**
+     * Get a hosted compute network configuration for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgSettingNetworkConfiguration', pathParams: ['org', 'network_configuration_id'], response: NetworkConfiguration::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgSettingNetworkConfiguration', pathParams: ['org', 'network_configuration_id'], request: UpdateOrgSettingNetworkConfigurationRequest::class, response: NetworkConfiguration::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgSettingNetworkConfiguration', pathParams: ['org', 'network_configuration_id'])]
+    case org_setting_network_configuration = '/orgs/{org}/settings/network-configurations/{network_configuration_id}';
+
+    /**
+     * Get a hosted compute network settings resource for an organization
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgSettingNetworkSetting', pathParams: ['org', 'network_settings_id'], response: NetworkSettings::class)]
+    case org_setting_network_setting = '/orgs/{org}/settings/network-settings/{network_settings_id}';
+
+    /**
+     * List teams
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgTeams', pathParams: ['org'], queryParams: ['per_page', 'page', 'team_type'], listOf: Team::class)]
+    #[AdminApi(HttpMethod::POST, 'createOrgTeam', pathParams: ['org'], request: CreateOrgTeamRequest::class, response: TeamFull::class)]
+    case org_teams = '/orgs/{org}/teams';
+
+    /**
+     * Get a team by name
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgTeam', pathParams: ['org', 'team_slug'], response: TeamFull::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateOrgTeam', pathParams: ['org', 'team_slug'], request: UpdateOrgTeamRequest::class, response: TeamFull::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgTeam', pathParams: ['org', 'team_slug'])]
+    case org_team = '/orgs/{org}/teams/{team_slug}';
+
+    /**
+     * List pending team invitations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgTeamInvitations', pathParams: ['org', 'team_slug'], queryParams: ['per_page', 'page'], listOf: OrganizationInvitation::class)]
+    case org_team_invitations = '/orgs/{org}/teams/{team_slug}/invitations';
+
+    /**
+     * List team members
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgTeamMembers', pathParams: ['org', 'team_slug'], queryParams: ['role', 'per_page', 'page'], listOf: TeamMember::class)]
+    case org_team_members = '/orgs/{org}/teams/{team_slug}/members';
+
+    /**
+     * Get team membership for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgTeamMembership', pathParams: ['org', 'team_slug', 'username'], response: TeamMembership::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgTeamMembership', pathParams: ['org', 'team_slug', 'username'], request: UpdateOrgTeamMembershipRequest::class, response: TeamMembership::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgTeamMembership', pathParams: ['org', 'team_slug', 'username'])]
+    case org_team_membership = '/orgs/{org}/teams/{team_slug}/memberships/{username}';
+
+    /**
+     * List team repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgTeamRepos', pathParams: ['org', 'team_slug'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case org_team_repos = '/orgs/{org}/teams/{team_slug}/repos';
+
+    /**
+     * Check team permissions for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getOrgTeamRepo', pathParams: ['org', 'team_slug', 'owner', 'repo'], response: TeamRepository::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateOrgTeamRepo', pathParams: ['org', 'team_slug', 'owner', 'repo'], request: UpdateOrgTeamRepoRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteOrgTeamRepo', pathParams: ['org', 'team_slug', 'owner', 'repo'])]
+    case org_team_repo = '/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}';
+
+    /**
+     * List child teams
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listOrgTeamTeams', pathParams: ['org', 'team_slug'], queryParams: ['per_page', 'page'], listOf: Team::class)]
+    case org_team_teams = '/orgs/{org}/teams/{team_slug}/teams';
+
+    /**
+     * Enable or disable a security feature for an organization
+     * @deprecated createOrg — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createOrg', pathParams: ['org', 'security_product', 'enablement'], request: CreateOrgRequest::class)]
+    case org2 = '/orgs/{org}/{security_product}/{enablement}';
+
+    /**
+     * Get rate limit status for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRateLimits', response: RateLimitOverview::class)]
+    case rate_limit = '/rate_limit';
+
+    /**
+     * Get a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepo', pathParams: ['owner', 'repo'], response: FullRepository::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepo', pathParams: ['owner', 'repo'], request: UpdateRepoRequest::class, response: FullRepository::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepo', pathParams: ['owner', 'repo'])]
+    case repo = '/repos/{owner}/{repo}';
+
+    /**
+     * List artifacts for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionArtifacts', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page', 'name'], response: ListRepoActionArtifactsResponse::class)]
+    case repo_action_artifacts = '/repos/{owner}/{repo}/actions/artifacts';
+
+    /**
+     * Get an artifact
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionArtifact', pathParams: ['owner', 'repo', 'artifact_id'], response: Artifact::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionArtifact', pathParams: ['owner', 'repo', 'artifact_id'])]
+    case repo_action_artifact = '/repos/{owner}/{repo}/actions/artifacts/{artifact_id}';
+
+    /**
+     * Download an artifact
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionArtifact2', pathParams: ['owner', 'repo', 'artifact_id', 'archive_format'])]
+    case repo_action_artifact2 = '/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}';
+
+    /**
+     * Get GitHub Actions cache retention limit for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionCacheRetentionLimits', pathParams: ['owner', 'repo'], response: ActionsCacheRetentionLimitForRepository::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionCacheRetentionLimit', pathParams: ['owner', 'repo'], request: ActionsCacheRetentionLimitForRepository::class)]
+    case repo_action_cache_retention_limit = '/repos/{owner}/{repo}/actions/cache/retention-limit';
+
+    /**
+     * Get GitHub Actions cache storage limit for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionCacheStorageLimits', pathParams: ['owner', 'repo'], response: ActionsCacheStorageLimitForRepository::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionCacheStorageLimit', pathParams: ['owner', 'repo'], request: ActionsCacheStorageLimitForRepository::class)]
+    case repo_action_cache_storage_limit = '/repos/{owner}/{repo}/actions/cache/storage-limit';
+
+    /**
+     * Get GitHub Actions cache usage for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionCacheUsages', pathParams: ['owner', 'repo'], response: ActionsCacheUsageByRepository::class)]
+    case repo_action_cache_usage = '/repos/{owner}/{repo}/actions/cache/usage';
+
+    /**
+     * List GitHub Actions caches for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionCaches', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page', 'ref', 'key', 'sort', 'direction'], response: ActionsCacheList::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionCach', pathParams: ['owner', 'repo'], queryParams: ['key', 'ref'], response: ActionsCacheList::class)]
+    case repo_action_caches = '/repos/{owner}/{repo}/actions/caches';
+
+    /**
+     * Delete a GitHub Actions cache for a repository (using a cache ID)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionCach2', pathParams: ['owner', 'repo', 'cache_id'])]
+    case repo_action_cach = '/repos/{owner}/{repo}/actions/caches/{cache_id}';
+
+    /**
+     * List concurrency groups for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionConcurrencyGroups', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'after'], response: ConcurrencyGroupList::class)]
+    case repo_action_concurrency_groups = '/repos/{owner}/{repo}/actions/concurrency_groups';
+
+    /**
+     * Get a concurrency group for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionConcurrencyGroup', pathParams: ['owner', 'repo', 'concurrency_group_name'], queryParams: ['ahead_of_run', 'ahead_of_job'], response: ConcurrencyGroup::class)]
+    case repo_action_concurrency_group = '/repos/{owner}/{repo}/actions/concurrency_groups/{concurrency_group_name}';
+
+    /**
+     * Get a job for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionJob', pathParams: ['owner', 'repo', 'job_id'], response: Job::class)]
+    case repo_action_job = '/repos/{owner}/{repo}/actions/jobs/{job_id}';
+
+    /**
+     * Download job logs for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionJobLogs', pathParams: ['owner', 'repo', 'job_id'])]
+    case repo_action_job_logs = '/repos/{owner}/{repo}/actions/jobs/{job_id}/logs';
+
+    /**
+     * Re-run a job from a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionJobRerun', pathParams: ['owner', 'repo', 'job_id'], request: CreateRepoActionJobRerunRequest::class)]
+    case repo_action_job_rerun = '/repos/{owner}/{repo}/actions/jobs/{job_id}/rerun';
+
+    /**
+     * Get the customization template for an OIDC subject claim for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionOidcCustomizationSubs', pathParams: ['owner', 'repo'], response: OidcCustomSubRepo::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionOidcCustomizationSub', pathParams: ['owner', 'repo'], request: UpdateRepoActionOidcCustomizationSubRequest::class)]
+    case repo_action_oidc_customization_sub = '/repos/{owner}/{repo}/actions/oidc/customization/sub';
+
+    /**
+     * List repository organization secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionOrganizationSecrets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoActionOrganizationSecretsResponse::class)]
+    case repo_action_organization_secrets = '/repos/{owner}/{repo}/actions/organization-secrets';
+
+    /**
+     * List repository organization variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionOrganizationVariables', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoActionOrganizationVariablesResponse::class)]
+    case repo_action_organization_variables = '/repos/{owner}/{repo}/actions/organization-variables';
+
+    /**
+     * Get GitHub Actions permissions for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissions', pathParams: ['owner', 'repo'], response: ActionsRepositoryPermissions::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermission', pathParams: ['owner', 'repo'], request: UpdateRepoActionPermissionRequest::class)]
+    case repo_action_permissions = '/repos/{owner}/{repo}/actions/permissions';
+
+    /**
+     * Get the level of access for workflows outside of the repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissionAccesses', pathParams: ['owner', 'repo'], response: ActionsWorkflowAccessToRepository::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermissionAccess', pathParams: ['owner', 'repo'], request: ActionsWorkflowAccessToRepository::class)]
+    case repo_action_permission_access = '/repos/{owner}/{repo}/actions/permissions/access';
+
+    /**
+     * Get artifact and log retention settings for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissionArtifactAndLogRetentions', pathParams: ['owner', 'repo'], response: ActionsArtifactAndLogRetentionResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermissionArtifactAndLogRetention', pathParams: ['owner', 'repo'], request: ActionsArtifactAndLogRetention::class)]
+    case repo_action_permission_artifact_and_log_retention = '/repos/{owner}/{repo}/actions/permissions/artifact-and-log-retention';
+
+    /**
+     * Get fork PR contributor approval permissions for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissionForkPrContributorApprovals', pathParams: ['owner', 'repo'], response: ActionsForkPrContributorApproval::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermissionForkPrContributorApproval', pathParams: ['owner', 'repo'], request: ActionsForkPrContributorApproval::class)]
+    case repo_action_permission_fork_pr_contributor_approval = '/repos/{owner}/{repo}/actions/permissions/fork-pr-contributor-approval';
+
+    /**
+     * Get private repo fork PR workflow settings for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissionForkPrWorkflowsPrivateRepos', pathParams: ['owner', 'repo'], response: ActionsForkPrWorkflowsPrivateRepos::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermissionForkPrWorkflowsPrivateRepo', pathParams: ['owner', 'repo'], request: ActionsForkPrWorkflowsPrivateReposRequest::class)]
+    case repo_action_permission_fork_pr_workflows_private_repos = '/repos/{owner}/{repo}/actions/permissions/fork-pr-workflows-private-repos';
+
+    /**
+     * Get allowed actions and reusable workflows for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissionSelectedActions', pathParams: ['owner', 'repo'], response: SelectedActions::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermissionSelectedAction', pathParams: ['owner', 'repo'], request: SelectedActions::class)]
+    case repo_action_permission_selected_actions = '/repos/{owner}/{repo}/actions/permissions/selected-actions';
+
+    /**
+     * Get default workflow permissions for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionPermissionWorkflows', pathParams: ['owner', 'repo'], response: ActionsGetDefaultWorkflowPermissions::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionPermissionWorkflow', pathParams: ['owner', 'repo'], request: ActionsSetDefaultWorkflowPermissions::class)]
+    case repo_action_permission_workflow = '/repos/{owner}/{repo}/actions/permissions/workflow';
+
+    /**
+     * List self-hosted runners for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunners', pathParams: ['owner', 'repo'], queryParams: ['name', 'per_page', 'page'], response: ListRepoActionRunnersResponse::class)]
+    case repo_action_runners = '/repos/{owner}/{repo}/actions/runners';
+
+    /**
+     * List runner applications for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunnerDownloads', pathParams: ['owner', 'repo'], listOf: RunnerApplication::class)]
+    case repo_action_runner_downloads = '/repos/{owner}/{repo}/actions/runners/downloads';
+
+    /**
+     * Create configuration for a just-in-time runner for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunnerGenerateJitconfig', pathParams: ['owner', 'repo'], request: CreateRepoActionRunnerGenerateJitconfigRequest::class, response: CreateRepoActionRunnerGenerateJitconfigResponse::class)]
+    case repo_action_runner_generate_jitconfig = '/repos/{owner}/{repo}/actions/runners/generate-jitconfig';
+
+    /**
+     * Create a registration token for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunnerRegistrationToken', pathParams: ['owner', 'repo'], response: AuthenticationToken::class)]
+    case repo_action_runner_registration_token = '/repos/{owner}/{repo}/actions/runners/registration-token';
+
+    /**
+     * Create a remove token for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunnerRemoveToken', pathParams: ['owner', 'repo'], response: AuthenticationToken::class)]
+    case repo_action_runner_remove_token = '/repos/{owner}/{repo}/actions/runners/remove-token';
+
+    /**
+     * Get a self-hosted runner for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionRunner', pathParams: ['owner', 'repo', 'runner_id'], response: Runner::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionRunner', pathParams: ['owner', 'repo', 'runner_id'])]
+    case repo_action_runner = '/repos/{owner}/{repo}/actions/runners/{runner_id}';
+
+    /**
+     * List labels for a self-hosted runner for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunnerLabels', pathParams: ['owner', 'repo', 'runner_id'], response: ListRepoActionRunnerLabelsResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunnerLabel', pathParams: ['owner', 'repo', 'runner_id'], request: CreateRepoActionRunnerLabelRequest::class, response: CreateRepoActionRunnerLabelResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionRunnerLabel', pathParams: ['owner', 'repo', 'runner_id'], request: UpdateRepoActionRunnerLabelRequest::class, response: UpdateRepoActionRunnerLabelResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionRunnerLabel', pathParams: ['owner', 'repo', 'runner_id'], response: DeleteRepoActionRunnerLabelResponse::class)]
+    case repo_action_runner_labels = '/repos/{owner}/{repo}/actions/runners/{runner_id}/labels';
+
+    /**
+     * Remove a custom label from a self-hosted runner for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionRunnerLabel2', pathParams: ['owner', 'repo', 'runner_id', 'name'], response: DeleteRepoActionRunnerLabel2Response::class)]
+    case repo_action_runner_label = '/repos/{owner}/{repo}/actions/runners/{runner_id}/labels/{name}';
+
+    /**
+     * List workflow runs for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRuns', pathParams: ['owner', 'repo'], queryParams: ['actor', 'branch', 'event', 'status', 'per_page', 'page', 'created', 'exclude_pull_requests', 'check_suite_id', 'head_sha'], response: ListRepoActionRunsResponse::class)]
+    case repo_action_runs = '/repos/{owner}/{repo}/actions/runs';
+
+    /**
+     * Get a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionRun', pathParams: ['owner', 'repo', 'run_id'], queryParams: ['exclude_pull_requests'], response: WorkflowRun::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionRun', pathParams: ['owner', 'repo', 'run_id'])]
+    case repo_action_run = '/repos/{owner}/{repo}/actions/runs/{run_id}';
+
+    /**
+     * Get the review history for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunApprovals', pathParams: ['owner', 'repo', 'run_id'], listOf: EnvironmentApprovals::class)]
+    case repo_action_run_approvals = '/repos/{owner}/{repo}/actions/runs/{run_id}/approvals';
+
+    /**
+     * Approve a workflow run for a fork pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunApprove', pathParams: ['owner', 'repo', 'run_id'])]
+    case repo_action_run_approve = '/repos/{owner}/{repo}/actions/runs/{run_id}/approve';
+
+    /**
+     * List workflow run artifacts
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunArtifacts', pathParams: ['owner', 'repo', 'run_id'], queryParams: ['per_page', 'page', 'name', 'direction'], response: ListRepoActionRunArtifactsResponse::class)]
+    case repo_action_run_artifacts = '/repos/{owner}/{repo}/actions/runs/{run_id}/artifacts';
+
+    /**
+     * Get a workflow run attempt
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionRunAttempt', pathParams: ['owner', 'repo', 'run_id', 'attempt_number'], queryParams: ['exclude_pull_requests'], response: WorkflowRun::class)]
+    case repo_action_run_attempt = '/repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}';
+
+    /**
+     * List jobs for a workflow run attempt
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunAttemptJobs', pathParams: ['owner', 'repo', 'run_id', 'attempt_number'], queryParams: ['per_page', 'page'], response: ListRepoActionRunAttemptJobsResponse::class)]
+    case repo_action_run_attempt_jobs = '/repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs';
+
+    /**
+     * Download workflow run attempt logs
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunAttemptLogs', pathParams: ['owner', 'repo', 'run_id', 'attempt_number'])]
+    case repo_action_run_attempt_logs = '/repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/logs';
+
+    /**
+     * Cancel a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunCancel', pathParams: ['owner', 'repo', 'run_id'])]
+    case repo_action_run_cancel = '/repos/{owner}/{repo}/actions/runs/{run_id}/cancel';
+
+    /**
+     * List concurrency groups for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunConcurrencyGroups', pathParams: ['owner', 'repo', 'run_id'], queryParams: ['per_page', 'before', 'after'], response: ConcurrencyGroupRunList::class)]
+    case repo_action_run_concurrency_groups = '/repos/{owner}/{repo}/actions/runs/{run_id}/concurrency_groups';
+
+    /**
+     * Review custom deployment protection rules for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunDeploymentProtectionRule', pathParams: ['owner', 'repo', 'run_id'])]
+    case repo_action_run_deployment_protection_rule = '/repos/{owner}/{repo}/actions/runs/{run_id}/deployment_protection_rule';
+
+    /**
+     * Force cancel a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunForceCancel', pathParams: ['owner', 'repo', 'run_id'])]
+    case repo_action_run_force_cancel = '/repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel';
+
+    /**
+     * List jobs for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunJobs', pathParams: ['owner', 'repo', 'run_id'], queryParams: ['filter', 'per_page', 'page'], response: ListRepoActionRunJobsResponse::class)]
+    case repo_action_run_jobs = '/repos/{owner}/{repo}/actions/runs/{run_id}/jobs';
+
+    /**
+     * Download workflow run logs
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunLogs', pathParams: ['owner', 'repo', 'run_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionRunLog', pathParams: ['owner', 'repo', 'run_id'])]
+    case repo_action_run_logs = '/repos/{owner}/{repo}/actions/runs/{run_id}/logs';
+
+    /**
+     * Get pending deployments for a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunPendingDeployments', pathParams: ['owner', 'repo', 'run_id'], listOf: PendingDeployment::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunPendingDeployment', pathParams: ['owner', 'repo', 'run_id'], request: CreateRepoActionRunPendingDeploymentRequest::class, listOf: Deployment::class)]
+    case repo_action_run_pending_deployments = '/repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments';
+
+    /**
+     * Re-run a workflow
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunRerun', pathParams: ['owner', 'repo', 'run_id'], request: CreateRepoActionRunRerunRequest::class)]
+    case repo_action_run_rerun = '/repos/{owner}/{repo}/actions/runs/{run_id}/rerun';
+
+    /**
+     * Re-run failed jobs from a workflow run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionRunRerunFailedJob', pathParams: ['owner', 'repo', 'run_id'], request: CreateRepoActionRunRerunFailedJobRequest::class)]
+    case repo_action_run_rerun_failed_jobs = '/repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs';
+
+    /**
+     * Get workflow run usage
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionRunTimings', pathParams: ['owner', 'repo', 'run_id'], response: WorkflowRunUsage::class)]
+    case repo_action_run_timing = '/repos/{owner}/{repo}/actions/runs/{run_id}/timing';
+
+    /**
+     * List repository secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionSecrets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoActionSecretsResponse::class)]
+    case repo_action_secrets = '/repos/{owner}/{repo}/actions/secrets';
+
+    /**
+     * Get a repository public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionSecretPublicKeys', pathParams: ['owner', 'repo'], response: ActionsPublicKey::class)]
+    case repo_action_secret_public_key = '/repos/{owner}/{repo}/actions/secrets/public-key';
+
+    /**
+     * Get a repository secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionSecret', pathParams: ['owner', 'repo', 'secret_name'], response: ActionsSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionSecret', pathParams: ['owner', 'repo', 'secret_name'], request: UpdateRepoActionSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionSecret', pathParams: ['owner', 'repo', 'secret_name'])]
+    case repo_action_secret = '/repos/{owner}/{repo}/actions/secrets/{secret_name}';
+
+    /**
+     * List repository variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionVariables', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoActionVariablesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionVariable', pathParams: ['owner', 'repo'], request: CreateRepoActionVariableRequest::class)]
+    case repo_action_variables = '/repos/{owner}/{repo}/actions/variables';
+
+    /**
+     * Get a repository variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionVariable', pathParams: ['owner', 'repo', 'name'], response: ActionsVariable::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoActionVariable', pathParams: ['owner', 'repo', 'name'], request: UpdateRepoActionVariableRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoActionVariable', pathParams: ['owner', 'repo', 'name'])]
+    case repo_action_variable = '/repos/{owner}/{repo}/actions/variables/{name}';
+
+    /**
+     * List repository workflows
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionWorkflows', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoActionWorkflowsResponse::class)]
+    case repo_action_workflows = '/repos/{owner}/{repo}/actions/workflows';
+
+    /**
+     * Get a workflow
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoActionWorkflow', pathParams: ['owner', 'repo', 'workflow_id'], response: Workflow::class)]
+    case repo_action_workflow = '/repos/{owner}/{repo}/actions/workflows/{workflow_id}';
+
+    /**
+     * Disable a workflow
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionWorkflowDisable', pathParams: ['owner', 'repo', 'workflow_id'])]
+    case repo_action_workflow_disable = '/repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable';
+
+    /**
+     * Create a workflow dispatch event
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoActionWorkflowDispatch', pathParams: ['owner', 'repo', 'workflow_id'], request: CreateRepoActionWorkflowDispatchRequest::class, response: WorkflowDispatchResponse::class)]
+    case repo_action_workflow_dispatches = '/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches';
+
+    /**
+     * Enable a workflow
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoActionWorkflowEnable', pathParams: ['owner', 'repo', 'workflow_id'])]
+    case repo_action_workflow_enable = '/repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable';
+
+    /**
+     * List workflow runs for a workflow
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionWorkflowRuns', pathParams: ['owner', 'repo', 'workflow_id'], queryParams: ['actor', 'branch', 'event', 'status', 'per_page', 'page', 'created', 'exclude_pull_requests', 'check_suite_id', 'head_sha'], response: ListRepoActionWorkflowRunsResponse::class)]
+    case repo_action_workflow_runs = '/repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs';
+
+    /**
+     * Get workflow usage
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActionWorkflowTimings', pathParams: ['owner', 'repo', 'workflow_id'], response: WorkflowUsage::class)]
+    case repo_action_workflow_timing = '/repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing';
+
+    /**
+     * List repository activities
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoActivities', pathParams: ['owner', 'repo'], queryParams: ['direction', 'per_page', 'before', 'after', 'ref', 'actor', 'time_period', 'activity_type'], listOf: Activity::class)]
+    case repo_activity = '/repos/{owner}/{repo}/activity';
+
+    /**
+     * List repository organization secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAgentOrganizationSecrets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoAgentOrganizationSecretsResponse::class)]
+    case repo_agent_organization_secrets = '/repos/{owner}/{repo}/agents/organization-secrets';
+
+    /**
+     * List repository organization variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAgentOrganizationVariables', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoAgentOrganizationVariablesResponse::class)]
+    case repo_agent_organization_variables = '/repos/{owner}/{repo}/agents/organization-variables';
+
+    /**
+     * List repository secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAgentSecrets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoAgentSecretsResponse::class)]
+    case repo_agent_secrets = '/repos/{owner}/{repo}/agents/secrets';
+
+    /**
+     * Get a repository public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAgentSecretPublicKeys', pathParams: ['owner', 'repo'], response: ActionsPublicKey::class)]
+    case repo_agent_secret_public_key = '/repos/{owner}/{repo}/agents/secrets/public-key';
+
+    /**
+     * Get a repository secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoAgentSecret', pathParams: ['owner', 'repo', 'secret_name'], response: ActionsSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoAgentSecret', pathParams: ['owner', 'repo', 'secret_name'], request: UpdateRepoAgentSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoAgentSecret', pathParams: ['owner', 'repo', 'secret_name'])]
+    case repo_agent_secret = '/repos/{owner}/{repo}/agents/secrets/{secret_name}';
+
+    /**
+     * List repository variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAgentVariables', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoAgentVariablesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoAgentVariable', pathParams: ['owner', 'repo'], request: CreateRepoAgentVariableRequest::class)]
+    case repo_agent_variables = '/repos/{owner}/{repo}/agents/variables';
+
+    /**
+     * Get a repository variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoAgentVariable', pathParams: ['owner', 'repo', 'name'], response: ActionsVariable::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoAgentVariable', pathParams: ['owner', 'repo', 'name'], request: UpdateRepoAgentVariableRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoAgentVariable', pathParams: ['owner', 'repo', 'name'])]
+    case repo_agent_variable = '/repos/{owner}/{repo}/agents/variables/{name}';
+
+    /**
+     * List assignees
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAssignees', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case repo_assignees = '/repos/{owner}/{repo}/assignees';
+
+    /**
+     * Check if a user can be assigned
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoAssignee', pathParams: ['owner', 'repo', 'assignee'])]
+    case repo_assignee = '/repos/{owner}/{repo}/assignees/{assignee}';
+
+    /**
+     * Create an attestation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoAttestation', pathParams: ['owner', 'repo'], request: CreateRepoAttestationRequest::class, response: CreateRepoAttestationResponse::class)]
+    case repo_attestations = '/repos/{owner}/{repo}/attestations';
+
+    /**
+     * List attestations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoAttestation', pathParams: ['owner', 'repo', 'subject_digest'], queryParams: ['per_page', 'before', 'after', 'predicate_type'], response: GetRepoAttestationResponse::class)]
+    case repo_attestation = '/repos/{owner}/{repo}/attestations/{subject_digest}';
+
+    /**
+     * Get all autolinks of a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAutolinks', pathParams: ['owner', 'repo'], listOf: Autolink::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoAutolink', pathParams: ['owner', 'repo'], request: CreateRepoAutolinkRequest::class, response: Autolink::class)]
+    case repo_autolinks = '/repos/{owner}/{repo}/autolinks';
+
+    /**
+     * Get an autolink reference of a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoAutolink', pathParams: ['owner', 'repo', 'autolink_id'], response: Autolink::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoAutolink', pathParams: ['owner', 'repo', 'autolink_id'])]
+    case repo_autolink = '/repos/{owner}/{repo}/autolinks/{autolink_id}';
+
+    /**
+     * Check if Dependabot security updates are enabled for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoAutomatedSecurityFixes', pathParams: ['owner', 'repo'], response: CheckAutomatedSecurityFixes::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoAutomatedSecurityFix', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoAutomatedSecurityFix', pathParams: ['owner', 'repo'])]
+    case repo_automated_security_fixes = '/repos/{owner}/{repo}/automated-security-fixes';
+
+    /**
+     * List branches
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranches', pathParams: ['owner', 'repo'], queryParams: ['protected', 'per_page', 'page'], listOf: ShortBranch::class)]
+    case repo_branches = '/repos/{owner}/{repo}/branches';
+
+    /**
+     * Get a branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoBranch', pathParams: ['owner', 'repo', 'branch'], response: BranchWithProtection::class)]
+    case repo_branch = '/repos/{owner}/{repo}/branches/{branch}';
+
+    /**
+     * Get branch protection
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtections', pathParams: ['owner', 'repo', 'branch'], response: BranchProtection::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoBranchProtection', pathParams: ['owner', 'repo', 'branch'], request: UpdateRepoBranchProtectionRequest::class, response: ProtectedBranch::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtection', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection = '/repos/{owner}/{repo}/branches/{branch}/protection';
+
+    /**
+     * Get admin branch protection
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionEnforceAdmins', pathParams: ['owner', 'repo', 'branch'], response: ProtectedBranchAdminEnforced::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchProtectionEnforceAdmin', pathParams: ['owner', 'repo', 'branch'], response: ProtectedBranchAdminEnforced::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionEnforceAdmin', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection_enforce_admins = '/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins';
+
+    /**
+     * Get pull request review protection
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRequiredPullRequestReviews', pathParams: ['owner', 'repo', 'branch'], response: ProtectedBranchPullRequestReview::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoBranchProtectionRequiredPullRequestReview', pathParams: ['owner', 'repo', 'branch'], request: UpdateRepoBranchProtectionRequiredPullRequestReviewRequest::class, response: ProtectedBranchPullRequestReview::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRequiredPullRequestReview', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection_required_pull_request_reviews = '/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews';
+
+    /**
+     * Get commit signature protection
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRequiredSignatures', pathParams: ['owner', 'repo', 'branch'], response: ProtectedBranchAdminEnforced::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchProtectionRequiredSignature', pathParams: ['owner', 'repo', 'branch'], response: ProtectedBranchAdminEnforced::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRequiredSignature', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection_required_signatures = '/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures';
+
+    /**
+     * Get status checks protection
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRequiredStatusChecks', pathParams: ['owner', 'repo', 'branch'], response: StatusCheckPolicy::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoBranchProtectionRequiredStatusCheck', pathParams: ['owner', 'repo', 'branch'], request: UpdateRepoBranchProtectionRequiredStatusCheckRequest::class, response: StatusCheckPolicy::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRequiredStatusCheck', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection_required_status_checks = '/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks';
+
+    /**
+     * Get all status check contexts
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRequiredStatusCheckContexts', pathParams: ['owner', 'repo', 'branch'])]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchProtectionRequiredStatusCheckContext', pathParams: ['owner', 'repo', 'branch'])]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoBranchProtectionRequiredStatusCheckContext', pathParams: ['owner', 'repo', 'branch'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRequiredStatusCheckContext', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection_required_status_check_contexts = '/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts';
+
+    /**
+     * Get access restrictions
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRestrictions', pathParams: ['owner', 'repo', 'branch'], response: BranchRestrictionPolicy::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRestriction', pathParams: ['owner', 'repo', 'branch'])]
+    case repo_branch_protection_restrictions = '/repos/{owner}/{repo}/branches/{branch}/protection/restrictions';
+
+    /**
+     * Get apps with access to the protected branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRestrictionApps', pathParams: ['owner', 'repo', 'branch'], listOf: Integration::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchProtectionRestrictionApp', pathParams: ['owner', 'repo', 'branch'], request: CreateRepoBranchProtectionRestrictionAppRequest::class, listOf: Integration::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoBranchProtectionRestrictionApp', pathParams: ['owner', 'repo', 'branch'], request: UpdateRepoBranchProtectionRestrictionAppRequest::class, listOf: Integration::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRestrictionApp', pathParams: ['owner', 'repo', 'branch'], request: DeleteRepoBranchProtectionRestrictionAppRequest::class, listOf: Integration::class)]
+    case repo_branch_protection_restriction_apps = '/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps';
+
+    /**
+     * Get teams with access to the protected branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRestrictionTeams', pathParams: ['owner', 'repo', 'branch'], listOf: Team::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchProtectionRestrictionTeam', pathParams: ['owner', 'repo', 'branch'], listOf: Team::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoBranchProtectionRestrictionTeam', pathParams: ['owner', 'repo', 'branch'], listOf: Team::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRestrictionTeam', pathParams: ['owner', 'repo', 'branch'], listOf: Team::class)]
+    case repo_branch_protection_restriction_teams = '/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams';
+
+    /**
+     * Get users with access to the protected branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoBranchProtectionRestrictionUsers', pathParams: ['owner', 'repo', 'branch'], listOf: SimpleUser::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchProtectionRestrictionUser', pathParams: ['owner', 'repo', 'branch'], request: CreateRepoBranchProtectionRestrictionUserRequest::class, listOf: SimpleUser::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoBranchProtectionRestrictionUser', pathParams: ['owner', 'repo', 'branch'], request: UpdateRepoBranchProtectionRestrictionUserRequest::class, listOf: SimpleUser::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoBranchProtectionRestrictionUser', pathParams: ['owner', 'repo', 'branch'], request: DeleteRepoBranchProtectionRestrictionUserRequest::class, listOf: SimpleUser::class)]
+    case repo_branch_protection_restriction_users = '/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users';
+
+    /**
+     * Rename a branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoBranchRename', pathParams: ['owner', 'repo', 'branch'], request: CreateRepoBranchRenameRequest::class, response: BranchWithProtection::class)]
+    case repo_branch_rename = '/repos/{owner}/{repo}/branches/{branch}/rename';
+
+    /**
+     * Create a check run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCheckRun', pathParams: ['owner', 'repo'], response: CheckRun::class)]
+    case repo_check_runs = '/repos/{owner}/{repo}/check-runs';
+
+    /**
+     * Get a check run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCheckRun', pathParams: ['owner', 'repo', 'check_run_id'], response: CheckRun::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoCheckRun', pathParams: ['owner', 'repo', 'check_run_id'], response: CheckRun::class)]
+    case repo_check_run = '/repos/{owner}/{repo}/check-runs/{check_run_id}';
+
+    /**
+     * List check run annotations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCheckRunAnnotations', pathParams: ['owner', 'repo', 'check_run_id'], queryParams: ['per_page', 'page'], listOf: CheckAnnotation::class)]
+    case repo_check_run_annotations = '/repos/{owner}/{repo}/check-runs/{check_run_id}/annotations';
+
+    /**
+     * Rerequest a check run
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCheckRunRerequest', pathParams: ['owner', 'repo', 'check_run_id'])]
+    case repo_check_run_rerequest = '/repos/{owner}/{repo}/check-runs/{check_run_id}/rerequest';
+
+    /**
+     * Create a check suite
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCheckSuite', pathParams: ['owner', 'repo'], request: CreateRepoCheckSuiteRequest::class, response: CheckSuite::class)]
+    case repo_check_suites = '/repos/{owner}/{repo}/check-suites';
+
+    /**
+     * Update repository preferences for check suites
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoCheckSuitePreference', pathParams: ['owner', 'repo'], request: UpdateRepoCheckSuitePreferenceRequest::class, response: CheckSuitePreference::class)]
+    case repo_check_suite_preferences = '/repos/{owner}/{repo}/check-suites/preferences';
+
+    /**
+     * Get a check suite
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCheckSuite', pathParams: ['owner', 'repo', 'check_suite_id'], response: CheckSuite::class)]
+    case repo_check_suite = '/repos/{owner}/{repo}/check-suites/{check_suite_id}';
+
+    /**
+     * List check runs in a check suite
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCheckSuiteCheckRuns', pathParams: ['owner', 'repo', 'check_suite_id'], queryParams: ['check_name', 'status', 'filter', 'per_page', 'page'], response: ListRepoCheckSuiteCheckRunsResponse::class)]
+    case repo_check_suite_check_runs = '/repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs';
+
+    /**
+     * Rerequest a check suite
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCheckSuiteRerequest', pathParams: ['owner', 'repo', 'check_suite_id'])]
+    case repo_check_suite_rerequest = '/repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest';
+
+    /**
+     * List code quality findings for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeQualityFindings', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'direction', 'before', 'after', 'state'], listOf: CodeQualityFinding::class)]
+    case repo_code_quality_findings = '/repos/{owner}/{repo}/code-quality/findings';
+
+    /**
+     * Get a code quality finding
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeQualityFinding', pathParams: ['owner', 'repo', 'finding_number'], response: CodeQualityFinding::class)]
+    case repo_code_quality_finding = '/repos/{owner}/{repo}/code-quality/findings/{finding_number}';
+
+    /**
+     * Get a code quality setup configuration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeQualitySetups', pathParams: ['owner', 'repo'], response: CodeQualitySetup::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoCodeQualitySetup', pathParams: ['owner', 'repo'], request: CodeQualitySetupUpdate::class)]
+    case repo_code_quality_setup = '/repos/{owner}/{repo}/code-quality/setup';
+
+    /**
+     * List code scanning alerts for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeScanningAlerts', pathParams: ['owner', 'repo'], queryParams: ['tool_name', 'tool_guid', 'page', 'per_page', 'ref', 'pr', 'direction', 'before', 'after', 'sort', 'state', 'severity', 'assignees'], listOf: CodeScanningAlertItems::class)]
+    case repo_code_scanning_alerts = '/repos/{owner}/{repo}/code-scanning/alerts';
+
+    /**
+     * Get a code scanning alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeScanningAlert', pathParams: ['owner', 'repo', 'alert_number'], response: CodeScanningAlert::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoCodeScanningAlert', pathParams: ['owner', 'repo', 'alert_number'], response: CodeScanningAlert::class)]
+    case repo_code_scanning_alert = '/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}';
+
+    /**
+     * Get the status of an autofix for a code scanning alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeScanningAlertAutofixes', pathParams: ['owner', 'repo', 'alert_number'], response: CodeScanningAutofix::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoCodeScanningAlertAutofix', pathParams: ['owner', 'repo', 'alert_number'], response: CodeScanningAutofix::class)]
+    case repo_code_scanning_alert_autofix = '/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix';
+
+    /**
+     * Commit an autofix for a code scanning alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCodeScanningAlertAutofixCommit', pathParams: ['owner', 'repo', 'alert_number'], request: CodeScanningAutofixCommits::class, response: CodeScanningAutofixCommitsResponse::class)]
+    case repo_code_scanning_alert_autofix_commits = '/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/autofix/commits';
+
+    /**
+     * List instances of a code scanning alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeScanningAlertInstances', pathParams: ['owner', 'repo', 'alert_number'], queryParams: ['page', 'per_page', 'ref', 'pr'], listOf: CodeScanningAlertInstanceList::class)]
+    case repo_code_scanning_alert_instances = '/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances';
+
+    /**
+     * List code scanning analyses for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeScanningAnalyses', pathParams: ['owner', 'repo'], queryParams: ['tool_name', 'tool_guid', 'page', 'per_page', 'pr', 'ref', 'sarif_id', 'direction', 'sort'], listOf: CodeScanningAnalysis::class)]
+    case repo_code_scanning_analyses = '/repos/{owner}/{repo}/code-scanning/analyses';
+
+    /**
+     * Get a code scanning analysis for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeScanningAnalyse', pathParams: ['owner', 'repo', 'analysis_id'], response: CodeScanningAnalysis::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoCodeScanningAnalyse', pathParams: ['owner', 'repo', 'analysis_id'], queryParams: ['confirm_delete'], response: CodeScanningAnalysisDeletion::class)]
+    case repo_code_scanning_analyse = '/repos/{owner}/{repo}/code-scanning/analyses/{analysis_id}';
+
+    /**
+     * List CodeQL databases for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeScanningCodeqlDatabases', pathParams: ['owner', 'repo'], listOf: CodeScanningCodeqlDatabase::class)]
+    case repo_code_scanning_codeql_databases = '/repos/{owner}/{repo}/code-scanning/codeql/databases';
+
+    /**
+     * Get a CodeQL database for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeScanningCodeqlDatabase', pathParams: ['owner', 'repo', 'language'], response: CodeScanningCodeqlDatabase::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoCodeScanningCodeqlDatabase', pathParams: ['owner', 'repo', 'language'])]
+    case repo_code_scanning_codeql_database = '/repos/{owner}/{repo}/code-scanning/codeql/databases/{language}';
+
+    /**
+     * Create a CodeQL variant analysis
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCodeScanningCodeqlVariantAnalyse', pathParams: ['owner', 'repo'], response: CodeScanningVariantAnalysis::class)]
+    case repo_code_scanning_codeql_variant_analyses = '/repos/{owner}/{repo}/code-scanning/codeql/variant-analyses';
+
+    /**
+     * Get the summary of a CodeQL variant analysis
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeScanningCodeqlVariantAnalyse', pathParams: ['owner', 'repo', 'codeql_variant_analysis_id'], response: CodeScanningVariantAnalysis::class)]
+    case repo_code_scanning_codeql_variant_analyse = '/repos/{owner}/{repo}/code-scanning/codeql/variant-analyses/{codeql_variant_analysis_id}';
+
+    /**
+     * Get the analysis status of a repository in a CodeQL variant analysis
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeScanningCodeqlVariantAnalyseRepo', pathParams: ['owner', 'repo', 'codeql_variant_analysis_id', 'repo_owner', 'repo_name'], response: CodeScanningVariantAnalysisRepoTask::class)]
+    case repo_code_scanning_codeql_variant_analyse_repo = '/repos/{owner}/{repo}/code-scanning/codeql/variant-analyses/{codeql_variant_analysis_id}/repos/{repo_owner}/{repo_name}';
+
+    /**
+     * Get a code scanning default setup configuration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeScanningDefaultSetups', pathParams: ['owner', 'repo'], response: CodeScanningDefaultSetup::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoCodeScanningDefaultSetup', pathParams: ['owner', 'repo'], request: CodeScanningDefaultSetupUpdate::class)]
+    case repo_code_scanning_default_setup = '/repos/{owner}/{repo}/code-scanning/default-setup';
+
+    /**
+     * Upload an analysis as SARIF data
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoCodeScanningSarif', pathParams: ['owner', 'repo'], request: CreateRepoCodeScanningSarifRequest::class, response: CodeScanningSarifsReceipt::class)]
+    case repo_code_scanning_sarifs = '/repos/{owner}/{repo}/code-scanning/sarifs';
+
+    /**
+     * Get information about a SARIF upload
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodeScanningSarif', pathParams: ['owner', 'repo', 'sarif_id'], response: CodeScanningSarifsStatus::class)]
+    case repo_code_scanning_sarif = '/repos/{owner}/{repo}/code-scanning/sarifs/{sarif_id}';
+
+    /**
+     * Get the code security configuration associated with a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeSecurityConfigurations', pathParams: ['owner', 'repo'], response: CodeSecurityConfigurationForRepository::class)]
+    case repo_code_security_configuration = '/repos/{owner}/{repo}/code-security-configuration';
+
+    /**
+     * List CODEOWNERS errors
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodeownerErrors', pathParams: ['owner', 'repo'], queryParams: ['ref'], response: CodeownersErrors::class)]
+    case repo_codeowner_errors = '/repos/{owner}/{repo}/codeowners/errors';
+
+    /**
+     * List codespaces in a repository for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespaces', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoCodespacesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoCodespace', pathParams: ['owner', 'repo'], request: CreateRepoCodespaceRequest::class, response: Codespace::class)]
+    case repo_codespaces = '/repos/{owner}/{repo}/codespaces';
+
+    /**
+     * List devcontainer configurations in a repository for the authenticated
+     * user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespaceDevcontainers', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoCodespaceDevcontainersResponse::class)]
+    case repo_codespace_devcontainers = '/repos/{owner}/{repo}/codespaces/devcontainers';
+
+    /**
+     * List available machine types for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespaceMachines', pathParams: ['owner', 'repo'], queryParams: ['location', 'client_ip', 'ref'], response: ListRepoCodespaceMachinesResponse::class)]
+    case repo_codespace_machines = '/repos/{owner}/{repo}/codespaces/machines';
+
+    /**
+     * Get default attributes for a codespace
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespaceNews', pathParams: ['owner', 'repo'], queryParams: ['ref', 'client_ip'], response: ListRepoCodespaceNewsResponse::class)]
+    case repo_codespace_new = '/repos/{owner}/{repo}/codespaces/new';
+
+    /**
+     * Check if permissions defined by a devcontainer have been accepted by the
+     * authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespacePermissionsChecks', pathParams: ['owner', 'repo'], queryParams: ['ref', 'devcontainer_path'], response: CodespacesPermissionsCheckForDevcontainer::class)]
+    case repo_codespace_permissions_check = '/repos/{owner}/{repo}/codespaces/permissions_check';
+
+    /**
+     * List repository secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespaceSecrets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoCodespaceSecretsResponse::class)]
+    case repo_codespace_secrets = '/repos/{owner}/{repo}/codespaces/secrets';
+
+    /**
+     * Get a repository public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCodespaceSecretPublicKeys', pathParams: ['owner', 'repo'], response: CodespacesPublicKey::class)]
+    case repo_codespace_secret_public_key = '/repos/{owner}/{repo}/codespaces/secrets/public-key';
+
+    /**
+     * Get a repository secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCodespaceSecret', pathParams: ['owner', 'repo', 'secret_name'], response: RepoCodespacesSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoCodespaceSecret', pathParams: ['owner', 'repo', 'secret_name'], request: UpdateRepoCodespaceSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoCodespaceSecret', pathParams: ['owner', 'repo', 'secret_name'])]
+    case repo_codespace_secret = '/repos/{owner}/{repo}/codespaces/secrets/{secret_name}';
+
+    /**
+     * List repository collaborators
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCollaborators', pathParams: ['owner', 'repo'], queryParams: ['affiliation', 'permission', 'per_page', 'page'], listOf: Collaborator::class)]
+    case repo_collaborators = '/repos/{owner}/{repo}/collaborators';
+
+    /**
+     * Check if a user is a repository collaborator
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCollaborator', pathParams: ['owner', 'repo', 'username'])]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoCollaborator', pathParams: ['owner', 'repo', 'username'], request: UpdateRepoCollaboratorRequest::class, response: RepositoryInvitation::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoCollaborator', pathParams: ['owner', 'repo', 'username'])]
+    case repo_collaborator = '/repos/{owner}/{repo}/collaborators/{username}';
+
+    /**
+     * Get repository permissions for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCollaboratorPermissions', pathParams: ['owner', 'repo', 'username'], response: RepositoryCollaboratorPermission::class)]
+    case repo_collaborator_permission = '/repos/{owner}/{repo}/collaborators/{username}/permission';
+
+    /**
+     * List commit comments for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoComments', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: CommitComment::class)]
+    case repo_comments = '/repos/{owner}/{repo}/comments';
+
+    /**
+     * Get a commit comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoComment', pathParams: ['owner', 'repo', 'comment_id'], response: CommitComment::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoComment', pathParams: ['owner', 'repo', 'comment_id'], request: UpdateRepoCommentRequest::class, response: CommitComment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoComment', pathParams: ['owner', 'repo', 'comment_id'])]
+    case repo_comment = '/repos/{owner}/{repo}/comments/{comment_id}';
+
+    /**
+     * List reactions for a commit comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommentReactions', pathParams: ['owner', 'repo', 'comment_id'], queryParams: ['content', 'per_page', 'page'], listOf: Reaction::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoCommentReaction', pathParams: ['owner', 'repo', 'comment_id'], request: CreateRepoCommentReactionRequest::class, response: Reaction::class)]
+    case repo_comment_reactions = '/repos/{owner}/{repo}/comments/{comment_id}/reactions';
+
+    /**
+     * Delete a commit comment reaction
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoCommentReaction', pathParams: ['owner', 'repo', 'comment_id', 'reaction_id'])]
+    case repo_comment_reaction = '/repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}';
+
+    /**
+     * List commits
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommits', pathParams: ['owner', 'repo'], queryParams: ['sha', 'path', 'author', 'committer', 'since', 'until', 'per_page', 'page'], listOf: Commit::class)]
+    case repo_commits = '/repos/{owner}/{repo}/commits';
+
+    /**
+     * List branches for HEAD commit
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitBranchesWhereHeads', pathParams: ['owner', 'repo', 'commit_sha'], listOf: BranchShort::class)]
+    case repo_commit_branches_where_head = '/repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head';
+
+    /**
+     * List commit comments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitComments', pathParams: ['owner', 'repo', 'commit_sha'], queryParams: ['per_page', 'page'], listOf: CommitComment::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoCommitComment', pathParams: ['owner', 'repo', 'commit_sha'], request: CreateRepoCommitCommentRequest::class, response: CommitComment::class)]
+    case repo_commit_comments = '/repos/{owner}/{repo}/commits/{commit_sha}/comments';
+
+    /**
+     * List pull requests associated with a commit
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitPulls', pathParams: ['owner', 'repo', 'commit_sha'], queryParams: ['per_page', 'page'], listOf: PullRequestSimple::class)]
+    case repo_commit_pulls = '/repos/{owner}/{repo}/commits/{commit_sha}/pulls';
+
+    /**
+     * Get a commit
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCommit', pathParams: ['owner', 'repo', 'ref'], queryParams: ['page', 'per_page'], response: Commit::class)]
+    case repo_commit = '/repos/{owner}/{repo}/commits/{ref}';
+
+    /**
+     * List check runs for a Git reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitCheckRuns', pathParams: ['owner', 'repo', 'ref'], queryParams: ['check_name', 'status', 'filter', 'per_page', 'page', 'app_id'], response: ListRepoCommitCheckRunsResponse::class)]
+    case repo_commit_check_runs = '/repos/{owner}/{repo}/commits/{ref}/check-runs';
+
+    /**
+     * List check suites for a Git reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitCheckSuites', pathParams: ['owner', 'repo', 'ref'], queryParams: ['app_id', 'check_name', 'per_page', 'page'], response: ListRepoCommitCheckSuitesResponse::class)]
+    case repo_commit_check_suites = '/repos/{owner}/{repo}/commits/{ref}/check-suites';
+
+    /**
+     * Get the combined status for a specific reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitStatuses', pathParams: ['owner', 'repo', 'ref'], queryParams: ['per_page', 'page'], response: CombinedCommitStatus::class)]
+    case repo_commit_status = '/repos/{owner}/{repo}/commits/{ref}/status';
+
+    /**
+     * List commit statuses for a reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommitStatuses2', pathParams: ['owner', 'repo', 'ref'], queryParams: ['per_page', 'page'], listOf: Status::class)]
+    case repo_commit_statuses = '/repos/{owner}/{repo}/commits/{ref}/statuses';
+
+    /**
+     * Get community profile metrics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCommunityProfiles', pathParams: ['owner', 'repo'], response: CommunityProfile::class)]
+    case repo_community_profile = '/repos/{owner}/{repo}/community/profile';
+
+    /**
+     * Compare two commits
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoCompare', pathParams: ['owner', 'repo', 'basehead'], queryParams: ['page', 'per_page'], response: CommitComparison::class)]
+    case repo_compare = '/repos/{owner}/{repo}/compare/{basehead}';
+
+    /**
+     * Get repository content
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoContent', pathParams: ['owner', 'repo', 'path'], queryParams: ['ref'])]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoContent', pathParams: ['owner', 'repo', 'path'], request: UpdateRepoContentRequest::class, response: FileCommit::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoContent', pathParams: ['owner', 'repo', 'path'], request: DeleteRepoContentRequest::class, response: FileCommit::class)]
+    case repo_content = '/repos/{owner}/{repo}/contents/{path}';
+
+    /**
+     * List repository contributors
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoContributors', pathParams: ['owner', 'repo'], queryParams: ['anon', 'per_page', 'page'], listOf: Contributor::class)]
+    case repo_contributors = '/repos/{owner}/{repo}/contributors';
+
+    /**
+     * Get Copilot cloud agent configuration for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoCopilotCloudAgentConfigurations', pathParams: ['owner', 'repo'], response: ListRepoCopilotCloudAgentConfigurationsResponse::class)]
+    case repo_copilot_cloud_agent_configuration = '/repos/{owner}/{repo}/copilot/cloud-agent/configuration';
+
+    /**
+     * List Dependabot alerts for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDependabotAlerts', pathParams: ['owner', 'repo'], queryParams: ['classification', 'state', 'severity', 'ecosystem', 'package', 'manifest', 'epss_percentage', 'has', 'assignee', 'scope', 'relationship', 'sort', 'direction', 'before', 'after', 'per_page'], listOf: DependabotAlert::class)]
+    case repo_dependabot_alerts = '/repos/{owner}/{repo}/dependabot/alerts';
+
+    /**
+     * Get a Dependabot alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoDependabotAlert', pathParams: ['owner', 'repo', 'alert_number'], response: DependabotAlert::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoDependabotAlert', pathParams: ['owner', 'repo', 'alert_number'], response: DependabotAlert::class)]
+    case repo_dependabot_alert = '/repos/{owner}/{repo}/dependabot/alerts/{alert_number}';
+
+    /**
+     * List repository secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDependabotSecrets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoDependabotSecretsResponse::class)]
+    case repo_dependabot_secrets = '/repos/{owner}/{repo}/dependabot/secrets';
+
+    /**
+     * Get a repository public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDependabotSecretPublicKeys', pathParams: ['owner', 'repo'], response: DependabotPublicKey::class)]
+    case repo_dependabot_secret_public_key = '/repos/{owner}/{repo}/dependabot/secrets/public-key';
+
+    /**
+     * Get a repository secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoDependabotSecret', pathParams: ['owner', 'repo', 'secret_name'], response: DependabotSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoDependabotSecret', pathParams: ['owner', 'repo', 'secret_name'], request: UpdateRepoDependabotSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoDependabotSecret', pathParams: ['owner', 'repo', 'secret_name'])]
+    case repo_dependabot_secret = '/repos/{owner}/{repo}/dependabot/secrets/{secret_name}';
+
+    /**
+     * Get a diff of the dependencies between commits
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoDependencyGraphCompare', pathParams: ['owner', 'repo', 'basehead'], queryParams: ['name'], listOf: GetRepoDependencyGraphCompareResponseItem::class)]
+    case repo_dependency_graph_compare = '/repos/{owner}/{repo}/dependency-graph/compare/{basehead}';
+
+    /**
+     * Export a software bill of materials (SBOM) for a repository.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDependencyGraphSboms', pathParams: ['owner', 'repo'], response: DependencyGraphSpdxSbom::class)]
+    case repo_dependency_graph_sbom = '/repos/{owner}/{repo}/dependency-graph/sbom';
+
+    /**
+     * Fetch a software bill of materials (SBOM) for a repository.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoDependencyGraphSbomFetchReport', pathParams: ['owner', 'repo', 'sbom_uuid'])]
+    case repo_dependency_graph_sbom_fetch_report = '/repos/{owner}/{repo}/dependency-graph/sbom/fetch-report/{sbom_uuid}';
+
+    /**
+     * Request generation of a software bill of materials (SBOM) for a
+     * repository.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDependencyGraphSbomGenerateReports', pathParams: ['owner', 'repo'], response: ListRepoDependencyGraphSbomGenerateReportsResponse::class)]
+    case repo_dependency_graph_sbom_generate_report = '/repos/{owner}/{repo}/dependency-graph/sbom/generate-report';
+
+    /**
+     * Create a snapshot of dependencies for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoDependencyGraphSnapshot', pathParams: ['owner', 'repo'], request: Snapshot::class, response: CreateRepoDependencyGraphSnapshotResponse::class)]
+    case repo_dependency_graph_snapshots = '/repos/{owner}/{repo}/dependency-graph/snapshots';
+
+    /**
+     * List deployments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDeployments', pathParams: ['owner', 'repo'], queryParams: ['sha', 'ref', 'task', 'environment', 'per_page', 'page'], listOf: Deployment::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoDeployment', pathParams: ['owner', 'repo'], request: CreateRepoDeploymentRequest::class, response: Deployment::class)]
+    case repo_deployments = '/repos/{owner}/{repo}/deployments';
+
+    /**
+     * Get a deployment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoDeployment', pathParams: ['owner', 'repo', 'deployment_id'], response: Deployment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoDeployment', pathParams: ['owner', 'repo', 'deployment_id'])]
+    case repo_deployment = '/repos/{owner}/{repo}/deployments/{deployment_id}';
+
+    /**
+     * List deployment statuses
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoDeploymentStatuses', pathParams: ['owner', 'repo', 'deployment_id'], queryParams: ['per_page', 'page'], listOf: DeploymentStatus::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoDeploymentStatus', pathParams: ['owner', 'repo', 'deployment_id'], request: CreateRepoDeploymentStatusRequest::class, response: DeploymentStatus::class)]
+    case repo_deployment_statuses = '/repos/{owner}/{repo}/deployments/{deployment_id}/statuses';
+
+    /**
+     * Get a deployment status
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoDeploymentStatus', pathParams: ['owner', 'repo', 'deployment_id', 'status_id'], response: DeploymentStatus::class)]
+    case repo_deployment_status = '/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}';
+
+    /**
+     * Create a repository dispatch event
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoDispatch', pathParams: ['owner', 'repo'], request: CreateRepoDispatchRequest::class)]
+    case repo_dispatches = '/repos/{owner}/{repo}/dispatches';
+
+    /**
+     * List environments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironments', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], response: ListRepoEnvironmentsResponse::class)]
+    case repo_environments = '/repos/{owner}/{repo}/environments';
+
+    /**
+     * Get an environment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoEnvironment', pathParams: ['owner', 'repo', 'environment_name'], response: Environment::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoEnvironment', pathParams: ['owner', 'repo', 'environment_name'], request: UpdateRepoEnvironmentRequest::class, response: Environment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoEnvironment', pathParams: ['owner', 'repo', 'environment_name'])]
+    case repo_environment = '/repos/{owner}/{repo}/environments/{environment_name}';
+
+    /**
+     * List deployment branch policies
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironmentDeploymentBranchPolicies', pathParams: ['owner', 'repo', 'environment_name'], queryParams: ['per_page', 'page'], response: ListRepoEnvironmentDeploymentBranchPoliciesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoEnvironmentDeploymentBranchPolicy', pathParams: ['owner', 'repo', 'environment_name'], request: DeploymentBranchPolicyNamePatternWithType::class, response: DeploymentBranchPolicy::class)]
+    case repo_environment_deployment_branch_policies = '/repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies';
+
+    /**
+     * Get a deployment branch policy
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoEnvironmentDeploymentBranchPolicy', pathParams: ['owner', 'repo', 'environment_name', 'branch_policy_id'], response: DeploymentBranchPolicy::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoEnvironmentDeploymentBranchPolicy', pathParams: ['owner', 'repo', 'environment_name', 'branch_policy_id'], request: DeploymentBranchPolicyNamePattern::class, response: DeploymentBranchPolicy::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoEnvironmentDeploymentBranchPolicy', pathParams: ['owner', 'repo', 'environment_name', 'branch_policy_id'])]
+    case repo_environment_deployment_branch_policy = '/repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id}';
+
+    /**
+     * Get all deployment protection rules for an environment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironmentDeploymentProtectionRules', pathParams: ['owner', 'repo', 'environment_name'], response: ListRepoEnvironmentDeploymentProtectionRulesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoEnvironmentDeploymentProtectionRule', pathParams: ['owner', 'repo', 'environment_name'], request: CreateRepoEnvironmentDeploymentProtectionRuleRequest::class, response: DeploymentProtectionRule::class)]
+    case repo_environment_deployment_protection_rules = '/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules';
+
+    /**
+     * List custom deployment rule integrations available for an environment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironmentDeploymentProtectionRuleApps', pathParams: ['owner', 'repo', 'environment_name'], queryParams: ['page', 'per_page'], response: ListRepoEnvironmentDeploymentProtectionRuleAppsResponse::class)]
+    case repo_environment_deployment_protection_rule_apps = '/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/apps';
+
+    /**
+     * Get a custom deployment protection rule
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoEnvironmentDeploymentProtectionRule', pathParams: ['owner', 'repo', 'environment_name', 'protection_rule_id'], response: DeploymentProtectionRule::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoEnvironmentDeploymentProtectionRule', pathParams: ['owner', 'repo', 'environment_name', 'protection_rule_id'])]
+    case repo_environment_deployment_protection_rule = '/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id}';
+
+    /**
+     * List environment secrets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironmentSecrets', pathParams: ['owner', 'repo', 'environment_name'], queryParams: ['per_page', 'page'], response: ListRepoEnvironmentSecretsResponse::class)]
+    case repo_environment_secrets = '/repos/{owner}/{repo}/environments/{environment_name}/secrets';
+
+    /**
+     * Get an environment public key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironmentSecretPublicKeys', pathParams: ['owner', 'repo', 'environment_name'], response: ActionsPublicKey::class)]
+    case repo_environment_secret_public_key = '/repos/{owner}/{repo}/environments/{environment_name}/secrets/public-key';
+
+    /**
+     * Get an environment secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoEnvironmentSecret', pathParams: ['owner', 'repo', 'environment_name', 'secret_name'], response: ActionsSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoEnvironmentSecret', pathParams: ['owner', 'repo', 'environment_name', 'secret_name'], request: UpdateRepoEnvironmentSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoEnvironmentSecret', pathParams: ['owner', 'repo', 'environment_name', 'secret_name'])]
+    case repo_environment_secret = '/repos/{owner}/{repo}/environments/{environment_name}/secrets/{secret_name}';
+
+    /**
+     * List environment variables
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEnvironmentVariables', pathParams: ['owner', 'repo', 'environment_name'], queryParams: ['per_page', 'page'], response: ListRepoEnvironmentVariablesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoEnvironmentVariable', pathParams: ['owner', 'repo', 'environment_name'], request: CreateRepoEnvironmentVariableRequest::class)]
+    case repo_environment_variables = '/repos/{owner}/{repo}/environments/{environment_name}/variables';
+
+    /**
+     * Get an environment variable
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoEnvironmentVariable', pathParams: ['owner', 'repo', 'environment_name', 'name'], response: ActionsVariable::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoEnvironmentVariable', pathParams: ['owner', 'repo', 'environment_name', 'name'], request: UpdateRepoEnvironmentVariableRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoEnvironmentVariable', pathParams: ['owner', 'repo', 'environment_name', 'name'])]
+    case repo_environment_variable = '/repos/{owner}/{repo}/environments/{environment_name}/variables/{name}';
+
+    /**
+     * List repository events
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoEvents', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case repo_events = '/repos/{owner}/{repo}/events';
+
+    /**
+     * List forks
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoForks', pathParams: ['owner', 'repo'], queryParams: ['sort', 'per_page', 'page'], listOf: MinimalRepository::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoFork', pathParams: ['owner', 'repo'], request: CreateRepoForkRequest::class, response: FullRepository::class)]
+    case repo_forks = '/repos/{owner}/{repo}/forks';
+
+    /**
+     * Create a blob
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoGitBlob', pathParams: ['owner', 'repo'], request: CreateRepoGitBlobRequest::class, response: ShortBlob::class)]
+    case repo_git_blobs = '/repos/{owner}/{repo}/git/blobs';
+
+    /**
+     * Get a blob
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoGitBlob', pathParams: ['owner', 'repo', 'file_sha'], response: Blob::class)]
+    case repo_git_blob = '/repos/{owner}/{repo}/git/blobs/{file_sha}';
+
+    /**
+     * Create a commit
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoGitCommit', pathParams: ['owner', 'repo'], request: CreateRepoGitCommitRequest::class, response: GitCommit::class)]
+    case repo_git_commits = '/repos/{owner}/{repo}/git/commits';
+
+    /**
+     * Get a commit object
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoGitCommit', pathParams: ['owner', 'repo', 'commit_sha'], response: GitCommit::class)]
+    case repo_git_commit = '/repos/{owner}/{repo}/git/commits/{commit_sha}';
+
+    /**
+     * List matching references
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoGitMatchingRef', pathParams: ['owner', 'repo', 'ref'], listOf: GitRef::class)]
+    case repo_git_matching_ref = '/repos/{owner}/{repo}/git/matching-refs/{ref}';
+
+    /**
+     * Get a reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoGitRef', pathParams: ['owner', 'repo', 'ref'], response: GitRef::class)]
+    case repo_git_ref = '/repos/{owner}/{repo}/git/ref/{ref}';
+
+    /**
+     * Create a reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoGitRef', pathParams: ['owner', 'repo'], request: CreateRepoGitRefRequest::class, response: GitRef::class)]
+    case repo_git_refs = '/repos/{owner}/{repo}/git/refs';
+
+    /**
+     * Update a reference
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoGitRef', pathParams: ['owner', 'repo', 'ref'], request: UpdateRepoGitRefRequest::class, response: GitRef::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoGitRef', pathParams: ['owner', 'repo', 'ref'])]
+    case repo_git_ref2 = '/repos/{owner}/{repo}/git/refs/{ref}';
+
+    /**
+     * Create a tag object
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoGitTag', pathParams: ['owner', 'repo'], request: CreateRepoGitTagRequest::class, response: GitTag::class)]
+    case repo_git_tags = '/repos/{owner}/{repo}/git/tags';
+
+    /**
+     * Get a tag
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoGitTag', pathParams: ['owner', 'repo', 'tag_sha'], response: GitTag::class)]
+    case repo_git_tag = '/repos/{owner}/{repo}/git/tags/{tag_sha}';
+
+    /**
+     * Create a tree
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoGitTree', pathParams: ['owner', 'repo'], request: CreateRepoGitTreeRequest::class, response: GitTree::class)]
+    case repo_git_trees = '/repos/{owner}/{repo}/git/trees';
+
+    /**
+     * Get a tree
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoGitTree', pathParams: ['owner', 'repo', 'tree_sha'], queryParams: ['recursive'], response: GitTree::class)]
+    case repo_git_tree = '/repos/{owner}/{repo}/git/trees/{tree_sha}';
+
+    /**
+     * Get the hash algorithm for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoHashAlgorithms', pathParams: ['owner', 'repo'], response: RepositoryHashAlgorithm::class)]
+    case repo_hash_algorithm = '/repos/{owner}/{repo}/hash-algorithm';
+
+    /**
+     * List repository webhooks
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoHooks', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Hook::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoHook', pathParams: ['owner', 'repo'], request: CreateRepoHookRequest::class, response: Hook::class)]
+    case repo_hooks = '/repos/{owner}/{repo}/hooks';
+
+    /**
+     * Get a repository webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoHook', pathParams: ['owner', 'repo', 'hook_id'], response: Hook::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoHook', pathParams: ['owner', 'repo', 'hook_id'], request: UpdateRepoHookRequest::class, response: Hook::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoHook', pathParams: ['owner', 'repo', 'hook_id'])]
+    case repo_hook = '/repos/{owner}/{repo}/hooks/{hook_id}';
+
+    /**
+     * Get a webhook configuration for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoHookConfigs', pathParams: ['owner', 'repo', 'hook_id'], response: WebhookConfig::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoHookConfig', pathParams: ['owner', 'repo', 'hook_id'], request: UpdateRepoHookConfigRequest::class, response: WebhookConfig::class)]
+    case repo_hook_config = '/repos/{owner}/{repo}/hooks/{hook_id}/config';
+
+    /**
+     * List deliveries for a repository webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoHookDeliveries', pathParams: ['owner', 'repo', 'hook_id'], queryParams: ['per_page', 'cursor', 'status'], listOf: HookDeliveryItem::class)]
+    case repo_hook_deliveries = '/repos/{owner}/{repo}/hooks/{hook_id}/deliveries';
+
+    /**
+     * Get a delivery for a repository webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoHookDelivery', pathParams: ['owner', 'repo', 'hook_id', 'delivery_id'], response: HookDelivery::class)]
+    case repo_hook_delivery = '/repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}';
+
+    /**
+     * Redeliver a delivery for a repository webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoHookDeliveryAttempt', pathParams: ['owner', 'repo', 'hook_id', 'delivery_id'])]
+    case repo_hook_delivery_attempts = '/repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}/attempts';
+
+    /**
+     * Ping a repository webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoHookPing', pathParams: ['owner', 'repo', 'hook_id'])]
+    case repo_hook_pings = '/repos/{owner}/{repo}/hooks/{hook_id}/pings';
+
+    /**
+     * Test the push repository webhook
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoHookTest', pathParams: ['owner', 'repo', 'hook_id'])]
+    case repo_hook_tests = '/repos/{owner}/{repo}/hooks/{hook_id}/tests';
+
+    /**
+     * Check if immutable releases are enabled for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoImmutableReleases', pathParams: ['owner', 'repo'], response: CheckImmutableReleases::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoImmutableRelease', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoImmutableRelease', pathParams: ['owner', 'repo'])]
+    case repo_immutable_releases = '/repos/{owner}/{repo}/immutable-releases';
+
+    /**
+     * Get an import status
+     * @deprecated listRepoImports — the API marks this operation deprecated.
+     * @deprecated updateRepoImport — the API marks this operation deprecated.
+     * @deprecated patchRepoImport — the API marks this operation deprecated.
+     * @deprecated deleteRepoImport — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoImports', pathParams: ['owner', 'repo'], response: Import::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoImport', pathParams: ['owner', 'repo'], request: UpdateRepoImportRequest::class, response: Import::class)]
+    #[AdminApi(HttpMethod::PATCH, 'patchRepoImport', pathParams: ['owner', 'repo'], request: PatchRepoImportRequest::class, response: Import::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoImport', pathParams: ['owner', 'repo'])]
+    case repo_import = '/repos/{owner}/{repo}/import';
+
+    /**
+     * Get commit authors
+     * @deprecated listRepoImportAuthors — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoImportAuthors', pathParams: ['owner', 'repo'], queryParams: ['since'], listOf: PorterAuthor::class)]
+    case repo_import_authors = '/repos/{owner}/{repo}/import/authors';
+
+    /**
+     * Map a commit author
+     * @deprecated updateRepoImportAuthor — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoImportAuthor', pathParams: ['owner', 'repo', 'author_id'], request: UpdateRepoImportAuthorRequest::class, response: PorterAuthor::class)]
+    case repo_import_author = '/repos/{owner}/{repo}/import/authors/{author_id}';
+
+    /**
+     * Get large files
+     * @deprecated listRepoImportLargeFiles — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoImportLargeFiles', pathParams: ['owner', 'repo'], listOf: PorterLargeFile::class)]
+    case repo_import_large_files = '/repos/{owner}/{repo}/import/large_files';
+
+    /**
+     * Update Git LFS preference
+     * @deprecated updateRepoImportLf — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoImportLf', pathParams: ['owner', 'repo'], request: UpdateRepoImportLfRequest::class, response: Import::class)]
+    case repo_import_lfs = '/repos/{owner}/{repo}/import/lfs';
+
+    /**
+     * Get a repository installation for the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoInstallations', pathParams: ['owner', 'repo'], response: Installation::class)]
+    case repo_installation = '/repos/{owner}/{repo}/installation';
+
+    /**
+     * Get interaction restrictions for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoInteractionLimits', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoInteractionLimit', pathParams: ['owner', 'repo'], request: InteractionLimit::class, response: InteractionLimitResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoInteractionLimit', pathParams: ['owner', 'repo'])]
+    case repo_interaction_limits = '/repos/{owner}/{repo}/interaction-limits';
+
+    /**
+     * Get pull request creation cap bypass list for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoInteractionLimitPullBypassLists', pathParams: ['owner', 'repo'], listOf: SimpleUser::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoInteractionLimitPullBypassList', pathParams: ['owner', 'repo'], request: InteractionLimitPullRequestBypassList::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoInteractionLimitPullBypassList', pathParams: ['owner', 'repo'], request: InteractionLimitPullRequestBypassList::class)]
+    case repo_interaction_limit_pull_bypass_list = '/repos/{owner}/{repo}/interaction-limits/pulls/bypass-list';
+
+    /**
+     * Get pull request creation cap for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoInteractionLimitPullCreationCaps', pathParams: ['owner', 'repo'], response: ListRepoInteractionLimitPullCreationCapsResponse::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoInteractionLimitPullCreationCap', pathParams: ['owner', 'repo'], request: UpdateRepoInteractionLimitPullCreationCapRequest::class, response: UpdateRepoInteractionLimitPullCreationCapResponse::class)]
+    case repo_interaction_limit_pull_creation_cap = '/repos/{owner}/{repo}/interaction-limits/pulls/creation-cap';
+
+    /**
+     * List repository invitations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoInvitations', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: RepositoryInvitation::class)]
+    case repo_invitations = '/repos/{owner}/{repo}/invitations';
+
+    /**
+     * Update a repository invitation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoInvitation', pathParams: ['owner', 'repo', 'invitation_id'], request: UpdateRepoInvitationRequest::class, response: RepositoryInvitation::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoInvitation', pathParams: ['owner', 'repo', 'invitation_id'])]
+    case repo_invitation = '/repos/{owner}/{repo}/invitations/{invitation_id}';
+
+    /**
+     * List issue types for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueTypes', pathParams: ['owner', 'repo'], listOf: IssueType::class)]
+    case repo_issue_types = '/repos/{owner}/{repo}/issue-types';
+
+    /**
+     * List repository issues
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssues', pathParams: ['owner', 'repo'], queryParams: ['milestone', 'state', 'assignee', 'type', 'creator', 'mentioned', 'issue_field_values', 'labels', 'sort', 'direction', 'since', 'per_page', 'page'], listOf: Issue::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssue', pathParams: ['owner', 'repo'], request: CreateRepoIssueRequest::class, response: Issue::class)]
+    case repo_issues = '/repos/{owner}/{repo}/issues';
+
+    /**
+     * List issue comments for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueComments', pathParams: ['owner', 'repo'], queryParams: ['sort', 'direction', 'since', 'per_page', 'page'], listOf: IssueComment::class)]
+    case repo_issue_comments = '/repos/{owner}/{repo}/issues/comments';
+
+    /**
+     * Get an issue comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoIssueComment', pathParams: ['owner', 'repo', 'comment_id'], response: IssueComment::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoIssueComment', pathParams: ['owner', 'repo', 'comment_id'], request: UpdateRepoIssueCommentRequest::class, response: IssueComment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueComment', pathParams: ['owner', 'repo', 'comment_id'])]
+    case repo_issue_comment = '/repos/{owner}/{repo}/issues/comments/{comment_id}';
+
+    /**
+     * Pin an issue comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoIssueCommentPin', pathParams: ['owner', 'repo', 'comment_id'], response: IssueComment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueCommentPin', pathParams: ['owner', 'repo', 'comment_id'])]
+    case repo_issue_comment_pin = '/repos/{owner}/{repo}/issues/comments/{comment_id}/pin';
+
+    /**
+     * List reactions for an issue comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueCommentReactions', pathParams: ['owner', 'repo', 'comment_id'], queryParams: ['content', 'per_page', 'page'], listOf: Reaction::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueCommentReaction', pathParams: ['owner', 'repo', 'comment_id'], request: CreateRepoIssueCommentReactionRequest::class, response: Reaction::class)]
+    case repo_issue_comment_reactions = '/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions';
+
+    /**
+     * Delete an issue comment reaction
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueCommentReaction', pathParams: ['owner', 'repo', 'comment_id', 'reaction_id'])]
+    case repo_issue_comment_reaction = '/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}';
+
+    /**
+     * List issue events for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueEvents', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: IssueEvent::class)]
+    case repo_issue_events = '/repos/{owner}/{repo}/issues/events';
+
+    /**
+     * Get an issue event
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoIssueEvent', pathParams: ['owner', 'repo', 'event_id'], response: IssueEvent::class)]
+    case repo_issue_event = '/repos/{owner}/{repo}/issues/events/{event_id}';
+
+    /**
+     * Get an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoIssue', pathParams: ['owner', 'repo', 'issue_number'], response: Issue::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoIssue', pathParams: ['owner', 'repo', 'issue_number'], request: UpdateRepoIssueRequest::class, response: UpdateRepoIssueResponse::class)]
+    case repo_issue = '/repos/{owner}/{repo}/issues/{issue_number}';
+
+    /**
+     * Add assignees to an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueAssignee', pathParams: ['owner', 'repo', 'issue_number'], request: CreateRepoIssueAssigneeRequest::class, response: Issue::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueAssignee', pathParams: ['owner', 'repo', 'issue_number'], request: DeleteRepoIssueAssigneeRequest::class, response: Issue::class)]
+    case repo_issue_assignees = '/repos/{owner}/{repo}/issues/{issue_number}/assignees';
+
+    /**
+     * Check if a user can be assigned to a issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoIssueAssignee', pathParams: ['owner', 'repo', 'issue_number', 'assignee'])]
+    case repo_issue_assignee = '/repos/{owner}/{repo}/issues/{issue_number}/assignees/{assignee}';
+
+    /**
+     * List issue comments
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueComments2', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['since', 'per_page', 'page'], listOf: IssueComment::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueComment', pathParams: ['owner', 'repo', 'issue_number'], request: CreateRepoIssueCommentRequest::class, response: IssueComment::class)]
+    case repo_issue_comments2 = '/repos/{owner}/{repo}/issues/{issue_number}/comments';
+
+    /**
+     * List dependencies an issue is blocked by
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueDependencyBlockedBies', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page'], listOf: Issue::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueDependencyBlockedBy', pathParams: ['owner', 'repo', 'issue_number'], request: CreateRepoIssueDependencyBlockedByRequest::class, response: Issue::class)]
+    case repo_issue_dependency_blocked_by = '/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by';
+
+    /**
+     * Remove dependency an issue is blocked by
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueDependencyBlockedBy', pathParams: ['owner', 'repo', 'issue_number', 'issue_id'], response: Issue::class)]
+    case repo_issue_dependency_blocked_by2 = '/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by/{issue_id}';
+
+    /**
+     * List dependencies an issue is blocking
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueDependencyBlockings', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page'], listOf: Issue::class)]
+    case repo_issue_dependency_blocking = '/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking';
+
+    /**
+     * List issue events
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueEvents2', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page'])]
+    case repo_issue_events2 = '/repos/{owner}/{repo}/issues/{issue_number}/events';
+
+    /**
+     * List issue field values for an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueIssueFieldValues', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page'], listOf: IssueFieldValue::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueIssueFieldValue', pathParams: ['owner', 'repo', 'issue_number'], request: CreateRepoIssueIssueFieldValueRequest::class, listOf: IssueFieldValue::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoIssueIssueFieldValue', pathParams: ['owner', 'repo', 'issue_number'], request: UpdateRepoIssueIssueFieldValueRequest::class, listOf: IssueFieldValue::class)]
+    case repo_issue_issue_field_values = '/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values';
+
+    /**
+     * Delete an issue field value from an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueIssueFieldValue', pathParams: ['owner', 'repo', 'issue_number', 'issue_field_id'])]
+    case repo_issue_issue_field_value = '/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values/{issue_field_id}';
+
+    /**
+     * List labels for an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueLabels', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page'], listOf: Label::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueLabel', pathParams: ['owner', 'repo', 'issue_number'], listOf: Label::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoIssueLabel', pathParams: ['owner', 'repo', 'issue_number'], listOf: Label::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueLabel', pathParams: ['owner', 'repo', 'issue_number'])]
+    case repo_issue_labels = '/repos/{owner}/{repo}/issues/{issue_number}/labels';
+
+    /**
+     * Remove a label from an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueLabel2', pathParams: ['owner', 'repo', 'issue_number', 'name'], listOf: Label::class)]
+    case repo_issue_label = '/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}';
+
+    /**
+     * Lock an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoIssueLock', pathParams: ['owner', 'repo', 'issue_number'], request: UpdateRepoIssueLockRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueLock', pathParams: ['owner', 'repo', 'issue_number'])]
+    case repo_issue_lock = '/repos/{owner}/{repo}/issues/{issue_number}/lock';
+
+    /**
+     * Get parent issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueParents', pathParams: ['owner', 'repo', 'issue_number'], response: Issue::class)]
+    case repo_issue_parent = '/repos/{owner}/{repo}/issues/{issue_number}/parent';
+
+    /**
+     * List reactions for an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueReactions', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['content', 'per_page', 'page'], listOf: Reaction::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueReaction', pathParams: ['owner', 'repo', 'issue_number'], request: CreateRepoIssueReactionRequest::class, response: Reaction::class)]
+    case repo_issue_reactions = '/repos/{owner}/{repo}/issues/{issue_number}/reactions';
+
+    /**
+     * Delete an issue reaction
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueReaction', pathParams: ['owner', 'repo', 'issue_number', 'reaction_id'])]
+    case repo_issue_reaction = '/repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}';
+
+    /**
+     * Remove sub-issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoIssueSubIssue', pathParams: ['owner', 'repo', 'issue_number'], request: DeleteRepoIssueSubIssueRequest::class, response: Issue::class)]
+    case repo_issue_sub_issue = '/repos/{owner}/{repo}/issues/{issue_number}/sub_issue';
+
+    /**
+     * List sub-issues
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueSubIssues', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page'], listOf: Issue::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueSubIssue', pathParams: ['owner', 'repo', 'issue_number'], request: CreateRepoIssueSubIssueRequest::class, response: Issue::class)]
+    case repo_issue_sub_issues = '/repos/{owner}/{repo}/issues/{issue_number}/sub_issues';
+
+    /**
+     * Reprioritize sub-issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoIssueSubIssuePriority', pathParams: ['owner', 'repo', 'issue_number'], request: UpdateRepoIssueSubIssuePriorityRequest::class, response: Issue::class)]
+    case repo_issue_sub_issue_priority = '/repos/{owner}/{repo}/issues/{issue_number}/sub_issues/priority';
+
+    /**
+     * List issue suggestions
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueSuggestions', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['state', 'action', 'per_page', 'page'], listOf: IssueSuggestion::class)]
+    case repo_issue_suggestions = '/repos/{owner}/{repo}/issues/{issue_number}/suggestions';
+
+    /**
+     * Approve an issue suggestion
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueSuggestionApprove', pathParams: ['owner', 'repo', 'issue_number', 'suggestion_id'], response: IssueSuggestion::class)]
+    case repo_issue_suggestion_approve = '/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve';
+
+    /**
+     * Dismiss an issue suggestion
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoIssueSuggestionDismiss', pathParams: ['owner', 'repo', 'issue_number', 'suggestion_id'], response: IssueSuggestion::class)]
+    case repo_issue_suggestion_dismiss = '/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/dismiss';
+
+    /**
+     * List timeline events for an issue
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoIssueTimelines', pathParams: ['owner', 'repo', 'issue_number'], queryParams: ['per_page', 'page', 'exclude'])]
+    case repo_issue_timeline = '/repos/{owner}/{repo}/issues/{issue_number}/timeline';
+
+    /**
+     * List deploy keys
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoKeys', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: DeployKey::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoKey', pathParams: ['owner', 'repo'], request: CreateRepoKeyRequest::class, response: DeployKey::class)]
+    case repo_keys = '/repos/{owner}/{repo}/keys';
+
+    /**
+     * Get a deploy key
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoKey', pathParams: ['owner', 'repo', 'key_id'], response: DeployKey::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoKey', pathParams: ['owner', 'repo', 'key_id'])]
+    case repo_key = '/repos/{owner}/{repo}/keys/{key_id}';
+
+    /**
+     * List labels for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoLabels', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Label::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoLabel', pathParams: ['owner', 'repo'], request: CreateRepoLabelRequest::class, response: Label::class)]
+    case repo_labels = '/repos/{owner}/{repo}/labels';
+
+    /**
+     * Get a label
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoLabel', pathParams: ['owner', 'repo', 'name'], response: Label::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoLabel', pathParams: ['owner', 'repo', 'name'], request: UpdateRepoLabelRequest::class, response: Label::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoLabel', pathParams: ['owner', 'repo', 'name'])]
+    case repo_label = '/repos/{owner}/{repo}/labels/{name}';
+
+    /**
+     * List repository languages
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoLanguages', pathParams: ['owner', 'repo'])]
+    case repo_languages = '/repos/{owner}/{repo}/languages';
+
+    /**
+     * Get the license for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoLicenses', pathParams: ['owner', 'repo'], queryParams: ['ref'], response: LicenseContent::class)]
+    case repo_license = '/repos/{owner}/{repo}/license';
+
+    /**
+     * Sync a fork branch with the upstream repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoMergeUpstream', pathParams: ['owner', 'repo'], request: CreateRepoMergeUpstreamRequest::class, response: MergedUpstream::class)]
+    case repo_merge_upstream = '/repos/{owner}/{repo}/merge-upstream';
+
+    /**
+     * Merge a branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoMerge', pathParams: ['owner', 'repo'], request: CreateRepoMergeRequest::class, response: Commit::class)]
+    case repo_merges = '/repos/{owner}/{repo}/merges';
+
+    /**
+     * List milestones
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoMilestones', pathParams: ['owner', 'repo'], queryParams: ['state', 'sort', 'direction', 'per_page', 'page'], listOf: Milestone::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoMilestone', pathParams: ['owner', 'repo'], request: CreateRepoMilestoneRequest::class, response: Milestone::class)]
+    case repo_milestones = '/repos/{owner}/{repo}/milestones';
+
+    /**
+     * Get a milestone
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoMilestone', pathParams: ['owner', 'repo', 'milestone_number'], response: Milestone::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoMilestone', pathParams: ['owner', 'repo', 'milestone_number'], request: UpdateRepoMilestoneRequest::class, response: Milestone::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoMilestone', pathParams: ['owner', 'repo', 'milestone_number'])]
+    case repo_milestone = '/repos/{owner}/{repo}/milestones/{milestone_number}';
+
+    /**
+     * List labels for issues in a milestone
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoMilestoneLabels', pathParams: ['owner', 'repo', 'milestone_number'], queryParams: ['per_page', 'page'], listOf: Label::class)]
+    case repo_milestone_labels = '/repos/{owner}/{repo}/milestones/{milestone_number}/labels';
+
+    /**
+     * List repository notifications for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoNotifications', pathParams: ['owner', 'repo'], queryParams: ['all', 'participating', 'since', 'before', 'per_page', 'page'], listOf: Thread::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoNotification', pathParams: ['owner', 'repo'], request: UpdateRepoNotificationRequest::class, response: UpdateRepoNotificationResponse::class)]
+    case repo_notifications = '/repos/{owner}/{repo}/notifications';
+
+    /**
+     * Get a GitHub Pages site
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPages', pathParams: ['owner', 'repo'], response: Page::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPage', pathParams: ['owner', 'repo'], response: Page::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPage', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoPage', pathParams: ['owner', 'repo'])]
+    case repo_pages = '/repos/{owner}/{repo}/pages';
+
+    /**
+     * List GitHub Pages builds
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPageBuilds', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: PageBuild::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPageBuild', pathParams: ['owner', 'repo'], response: PageBuildStatus::class)]
+    case repo_page_builds = '/repos/{owner}/{repo}/pages/builds';
+
+    /**
+     * Get latest Pages build
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPageBuildLatests', pathParams: ['owner', 'repo'], response: PageBuild::class)]
+    case repo_page_build_latest = '/repos/{owner}/{repo}/pages/builds/latest';
+
+    /**
+     * Get GitHub Pages build
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoPageBuild', pathParams: ['owner', 'repo', 'build_id'], response: PageBuild::class)]
+    case repo_page_build = '/repos/{owner}/{repo}/pages/builds/{build_id}';
+
+    /**
+     * Create a GitHub Pages deployment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoPageDeployment', pathParams: ['owner', 'repo'], request: CreateRepoPageDeploymentRequest::class, response: PageDeployment::class)]
+    case repo_page_deployments = '/repos/{owner}/{repo}/pages/deployments';
+
+    /**
+     * Get the status of a GitHub Pages deployment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoPageDeployment', pathParams: ['owner', 'repo', 'pages_deployment_id'], response: PagesDeploymentStatus::class)]
+    case repo_page_deployment = '/repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}';
+
+    /**
+     * Cancel a GitHub Pages deployment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoPageDeploymentCancel', pathParams: ['owner', 'repo', 'pages_deployment_id'])]
+    case repo_page_deployment_cancel = '/repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}/cancel';
+
+    /**
+     * Get a DNS health check for GitHub Pages
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPageHealths', pathParams: ['owner', 'repo'], response: PagesHealthCheck::class)]
+    case repo_page_health = '/repos/{owner}/{repo}/pages/health';
+
+    /**
+     * Check if private vulnerability reporting is enabled for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPrivateVulnerabilityReportings', pathParams: ['owner', 'repo'], response: ListRepoPrivateVulnerabilityReportingsResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPrivateVulnerabilityReporting', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoPrivateVulnerabilityReporting', pathParams: ['owner', 'repo'])]
+    case repo_private_vulnerability_reporting = '/repos/{owner}/{repo}/private-vulnerability-reporting';
+
+    /**
+     * Get all custom property values for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPropertyValues', pathParams: ['owner', 'repo'], listOf: CustomPropertyValue::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoPropertyValue', pathParams: ['owner', 'repo'], request: UpdateRepoPropertyValueRequest::class)]
+    case repo_property_values = '/repos/{owner}/{repo}/properties/values';
+
+    /**
+     * List pull requests
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPulls', pathParams: ['owner', 'repo'], queryParams: ['state', 'head', 'base', 'sort', 'direction', 'per_page', 'page'], listOf: PullRequestSimple::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPull', pathParams: ['owner', 'repo'], request: CreateRepoPullRequest::class, response: PullRequest::class)]
+    case repo_pulls = '/repos/{owner}/{repo}/pulls';
+
+    /**
+     * List review comments in a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullComments', pathParams: ['owner', 'repo'], queryParams: ['sort', 'direction', 'since', 'per_page', 'page'], listOf: PullRequestReviewComment::class)]
+    case repo_pull_comments = '/repos/{owner}/{repo}/pulls/comments';
+
+    /**
+     * Get a review comment for a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoPullComment', pathParams: ['owner', 'repo', 'comment_id'], response: PullRequestReviewComment::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoPullComment', pathParams: ['owner', 'repo', 'comment_id'], request: UpdateRepoPullCommentRequest::class, response: PullRequestReviewComment::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoPullComment', pathParams: ['owner', 'repo', 'comment_id'])]
+    case repo_pull_comment = '/repos/{owner}/{repo}/pulls/comments/{comment_id}';
+
+    /**
+     * List reactions for a pull request review comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullCommentReactions', pathParams: ['owner', 'repo', 'comment_id'], queryParams: ['content', 'per_page', 'page'], listOf: Reaction::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullCommentReaction', pathParams: ['owner', 'repo', 'comment_id'], request: CreateRepoPullCommentReactionRequest::class, response: Reaction::class)]
+    case repo_pull_comment_reactions = '/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions';
+
+    /**
+     * Delete a pull request comment reaction
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoPullCommentReaction', pathParams: ['owner', 'repo', 'comment_id', 'reaction_id'])]
+    case repo_pull_comment_reaction = '/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}';
+
+    /**
+     * Get a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoPull', pathParams: ['owner', 'repo', 'pull_number'], response: PullRequest::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoPull', pathParams: ['owner', 'repo', 'pull_number'], request: UpdateRepoPullRequest::class, response: PullRequest::class)]
+    case repo_pull = '/repos/{owner}/{repo}/pulls/{pull_number}';
+
+    /**
+     * Create a codespace from a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullCodespace', pathParams: ['owner', 'repo', 'pull_number'], request: CreateRepoPullCodespaceRequest::class, response: Codespace::class)]
+    case repo_pull_codespaces = '/repos/{owner}/{repo}/pulls/{pull_number}/codespaces';
+
+    /**
+     * List review comments on a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullComments2', pathParams: ['owner', 'repo', 'pull_number'], queryParams: ['sort', 'direction', 'since', 'per_page', 'page'], listOf: PullRequestReviewComment::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullComment', pathParams: ['owner', 'repo', 'pull_number'], request: CreateRepoPullCommentRequest::class, response: PullRequestReviewComment::class)]
+    case repo_pull_comments2 = '/repos/{owner}/{repo}/pulls/{pull_number}/comments';
+
+    /**
+     * Create a reply for a review comment
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullCommentReply', pathParams: ['owner', 'repo', 'pull_number', 'comment_id'], request: CreateRepoPullCommentReplyRequest::class, response: PullRequestReviewComment::class)]
+    case repo_pull_comment_replies = '/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies';
+
+    /**
+     * List commits on a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullCommits', pathParams: ['owner', 'repo', 'pull_number'], queryParams: ['per_page', 'page'], listOf: Commit::class)]
+    case repo_pull_commits = '/repos/{owner}/{repo}/pulls/{pull_number}/commits';
+
+    /**
+     * List pull requests files
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullFiles', pathParams: ['owner', 'repo', 'pull_number'], queryParams: ['per_page', 'page'], listOf: DiffEntry::class)]
+    case repo_pull_files = '/repos/{owner}/{repo}/pulls/{pull_number}/files';
+
+    /**
+     * Check if a pull request has been merged
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullMerges', pathParams: ['owner', 'repo', 'pull_number'])]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPullMerge', pathParams: ['owner', 'repo', 'pull_number'], request: UpdateRepoPullMergeRequest::class, response: PullRequestMergeResult::class)]
+    case repo_pull_merge = '/repos/{owner}/{repo}/pulls/{pull_number}/merge';
+
+    /**
+     * Merge a pull request asynchronously
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPullMergeAsync', pathParams: ['owner', 'repo', 'pull_number'], request: UpdateRepoPullMergeAsyncRequest::class, response: PullRequestMergeAsyncResult::class)]
+    case repo_pull_merge_async = '/repos/{owner}/{repo}/pulls/{pull_number}/merge-async';
+
+    /**
+     * Get the result of an asynchronous merge
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoPullMergeAsync', pathParams: ['owner', 'repo', 'pull_number', 'uuid'], response: PullRequestMergeAsyncResult::class)]
+    case repo_pull_merge_async2 = '/repos/{owner}/{repo}/pulls/{pull_number}/merge-async/{uuid}';
+
+    /**
+     * Get all requested reviewers for a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullRequestedReviewers', pathParams: ['owner', 'repo', 'pull_number'], response: PullRequestReviewRequest::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullRequestedReviewer', pathParams: ['owner', 'repo', 'pull_number'], response: PullRequestSimple::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoPullRequestedReviewer', pathParams: ['owner', 'repo', 'pull_number'], request: DeleteRepoPullRequestedReviewerRequest::class, response: PullRequestSimple::class)]
+    case repo_pull_requested_reviewers = '/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers';
+
+    /**
+     * List reviews for a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullReviews', pathParams: ['owner', 'repo', 'pull_number'], queryParams: ['per_page', 'page'], listOf: PullRequestReview::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullReview', pathParams: ['owner', 'repo', 'pull_number'], request: CreateRepoPullReviewRequest::class, response: PullRequestReview::class)]
+    case repo_pull_reviews = '/repos/{owner}/{repo}/pulls/{pull_number}/reviews';
+
+    /**
+     * Get a review for a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoPullReview', pathParams: ['owner', 'repo', 'pull_number', 'review_id'], response: PullRequestReview::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPullReview', pathParams: ['owner', 'repo', 'pull_number', 'review_id'], request: UpdateRepoPullReviewRequest::class, response: PullRequestReview::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoPullReview', pathParams: ['owner', 'repo', 'pull_number', 'review_id'], response: PullRequestReview::class)]
+    case repo_pull_review = '/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}';
+
+    /**
+     * List comments for a pull request review
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoPullReviewComments', pathParams: ['owner', 'repo', 'pull_number', 'review_id'], queryParams: ['per_page', 'page'], listOf: ReviewComment::class)]
+    case repo_pull_review_comments = '/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments';
+
+    /**
+     * Dismiss a review for a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPullReviewDismissal', pathParams: ['owner', 'repo', 'pull_number', 'review_id'], request: UpdateRepoPullReviewDismissalRequest::class, response: PullRequestReview::class)]
+    case repo_pull_review_dismissals = '/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals';
+
+    /**
+     * Submit a review for a pull request
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoPullReviewEvent', pathParams: ['owner', 'repo', 'pull_number', 'review_id'], request: CreateRepoPullReviewEventRequest::class, response: PullRequestReview::class)]
+    case repo_pull_review_events = '/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events';
+
+    /**
+     * Update a pull request branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoPullUpdateBranch', pathParams: ['owner', 'repo', 'pull_number'], request: UpdateRepoPullUpdateBranchRequest::class, response: UpdateRepoPullUpdateBranchResponse::class)]
+    case repo_pull_update_branch = '/repos/{owner}/{repo}/pulls/{pull_number}/update-branch';
+
+    /**
+     * Get a repository README
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoReadmes', pathParams: ['owner', 'repo'], queryParams: ['ref'], response: ContentFile::class)]
+    case repo_readme = '/repos/{owner}/{repo}/readme';
+
+    /**
+     * Get a repository README for a directory
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoReadme', pathParams: ['owner', 'repo', 'dir'], queryParams: ['ref'], response: ContentFile::class)]
+    case repo_readme2 = '/repos/{owner}/{repo}/readme/{dir}';
+
+    /**
+     * List releases
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoReleases', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Release::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoRelease', pathParams: ['owner', 'repo'], request: CreateRepoReleaseRequest::class, response: Release::class)]
+    case repo_releases = '/repos/{owner}/{repo}/releases';
+
+    /**
+     * Get a release asset
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoReleaseAsset', pathParams: ['owner', 'repo', 'asset_id'], response: ReleaseAsset::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoReleaseAsset', pathParams: ['owner', 'repo', 'asset_id'], request: UpdateRepoReleaseAssetRequest::class, response: ReleaseAsset::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoReleaseAsset', pathParams: ['owner', 'repo', 'asset_id'])]
+    case repo_release_asset = '/repos/{owner}/{repo}/releases/assets/{asset_id}';
+
+    /**
+     * Generate release notes content for a release
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoReleaseGenerateNote', pathParams: ['owner', 'repo'], request: CreateRepoReleaseGenerateNoteRequest::class, response: ReleaseNotesContent::class)]
+    case repo_release_generate_notes = '/repos/{owner}/{repo}/releases/generate-notes';
+
+    /**
+     * Get the latest release
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoReleaseLatests', pathParams: ['owner', 'repo'], response: Release::class)]
+    case repo_release_latest = '/repos/{owner}/{repo}/releases/latest';
+
+    /**
+     * Get a release by tag name
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoReleaseTag', pathParams: ['owner', 'repo', 'tag'], response: Release::class)]
+    case repo_release_tag = '/repos/{owner}/{repo}/releases/tags/{tag}';
+
+    /**
+     * Get a release
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoRelease', pathParams: ['owner', 'repo', 'release_id'], response: Release::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoRelease', pathParams: ['owner', 'repo', 'release_id'], request: UpdateRepoReleaseRequest::class, response: Release::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoRelease', pathParams: ['owner', 'repo', 'release_id'])]
+    case repo_release = '/repos/{owner}/{repo}/releases/{release_id}';
+
+    /**
+     * List release assets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoReleaseAssets', pathParams: ['owner', 'repo', 'release_id'], queryParams: ['per_page', 'page'], listOf: ReleaseAsset::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoReleaseAsset', pathParams: ['owner', 'repo', 'release_id'], queryParams: ['name', 'label'], response: ReleaseAsset::class)]
+    case repo_release_assets = '/repos/{owner}/{repo}/releases/{release_id}/assets';
+
+    /**
+     * List reactions for a release
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoReleaseReactions', pathParams: ['owner', 'repo', 'release_id'], queryParams: ['content', 'per_page', 'page'], listOf: Reaction::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoReleaseReaction', pathParams: ['owner', 'repo', 'release_id'], request: CreateRepoReleaseReactionRequest::class, response: Reaction::class)]
+    case repo_release_reactions = '/repos/{owner}/{repo}/releases/{release_id}/reactions';
+
+    /**
+     * Delete a release reaction
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoReleaseReaction', pathParams: ['owner', 'repo', 'release_id', 'reaction_id'])]
+    case repo_release_reaction = '/repos/{owner}/{repo}/releases/{release_id}/reactions/{reaction_id}';
+
+    /**
+     * Get rules for a branch
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoRuleBranch', pathParams: ['owner', 'repo', 'branch'], queryParams: ['per_page', 'page'])]
+    case repo_rule_branch = '/repos/{owner}/{repo}/rules/branches/{branch}';
+
+    /**
+     * Get all repository rulesets
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoRulesets', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page', 'includes_parents', 'targets'], listOf: RepositoryRuleset::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoRuleset', pathParams: ['owner', 'repo'], request: CreateRepoRulesetRequest::class, response: RepositoryRuleset::class)]
+    case repo_rulesets = '/repos/{owner}/{repo}/rulesets';
+
+    /**
+     * List repository rule suites
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoRulesetRuleSuites', pathParams: ['owner', 'repo'], queryParams: ['ref', 'time_period', 'actor_name', 'rule_suite_result', 'evaluate_status', 'per_page', 'page'], listOf: ListRepoRulesetRuleSuitesResponseItem::class)]
+    case repo_ruleset_rule_suites = '/repos/{owner}/{repo}/rulesets/rule-suites';
+
+    /**
+     * Get a repository rule suite
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoRulesetRuleSuite', pathParams: ['owner', 'repo', 'rule_suite_id'], response: RuleSuite::class)]
+    case repo_ruleset_rule_suite = '/repos/{owner}/{repo}/rulesets/rule-suites/{rule_suite_id}';
+
+    /**
+     * Get a repository ruleset
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoRuleset', pathParams: ['owner', 'repo', 'ruleset_id'], queryParams: ['includes_parents'], response: RepositoryRuleset::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoRuleset', pathParams: ['owner', 'repo', 'ruleset_id'], request: UpdateRepoRulesetRequest::class, response: RepositoryRuleset::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoRuleset', pathParams: ['owner', 'repo', 'ruleset_id'])]
+    case repo_ruleset = '/repos/{owner}/{repo}/rulesets/{ruleset_id}';
+
+    /**
+     * Get repository ruleset history
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoRulesetHistories', pathParams: ['owner', 'repo', 'ruleset_id'], queryParams: ['per_page', 'page'], listOf: RulesetVersion::class)]
+    case repo_ruleset_history = '/repos/{owner}/{repo}/rulesets/{ruleset_id}/history';
+
+    /**
+     * Get repository ruleset version
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoRulesetHistory', pathParams: ['owner', 'repo', 'ruleset_id', 'version_id'], response: RulesetVersionWithState::class)]
+    case repo_ruleset_history2 = '/repos/{owner}/{repo}/rulesets/{ruleset_id}/history/{version_id}';
+
+    /**
+     * List secret scanning alerts for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSecretScanningAlerts', pathParams: ['owner', 'repo'], queryParams: ['state', 'secret_type', 'exclude_secret_types', 'exclude_providers', 'providers', 'resolution', 'assignee', 'sort', 'direction', 'page', 'per_page', 'before', 'after', 'validity', 'is_publicly_leaked', 'is_multi_repo', 'hide_secret', 'is_bypassed', 'included_metadata', 'owner_email_hash'], listOf: SecretScanningAlert::class)]
+    case repo_secret_scanning_alerts = '/repos/{owner}/{repo}/secret-scanning/alerts';
+
+    /**
+     * Get a secret scanning alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoSecretScanningAlert', pathParams: ['owner', 'repo', 'alert_number'], queryParams: ['hide_secret'], response: SecretScanningAlertWithMetadata::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoSecretScanningAlert', pathParams: ['owner', 'repo', 'alert_number'], response: SecretScanningAlertWithMetadata::class)]
+    case repo_secret_scanning_alert = '/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}';
+
+    /**
+     * List locations for a secret scanning alert
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSecretScanningAlertLocations', pathParams: ['owner', 'repo', 'alert_number'], queryParams: ['page', 'per_page'], listOf: SecretScanningLocation::class)]
+    case repo_secret_scanning_alert_locations = '/repos/{owner}/{repo}/secret-scanning/alerts/{alert_number}/locations';
+
+    /**
+     * List repository custom patterns
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSecretScanningCustomPatterns', pathParams: ['owner', 'repo'], queryParams: ['state', 'push_protection', 'sort', 'direction', 'page', 'per_page', 'before', 'after'], listOf: SecretScanningCustomPattern::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoSecretScanningCustomPattern', pathParams: ['owner', 'repo'], request: CreateRepoSecretScanningCustomPatternRequest::class, response: CreateRepoSecretScanningCustomPatternResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoSecretScanningCustomPattern', pathParams: ['owner', 'repo'], request: DeleteRepoSecretScanningCustomPatternRequest::class)]
+    case repo_secret_scanning_custom_patterns = '/repos/{owner}/{repo}/secret-scanning/custom-patterns';
+
+    /**
+     * Update a repository custom pattern
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoSecretScanningCustomPattern', pathParams: ['owner', 'repo', 'pattern_id'], request: SecretScanningCustomPatternToUpdate::class, response: SecretScanningCustomPattern::class)]
+    case repo_secret_scanning_custom_pattern = '/repos/{owner}/{repo}/secret-scanning/custom-patterns/{pattern_id}';
+
+    /**
+     * Create a push protection bypass
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoSecretScanningPushProtectionBypass', pathParams: ['owner', 'repo'], request: CreateRepoSecretScanningPushProtectionBypassRequest::class, response: SecretScanningPushProtectionBypass::class)]
+    case repo_secret_scanning_push_protection_bypasses = '/repos/{owner}/{repo}/secret-scanning/push-protection-bypasses';
+
+    /**
+     * Get secret scanning scan history for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSecretScanningScanHistories', pathParams: ['owner', 'repo'], response: SecretScanningScanHistory::class)]
+    case repo_secret_scanning_scan_history = '/repos/{owner}/{repo}/secret-scanning/scan-history';
+
+    /**
+     * List repository security advisories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSecurityAdvisories', pathParams: ['owner', 'repo'], queryParams: ['direction', 'sort', 'before', 'after', 'per_page', 'state'], listOf: RepositoryAdvisory::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoSecurityAdvisory', pathParams: ['owner', 'repo'], request: RepositoryAdvisoryCreate::class, response: RepositoryAdvisory::class)]
+    case repo_security_advisories = '/repos/{owner}/{repo}/security-advisories';
+
+    /**
+     * Privately report a security vulnerability
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoSecurityAdvisoryReport', pathParams: ['owner', 'repo'], request: PrivateVulnerabilityReportCreate::class, response: RepositoryAdvisory::class)]
+    case repo_security_advisory_reports = '/repos/{owner}/{repo}/security-advisories/reports';
+
+    /**
+     * Get a repository security advisory
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoSecurityAdvisory', pathParams: ['owner', 'repo', 'ghsa_id'], response: RepositoryAdvisory::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateRepoSecurityAdvisory', pathParams: ['owner', 'repo', 'ghsa_id'], request: RepositoryAdvisoryUpdate::class, response: RepositoryAdvisory::class)]
+    case repo_security_advisory = '/repos/{owner}/{repo}/security-advisories/{ghsa_id}';
+
+    /**
+     * Request a CVE for a repository security advisory
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoSecurityAdvisoryCve', pathParams: ['owner', 'repo', 'ghsa_id'])]
+    case repo_security_advisory_cve = '/repos/{owner}/{repo}/security-advisories/{ghsa_id}/cve';
+
+    /**
+     * Create a temporary private fork
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoSecurityAdvisoryFork', pathParams: ['owner', 'repo', 'ghsa_id'], response: FullRepository::class)]
+    case repo_security_advisory_forks = '/repos/{owner}/{repo}/security-advisories/{ghsa_id}/forks';
+
+    /**
+     * List pull request stacks
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStacks', pathParams: ['owner', 'repo'], queryParams: ['pull_request', 'per_page', 'page'], listOf: PullRequestStackMinimal::class)]
+    #[AdminApi(HttpMethod::POST, 'createRepoStack', pathParams: ['owner', 'repo'], request: CreateRepoStackRequest::class, response: CreateRepoStackResponse::class)]
+    case repo_stacks = '/repos/{owner}/{repo}/stacks';
+
+    /**
+     * Get a pull request stack
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoStack', pathParams: ['owner', 'repo', 'stack_number'], response: GetRepoStackResponse::class)]
+    case repo_stack = '/repos/{owner}/{repo}/stacks/{stack_number}';
+
+    /**
+     * Add pull requests to a pull request stack
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoStackAdd', pathParams: ['owner', 'repo', 'stack_number'], request: CreateRepoStackAddRequest::class, response: CreateRepoStackAddResponse::class)]
+    case repo_stack_add = '/repos/{owner}/{repo}/stacks/{stack_number}/add';
+
+    /**
+     * Remove pull requests from a pull request stack
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoStackUnstack', pathParams: ['owner', 'repo', 'stack_number'], response: CreateRepoStackUnstackResponse::class)]
+    case repo_stack_unstack = '/repos/{owner}/{repo}/stacks/{stack_number}/unstack';
+
+    /**
+     * List stargazers
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStargazers', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'])]
+    case repo_stargazers = '/repos/{owner}/{repo}/stargazers';
+
+    /**
+     * Get stargazer count
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStargazerCounts', pathParams: ['owner', 'repo'], response: ListRepoStargazerCountsResponse::class)]
+    case repo_stargazer_count = '/repos/{owner}/{repo}/stargazers/count';
+
+    /**
+     * Get the weekly commit activity
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStatCodeFrequencies', pathParams: ['owner', 'repo'])]
+    case repo_stat_code_frequency = '/repos/{owner}/{repo}/stats/code_frequency';
+
+    /**
+     * Get the last year of commit activity
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStatCommitActivities', pathParams: ['owner', 'repo'], listOf: CommitActivity::class)]
+    case repo_stat_commit_activity = '/repos/{owner}/{repo}/stats/commit_activity';
+
+    /**
+     * Get all contributor commit activity
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStatContributors', pathParams: ['owner', 'repo'], listOf: ContributorActivity::class)]
+    case repo_stat_contributors = '/repos/{owner}/{repo}/stats/contributors';
+
+    /**
+     * Get the weekly commit count
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStatParticipations', pathParams: ['owner', 'repo'], response: ParticipationStats::class)]
+    case repo_stat_participation = '/repos/{owner}/{repo}/stats/participation';
+
+    /**
+     * Get the hourly commit count for each day
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoStatPunchCards', pathParams: ['owner', 'repo'])]
+    case repo_stat_punch_card = '/repos/{owner}/{repo}/stats/punch_card';
+
+    /**
+     * Create a commit status
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoStatus', pathParams: ['owner', 'repo', 'sha'], request: CreateRepoStatusRequest::class, response: Status::class)]
+    case repo_status = '/repos/{owner}/{repo}/statuses/{sha}';
+
+    /**
+     * List watchers
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSubscribers', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case repo_subscribers = '/repos/{owner}/{repo}/subscribers';
+
+    /**
+     * Get a repository subscription
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoSubscriptions', pathParams: ['owner', 'repo'], response: RepositorySubscription::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoSubscription', pathParams: ['owner', 'repo'], request: UpdateRepoSubscriptionRequest::class, response: RepositorySubscription::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoSubscription', pathParams: ['owner', 'repo'])]
+    case repo_subscription = '/repos/{owner}/{repo}/subscription';
+
+    /**
+     * List repository tags
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTags', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Tag::class)]
+    case repo_tags = '/repos/{owner}/{repo}/tags';
+
+    /**
+     * Download a repository archive (tar)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoTarball', pathParams: ['owner', 'repo', 'ref'])]
+    case repo_tarball = '/repos/{owner}/{repo}/tarball/{ref}';
+
+    /**
+     * List repository teams
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTeams', pathParams: ['owner', 'repo'], queryParams: ['per_page', 'page'], listOf: Team::class)]
+    case repo_teams = '/repos/{owner}/{repo}/teams';
+
+    /**
+     * Get all repository topics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTopics', pathParams: ['owner', 'repo'], queryParams: ['page', 'per_page'], response: Topic::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoTopic', pathParams: ['owner', 'repo'], request: UpdateRepoTopicRequest::class, response: Topic::class)]
+    case repo_topics = '/repos/{owner}/{repo}/topics';
+
+    /**
+     * Get repository clones
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTrafficClones', pathParams: ['owner', 'repo'], queryParams: ['per'], response: CloneTraffic::class)]
+    case repo_traffic_clones = '/repos/{owner}/{repo}/traffic/clones';
+
+    /**
+     * Get top referral paths
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTrafficPopularPaths', pathParams: ['owner', 'repo'], listOf: ContentTraffic::class)]
+    case repo_traffic_popular_paths = '/repos/{owner}/{repo}/traffic/popular/paths';
+
+    /**
+     * Get top referral sources
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTrafficPopularReferrers', pathParams: ['owner', 'repo'], listOf: ReferrerTraffic::class)]
+    case repo_traffic_popular_referrers = '/repos/{owner}/{repo}/traffic/popular/referrers';
+
+    /**
+     * Get page views
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoTrafficViews', pathParams: ['owner', 'repo'], queryParams: ['per'], response: ViewTraffic::class)]
+    case repo_traffic_views = '/repos/{owner}/{repo}/traffic/views';
+
+    /**
+     * Transfer a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoTransfer', pathParams: ['owner', 'repo'], request: CreateRepoTransferRequest::class, response: MinimalRepository::class)]
+    case repo_transfer = '/repos/{owner}/{repo}/transfer';
+
+    /**
+     * Check if vulnerability alerts are enabled for a repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepoVulnerabilityAlerts', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::PUT, 'updateRepoVulnerabilityAlert', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteRepoVulnerabilityAlert', pathParams: ['owner', 'repo'])]
+    case repo_vulnerability_alerts = '/repos/{owner}/{repo}/vulnerability-alerts';
+
+    /**
+     * Download a repository archive (zip)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getRepoZipball', pathParams: ['owner', 'repo', 'ref'])]
+    case repo_zipball = '/repos/{owner}/{repo}/zipball/{ref}';
+
+    /**
+     * Create a repository using a template
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createRepoGenerate', pathParams: ['template_owner', 'template_repo'], request: CreateRepoGenerateRequest::class, response: FullRepository::class)]
+    case repo_generate = '/repos/{template_owner}/{template_repo}/generate';
+
+    /**
+     * List public repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listRepositories', queryParams: ['since'], listOf: MinimalRepository::class)]
+    case repositories = '/repositories';
+
+    /**
+     * Search code
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchCodes', queryParams: ['q', 'sort', 'order', 'per_page', 'page'], response: ListSearchCodesResponse::class)]
+    case search_code = '/search/code';
+
+    /**
+     * Search commits
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchCommits', queryParams: ['q', 'sort', 'order', 'per_page', 'page'], response: ListSearchCommitsResponse::class)]
+    case search_commits = '/search/commits';
+
+    /**
+     * Search issues and pull requests
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchIssues', queryParams: ['q', 'sort', 'order', 'per_page', 'page', 'advanced_search', 'search_type'], response: ListSearchIssuesResponse::class)]
+    case search_issues = '/search/issues';
+
+    /**
+     * Search labels
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchLabels', queryParams: ['repository_id', 'q', 'sort', 'order', 'per_page', 'page'], response: ListSearchLabelsResponse::class)]
+    case search_labels = '/search/labels';
+
+    /**
+     * Search repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchRepositories', queryParams: ['q', 'sort', 'order', 'per_page', 'page'], response: ListSearchRepositoriesResponse::class)]
+    case search_repositories = '/search/repositories';
+
+    /**
+     * Search topics
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchTopics', queryParams: ['q', 'per_page', 'page'], response: ListSearchTopicsResponse::class)]
+    case search_topics = '/search/topics';
+
+    /**
+     * Search users
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listSearchUsers', queryParams: ['q', 'sort', 'order', 'per_page', 'page'], response: ListSearchUsersResponse::class)]
+    case search_users = '/search/users';
+
+    /**
+     * Get a team (Legacy)
+     * @deprecated getTeam — the API marks this operation deprecated.
+     * @deprecated updateTeam — the API marks this operation deprecated.
+     * @deprecated deleteTeam — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getTeam', pathParams: ['team_id'], response: TeamFull::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateTeam', pathParams: ['team_id'], request: UpdateTeamRequest::class, response: TeamFull::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteTeam', pathParams: ['team_id'])]
+    case team = '/teams/{team_id}';
+
+    /**
+     * List pending team invitations (Legacy)
+     * @deprecated listTeamInvitations — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listTeamInvitations', pathParams: ['team_id'], queryParams: ['per_page', 'page'], listOf: OrganizationInvitation::class)]
+    case team_invitations = '/teams/{team_id}/invitations';
+
+    /**
+     * List team members (Legacy)
+     * @deprecated listTeamMembers — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listTeamMembers', pathParams: ['team_id'], queryParams: ['role', 'per_page', 'page'], listOf: TeamMember::class)]
+    case team_members = '/teams/{team_id}/members';
+
+    /**
+     * Get team member (Legacy)
+     * @deprecated getTeamMember — the API marks this operation deprecated.
+     * @deprecated updateTeamMember — the API marks this operation deprecated.
+     * @deprecated deleteTeamMember — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getTeamMember', pathParams: ['team_id', 'username'])]
+    #[AdminApi(HttpMethod::PUT, 'updateTeamMember', pathParams: ['team_id', 'username'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteTeamMember', pathParams: ['team_id', 'username'])]
+    case team_member = '/teams/{team_id}/members/{username}';
+
+    /**
+     * Get team membership for a user (Legacy)
+     * @deprecated getTeamMembership — the API marks this operation deprecated.
+     * @deprecated updateTeamMembership — the API marks this operation deprecated.
+     * @deprecated deleteTeamMembership — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getTeamMembership', pathParams: ['team_id', 'username'], response: TeamMembership::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateTeamMembership', pathParams: ['team_id', 'username'], request: UpdateTeamMembershipRequest::class, response: TeamMembership::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteTeamMembership', pathParams: ['team_id', 'username'])]
+    case team_membership = '/teams/{team_id}/memberships/{username}';
+
+    /**
+     * List team repositories (Legacy)
+     * @deprecated listTeamRepos — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listTeamRepos', pathParams: ['team_id'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case team_repos = '/teams/{team_id}/repos';
+
+    /**
+     * Check team permissions for a repository (Legacy)
+     * @deprecated getTeamRepo — the API marks this operation deprecated.
+     * @deprecated updateTeamRepo — the API marks this operation deprecated.
+     * @deprecated deleteTeamRepo — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getTeamRepo', pathParams: ['team_id', 'owner', 'repo'], response: TeamRepository::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateTeamRepo', pathParams: ['team_id', 'owner', 'repo'], request: UpdateTeamRepoRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteTeamRepo', pathParams: ['team_id', 'owner', 'repo'])]
+    case team_repo = '/teams/{team_id}/repos/{owner}/{repo}';
+
+    /**
+     * List child teams (Legacy)
+     * @deprecated listTeamTeams — the API marks this operation deprecated.
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listTeamTeams', pathParams: ['team_id'], queryParams: ['per_page', 'page'], listOf: Team::class)]
+    case team_teams = '/teams/{team_id}/teams';
+
+    /**
+     * Get the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUsers')]
+    #[AdminApi(HttpMethod::PATCH, 'updateUser', request: UpdateUserRequest::class, response: PrivateUser::class)]
+    case user = '/user';
+
+    /**
+     * List users blocked by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserBlocks', queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case user_blocks = '/user/blocks';
+
+    /**
+     * Check if a user is blocked by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserBlock', pathParams: ['username'])]
+    #[AdminApi(HttpMethod::PUT, 'updateUserBlock', pathParams: ['username'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserBlock', pathParams: ['username'])]
+    case user_block = '/user/blocks/{username}';
+
+    /**
+     * List codespaces for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCodespaces', queryParams: ['per_page', 'page', 'repository_id'], response: ListUserCodespacesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserCodespace', response: Codespace::class)]
+    case user_codespaces = '/user/codespaces';
+
+    /**
+     * List secrets for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCodespaceSecrets', queryParams: ['per_page', 'page'], response: ListUserCodespaceSecretsResponse::class)]
+    case user_codespace_secrets = '/user/codespaces/secrets';
+
+    /**
+     * Get public key for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCodespaceSecretPublicKeys', response: CodespacesUserPublicKey::class)]
+    case user_codespace_secret_public_key = '/user/codespaces/secrets/public-key';
+
+    /**
+     * Get a secret for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserCodespaceSecret', pathParams: ['secret_name'], response: CodespacesSecret::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateUserCodespaceSecret', pathParams: ['secret_name'], request: UpdateUserCodespaceSecretRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserCodespaceSecret', pathParams: ['secret_name'])]
+    case user_codespace_secret = '/user/codespaces/secrets/{secret_name}';
+
+    /**
+     * List selected repositories for a user secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCodespaceSecretRepositories', pathParams: ['secret_name'], response: ListUserCodespaceSecretRepositoriesResponse::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateUserCodespaceSecretRepository', pathParams: ['secret_name'], request: UpdateUserCodespaceSecretRepositoryRequest::class)]
+    case user_codespace_secret_repositories = '/user/codespaces/secrets/{secret_name}/repositories';
+
+    /**
+     * Add a selected repository to a user secret
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateUserCodespaceSecretRepository2', pathParams: ['secret_name', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserCodespaceSecretRepository', pathParams: ['secret_name', 'repository_id'])]
+    case user_codespace_secret_repository = '/user/codespaces/secrets/{secret_name}/repositories/{repository_id}';
+
+    /**
+     * Get a codespace for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserCodespace', pathParams: ['codespace_name'], response: Codespace::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateUserCodespace', pathParams: ['codespace_name'], request: UpdateUserCodespaceRequest::class, response: Codespace::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserCodespace', pathParams: ['codespace_name'])]
+    case user_codespace = '/user/codespaces/{codespace_name}';
+
+    /**
+     * Export a codespace for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserCodespaceExport', pathParams: ['codespace_name'], response: CodespaceExportDetails::class)]
+    case user_codespace_exports = '/user/codespaces/{codespace_name}/exports';
+
+    /**
+     * Get details about a codespace export
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserCodespaceExport', pathParams: ['codespace_name', 'export_id'], response: CodespaceExportDetails::class)]
+    case user_codespace_export = '/user/codespaces/{codespace_name}/exports/{export_id}';
+
+    /**
+     * List machine types for a codespace
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCodespaceMachines', pathParams: ['codespace_name'], response: ListUserCodespaceMachinesResponse::class)]
+    case user_codespace_machines = '/user/codespaces/{codespace_name}/machines';
+
+    /**
+     * Create a repository from an unpublished codespace
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserCodespacePublish', pathParams: ['codespace_name'], request: CreateUserCodespacePublishRequest::class, response: CodespaceWithFullRepository::class)]
+    case user_codespace_publish = '/user/codespaces/{codespace_name}/publish';
+
+    /**
+     * Start a codespace for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserCodespaceStart', pathParams: ['codespace_name'], response: Codespace::class)]
+    case user_codespace_start = '/user/codespaces/{codespace_name}/start';
+
+    /**
+     * Stop a codespace for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserCodespaceStop', pathParams: ['codespace_name'], response: Codespace::class)]
+    case user_codespace_stop = '/user/codespaces/{codespace_name}/stop';
+
+    /**
+     * Get list of conflicting packages during Docker migration for
+     * authenticated-user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserDockerConflicts', listOf: Package::class)]
+    case user_docker_conflicts = '/user/docker/conflicts';
+
+    /**
+     * Set primary email visibility for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateUserEmailVisibility', request: UpdateUserEmailVisibilityRequest::class, listOf: Email::class)]
+    case user_email_visibility = '/user/email/visibility';
+
+    /**
+     * List email addresses for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserEmails', queryParams: ['per_page', 'page'], listOf: Email::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserEmail', listOf: Email::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserEmail')]
+    case user_emails = '/user/emails';
+
+    /**
+     * List followers of the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserFollowers', queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case user_followers = '/user/followers';
+
+    /**
+     * List the people the authenticated user follows
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserFollowings', queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case user_following = '/user/following';
+
+    /**
+     * Check if a person is followed by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserFollowing', pathParams: ['username'])]
+    #[AdminApi(HttpMethod::PUT, 'updateUserFollowing', pathParams: ['username'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserFollowing', pathParams: ['username'])]
+    case user_following2 = '/user/following/{username}';
+
+    /**
+     * List GPG keys for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserGpgKeys', queryParams: ['per_page', 'page'], listOf: GpgKey::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserGpgKey', request: CreateUserGpgKeyRequest::class, response: GpgKey::class)]
+    case user_gpg_keys = '/user/gpg_keys';
+
+    /**
+     * Get a GPG key for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserGpgKey', pathParams: ['gpg_key_id'], response: GpgKey::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserGpgKey', pathParams: ['gpg_key_id'])]
+    case user_gpg_key = '/user/gpg_keys/{gpg_key_id}';
+
+    /**
+     * List app installations accessible to the user access token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserInstallations', queryParams: ['per_page', 'page'], response: ListUserInstallationsResponse::class)]
+    case user_installations = '/user/installations';
+
+    /**
+     * List repositories accessible to the user access token
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserInstallationRepositories', pathParams: ['installation_id'], queryParams: ['per_page', 'page'], response: ListUserInstallationRepositoriesResponse::class)]
+    case user_installation_repositories = '/user/installations/{installation_id}/repositories';
+
+    /**
+     * Add a repository to an app installation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateUserInstallationRepository', pathParams: ['installation_id', 'repository_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserInstallationRepository', pathParams: ['installation_id', 'repository_id'])]
+    case user_installation_repository = '/user/installations/{installation_id}/repositories/{repository_id}';
+
+    /**
+     * Get interaction restrictions for your public repositories
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserInteractionLimits')]
+    #[AdminApi(HttpMethod::PUT, 'updateUserInteractionLimit', request: InteractionLimit::class, response: InteractionLimitResponse::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserInteractionLimit')]
+    case user_interaction_limits = '/user/interaction-limits';
+
+    /**
+     * List user account issues assigned to the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserIssues', queryParams: ['filter', 'state', 'labels', 'sort', 'direction', 'since', 'per_page', 'page'], listOf: Issue::class)]
+    case user_issues = '/user/issues';
+
+    /**
+     * List public SSH keys for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserKeys', queryParams: ['per_page', 'page'], listOf: Key::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserKey', request: CreateUserKeyRequest::class, response: Key::class)]
+    case user_keys = '/user/keys';
+
+    /**
+     * Get a public SSH key for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserKey', pathParams: ['key_id'], response: Key::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserKey', pathParams: ['key_id'])]
+    case user_key = '/user/keys/{key_id}';
+
+    /**
+     * List subscriptions for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserMarketplacePurchases', queryParams: ['per_page', 'page'], listOf: UserMarketplacePurchase::class)]
+    case user_marketplace_purchases = '/user/marketplace_purchases';
+
+    /**
+     * List subscriptions for the authenticated user (stubbed)
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserMarketplacePurchaseStubbeds', queryParams: ['per_page', 'page'], listOf: UserMarketplacePurchase::class)]
+    case user_marketplace_purchase_stubbed = '/user/marketplace_purchases/stubbed';
+
+    /**
+     * List organization memberships for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserMembershipOrgs', queryParams: ['state', 'per_page', 'page'], listOf: OrgMembership::class)]
+    case user_membership_orgs = '/user/memberships/orgs';
+
+    /**
+     * Get an organization membership for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserMembershipOrg', pathParams: ['org'], response: OrgMembership::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateUserMembershipOrg', pathParams: ['org'], request: UpdateUserMembershipOrgRequest::class, response: OrgMembership::class)]
+    case user_membership_org = '/user/memberships/orgs/{org}';
+
+    /**
+     * List user migrations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserMigrations', queryParams: ['per_page', 'page'], listOf: Migration::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserMigration', request: CreateUserMigrationRequest::class, response: Migration::class)]
+    case user_migrations = '/user/migrations';
+
+    /**
+     * Get a user migration status
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserMigration', pathParams: ['migration_id'], queryParams: ['exclude'], response: Migration::class)]
+    case user_migration = '/user/migrations/{migration_id}';
+
+    /**
+     * Download a user migration archive
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserMigrationArchives', pathParams: ['migration_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserMigrationArchive', pathParams: ['migration_id'])]
+    case user_migration_archive = '/user/migrations/{migration_id}/archive';
+
+    /**
+     * Unlock a user repository
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserMigrationRepoLock', pathParams: ['migration_id', 'repo_name'])]
+    case user_migration_repo_lock = '/user/migrations/{migration_id}/repos/{repo_name}/lock';
+
+    /**
+     * List repositories for a user migration
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserMigrationRepositories', pathParams: ['migration_id'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case user_migration_repositories = '/user/migrations/{migration_id}/repositories';
+
+    /**
+     * List organizations for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserOrgs', queryParams: ['per_page', 'page'], listOf: OrganizationSimple::class)]
+    case user_orgs = '/user/orgs';
+
+    /**
+     * List packages for the authenticated user's namespace
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserPackages', queryParams: ['package_type', 'visibility', 'page', 'per_page'], listOf: Package::class)]
+    case user_packages = '/user/packages';
+
+    /**
+     * Get a package for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserPackage', pathParams: ['package_type', 'package_name'], response: Package::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserPackage', pathParams: ['package_type', 'package_name'])]
+    case user_package = '/user/packages/{package_type}/{package_name}';
+
+    /**
+     * Restore a package for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserPackageRestore', pathParams: ['package_type', 'package_name'], queryParams: ['token'])]
+    case user_package_restore = '/user/packages/{package_type}/{package_name}/restore';
+
+    /**
+     * List package versions for a package owned by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserPackageVersions', pathParams: ['package_type', 'package_name'], queryParams: ['page', 'per_page', 'state'], listOf: PackageVersion::class)]
+    case user_package_versions = '/user/packages/{package_type}/{package_name}/versions';
+
+    /**
+     * Get a package version for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserPackageVersion', pathParams: ['package_type', 'package_name', 'package_version_id'], response: PackageVersion::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserPackageVersion', pathParams: ['package_type', 'package_name', 'package_version_id'])]
+    case user_package_version = '/user/packages/{package_type}/{package_name}/versions/{package_version_id}';
+
+    /**
+     * Restore a package version for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserPackageVersionRestore', pathParams: ['package_type', 'package_name', 'package_version_id'])]
+    case user_package_version_restore = '/user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore';
+
+    /**
+     * List public email addresses for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserPublicEmails', queryParams: ['per_page', 'page'], listOf: Email::class)]
+    case user_public_emails = '/user/public_emails';
+
+    /**
+     * List repositories for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserRepos', queryParams: ['visibility', 'affiliation', 'type', 'sort', 'direction', 'per_page', 'page', 'since', 'before'], listOf: Repository::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserRepo', request: CreateUserRepoRequest::class, response: FullRepository::class)]
+    case user_repos = '/user/repos';
+
+    /**
+     * List repository invitations for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserRepositoryInvitations', queryParams: ['per_page', 'page'], listOf: RepositoryInvitation::class)]
+    case user_repository_invitations = '/user/repository_invitations';
+
+    /**
+     * Accept a repository invitation
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PATCH, 'updateUserRepositoryInvitation', pathParams: ['invitation_id'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserRepositoryInvitation', pathParams: ['invitation_id'])]
+    case user_repository_invitation = '/user/repository_invitations/{invitation_id}';
+
+    /**
+     * List social accounts for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSocialAccounts', queryParams: ['per_page', 'page'], listOf: SocialAccount::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserSocialAccount', request: CreateUserSocialAccountRequest::class, listOf: SocialAccount::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserSocialAccount', request: DeleteUserSocialAccountRequest::class)]
+    case user_social_accounts = '/user/social_accounts';
+
+    /**
+     * List SSH signing keys for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSshSigningKeys', queryParams: ['per_page', 'page'], listOf: SshSigningKey::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserSshSigningKey', request: CreateUserSshSigningKeyRequest::class, response: SshSigningKey::class)]
+    case user_ssh_signing_keys = '/user/ssh_signing_keys';
+
+    /**
+     * Get an SSH signing key for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserSshSigningKey', pathParams: ['ssh_signing_key_id'], response: SshSigningKey::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserSshSigningKey', pathParams: ['ssh_signing_key_id'])]
+    case user_ssh_signing_key = '/user/ssh_signing_keys/{ssh_signing_key_id}';
+
+    /**
+     * List repositories starred by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserStarreds', queryParams: ['sort', 'direction', 'per_page', 'page'], listOf: Repository::class)]
+    case user_starred = '/user/starred';
+
+    /**
+     * Check if a repository is starred by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserStarred', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::PUT, 'updateUserStarred', pathParams: ['owner', 'repo'])]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserStarred', pathParams: ['owner', 'repo'])]
+    case user_starred2 = '/user/starred/{owner}/{repo}';
+
+    /**
+     * List repositories watched by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSubscriptions', queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case user_subscriptions = '/user/subscriptions';
+
+    /**
+     * List teams for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserTeams', queryParams: ['per_page', 'page'], listOf: TeamFull::class)]
+    case user_teams = '/user/teams';
+
+    /**
+     * Get a user using their ID
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUser', pathParams: ['account_id'])]
+    case user2 = '/user/{account_id}';
+
+    /**
+     * Create draft item for user owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserProjectsV2Draft', pathParams: ['user_id', 'project_number'], request: CreateUserProjectsV2DraftRequest::class, response: ProjectsV2ItemSimple::class)]
+    case user_projects_v2_drafts = '/user/{user_id}/projectsV2/{project_number}/drafts';
+
+    /**
+     * List users
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUsers2', queryParams: ['since', 'per_page'], listOf: SimpleUser::class)]
+    case users = '/users';
+
+    /**
+     * Create a view for a user-owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserProjectsV2View', pathParams: ['user_id', 'project_number'], request: CreateUserProjectsV2ViewRequest::class, response: ProjectsV2View::class)]
+    case user_projects_v2_views = '/users/{user_id}/projectsV2/{project_number}/views';
+
+    /**
+     * Get a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUser2', pathParams: ['username'])]
+    case user3 = '/users/{username}';
+
+    /**
+     * List attestations by bulk subject digests
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserAttestationBulkList', pathParams: ['username'], queryParams: ['per_page', 'before', 'after'], request: CreateUserAttestationBulkListRequest::class, response: CreateUserAttestationBulkListResponse::class)]
+    case user_attestation_bulk_list = '/users/{username}/attestations/bulk-list';
+
+    /**
+     * Delete attestations in bulk
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserAttestationDeleteRequest', pathParams: ['username'])]
+    case user_attestation_delete_request = '/users/{username}/attestations/delete-request';
+
+    /**
+     * Delete attestations by subject digest
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserAttestationDigest', pathParams: ['username', 'subject_digest'])]
+    case user_attestation_digest = '/users/{username}/attestations/digest/{subject_digest}';
+
+    /**
+     * Delete attestations by ID
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserAttestation', pathParams: ['username', 'attestation_id'])]
+    case user_attestation = '/users/{username}/attestations/{attestation_id}';
+
+    /**
+     * List attestations
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserAttestation', pathParams: ['username', 'subject_digest'], queryParams: ['per_page', 'before', 'after', 'predicate_type'], response: GetUserAttestationResponse::class)]
+    case user_attestation2 = '/users/{username}/attestations/{subject_digest}';
+
+    /**
+     * List Copilot Spaces for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCopilotSpaces', pathParams: ['username'], queryParams: ['per_page', 'before', 'after'], response: ListUserCopilotSpacesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserCopilotSpace', pathParams: ['username'], request: CreateUserCopilotSpaceRequest::class, response: CopilotSpace::class)]
+    case user_copilot_spaces = '/users/{username}/copilot-spaces';
+
+    /**
+     * Get a Copilot Space for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserCopilotSpace', pathParams: ['username', 'space_number'], response: CopilotSpace::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateUserCopilotSpace', pathParams: ['username', 'space_number'], request: UpdateUserCopilotSpaceRequest::class, response: CopilotSpace::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserCopilotSpace', pathParams: ['username', 'space_number'])]
+    case user_copilot_space = '/users/{username}/copilot-spaces/{space_number}';
+
+    /**
+     * List collaborators for a Copilot Space for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCopilotSpaceCollaborators', pathParams: ['username', 'space_number'], response: ListUserCopilotSpaceCollaboratorsResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserCopilotSpaceCollaborator', pathParams: ['username', 'space_number'], request: CreateUserCopilotSpaceCollaboratorRequest::class)]
+    case user_copilot_space_collaborators = '/users/{username}/copilot-spaces/{space_number}/collaborators';
+
+    /**
+     * Set a collaborator role for a Copilot Space for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::PUT, 'updateUserCopilotSpaceCollaborator', pathParams: ['username', 'space_number', 'actor_type', 'actor_identifier'], request: UpdateUserCopilotSpaceCollaboratorRequest::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserCopilotSpaceCollaborator', pathParams: ['username', 'space_number', 'actor_type', 'actor_identifier'])]
+    case user_copilot_space_collaborator = '/users/{username}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}';
+
+    /**
+     * List resources for a Copilot Space for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserCopilotSpaceResources', pathParams: ['username', 'space_number'], response: ListUserCopilotSpaceResourcesResponse::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserCopilotSpaceResource', pathParams: ['username', 'space_number'], request: CreateUserCopilotSpaceResourceRequest::class, response: CopilotSpaceResource::class)]
+    case user_copilot_space_resources = '/users/{username}/copilot-spaces/{space_number}/resources';
+
+    /**
+     * Get a resource for a Copilot Space for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserCopilotSpaceResource', pathParams: ['username', 'space_number', 'space_resource_id'], response: CopilotSpaceResource::class)]
+    #[AdminApi(HttpMethod::PUT, 'updateUserCopilotSpaceResource', pathParams: ['username', 'space_number', 'space_resource_id'], request: UpdateUserCopilotSpaceResourceRequest::class, response: CopilotSpaceResource::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserCopilotSpaceResource', pathParams: ['username', 'space_number', 'space_resource_id'])]
+    case user_copilot_space_resource = '/users/{username}/copilot-spaces/{space_number}/resources/{space_resource_id}';
+
+    /**
+     * Get list of conflicting packages during Docker migration for user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserDockerConflicts2', pathParams: ['username'], listOf: Package::class)]
+    case user_docker_conflicts2 = '/users/{username}/docker/conflicts';
+
+    /**
+     * List events for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserEvents', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case user_events = '/users/{username}/events';
+
+    /**
+     * List organization events for the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserEventOrg', pathParams: ['username', 'org'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case user_event_org = '/users/{username}/events/orgs/{org}';
+
+    /**
+     * List public events for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserEventPublics', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case user_event_public = '/users/{username}/events/public';
+
+    /**
+     * List followers of a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserFollowers2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case user_followers2 = '/users/{username}/followers';
+
+    /**
+     * List the people a user follows
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserFollowings2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: SimpleUser::class)]
+    case user_following3 = '/users/{username}/following';
+
+    /**
+     * Check if a user follows another user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserFollowing2', pathParams: ['username', 'target_user'])]
+    case user_following4 = '/users/{username}/following/{target_user}';
+
+    /**
+     * List gists for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserGists', pathParams: ['username'], queryParams: ['since', 'per_page', 'page'], listOf: BaseGist::class)]
+    case user_gists = '/users/{username}/gists';
+
+    /**
+     * List GPG keys for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserGpgKeys2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: GpgKey::class)]
+    case user_gpg_keys2 = '/users/{username}/gpg_keys';
+
+    /**
+     * Get contextual information for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserHovercards', pathParams: ['username'], queryParams: ['subject_type', 'subject_id'], response: Hovercard::class)]
+    case user_hovercard = '/users/{username}/hovercard';
+
+    /**
+     * Get a user installation for the authenticated app
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserInstallations2', pathParams: ['username'], response: Installation::class)]
+    case user_installation = '/users/{username}/installation';
+
+    /**
+     * List public keys for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserKeys2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: KeySimple::class)]
+    case user_keys2 = '/users/{username}/keys';
+
+    /**
+     * List organizations for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserOrgs2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: OrganizationSimple::class)]
+    case user_orgs2 = '/users/{username}/orgs';
+
+    /**
+     * List packages for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserPackages2', pathParams: ['username'], queryParams: ['package_type', 'visibility', 'page', 'per_page'], listOf: Package::class)]
+    case user_packages2 = '/users/{username}/packages';
+
+    /**
+     * Get a package for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserPackage2', pathParams: ['username', 'package_type', 'package_name'], response: Package::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserPackage2', pathParams: ['username', 'package_type', 'package_name'])]
+    case user_package2 = '/users/{username}/packages/{package_type}/{package_name}';
+
+    /**
+     * Restore a package for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserPackageRestore2', pathParams: ['username', 'package_type', 'package_name'], queryParams: ['token'])]
+    case user_package_restore2 = '/users/{username}/packages/{package_type}/{package_name}/restore';
+
+    /**
+     * List package versions for a package owned by a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserPackageVersions2', pathParams: ['username', 'package_type', 'package_name'], listOf: PackageVersion::class)]
+    case user_package_versions2 = '/users/{username}/packages/{package_type}/{package_name}/versions';
+
+    /**
+     * Get a package version for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserPackageVersion2', pathParams: ['username', 'package_type', 'package_name', 'package_version_id'], response: PackageVersion::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserPackageVersion2', pathParams: ['username', 'package_type', 'package_name', 'package_version_id'])]
+    case user_package_version2 = '/users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}';
+
+    /**
+     * Restore package version for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::POST, 'createUserPackageVersionRestore2', pathParams: ['username', 'package_type', 'package_name', 'package_version_id'])]
+    case user_package_version_restore2 = '/users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore';
+
+    /**
+     * List projects for user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserProjectsV2s', pathParams: ['username'], queryParams: ['q', 'before', 'after', 'per_page'], listOf: ProjectsV2::class)]
+    case user_projects_v2 = '/users/{username}/projectsV2';
+
+    /**
+     * Get project for user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserProjectsV2', pathParams: ['username', 'project_number'], response: ProjectsV2::class)]
+    case user_projects_v22 = '/users/{username}/projectsV2/{project_number}';
+
+    /**
+     * List project fields for user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserProjectsV2Fields', pathParams: ['username', 'project_number'], queryParams: ['per_page', 'before', 'after'], listOf: ProjectsV2Field::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserProjectsV2Field', pathParams: ['username', 'project_number'], response: ProjectsV2Field::class)]
+    case user_projects_v2_fields = '/users/{username}/projectsV2/{project_number}/fields';
+
+    /**
+     * Get project field for user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserProjectsV2Field', pathParams: ['username', 'project_number', 'field_id'], response: ProjectsV2Field::class)]
+    case user_projects_v2_field = '/users/{username}/projectsV2/{project_number}/fields/{field_id}';
+
+    /**
+     * List items for a user owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserProjectsV2Items', pathParams: ['username', 'project_number'], queryParams: ['before', 'after', 'per_page', 'q', 'fields'], listOf: ProjectsV2ItemWithContent::class)]
+    #[AdminApi(HttpMethod::POST, 'createUserProjectsV2Item', pathParams: ['username', 'project_number'], response: ProjectsV2ItemSimple::class)]
+    case user_projects_v2_items = '/users/{username}/projectsV2/{project_number}/items';
+
+    /**
+     * Get an item for a user owned project
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'getUserProjectsV2Item', pathParams: ['username', 'project_number', 'item_id'], queryParams: ['fields'], response: ProjectsV2ItemWithContent::class)]
+    #[AdminApi(HttpMethod::PATCH, 'updateUserProjectsV2Item', pathParams: ['username', 'project_number', 'item_id'], request: UpdateUserProjectsV2ItemRequest::class, response: ProjectsV2ItemWithContent::class)]
+    #[AdminApi(HttpMethod::DELETE, 'deleteUserProjectsV2Item', pathParams: ['username', 'project_number', 'item_id'])]
+    case user_projects_v2_item = '/users/{username}/projectsV2/{project_number}/items/{item_id}';
+
+    /**
+     * List items for a user project view
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserProjectsV2ViewItems', pathParams: ['username', 'project_number', 'view_number'], queryParams: ['fields', 'before', 'after', 'per_page'], listOf: ProjectsV2ItemWithContent::class)]
+    case user_projects_v2_view_items = '/users/{username}/projectsV2/{project_number}/views/{view_number}/items';
+
+    /**
+     * List events received by the authenticated user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserReceivedEvents', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case user_received_events = '/users/{username}/received_events';
+
+    /**
+     * List public events received by a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserReceivedEventPublics', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: Event::class)]
+    case user_received_event_public = '/users/{username}/received_events/public';
+
+    /**
+     * List repositories for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserRepos2', pathParams: ['username'], queryParams: ['type', 'sort', 'direction', 'per_page', 'page'], listOf: MinimalRepository::class)]
+    case user_repos2 = '/users/{username}/repos';
+
+    /**
+     * Get billing AI credit usage report for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSettingBillingAiCreditUsages', pathParams: ['username'], queryParams: ['year', 'month', 'day', 'model', 'product'], response: BillingAiCreditUsageReportUser::class)]
+    case user_setting_billing_ai_credit_usage = '/users/{username}/settings/billing/ai_credit/usage';
+
+    /**
+     * Get billing premium request usage report for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSettingBillingPremiumRequestUsages', pathParams: ['username'], queryParams: ['year', 'month', 'day', 'model', 'product'], response: BillingPremiumRequestUsageReportUser::class)]
+    case user_setting_billing_premium_request_usage = '/users/{username}/settings/billing/premium_request/usage';
+
+    /**
+     * Get billing usage report for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSettingBillingUsages', pathParams: ['username'], queryParams: ['year', 'month', 'day'], response: BillingUsageReportUser::class)]
+    case user_setting_billing_usage = '/users/{username}/settings/billing/usage';
+
+    /**
+     * Get billing usage summary for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSettingBillingUsageSummaries', pathParams: ['username'], queryParams: ['year', 'month', 'day', 'repository', 'product', 'sku'], response: BillingUsageSummaryReportUser::class)]
+    case user_setting_billing_usage_summary = '/users/{username}/settings/billing/usage/summary';
+
+    /**
+     * List social accounts for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSocialAccounts2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: SocialAccount::class)]
+    case user_social_accounts2 = '/users/{username}/social_accounts';
+
+    /**
+     * List SSH signing keys for a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSshSigningKeys2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: SshSigningKey::class)]
+    case user_ssh_signing_keys2 = '/users/{username}/ssh_signing_keys';
+
+    /**
+     * List repositories starred by a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserStarreds2', pathParams: ['username'], queryParams: ['sort', 'direction', 'per_page', 'page'])]
+    case user_starred3 = '/users/{username}/starred';
+
+    /**
+     * List repositories watched by a user
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listUserSubscriptions2', pathParams: ['username'], queryParams: ['per_page', 'page'], listOf: MinimalRepository::class)]
+    case user_subscriptions2 = '/users/{username}/subscriptions';
+
+    /**
+     * Get all API versions
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listVersions')]
+    case versions = '/versions';
+
+    /**
+     * Get the Zen of GitHub
+     * @link https://docs.github.com/
+     */
+    #[HasRoute]
+    #[AdminApi(HttpMethod::GET, 'listZens')]
+    case zen = '/zen';
 
     /** @param  array<int, mixed>  $arguments */
     public static function __callStatic(string $name, array $arguments): Route
