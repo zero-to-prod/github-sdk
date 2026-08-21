@@ -7,30 +7,29 @@ A PHP SDK for the GitHub REST API generated from GitHub's [OpenAPI](https://raw.
 - [Install](#install)
 - [Cli](#cli)
 - [Basic Setup](#basic-setup)
-    - [Authentication](#authentication)
-    - [Find a method](#find-a-method)
-    - [Query parameters](#query-parameters)
-    - [Pagination](#pagination)
-    - [Errors](#errors)
+  - [Authentication](#authentication)
+  - [Find a method](#find-a-method)
+  - [Query parameters](#query-parameters)
+  - [Pagination](#pagination)
+  - [Errors](#errors)
 - [Lifecycle Hooks](#lifecycle-hooks)
-    - [Hooks](#hooks)
-    - [HookContext](#hookcontext)
-    - [Retries](#retries)
-    - [Timeouts](#timeouts)
-    - [Caching responses](#caching-responses)
-    - [Composing decorators](#composing-decorators)
+  - [Hooks](#hooks)
+  - [HookContext](#hookcontext)
+  - [Retries](#retries)
+  - [Timeouts](#timeouts)
+  - [Caching responses](#caching-responses)
+  - [Composing decorators](#composing-decorators)
 - [Testing](#testing)
-    - [Fake transport](#fake-transport)
-    - [Testing with `Http::fake()`](#testing-with-httpfake)
-    - [Factories](#factories)
+  - [Fake transport](#fake-transport)
+  - [Testing with `Http::fake()`](#testing-with-httpfake)
+  - [Factories](#factories)
+  - [Publishing model factories](#publishing-model-factories)
 - [Models](#models)
-    - [Publishing models](#publishing-models)
+  - [Publishing models](#publishing-models)
 - [Extending](#extending)
-    - [Custom HttpTransport](#custom-httptransport)
-    - [Agents](#agents)
+  - [Custom HttpTransport](#custom-httptransport)
+  - [Agents](#agents)
 - [Regenerating](#regenerating)
-- [Rough edges](#rough-edges)
-- [Tests](#tests)
 
 <!-- end toc -->
 
@@ -43,8 +42,6 @@ composer require zero-to-prod/github-sdk
 PHP 8.1 or newer, with `ext-curl` and `ext-json`.
 
 ## Cli
-
-This package ships with a commandline interface. This is useful for user convenience as well as Agent useage.
 
 ```bash
 ./vendor/bin/github-sdk
@@ -504,7 +501,7 @@ $api = new GitHubSdk($config, new GuzzleTransport($client));
 
 `publish:docs` syncs the package docs into your project and wires composer `post-install-cmd` and `post-update-cmd` so they stay current.
 
-## Regenerating
+## ``````Regenerating
 
 `src/Models/` and `src/ApiRoute.php` are generated. Do not hand-edit them.
 
