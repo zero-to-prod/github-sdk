@@ -501,7 +501,7 @@ $api = new GitHubSdk($config, new GuzzleTransport($client));
 
 `publish:docs` syncs the package docs into your project and wires composer `post-install-cmd` and `post-update-cmd` so they stay current.
 
-## ``````Regenerating
+## Regenerating
 
 `src/Models/` and `src/ApiRoute.php` are generated. Do not hand-edit them.
 
