@@ -1,0 +1,21 @@
+{
+    "$comment": "Template manifest. `php init` rewrites this for a derived package; the tooling in scripts/ reads it.",
+    "name": "zero-to-prod/sdk",
+    "namespace": "Zerotoprod\\Sdk",
+    "title": "SDK",
+    "description": "Template for a framework-agnostic PHP SDK generated from an OpenAPI document",
+    "api_class": "SdkApi",
+    "config_class": "SdkConfig",
+    "bin": "sdk",
+    "docs_url": "https://example.com/docs",
+    "retain_models": [
+        "Errors",
+        "Pagination",
+        "Query"
+    ],
+    "openapi": {
+        "source": null,
+        "include_webhooks": false,
+        "envelope_key": null
+    }
+}

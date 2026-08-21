@@ -1,0 +1,84 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Bodies", "version": "1.0.0"},
+  "paths": {
+    "/v1/things": {
+      "post": {
+        "summary": "Create a thing from an inline body.",
+        "requestBody": {"content": {"application/json": {"schema": {
+          "type": "object", "properties": {"label": {"type": "string"}}
+        }}}},
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {
+          "type": "object", "properties": {"ok": {"type": "boolean"}}
+        }}}}}
+      },
+      "get": {
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {
+          "type": "array", "items": {"type": "string"}
+        }}}}}
+      }
+    },
+    "/v1/tags": {
+      "get": {
+        "summary": "A bare JSON array of a named schema.",
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {
+          "type": "array", "items": {"$ref": "#/components/schemas/thing"}
+        }}}}}
+      }
+    },
+    "/v1/labels": {
+      "get": {
+        "summary": "A bare JSON array of an inline object.",
+        "responses": {"200": {"description": "ok", "content": {"application/json": {"schema": {
+          "type": "array", "items": {"type": "object", "properties": {"label": {"type": "string"}}}
+        }}}}}
+      }
+    },
+    "/v1/text": {
+      "post": {
+        "requestBody": {"content": {"text/plain": {"schema": {"type": "string"}}}},
+        "responses": {"200": {"description": "ok", "content": {"text/x-markdown": {"schema": {"type": "string"}}}}}
+      }
+    },
+    "/v1/empty": {
+      "post": {
+        "requestBody": {"description": "no content key"},
+        "responses": {"200": {"description": "no content key"}}
+      }
+    },
+    "/v1/no-success": {
+      "post": {"responses": {"404": {"description": "nope"}}}
+    },
+    "/v1/no-schema": {
+      "post": {
+        "requestBody": {"content": {"application/json": {}}},
+        "responses": {"200": {"description": "ok", "content": {"application/json": {}}}}
+      }
+    },
+    "/v1/ref-body": {
+      "post": {
+        "requestBody": {"$ref": "#/components/requestBodies/thing"},
+        "responses": {"200": {"$ref": "#/components/responses/thing"}}
+      }
+    },
+    "/v1/nameless-param": {
+      "get": {
+        "parameters": [{"in": "query", "schema": {"type": "string"}}],
+        "responses": {"200": {"description": "ok"}}
+      }
+    },
+    "/v1/multi-success": {
+      "get": {
+        "responses": {
+          "202": {"description": "later", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/thing"}}}},
+          "200": {"description": "ok", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/thing"}}}}
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {"thing": {"type": "object", "properties": {"id": {"type": "string"}}}},
+    "requestBodies": {"thing": {"content": {"application/json": {"schema": {"$ref": "#/components/schemas/thing"}}}}},
+    "responses": {"thing": {"description": "ok", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/thing"}}}}}
+  }
+}

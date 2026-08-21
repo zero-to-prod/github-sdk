@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Generate src/Models and src/ApiRoute.php from the OpenAPI document in sdk.json
+# --models-only  Write src/Models only
+# --routes-only  Write src/ApiRoute.php only
+# --webhooks     Also emit webhook payload models
+# --all-schemas  Emit every component schema, not only the reachable ones
+# --dry-run      Print the plan and write nothing
+# --force        Overwrite uncommitted changes under the generated paths
+# --verbose      List every skipped construct
+# --out=<dir>    Write into <dir> instead of the package root
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+php "$SCRIPT_DIR/generate-sdk.php" "$@"

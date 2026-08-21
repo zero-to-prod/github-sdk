@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+# Verify the template ancestry wiring (template remote, keepours driver, lockfiles)
+set -euo pipefail
+
+SCRIPT_DIR="${SCRIPT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+
+SDK_JSON="$SCRIPT_DIR/sdk.json"
+GITATTRIBUTES="$SCRIPT_DIR/.gitattributes"
+TEMPLATE_PACKAGE="zero-to-prod/sdk"
+
+if [[ ! -f "$SDK_JSON" ]]; then
+    echo "sdk.json not found; cannot tell the template from a derived package." >&2
+    exit 1
+fi
+
+name=$(php -r '$j = json_decode(file_get_contents($argv[1]), true); echo is_array($j) ? ($j["name"] ?? "") : "";' "$SDK_JSON")
+
+# In the template itself every finding below is advisory: the template has no
+# upstream to merge from, and ./run check-all has to stay green here.
+if [[ "$name" == "$TEMPLATE_PACKAGE" ]]; then
+    fatal=0
+    echo "This is the template ($TEMPLATE_PACKAGE). Ancestry checks are advisory here."
+else
+    fatal=1
+    echo "Derived package: $name"
+fi
+
+failures=0
+
+fail() {
+    if [[ "$fatal" -eq 1 ]]; then
+        echo "  FAIL: $1" >&2
+        failures=$((failures + 1))
+    else
+        echo "  note: $1"
+    fi
+}
+
+warn() {
+    echo "  warning: $1"
+}
+
+# 1. The template remote. Without it there is nothing to pull from, and the
+#    shared history quietly stops being shared.
+if git -C "$SCRIPT_DIR" remote get-url template >/dev/null 2>&1; then
+    echo "  ok: remote 'template' -> $(git -C "$SCRIPT_DIR" remote get-url template)"
+    has_remote=1
+else
+    warn "no remote named 'template'. Add one: git remote add template <url>"
+    has_remote=0
+fi
+
+# 2. The documented footgun. The driver lives in .git/config, never in
+#    .gitattributes, so a fresh clone silently resolves merges the wrong way
+#    until someone runs this once.
+if [[ -n "$(git -C "$SCRIPT_DIR" config --get merge.keepours.driver || true)" ]]; then
+    echo "  ok: merge.keepours.driver is configured"
+else
+    fail "merge.keepours.driver is unset. Run once: git config merge.keepours.driver true"
+fi
+
+# 3. Lockfiles must be allowed to conflict. Resolving one to our side pins the
+#    package below what the merged code needs, and that surfaces later as a
+#    missing symbol instead of a conflict.
+if [[ -f "$GITATTRIBUTES" ]]; then
+    locked=$(grep -E '^[^#]*(composer\.lock|package-lock\.json|yarn\.lock|pnpm-lock\.yaml).*merge=keepours' "$GITATTRIBUTES" || true)
+
+    if [[ -n "$locked" ]]; then
+        fail "lockfiles marked merge=keepours in .gitattributes:"
+        echo "$locked" | sed 's/^/         /' >&2
+    else
+        echo "  ok: no lockfile is marked merge=keepours"
+    fi
+fi
+
+# 4. Report drift without touching the network. A stale count is still useful;
+#    a fetch inside a check is not.
+if [[ "$has_remote" -eq 1 ]]; then
+    if git -C "$SCRIPT_DIR" rev-parse --verify --quiet template/main >/dev/null; then
+        behind=$(git -C "$SCRIPT_DIR" log HEAD..template/main --oneline | wc -l | tr -d ' ')
+
+        if [[ "$behind" -eq 0 ]]; then
+            echo "  ok: up to date with template/main (as of the last fetch)"
+        else
+            echo "  $behind unmerged commit(s) on template/main. Run: git pull template main"
+        fi
+    else
+        warn "template/main not fetched yet. Run: git fetch template"
+    fi
+fi
+
+if [[ "$failures" -gt 0 ]]; then
+    echo "Template ancestry check failed ($failures problem(s))." >&2
+    exit 1
+fi
+
+echo "Template ancestry check passed."

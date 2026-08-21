@@ -1,0 +1,29 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Arrays", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "leaf": {"type": "object", "properties": {"id": {"type": "string"}}},
+      "shapes": {
+        "type": "object",
+        "properties": {
+          "of_ref": {"type": "array", "items": {"$ref": "#/components/schemas/leaf"}},
+          "of_scalar": {"type": "array", "items": {"type": "integer"}},
+          "of_nothing": {"type": "array"},
+          "of_array": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
+          "free_form": {"type": "object", "additionalProperties": true},
+          "typed_map": {"type": "object", "additionalProperties": {"type": "string"}},
+          "model_map": {"type": "object", "additionalProperties": {"$ref": "#/components/schemas/leaf"}},
+          "bare_additional": {"additionalProperties": true},
+          "empty_object": {"type": "object"},
+          "untyped": {},
+          "number": {"type": "number"},
+          "unknown_type": {"type": "weird"}
+        }
+      },
+      "top-level-array": {"type": "array", "items": {"$ref": "#/components/schemas/leaf"}},
+      "top-level-scalar": {"type": "string"}
+    }
+  }
+}

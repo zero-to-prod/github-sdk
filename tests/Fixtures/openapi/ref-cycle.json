@@ -1,0 +1,11 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "RefCycle", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "loop-a": {"$ref": "#/components/schemas/loop-b"},
+      "loop-b": {"$ref": "#/components/schemas/loop-a"}
+    }
+  }
+}

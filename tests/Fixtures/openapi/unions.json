@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Unions", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "alpha": {"type": "object", "properties": {"a": {"type": "string"}}},
+      "beta": {"type": "object", "properties": {"b": {"type": "string"}}},
+      "unions": {
+        "type": "object",
+        "properties": {
+          "scalars": {"oneOf": [{"type": "string"}, {"type": "integer"}]},
+          "any_nullable": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "one_object": {"oneOf": [{"$ref": "#/components/schemas/alpha"}]},
+          "one_object_or_null": {"anyOf": [{"$ref": "#/components/schemas/alpha"}, {"type": "null"}]},
+          "two_objects": {"oneOf": [{"$ref": "#/components/schemas/alpha"}, {"$ref": "#/components/schemas/beta"}]},
+          "object_or_scalar": {"oneOf": [{"$ref": "#/components/schemas/alpha"}, {"type": "string"}]},
+          "empty_member": {"anyOf": [{}]},
+          "no_members_but_key": {"oneOf": [{"type": "null"}]}
+        }
+      },
+      "top-level-union": {"oneOf": [{"$ref": "#/components/schemas/alpha"}, {"$ref": "#/components/schemas/beta"}]}
+    }
+  }
+}

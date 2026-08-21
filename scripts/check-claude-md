@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Verify CLAUDE.md CLI commands section is up-to-date
+set -euo pipefail
+
+CLAUDE_MD="$SCRIPT_DIR/CLAUDE.md"
+
+# Generate what it should look like
+expected=$("$SCRIPT_DIR/run" 2>&1 || true)
+
+# Extract what's currently in the fenced block
+actual=$(sed -n '/^```$/,/^```$/{//d;p;}' "$CLAUDE_MD")
+
+if [[ "$expected" != "$actual" ]]; then
+    echo "CLAUDE.md CLI commands section is out of date." >&2
+    echo "Run ./run generate-claude-md to update." >&2
+    exit 1
+fi
+
+echo "CLAUDE.md CLI commands section is up-to-date."

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Verify README.md public API section is up to date
+set -euo pipefail
+
+README="$SCRIPT_DIR/README.md"
+
+SECTION_START="## Cli"
+SECTION_END="<!-- end public api -->"
+
+# CLI name comes from the manifest (sdk.json), never hardcoded here
+cli=$(php -r 'require getenv("SCRIPT_DIR")."/scripts/manifest.php"; echo manifestString("bin");')
+
+# Generate what the section should look like
+api_output=$("$SCRIPT_DIR/run" "$cli" 2>/dev/null | tail -n +2 || true)
+
+expected="$SECTION_START
+
+\`\`\`bash
+./vendor/bin/$cli
+\`\`\`
+
+\`\`\`
+$api_output
+\`\`\`
+
+$SECTION_END"
+
+# Extract current section
+start_line=$(grep -n "^${SECTION_START}$" "$README" | head -1 | cut -d: -f1)
+end_line=$(grep -n "^${SECTION_END}$" "$README" | head -1 | cut -d: -f1)
+actual=$(sed -n "${start_line},${end_line}p" "$README")
+
+if [[ "$expected" != "$actual" ]]; then
+    echo "README.md public API section is out of date." >&2
+    echo "Run ./run generate-readme to update." >&2
+    exit 1
+fi
+
+echo "README.md public API section is up-to-date."

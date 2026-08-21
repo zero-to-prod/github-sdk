@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Verify README.md Table of Contents section is up-to-date
+set -euo pipefail
+
+README="$SCRIPT_DIR/README.md"
+
+SECTION_START="## Table of Contents"
+SECTION_END="<!-- end toc -->"
+
+toc=$(awk -v skip="$SECTION_START" '
+    BEGIN { in_fence = 0 }
+    /^```/ { in_fence = !in_fence; next }
+    in_fence { next }
+    /^#+ / {
+        match($0, /^#+/)
+        depth = RLENGTH
+        if (depth < 2 || depth > 4) next
+        title = substr($0, depth + 2)
+        sub(/[ \t]+$/, "", title)
+        if (("## " title) == skip) next
+        indent = ""
+        for (i = 2; i < depth; i++) indent = indent "  "
+        slug = tolower(title)
+        gsub(/[^a-z0-9 _-]/, "", slug)
+        gsub(/ /, "-", slug)
+        printf "%s- [%s](#%s)\n", indent, title, slug
+    }
+' "$README")
+
+expected="$SECTION_START
+
+$toc
+
+$SECTION_END"
+
+start_line=$(grep -n "^${SECTION_START}$" "$README" | head -1 | cut -d: -f1 || true)
+end_line=$(grep -n "^${SECTION_END}$" "$README" | head -1 | cut -d: -f1 || true)
+
+if [[ -z "$start_line" || -z "$end_line" ]]; then
+    echo "README.md is missing the Table of Contents section." >&2
+    echo "Run ./run generate-toc to add it." >&2
+    exit 1
+fi
+
+actual=$(sed -n "${start_line},${end_line}p" "$README")
+
+if [[ "$expected" != "$actual" ]]; then
+    echo "README.md Table of Contents section is out of date." >&2
+    echo "Run ./run generate-toc to update." >&2
+    exit 1
+fi
+
+echo "README.md Table of Contents section is up-to-date."

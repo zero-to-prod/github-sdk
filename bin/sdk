@@ -1,0 +1,1196 @@
+#!/usr/bin/env php
+<?php
+
+$packageDir = dirname(__DIR__);
+
+// When installed as a dependency, the package lives in vendor/zero-to-prod/sdk
+if (!is_file("$packageDir/README.md")) {
+    $packageDir = dirname(__DIR__, 3);
+}
+
+// Autoload
+$autoloaderLoaded = false;
+foreach (array_filter([
+    $GLOBALS['_composer_autoload_path'] ?? null,  // set by Composer bin proxy
+    "$packageDir/vendor/autoload.php",            // standalone dev
+    dirname(__DIR__, 3).'/autoload.php',          // installed as dependency (vendor/autoload.php)
+]) as $autoload) {
+    if (is_file($autoload)) {
+        require $autoload;
+        $autoloaderLoaded = true;
+        break;
+    }
+}
+
+if (!$autoloaderLoaded) {
+    fwrite(STDERR, "Error: Could not locate Composer autoloader.\n");
+    fwrite(STDERR, "Run 'composer install' or check your installation.\n");
+    exit(1);
+}
+
+/**
+ * Package identity from the template manifest (sdk.json) — never hardcoded here,
+ * so a renamed derived package keeps working untouched.
+ */
+function manifest(string $key): string
+{
+    global $packageDir;
+    static $data = null;
+
+    if ($data === null) {
+        $file = "$packageDir/sdk.json";
+        if (!is_file($file)) {
+            fwrite(STDERR, "Manifest not found: $file\n");
+            exit(1);
+        }
+
+        $raw = file_get_contents($file);
+        $decoded = $raw === false ? null : json_decode($raw, true);
+        if (!is_array($decoded)) {
+            fwrite(STDERR, "Malformed JSON in $file\n");
+            exit(1);
+        }
+
+        $data = $decoded;
+    }
+
+    $value = $data[$key] ?? null;
+    if (!is_string($value) || trim($value) === '') {
+        fwrite(STDERR, "Malformed manifest sdk.json: missing or empty string key \"$key\".\n");
+        exit(1);
+    }
+
+    return $value;
+}
+
+/** Short label for example namespaces: `SdkApi` → `Sdk`. */
+function packageLabel(): string
+{
+    return (string) preg_replace('/Api$/', '', manifest('api_class'));
+}
+
+$command = $argv[1] ?? null;
+
+switch ($command) {
+    case 'readme':
+        $readme = "$packageDir/README.md";
+        if (!is_file($readme)) {
+            fwrite(STDERR, "README.md not found.\n");
+            exit(1);
+        }
+        echo file_get_contents($readme);
+        break;
+
+    case 'list:api':
+        listApi();
+        break;
+
+    case 'list:models':
+        listModels($argv[2] ?? null);
+        break;
+
+    case 'describe':
+        describeModel($argv[2] ?? null, (int) ($argv[3] ?? 2));
+        break;
+
+    case 'publish:skill':
+        publishSkill();
+        break;
+
+    case 'publish:models':
+        publishModels($argv[2] ?? null, array_slice($argv, 3));
+        break;
+
+    case 'publish:factories':
+        publishFactories($argv[2] ?? null, array_slice($argv, 3));
+        break;
+
+    case 'publish:docs':
+        publishDocs($argv[2] ?? null);
+        break;
+
+    case 'generate:sdk':
+        generateSdk(array_slice($argv, 2));
+        break;
+
+    default:
+        $bin = manifest('bin');
+        echo "Usage: $bin <command>\n";
+        echo "\n";
+        echo "Commands:\n";
+        echo "  readme                            Display the package README\n";
+        echo "  list:api                          Display the public API surface\n";
+        echo "  list:models [class]               List model classes, or describe a model's properties\n";
+        echo "  describe <class> [depth]          Describe a model's property tree (default depth: 2)\n";
+        echo "  generate:sdk [<openapi>] [flags]  Regenerate src/Models/ and src/ApiRoute.php from an OpenAPI document\n";
+        echo "  publish:skill                     Publish a Claude Code skill to .claude/commands/\n";
+        echo "  publish:models <ns> [models]      Publish model classes to your project\n";
+        echo "  publish:factories <ns> [factory]  Publish factory classes to your project\n";
+        echo "  publish:docs [path]               Publish package docs to [path] (default: <project>/docs) and wire composer sync scripts\n";
+        exit(1);
+}
+
+function publishSkill(): void
+{
+    global $packageDir;
+
+    $skillFile = manifest('bin').'.md';
+
+    $source = "$packageDir/docs/skills/$skillFile";
+    if (!is_file($source)) {
+        fwrite(STDERR, "Skill source not found: $source\n");
+        exit(1);
+    }
+
+    $projectRoot = findProjectRoot();
+    $skillDir = "$projectRoot/.claude/commands";
+    $skillPath = "$skillDir/$skillFile";
+
+    if (!is_dir($skillDir)) {
+        mkdir($skillDir, 0755, true);
+    }
+
+    copy($source, $skillPath);
+    echo "Published skill to $skillPath\n";
+
+    updateComposerScripts("$projectRoot/composer.json");
+}
+
+function findProjectRoot(): string
+{
+    global $packageDir;
+
+    // Prefer the current working directory (handles symlinked path repos)
+    $cwd = getcwd();
+    if ($cwd !== false && is_file("$cwd/composer.json") && $cwd !== $packageDir) {
+        return $cwd;
+    }
+
+    // When installed as a dependency: vendor/zero-to-prod/sdk → project root is 3 levels up
+    $candidate = dirname($packageDir, 3);
+    if (is_file("$candidate/composer.json") && $candidate !== $packageDir) {
+        return $candidate;
+    }
+
+    // Development: package root IS the project root
+    return $packageDir;
+}
+
+function listApi(): void
+{
+    global $packageDir;
+
+    $classes = discoverPublicClasses("$packageDir/src");
+    $counts = ['classes' => 0, 'constants' => 0, 'properties' => 0, 'methods' => 0];
+
+    foreach ($classes as $ref) {
+        $counts['classes']++;
+
+        // Class header
+        $type = $ref->isInterface() ? 'interface' : ($ref->isEnum() ? 'enum' : 'class');
+        $classDoc = parseDocBlock($ref->getDocComment() ?: '');
+        echo "# $type {$ref->getName()}\n";
+        if ($classDoc) {
+            echo "$classDoc\n";
+        }
+        echo "\n";
+
+        // Constants
+        $constants = $ref->getReflectionConstants(ReflectionClassConstant::IS_PUBLIC);
+        if ($constants) {
+            $counts['constants'] += count($constants);
+            foreach ($constants as $const) {
+                $value = var_export($const->getValue(), true);
+                $doc = parseDocBlock($const->getDocComment() ?: '');
+                echo "  const {$const->getName()} = $value\n";
+                if ($doc) {
+                    foreach (explode("\n", $doc) as $line) {
+                        echo "    $line\n";
+                    }
+                }
+            }
+            echo "\n";
+        }
+
+        // Public properties
+        $props = array_filter(
+            $ref->getProperties(ReflectionProperty::IS_PUBLIC),
+            static fn(ReflectionProperty $p) => $p->getDeclaringClass()->getName() === $ref->getName()
+        );
+        if ($props) {
+            $counts['properties'] += count($props);
+            foreach ($props as $prop) {
+                $type = $prop->getType();
+                $typeName = $type ? $type->__toString() : 'mixed';
+                $readonly = $prop->isReadonly() ? 'readonly ' : '';
+                $doc = parseDocBlock($prop->getDocComment() ?: '');
+                echo "  {$readonly}{$typeName} \${$prop->getName()}\n";
+                if ($doc) {
+                    foreach (explode("\n", $doc) as $line) {
+                        echo "    $line\n";
+                    }
+                }
+            }
+            echo "\n";
+        }
+
+        // Public methods
+        $externalMethods = getExternalTraitMethods($ref);
+        $methods = array_filter(
+            $ref->getMethods(ReflectionMethod::IS_PUBLIC),
+            static fn(ReflectionMethod $m) => str_starts_with($m->getDeclaringClass()->getNamespaceName(), manifest('namespace'))
+                && !str_starts_with($m->getName(), '__')
+                && !isset($externalMethods[$m->getName()])
+        );
+        $counts['methods'] += count($methods);
+        foreach ($methods as $method) {
+            $static = $method->isStatic() ? 'static ' : '';
+            $params = formatParams($method);
+            $returnType = $method->getReturnType();
+            $returnStr = $returnType ? $returnType->__toString() : 'mixed';
+
+            // Check PHPDoc for @return override (generics)
+            $methodDoc = $method->getDocComment() ?: '';
+            if (preg_match('/@return\s+(.+?)(?:\s*\*\/|\s*\n\s*\*\s*@|\s*$)/s', $methodDoc, $m)) {
+                $returnStr = trim(preg_replace('/\s*\*\s*/', ' ', $m[1]));
+            }
+
+            echo "  {$static}{$method->getName()}($params): $returnStr\n";
+
+            // Extract @param lines and other doc content
+            $doc = parseDocBlock($methodDoc);
+            if ($doc) {
+                foreach (explode("\n", $doc) as $line) {
+                    echo "    $line\n";
+                }
+            }
+            echo "\n";
+        }
+
+        echo "---\n\n";
+    }
+
+    $total = $counts['constants'] + $counts['properties'] + $counts['methods'];
+    echo "{$counts['classes']} classes, {$counts['constants']} constants, {$counts['properties']} properties, {$counts['methods']} methods ($total public elements)\n";
+}
+
+function listModels(?string $className): void
+{
+    global $packageDir;
+
+    $modelsDir = "$packageDir/src/Models";
+    $namespace = manifest('namespace').'\\Models';
+
+    $names = discoverModelNames($modelsDir, $namespace);
+
+    if ($className === null) {
+        echo count($names) . " models\n\n";
+        foreach ($names as $name) {
+            echo "$name\n";
+        }
+        return;
+    }
+
+    $fqcn = "$namespace\\$className";
+    if (!class_exists($fqcn) && !enum_exists($fqcn)) {
+        fwrite(STDERR, "Model not found: $className\n");
+        exit(1);
+    }
+
+    $ref = new ReflectionClass($fqcn);
+
+    // Enums: show cases
+    if ($ref->isEnum()) {
+        $enumRef = new ReflectionEnum($fqcn);
+        $backingType = $enumRef->isBacked() ? $enumRef->getBackingType()->__toString() : '';
+        $typeSuffix = $backingType ? ": $backingType" : '';
+        echo "# enum $className$typeSuffix\n";
+
+        $classDoc = firstSentence(parseModelDocBlock($ref->getDocComment() ?: ''));
+        if ($classDoc) {
+            echo "$classDoc\n";
+        }
+        echo "\n";
+
+        foreach ($enumRef->getCases() as $case) {
+            $value = $enumRef->isBacked() ? $case->getBackingValue() : $case->getName();
+            echo "  {$case->getName()} = " . var_export($value, true) . "\n";
+        }
+        return;
+    }
+
+    // Classes: show properties
+    echo "# $className\n";
+    $classDoc = firstSentence(parseModelDocBlock($ref->getDocComment() ?: ''));
+    if ($classDoc) {
+        echo "$classDoc\n";
+    }
+    echo "\n";
+
+    $props = array_filter(
+        $ref->getProperties(ReflectionProperty::IS_PUBLIC),
+        static fn(ReflectionProperty $p) => $p->getDeclaringClass()->getName() === $ref->getName()
+    );
+
+    foreach ($props as $prop) {
+        $typeName = resolvePropertyType($prop);
+        $doc = firstSentence(parseModelDocBlock($prop->getDocComment() ?: ''));
+        $docSuffix = $doc !== '' ? " — $doc" : '';
+        echo "  $typeName \${$prop->getName()}$docSuffix\n";
+    }
+}
+
+function describeModel(?string $className, int $maxDepth): void
+{
+    $namespace = manifest('namespace').'\\Models';
+
+    if ($className === null) {
+        $bin = manifest('bin');
+        fwrite(STDERR, "Usage: $bin describe <class> [depth]\n");
+        fwrite(STDERR, "\n");
+        fwrite(STDERR, "Examples:\n");
+        fwrite(STDERR, "  $bin describe WidgetsResponse\n");
+        fwrite(STDERR, "  $bin describe WidgetsResponse 3\n");
+        exit(1);
+    }
+
+    $fqcn = "$namespace\\$className";
+    if (!class_exists($fqcn) && !enum_exists($fqcn)) {
+        fwrite(STDERR, "Model not found: $className\n");
+        exit(1);
+    }
+
+    $maxDepth = max(1, min($maxDepth, 5));
+
+    $ref = new ReflectionClass($fqcn);
+
+    if ($ref->isEnum()) {
+        // Delegate to listModels for enums — no tree to expand
+        listModels($className);
+        return;
+    }
+
+    $classDoc = firstSentence(parseModelDocBlock($ref->getDocComment() ?: ''));
+    echo "$className";
+    if ($classDoc !== '') {
+        echo " — $classDoc";
+    }
+    echo "\n";
+
+    describeProperties($ref, $namespace, 1, $maxDepth, []);
+}
+
+/**
+ * Recursively print a model's property tree.
+ *
+ * @param  string[] $seen FQCNs already expanded in this branch (cycle guard)
+ */
+function describeProperties(ReflectionClass $ref, string $namespace, int $depth, int $maxDepth, array $seen): void
+{
+    $indent = str_repeat('  ', $depth);
+
+    $props = array_filter(
+        $ref->getProperties(ReflectionProperty::IS_PUBLIC),
+        static fn(ReflectionProperty $p) => $p->getDeclaringClass()->getName() === $ref->getName()
+    );
+
+    foreach ($props as $prop) {
+        $typeName = resolvePropertyType($prop);
+        $doc = firstSentence(parseModelDocBlock($prop->getDocComment() ?: ''));
+        $docSuffix = $doc !== '' ? " — $doc" : '';
+
+        echo "$indent$typeName \${$prop->getName()}$docSuffix\n";
+
+        if ($depth >= $maxDepth) {
+            continue;
+        }
+
+        // Resolve the FQCN for the nested type to recurse into
+        $nestedFqcn = resolveNestedFqcn($prop, $namespace);
+        if ($nestedFqcn === null) {
+            continue;
+        }
+
+        // Cycle guard: skip if we've already expanded this type in this branch
+        if (in_array($nestedFqcn, $seen, true)) {
+            echo str_repeat('  ', $depth + 1) . "(see $typeName above)\n";
+            continue;
+        }
+
+        $nestedRef = new ReflectionClass($nestedFqcn);
+        if ($nestedRef->isEnum()) {
+            continue;
+        }
+
+        describeProperties($nestedRef, $namespace, $depth + 1, $maxDepth, [...$seen, $nestedFqcn]);
+    }
+}
+
+/**
+ * Resolve the FQCN of a property's nested model type, if it's a model class.
+ * Returns null for scalars, enums, and non-model types.
+ */
+function resolveNestedFqcn(ReflectionProperty $prop, string $namespace): ?string
+{
+    // Check for mapOf pattern first — the item type is the nested model
+    foreach ($prop->getAttributes(\Zerotoprod\DataModel\Describe::class) as $attr) {
+        $args = $attr->getArguments();
+        $config = $args[0] ?? [];
+        if (!is_array($config)) {
+            continue;
+        }
+        $cast = $config['cast'] ?? null;
+        $itemType = $config['type'] ?? null;
+        if ($itemType !== null && is_string($itemType) && is_array($cast) && ($cast[1] ?? '') === 'mapOf') {
+            if (class_exists($itemType) && !enum_exists($itemType)) {
+                return $itemType;
+            }
+            return null;
+        }
+    }
+
+    // Check the native type hint
+    $type = $prop->getType();
+    if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
+        return null;
+    }
+
+    $fqcn = $type->getName();
+    if ($fqcn === 'object' || !class_exists($fqcn)) {
+        return null;
+    }
+
+    // Only recurse into model classes in our namespace
+    if (!str_starts_with($fqcn, $namespace . '\\')) {
+        return null;
+    }
+
+    if (enum_exists($fqcn)) {
+        return null;
+    }
+
+    return $fqcn;
+}
+
+/**
+ * Resolve a property's display type, detecting mapOf arrays via #[Describe] attributes.
+ * Returns short class names (e.g. "User" instead of FQCN).
+ */
+function resolvePropertyType(ReflectionProperty $prop): string
+{
+    $type = $prop->getType();
+    $typeName = $type ? $type->__toString() : 'mixed';
+
+    // Check for mapOf pattern in #[Describe] attributes
+    foreach ($prop->getAttributes(\Zerotoprod\DataModel\Describe::class) as $attr) {
+        $args = $attr->getArguments();
+        $config = $args[0] ?? [];
+        if (!is_array($config)) {
+            continue;
+        }
+
+        $cast = $config['cast'] ?? null;
+        $itemType = $config['type'] ?? null;
+
+        if ($itemType !== null && is_array($cast) && ($cast[1] ?? '') === 'mapOf') {
+            $shortType = is_string($itemType) ? (new ReflectionClass($itemType))->getShortName() : $itemType;
+            return "array<$shortType>";
+        }
+    }
+
+    // Shorten FQCNs to short class names
+    return shortenType($typeName);
+}
+
+/** Shorten a type string by replacing FQCNs with short class names. */
+function shortenType(string $typeName): string
+{
+    // Handle nullable union types like "?Zerotoprod\Sdk\Models\User"
+    $nullable = '';
+    if (str_starts_with($typeName, '?')) {
+        $nullable = '?';
+        $typeName = substr($typeName, 1);
+    }
+
+    if (str_contains($typeName, '\\')) {
+        $typeName = (new ReflectionClass($typeName))->getShortName();
+    }
+
+    return $nullable . $typeName;
+}
+
+/**
+ * Discover model short names from the Models directory.
+ *
+ * @return string[]
+ */
+function discoverModelNames(string $modelsDir, string $namespace): array
+{
+    $names = [];
+    $files = glob("$modelsDir/*.php");
+    if ($files === false) {
+        return [];
+    }
+
+    foreach ($files as $file) {
+        $name = basename($file, '.php');
+        $fqcn = "$namespace\\$name";
+        if (class_exists($fqcn) || enum_exists($fqcn)) {
+            $names[] = $name;
+        }
+    }
+
+    sort($names);
+    return $names;
+}
+
+/**
+ * Parse a PHPDoc block for model output, stripping @link, @see, @internal, @var, and annotation lines.
+ */
+function parseModelDocBlock(string $doc): string
+{
+    if (!$doc) {
+        return '';
+    }
+
+    $lines = [];
+    foreach (explode("\n", $doc) as $line) {
+        $line = trim($line);
+        $line = ltrim($line, '/* ');
+        $line = rtrim($line, '*/');
+        $line = trim($line);
+
+        if ($line === '' || str_starts_with($line, '@')) {
+            continue;
+        }
+
+        $lines[] = $line;
+    }
+
+    return implode(' ', $lines);
+}
+
+/** Extract the first sentence from a doc string. */
+function firstSentence(string $text): string
+{
+    $text = trim($text);
+    if ($text === '') {
+        return '';
+    }
+
+    // Split on sentence-ending punctuation followed by a space or end of string
+    $pos = preg_match('/[.!?](?:\s|$)/', $text, $m, PREG_OFFSET_CAPTURE);
+    if ($pos && isset($m[0][1])) {
+        return trim(substr($text, 0, $m[0][1] + 1));
+    }
+
+    return $text;
+}
+
+function formatParams(ReflectionMethod $method): string
+{
+    $parts = [];
+    $docParams = [];
+
+    // Parse PHPDoc @param types for richer type info
+    $doc = $method->getDocComment() ?: '';
+    if (preg_match_all('/@param\s+(\S+)\s+\$(\w+)/', $doc, $matches, PREG_SET_ORDER)) {
+        foreach ($matches as $match) {
+            $docParams[$match[2]] = $match[1];
+        }
+    }
+
+    foreach ($method->getParameters() as $param) {
+        $type = $param->getType();
+        $typeName = $docParams[$param->getName()] ?? ($type ? $type->__toString() : 'mixed');
+
+        $str = "$typeName \${$param->getName()}";
+        if ($param->isDefaultValueAvailable()) {
+            $default = $param->getDefaultValue();
+            if ($default === null) {
+                $str .= ' = null';
+            } elseif ($default === []) {
+                $str .= ' = []';
+            } elseif (is_object($default)) {
+                $str .= ' = new '.get_class($default).'()';
+            } else {
+                $str .= ' = '.var_export($default, true);
+            }
+        }
+        $parts[] = $str;
+    }
+    return implode(', ', $parts);
+}
+
+/** @return array<string, true> */
+function getExternalTraitMethods(ReflectionClass $ref): array
+{
+    $external = [];
+    foreach (getAllTraits($ref) as $trait) {
+        if (!str_starts_with($trait->getNamespaceName(), manifest('namespace'))) {
+            foreach ($trait->getMethods() as $m) {
+                $external[$m->getName()] = true;
+            }
+        }
+    }
+    return $external;
+}
+
+/** @return ReflectionClass[] */
+function getAllTraits(ReflectionClass $ref): array
+{
+    $traits = [];
+    foreach ($ref->getTraits() as $trait) {
+        $traits[] = $trait;
+        array_push($traits, ...getAllTraits($trait));
+    }
+    return $traits;
+}
+
+/**
+ * Scan src/ for all PHP classes/interfaces/enums, return those NOT marked @internal.
+ *
+ * @return ReflectionClass[]
+ */
+function discoverPublicClasses(string $srcDir): array
+{
+    $classes = [];
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($srcDir));
+
+    foreach ($iterator as $file) {
+        if ($file->getExtension() !== 'php') {
+            continue;
+        }
+
+        // Skip generated model classes — they're publishable, not part of the core API surface
+        if (str_contains($file->getPathname(), '/Models/')) {
+            continue;
+        }
+
+        $contents = file_get_contents($file->getPathname());
+        if ($contents === false) {
+            continue;
+        }
+
+        // Extract namespace and class/interface/enum name
+        if (!preg_match('/namespace\s+([\w\\\\]+);/', $contents, $ns)) {
+            continue;
+        }
+        // Match the actual declaration, not inside comments
+        if (!preg_match('/^(?:abstract\s+|final\s+|readonly\s+)*(?:class|interface|enum)\s+(\w+)/m', $contents, $name)) {
+            continue;
+        }
+
+        $fqcn = $ns[1].'\\'.$name[1];
+
+        if (!class_exists($fqcn) && !interface_exists($fqcn) && !enum_exists($fqcn)) {
+            continue;
+        }
+
+        $ref = new ReflectionClass($fqcn);
+
+        // Skip @internal classes
+        $doc = $ref->getDocComment() ?: '';
+        if (str_contains($doc, '@internal')) {
+            continue;
+        }
+
+        $classes[] = $ref;
+    }
+
+    // Sort: main API class first, then alphabetically
+    $apiClass = manifest('api_class');
+    usort($classes, static function (ReflectionClass $a, ReflectionClass $b) use ($apiClass): int {
+        $aIsApi = str_contains($a->getName(), $apiClass) ? 0 : 1;
+        $bIsApi = str_contains($b->getName(), $apiClass) ? 0 : 1;
+        return $aIsApi <=> $bIsApi ?: $a->getName() <=> $b->getName();
+    });
+
+    return $classes;
+}
+
+function parseDocBlock(string $doc): string
+{
+    if (!$doc) {
+        return '';
+    }
+
+    $lines = [];
+    foreach (explode("\n", $doc) as $line) {
+        $line = trim($line);
+        $line = ltrim($line, '/* ');
+        $line = rtrim($line, '*/');
+        $line = trim($line);
+
+        // Skip empty lines, @internal, @phpstan tags, @implements
+        if ($line === '' || str_starts_with($line, '@internal')
+            || str_starts_with($line, '@phpstan')
+            || str_starts_with($line, '@implements')
+            || str_starts_with($line, '@template')) {
+            continue;
+        }
+
+        $lines[] = $line;
+    }
+
+    return implode("\n", $lines);
+}
+
+/**
+ * @param  string[]  $modelNames  Optional list of model class names to publish (e.g. ['UserResponse', 'User']).
+ *                                When empty, publishes all models.
+ */
+function publishModels(?string $namespace, array $modelNames = []): void
+{
+    global $packageDir;
+
+    if ($namespace === null) {
+        $bin = manifest('bin');
+        $example = 'App\\Models\\'.packageLabel();
+        fwrite(STDERR, "Usage: $bin publish:models <namespace> [model ...]\n");
+        fwrite(STDERR, "\n");
+        fwrite(STDERR, "Examples:\n");
+        fwrite(STDERR, "  $bin publish:models '$example'                             # all models\n");
+        fwrite(STDERR, "  $bin publish:models '$example' WidgetsResponse Widget      # specific models\n");
+        fwrite(STDERR, "\n");
+        fwrite(STDERR, "Copies model classes to your project and rewrites their namespace.\n");
+        fwrite(STDERR, "Then set model_namespace in your ".manifest('config_class')." to the same namespace.\n");
+        fwrite(STDERR, "Unpublished models fall back to the package defaults automatically.\n");
+        exit(1);
+    }
+
+    $sourceDir = "$packageDir/src/Models";
+    if (!is_dir($sourceDir)) {
+        fwrite(STDERR, "Source models directory not found: $sourceDir\n");
+        exit(1);
+    }
+
+    $projectRoot = findProjectRoot();
+
+    // Convert namespace to directory path (PSR-4: App\Models\Sdk -> app/Models/Sdk)
+    $relPath = str_replace('\\', '/', $namespace);
+    // Common convention: App\ maps to app/
+    if (str_starts_with($relPath, 'App/')) {
+        $relPath = 'app/' . substr($relPath, 4);
+    }
+    $targetDir = "$projectRoot/$relPath";
+
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0755, true);
+    }
+
+    $sourceNamespace = manifest('namespace').'\\Models';
+    $publishAll = $modelNames === [];
+
+    // Resolve source files
+    if ($publishAll) {
+        $files = glob("$sourceDir/*.php");
+        if ($files === false) {
+            fwrite(STDERR, "Failed to read source directory.\n");
+            exit(1);
+        }
+    } else {
+        $files = [];
+        foreach ($modelNames as $name) {
+            $name = str_replace('.php', '', $name);
+            $path = "$sourceDir/$name.php";
+            if (!is_file($path)) {
+                fwrite(STDERR, "Model not found: $name (looked for $path)\n");
+                exit(1);
+            }
+            $files[] = $path;
+        }
+    }
+
+    // Build set of published class names for selective rewriting
+    $publishedNames = [];
+    foreach ($files as $file) {
+        $publishedNames[basename($file, '.php')] = true;
+    }
+
+    $count = 0;
+    foreach ($files as $file) {
+        $contents = file_get_contents($file);
+        if ($contents === false) {
+            continue;
+        }
+
+        // Rewrite namespace declaration
+        $contents = str_replace(
+            "namespace $sourceNamespace;",
+            "namespace $namespace;",
+            $contents,
+        );
+
+        if ($publishAll) {
+            // Publishing all: rewrite sibling use statements to published namespace
+            $contents = str_replace(
+                "use $sourceNamespace\\",
+                "use $namespace\\",
+                $contents,
+            );
+        } else {
+            // Publishing subset: rewrite use statements only for co-published models,
+            // keep others pointing to vendor
+            $contents = preg_replace_callback(
+                '/use ' . preg_quote($sourceNamespace, '/') . '\\\\(\w+);/',
+                static function (array $m) use ($namespace, $publishedNames, $sourceNamespace): string {
+                    $class = $m[1];
+                    if (isset($publishedNames[$class])) {
+                        return "use $namespace\\$class;";
+                    }
+                    return $m[0]; // keep vendor reference
+                },
+                $contents,
+            );
+
+            // Add vendor use statements for unqualified same-namespace type references
+            // that are NOT already imported and NOT in the published set.
+            // Scan for type hints: ?ClassName $prop, array<..., ClassName>, 'type' => ClassName::class
+            preg_match_all('/(?:(?:public\s+\??)(\b[A-Z]\w+)\s+\$|\'type\'\s*=>\s*(\b[A-Z]\w+)::class)/', $contents, $typeMatches);
+            $referencedTypes = array_unique(array_filter(array_merge($typeMatches[1], $typeMatches[2])));
+
+            $missingImports = [];
+            foreach ($referencedTypes as $type) {
+                // Skip PHP built-in types, self, and already-imported classes
+                if (in_array($type, ['Describe', 'DataModel'], true)) {
+                    continue;
+                }
+                if (isset($publishedNames[$type])) {
+                    continue; // co-published — already rewritten or same namespace
+                }
+                if (str_contains($contents, "use $sourceNamespace\\$type;")) {
+                    continue; // already has vendor use statement
+                }
+                if (str_contains($contents, "use $namespace\\$type;")) {
+                    continue; // already has published use statement
+                }
+                // Check this is actually a model class
+                if (is_file(dirname($file) . "/$type.php")) {
+                    $missingImports[] = "use $sourceNamespace\\$type;";
+                }
+            }
+
+            if ($missingImports !== []) {
+                // Insert after the namespace declaration
+                sort($missingImports);
+                $importBlock = implode("\n", $missingImports);
+                $contents = preg_replace(
+                    '/(namespace ' . preg_quote($namespace, '/') . ';)/',
+                    "\$1\n\n$importBlock",
+                    $contents,
+                    1,
+                );
+            }
+        }
+
+        // Keep internal use statements (DataModel trait etc.) pointing to package
+        // These are already correct since they reference the package Internal\ namespace
+
+        $targetFile = "$targetDir/" . basename($file);
+        file_put_contents($targetFile, $contents);
+        $count++;
+    }
+
+    $configClass = manifest('config_class');
+
+    echo "Published $count model(s) to $targetDir\n";
+    echo "\n";
+    echo "Add to your $configClass:\n";
+    echo "\n";
+    echo "  {$configClass}::model_namespace => '$namespace'\n";
+}
+
+/**
+ * Copy the package's docs/ directory to the user's project and wire up
+ * composer scripts so the zero-to-prod-data-model-helper tool keeps docs
+ * in sync on install/update.
+ */
+function publishDocs(?string $targetPath): void
+{
+    global $packageDir;
+
+    $projectRoot = findProjectRoot();
+    $target = $targetPath !== null
+        ? rtrim($targetPath, '/')
+        : "$projectRoot/docs";
+
+    $source = "$packageDir/docs";
+    if (!is_dir($source)) {
+        fwrite(STDERR, "Package docs directory not found: $source\n");
+        exit(1);
+    }
+
+    $count = copyDirectory($source, $target);
+    echo "Published $count doc file(s) to $target\n";
+
+    updateComposerScripts("$projectRoot/composer.json");
+}
+
+/**
+ * Regenerate the SDK (src/Models/, src/ApiRoute.php) from an OpenAPI document by
+ * delegating to the generator entry point. The generator lives in scripts/, which
+ * is export-ignored, so this command only runs from a checkout of the template.
+ *
+ * @param  string[]  $args  Optional OpenAPI source (path or URL) followed by flags.
+ *                          Defaults to `openapi.source` in sdk.json when omitted.
+ */
+function generateSdk(array $args): void
+{
+    global $packageDir;
+
+    $entry = "$packageDir/scripts/generate-sdk.php";
+
+    if (!is_file($entry)) {
+        fwrite(STDERR, "Generator entry point not found: $entry\n");
+        fwrite(STDERR, "generate:sdk requires a checkout of the SDK template — scripts/ is not shipped with the installed package.\n");
+        exit(1);
+    }
+
+    $command = escapeshellarg(PHP_BINARY).' '.escapeshellarg($entry);
+    foreach ($args as $arg) {
+        $command .= ' '.escapeshellarg($arg);
+    }
+
+    $exitCode = 0;
+    passthru($command, $exitCode);
+    exit($exitCode);
+}
+
+/** Recursively copy a directory, returning the number of files copied. */
+function copyDirectory(string $src, string $dst): int
+{
+    if (!is_dir($dst)) {
+        mkdir($dst, 0755, true);
+    }
+
+    $count = 0;
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($src, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::SELF_FIRST,
+    );
+
+    $srcLen = strlen($src) + 1;
+    foreach ($iterator as $item) {
+        $rel = substr($item->getPathname(), $srcLen);
+        $targetPath = "$dst/$rel";
+        if ($item->isDir()) {
+            if (!is_dir($targetPath)) {
+                mkdir($targetPath, 0755, true);
+            }
+        } else {
+            copy($item->getPathname(), $targetPath);
+            $count++;
+        }
+    }
+
+    return $count;
+}
+
+/**
+ * Merge zero-to-prod-data-model-helper into post-install-cmd and
+ * post-update-cmd in the project's composer.json, preserving existing
+ * entries. Idempotent.
+ */
+function updateComposerScripts(string $composerFile): void
+{
+    if (!is_file($composerFile)) {
+        fwrite(STDERR, "composer.json not found at $composerFile — skipped script wiring.\n");
+        return;
+    }
+
+    $raw = file_get_contents($composerFile);
+    if ($raw === false) {
+        fwrite(STDERR, "Cannot read $composerFile\n");
+        exit(1);
+    }
+
+    $composer = json_decode($raw, true);
+    if (!is_array($composer)) {
+        fwrite(STDERR, "Invalid JSON in $composerFile\n");
+        exit(1);
+    }
+
+    $command = 'zero-to-prod-data-model-helper';
+    $hooks = ['post-install-cmd', 'post-update-cmd'];
+    $changed = false;
+
+    foreach ($hooks as $hook) {
+        $scripts = $composer['scripts'][$hook] ?? [];
+        if (is_string($scripts)) {
+            $scripts = [$scripts];
+        }
+        if (!in_array($command, $scripts, true)) {
+            $scripts[] = $command;
+            $composer['scripts'][$hook] = $scripts;
+            $changed = true;
+        }
+    }
+
+    if (!$changed) {
+        echo "composer.json scripts already wired.\n";
+        return;
+    }
+
+    $encoded = json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    if ($encoded === false) {
+        fwrite(STDERR, "Failed to encode composer.json\n");
+        exit(1);
+    }
+
+    file_put_contents($composerFile, $encoded . "\n");
+    echo "Added $command to post-install-cmd and post-update-cmd in $composerFile\n";
+}
+
+/**
+ * Copy factory classes into a consumer's project and rewrite their namespace.
+ * Factories not in the published set keep pointing at the vendor package.
+ *
+ * @param  string[]  $factoryNames  Optional list of factory class names (without .php).
+ *                                  When empty, publishes all factories.
+ */
+function publishFactories(?string $namespace, array $factoryNames = []): void
+{
+    global $packageDir;
+
+    if ($namespace === null) {
+        $bin = manifest('bin');
+        $example = 'App\\Factories\\'.packageLabel();
+        fwrite(STDERR, "Usage: $bin publish:factories <namespace> [factory ...]\n");
+        fwrite(STDERR, "\n");
+        fwrite(STDERR, "Examples:\n");
+        fwrite(STDERR, "  $bin publish:factories '$example'                     # all factories\n");
+        fwrite(STDERR, "  $bin publish:factories '$example' WidgetFactory       # specific factories\n");
+        fwrite(STDERR, "\n");
+        fwrite(STDERR, "Copies factory classes to your project and rewrites their namespace.\n");
+        fwrite(STDERR, "Unpublished factories remain available from the vendor package.\n");
+        exit(1);
+    }
+
+    $sourceDir = "$packageDir/factories";
+    if (!is_dir($sourceDir)) {
+        fwrite(STDERR, "Source factories directory not found: $sourceDir\n");
+        exit(1);
+    }
+
+    $projectRoot = findProjectRoot();
+
+    $relPath = str_replace('\\', '/', $namespace);
+    if (str_starts_with($relPath, 'App/')) {
+        $relPath = 'app/' . substr($relPath, 4);
+    }
+    $targetDir = "$projectRoot/$relPath";
+
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0755, true);
+    }
+
+    $sourceNamespace = manifest('namespace').'\\Factories';
+    $publishAll = $factoryNames === [];
+
+    if ($publishAll) {
+        $files = glob("$sourceDir/*.php");
+        if ($files === false) {
+            fwrite(STDERR, "Failed to read source directory.\n");
+            exit(1);
+        }
+    } else {
+        $files = [];
+        foreach ($factoryNames as $name) {
+            $name = str_replace('.php', '', $name);
+            $path = "$sourceDir/$name.php";
+            if (!is_file($path)) {
+                fwrite(STDERR, "Factory not found: $name (looked for $path)\n");
+                exit(1);
+            }
+            $files[] = $path;
+        }
+    }
+
+    $publishedNames = [];
+    foreach ($files as $file) {
+        $publishedNames[basename($file, '.php')] = true;
+    }
+
+    $count = 0;
+    foreach ($files as $file) {
+        $contents = file_get_contents($file);
+        if ($contents === false) {
+            continue;
+        }
+
+        // Rewrite namespace declaration
+        $contents = str_replace(
+            "namespace $sourceNamespace;",
+            "namespace $namespace;",
+            $contents,
+        );
+
+        if ($publishAll) {
+            // Publishing all: rewrite sibling use statements to the published namespace
+            $contents = str_replace(
+                "use $sourceNamespace\\",
+                "use $namespace\\",
+                $contents,
+            );
+        } else {
+            // Publishing subset: rewrite use statements only for co-published factories;
+            // keep others pointing at the vendor namespace.
+            $contents = preg_replace_callback(
+                '/use ' . preg_quote($sourceNamespace, '/') . '\\\\(\w+);/',
+                static function (array $m) use ($namespace, $publishedNames): string {
+                    $class = $m[1];
+                    if (isset($publishedNames[$class])) {
+                        return "use $namespace\\$class;";
+                    }
+                    return $m[0];
+                },
+                $contents,
+            );
+
+            // Add vendor use statements for unqualified sibling factory references
+            // (e.g. WidgetFactory::factory()->context()) that aren't co-published
+            // and aren't already imported.
+            preg_match_all('/\b([A-Z]\w+Factory)::/', $contents, $typeMatches);
+            $referencedTypes = array_unique($typeMatches[1]);
+
+            $missingImports = [];
+            foreach ($referencedTypes as $type) {
+                if (isset($publishedNames[$type])) {
+                    continue; // co-published
+                }
+                if (str_contains($contents, "use $sourceNamespace\\$type;")) {
+                    continue; // already imported from vendor
+                }
+                if (str_contains($contents, "use $namespace\\$type;")) {
+                    continue; // already imported from published namespace
+                }
+                if (is_file(dirname($file) . "/$type.php")) {
+                    $missingImports[] = "use $sourceNamespace\\$type;";
+                }
+            }
+
+            if ($missingImports !== []) {
+                sort($missingImports);
+                $importBlock = implode("\n", $missingImports);
+                $contents = preg_replace(
+                    '/(namespace ' . preg_quote($namespace, '/') . ';)/',
+                    "\$1\n\n$importBlock",
+                    $contents,
+                    1,
+                );
+            }
+        }
+
+        $targetFile = "$targetDir/" . basename($file);
+        file_put_contents($targetFile, $contents);
+        $count++;
+    }
+
+    $firstFactory = (string) (array_key_first($publishedNames) ?? 'Factory');
+
+    echo "Published $count factor" . ($count === 1 ? 'y' : 'ies') . " to $targetDir\n";
+    echo "\n";
+    echo "Import them in your tests:\n";
+    echo "  use $namespace\\$firstFactory;\n";
+}

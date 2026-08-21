@@ -1,0 +1,57 @@
+{
+    "name": "zero-to-prod/sdk",
+    "description": "Template for a framework-agnostic PHP SDK generated from an OpenAPI document",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Zerotoprod\\Sdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "David Smith",
+            "email": "david_smith@sweetwater.com",
+            "role": "Senior Software Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.1.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "zero-to-prod/data-model": "^81.17",
+        "zero-to-prod/data-model-helper": "^82.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/container": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0",
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "rector/rector": "^2.4",
+        "zero-to-prod/data-model-factory": "^71.8.1",
+        "zero-to-prod/data-model-generator": "*"
+    },
+    "suggest": {
+        "illuminate/http": "Required when using the Laravel Http transport",
+        "zero-to-prod/data-model-generator": "Required to regenerate models from an OpenAPI document"
+    },
+    "bin": [
+        "bin/sdk"
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Zerotoprod\\Sdk\\Factories\\": "factories/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "git config core.hooksPath .githooks || true"
+        ],
+        "post-update-cmd": [
+            "git config core.hooksPath .githooks || true"
+        ]
+    }
+}

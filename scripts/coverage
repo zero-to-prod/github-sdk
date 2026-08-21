@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Generate code coverage report for src/
+set -euo pipefail
+
+version="${PHP_VERSION}"
+
+docker compose run --rm -e XDEBUG_MODE=coverage "debug${version}" vendor/bin/phpunit --coverage-text --coverage-html=coverage "$@"

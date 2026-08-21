@@ -1,0 +1,41 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Methods", "version": "1.0.0"},
+  "paths": {
+    "/v1/resources": {
+      "get": {"responses": {"200": {"description": "ok"}}},
+      "post": {"responses": {"201": {"description": "ok"}}}
+    },
+    "/v1/resources/{id}": {
+      "get": {"responses": {"200": {"description": "ok"}}},
+      "delete": {"responses": {"204": {"description": "ok"}}}
+    },
+    "/v1/patch-only/{id}": {
+      "patch": {"responses": {"200": {"description": "ok"}}}
+    },
+    "/v1/put-only/{id}": {
+      "put": {"responses": {"200": {"description": "ok"}}}
+    },
+    "/v1/both/{id}": {
+      "put": {"responses": {"200": {"description": "ok"}}},
+      "patch": {"responses": {"200": {"description": "ok"}}}
+    },
+    "/v1/accounts/{id}/mfa-enrollments": {
+      "get": {"responses": {"200": {"description": "ok"}}},
+      "post": {"responses": {"201": {"description": "ok"}}}
+    },
+    "/v1/accounts/{id}/mfa-enrollments/{mfa_id}": {
+      "delete": {"responses": {"204": {"description": "ok"}}}
+    },
+    "/v1/statuses": {"get": {"responses": {"200": {"description": "ok"}}}},
+    "/": {"get": {"responses": {"200": {"description": "ok"}}}},
+    "/v1/no-verbs": {"summary": "metadata only", "options": {"responses": {"200": {"description": "ok"}}}},
+    "/v1/deprecated/{id}": {
+      "get": {"deprecated": true, "responses": {"200": {"description": "ok"}}}
+    },
+    "/v1/enterprises/{enterprise-team}": {
+      "get": {"responses": {"200": {"description": "ok"}}}
+    }
+  },
+  "components": {"schemas": {}}
+}

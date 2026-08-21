@@ -1,0 +1,8 @@
+parameters:
+    level: 9
+    excludePaths:
+        - src/Models
+    paths:
+        - src
+    ignoreErrors:
+        - identifier: property.uninitializedReadonly

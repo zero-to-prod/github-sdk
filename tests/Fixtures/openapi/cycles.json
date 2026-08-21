@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Cycles", "version": "1.0.0"},
+  "paths": {},
+  "components": {
+    "schemas": {
+      "node": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "parent": {"$ref": "#/components/schemas/node"},
+          "children": {"type": "array", "items": {"$ref": "#/components/schemas/node"}},
+          "peer": {"$ref": "#/components/schemas/other"}
+        }
+      },
+      "other": {"type": "object", "properties": {"back": {"$ref": "#/components/schemas/node"}}},
+      "hop-a": {"$ref": "#/components/schemas/hop-b"},
+      "hop-b": {"$ref": "#/components/schemas/node"}
+    }
+  }
+}

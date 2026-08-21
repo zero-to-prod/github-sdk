@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Verify @link annotations exist on model classes and ApiRoute cases
+set -euo pipefail
+
+version="${PHP_VERSION}"
+
+docker compose run --rm "php${version}" php scripts/check-links.php

@@ -1,0 +1,970 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+|------------------------------------------------------------------------------
+| Template initialisation
+|------------------------------------------------------------------------------
+|
+| Rebrand this SDK template into a concrete package. Run this once, from the
+| repository root:
+|
+|     php init                          interactive
+|     php init --defaults               accept every computed default
+|     php init --answers=answers.json   read answers from JSON, no prompts
+|
+| Edit TEMPLATE when the template's own identity changes. Every key referenced
+| anywhere below MUST exist in TEMPLATE: under declare(strict_types=1) a missing
+| key is a fatal error on the very first run, which is the worst possible place
+| to discover a typo. Nothing is written until the proposed values have been
+| displayed and confirmed.
+|
+*/
+
+const TEMPLATE = [
+    'slug' => 'sdk',
+    'vendor' => 'zero-to-prod',
+    'package' => 'zero-to-prod/sdk',
+    'namespace' => 'Zerotoprod\\Sdk',
+    'title' => 'SDK',
+    'description' => 'Template for a framework-agnostic PHP SDK generated from an OpenAPI document',
+    'api_class' => 'SdkApi',
+    'config_class' => 'SdkConfig',
+    'bin' => 'sdk',
+    'docs_url' => 'https://example.com/docs',
+    // The CLAUDE.md opening line, replaced wholesale for a derived package.
+    'claude_intro' => 'This repo is the SDK **template** — the common ancestor of every derived SDK package. Work here as if the change ships to every descendant, because it does.',
+];
+
+const ANSWER_KEYS = [
+    'slug',
+    'vendor',
+    'namespace',
+    'title',
+    'description',
+    'api_class',
+    'config_class',
+    'base_url',
+    'docs_url',
+    'openapi_source',
+    'author',
+    'author_email',
+];
+
+const SKIP_DIRECTORIES = ['.git', '.idea', 'vendor', '.vendor', 'node_modules', '.phpunit.cache', 'coverage', 'build'];
+/*
+| Files the rewrite must not touch.
+|
+| `scripts/check-template` names the UPSTREAM template package so it can tell a
+| derived package apart from the template itself. Rewriting that constant makes
+| every derived package report "this is the template" and silently downgrade its
+| ancestry checks from fatal to advisory -- the one check that exists to catch a
+| broken merge setup stops checking.
+*/
+const SKIP_FILES = ['init', 'composer.lock', 'package-lock.json', '.env', '.DS_Store', 'check-template'];
+
+/*
+| Template-only files, deleted along with init itself.
+|
+| Each of these tests the template as a template, so in a derived package it is
+| either meaningless or actively wrong:
+|
+|   InitTest            tests the script that has just deleted itself.
+|   ReadmeExamplesTest  mirrors every code block in the template's README; a
+|                       derived package rewrites that README, so mirroring the
+|                       template's examples asserts nothing about this package.
+|   ExampleDomainTest   the only test that names the shipped Widget example
+|                       domain, which `./run generate-sdk` replaces wholesale.
+|
+| Everything else under tests/ is domain-agnostic on purpose: the shared suite
+| dispatches against tests/Fixtures/FixtureRoute, never against the generated
+| ApiRoute, so it keeps merging down from the template forever.
+*/
+const TEMPLATE_ONLY = [
+    'tests/Unit/InitTest.php',
+    'tests/Unit/ReadmeExamplesTest.php',
+    'tests/Unit/ExampleDomainTest.php',
+];
+
+$root = __DIR__;
+
+if (realpath((string) getcwd()) !== realpath($root)
+    || ! is_file($root.'/composer.json')
+    || ! is_file($root.'/sdk.json')) {
+    fwrite(STDERR, "init: run this from the repository root of the SDK template (composer.json and sdk.json required).\n");
+
+    exit(1);
+}
+
+$options = options($argv);
+
+if (isset($options['help']) || isset($options['h'])) {
+    usage();
+
+    exit(0);
+}
+
+$provided = [];
+
+if (isset($options['answers'])) {
+    $provided = read_answers($options['answers']);
+}
+
+if (isset($options['answers']) || isset($options['defaults']) || isset($options['n'])) {
+    auto(true);
+}
+
+writeln('');
+writeln('  PHP SDK package template');
+writeln(auto() ? '  Running non-interactively.' : '  Press enter to accept the value in brackets.');
+
+$answers = $provided;
+
+do {
+    $answers = ask_all($root, $answers);
+    summarise($answers);
+} while (! confirm('Write these values', true));
+
+$changed = rewrite($root, $answers);
+$renamed = rename_files($root, $answers);
+
+writeln('');
+writeln(sprintf(
+    '  Rewrote %d file%s, renamed %d.',
+    $changed,
+    $changed === 1 ? '' : 's',
+    $renamed,
+));
+
+dump_autoloaders($root);
+regenerate_claude_md($root);
+format($root);
+
+$removed = [];
+
+if (confirm('Delete init and the template-only tests', true)) {
+    $removed = remove_template_only($root);
+}
+
+report_removed($removed);
+
+next_steps($answers);
+
+exit(0);
+
+/*
+|------------------------------------------------------------------------------
+| Input
+|------------------------------------------------------------------------------
+*/
+
+/**
+ * Regenerate every composer autoloader the rename invalidated.
+ *
+ * Rewriting composer.json's psr-4 prefix leaves each generated autoloader
+ * mapping the OLD namespace to src/ and the new one to nothing, so every class
+ * in the package reads as missing -- `Class "Vendor\\Package\\PackageConfig" not
+ * found` from the first thing that boots.
+ *
+ * Two kinds of vendor tree need dumping, and they are not interchangeable:
+ *
+ *  - vendor/ is an ordinary layout, so host composer handles it.
+ *  - .vendor/php8.x are mounted at /app/vendor inside the docker services every
+ *    `./run` command uses. These MUST be dumped from inside a container.
+ *    Composer writes the project root as a path relative to the vendor
+ *    directory it is handed, so a host-side dump of .vendor/php8.1 emits
+ *    `$baseDir = dirname(dirname($vendorDir))` -- correct on the host, and `/`
+ *    once the tree is mounted one level shallower. Every class then reports as
+ *    missing again, with the autoloader looking perfectly fine on the host.
+ */
+function dump_autoloaders(string $root): void
+{
+    $messages = [];
+
+    if (is_file($root.'/vendor/composer/installed.json')) {
+        $composer = trim((string) shell_exec('command -v composer 2>/dev/null'));
+
+        if ($composer === '') {
+            $messages[] = 'vendor: composer is not on PATH -- run `composer dump-autoload`';
+        } else {
+            exec(
+                sprintf(
+                    'cd %s && %s dump-autoload --quiet --no-interaction 2>&1',
+                    escapeshellarg($root),
+                    escapeshellarg($composer)
+                ),
+                $output,
+                $status
+            );
+
+            $messages[] = 'vendor: '.($status === 0
+                ? 'autoloader regenerated'
+                : 'dump failed -- run `composer dump-autoload`');
+        }
+    }
+
+    $containerVendors = glob($root.'/.vendor/php*') ?: [];
+
+    if ($containerVendors !== []) {
+        exec('docker info > /dev/null 2>&1', $ignored, $docker);
+
+        if ($docker !== 0) {
+            $messages[] = '.vendor/php*: docker is not running -- run `./run composer-all dump-autoload`';
+        } else {
+            // Per version rather than `./run composer-all`, which iterates
+            // docker/ and would mount -- and therefore create -- a vendor tree
+            // for versions nobody has installed. Those come out holding an
+            // autoloader and no packages, which reads as installed and fails
+            // confusingly under `./run test-all`.
+            $dumped = 0;
+            $failed = [];
+
+            foreach ($containerVendors as $vendor) {
+                $version = substr(basename($vendor), 3);
+
+                exec(
+                    sprintf(
+                        'cd %s && docker compose run --rm %s composer dump-autoload --quiet --no-interaction 2>&1',
+                        escapeshellarg($root),
+                        escapeshellarg('composer'.$version)
+                    ),
+                    $output,
+                    $status
+                );
+
+                $status === 0 ? $dumped++ : $failed[] = $version;
+            }
+
+            $messages[] = sprintf(
+                '.vendor/php*: %d autoloader(s) regenerated in docker%s',
+                $dumped,
+                $failed === [] ? '' : '; failed for '.implode(', ', $failed).' -- run `./run composer-all dump-autoload`'
+            );
+        }
+    }
+
+    if ($messages === []) {
+        $messages[] = 'no vendor directory yet -- `composer install` generates the autoloader';
+    }
+
+    foreach ($messages as $message) {
+        writeln('  '.$message);
+    }
+}
+
+/**
+ * Rewrite the generated CLI-commands block in CLAUDE.md.
+ *
+ * `scripts/sdk` is renamed to `scripts/<slug>`, so `./run`'s command listing
+ * changes and the block CLAUDE.md carries goes stale -- `./run check-claude-md`
+ * fails on a package nobody has touched yet. The generator reads `./run` and
+ * needs no container, so it can run here.
+ */
+function regenerate_claude_md(string $root): void
+{
+    $script = $root.'/scripts/generate-claude-md';
+
+    if (! is_file($script) || ! is_file($root.'/CLAUDE.md')) {
+        return;
+    }
+
+    exec(sprintf('cd %s && %s 2>&1', escapeshellarg($root), escapeshellarg($script)), $output, $status);
+
+    writeln($status === 0
+        ? '  Regenerated the CLAUDE.md command listing.'
+        : '  CLAUDE.md listing not regenerated; run `./run generate-claude-md`.');
+}
+
+/**
+ * Re-sort imports after the rename.
+ *
+ * The rewrite above is a literal token substitution, so a namespace that used
+ * to sort in one place can land in another -- `Zerotoprod\\Sdk\\Foo` becoming
+ * `Zerotoprod\\GithubApi\\Foo` moves relative to its neighbours. That leaves the
+ * tree failing `./run check-cs` on a fresh package, before its owner has
+ * written a line, so the formatter runs once here. Silent no-op when
+ * dependencies are not installed yet.
+ */
+function format(string $root): void
+{
+    $fixer  = $root.'/vendor/bin/php-cs-fixer';
+    $config = $root.'/.php-cs-fixer.dist.php';
+
+    if (!is_file($fixer) || !is_file($config)) {
+        writeln('  Skipped formatting: run `composer install && ./run fix-cs`.');
+
+        return;
+    }
+
+    $command = sprintf(
+        '%s fix --config=%s --quiet 2>&1',
+        escapeshellarg($fixer),
+        escapeshellarg($config)
+    );
+
+    exec($command, $output, $status);
+
+    writeln($status === 0
+        ? '  Formatted with php-cs-fixer.'
+        : '  Formatting reported problems; run `./run fix-cs`.');
+}
+
+/**
+ * @param  list<string>  $argv
+ * @return array<string, string>
+ */
+function options(array $argv): array
+{
+    $options = [];
+
+    foreach (array_slice($argv, 1) as $argument) {
+        if (! str_starts_with($argument, '-')) {
+            continue;
+        }
+
+        $argument = ltrim($argument, '-');
+        $position = strpos($argument, '=');
+
+        if ($position === false) {
+            $options[$argument] = '';
+
+            continue;
+        }
+
+        $options[substr($argument, 0, $position)] = substr($argument, $position + 1);
+    }
+
+    return $options;
+}
+
+/**
+ * Answers supplied by file take the place of prompting. Unknown keys are
+ * ignored and missing keys fall through to the computed default, so a file
+ * may override as little as one value.
+ *
+ * @return array<string, string>
+ */
+function read_answers(string $path): array
+{
+    if (! is_file($path)) {
+        fwrite(STDERR, sprintf("init: answers file not found: %s\n", $path));
+
+        exit(1);
+    }
+
+    $decoded = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+
+    if (! is_array($decoded)) {
+        fwrite(STDERR, "init: answers file must contain a JSON object.\n");
+
+        exit(1);
+    }
+
+    $answers = [];
+
+    foreach (ANSWER_KEYS as $key) {
+        if (! array_key_exists($key, $decoded)) {
+            continue;
+        }
+
+        $value = $decoded[$key];
+
+        if ($value === null) {
+            $answers[$key] = '';
+
+            continue;
+        }
+
+        if (! is_scalar($value)) {
+            fwrite(STDERR, sprintf("init: answer '%s' must be a string.\n", $key));
+
+            exit(1);
+        }
+
+        $answers[$key] = (string) $value;
+    }
+
+    return $answers;
+}
+
+/**
+ * @param  array<string, string>  $previous
+ * @return array<string, string>
+ */
+function ask_all(string $root, array $previous = []): array
+{
+    writeln('');
+
+    $was = static fn (string $key, string $fallback): string => $previous[$key] ?? $fallback;
+
+    $slug = slugify(ask('Package slug', $was('slug', slugify(basename($root)) ?: TEMPLATE['slug']))) ?: TEMPLATE['slug'];
+    $vendor = slugify(ask('Vendor (composer vendor + namespace root)', $was('vendor', slugify(git('config user.name')) ?: TEMPLATE['vendor'])));
+    $namespace = trim(ask('PHP namespace', $was('namespace', namespace_for($vendor, $slug))), '\\') ?: TEMPLATE['namespace'];
+    $title = ask('Title', $was('title', titleise($slug)));
+    $description = ask('Description', $was('description', TEMPLATE['description']));
+    $api_class = ask('API class name', $was('api_class', api_class_for($slug))) ?: TEMPLATE['api_class'];
+    $config_class = ask('Config class name', $was('config_class', config_class_for($api_class))) ?: TEMPLATE['config_class'];
+
+    return [
+        'slug' => $slug,
+        'vendor' => $vendor,
+        'namespace' => $namespace,
+        'title' => $title,
+        'description' => $description,
+        'api_class' => $api_class,
+        'config_class' => $config_class,
+        'base_url' => ask('Base URL', $was('base_url', 'https://api.'.$slug.'.com')),
+        'docs_url' => ask('Docs URL', $was('docs_url', TEMPLATE['docs_url'])),
+        'openapi_source' => ask('OpenAPI source (path or URL, may be empty)', $was('openapi_source', '')),
+        'author' => ask('Author name', $was('author', git('config user.name'))),
+        'author_email' => ask('Author email', $was('author_email', git('config user.email'))),
+    ];
+}
+
+/** @param array<string, string> $answers */
+function summarise(array $answers): void
+{
+    writeln('');
+    writeln('  This is what will be written:');
+    writeln('');
+
+    $rows = [
+        'Package' => composer_name($answers),
+        'Namespace' => $answers['namespace'],
+        'Title' => $answers['title'],
+        'Description' => $answers['description'],
+        'API class' => $answers['api_class'],
+        'Config class' => $answers['config_class'],
+        'Binary' => 'bin/'.$answers['slug'],
+        'Base URL' => $answers['base_url'],
+        'Docs URL' => $answers['docs_url'],
+        'OpenAPI' => $answers['openapi_source'],
+        'Repository' => repository($answers),
+        'Author' => author($answers),
+    ];
+
+    foreach ($rows as $label => $value) {
+        writeln(sprintf('    %-14s %s', $label, $value !== '' ? $value : '(not set)'));
+    }
+
+    writeln('');
+}
+
+/*
+|------------------------------------------------------------------------------
+| Rewriting
+|------------------------------------------------------------------------------
+*/
+
+/**
+ * The literal strings that identify the template, mapped to their replacement.
+ *
+ * strtr() with an array tries the longest key at each position and never
+ * rescans what it has written, so `Zerotoprod\Sdk\SdkApi` resolves to
+ * `<namespace>\<ApiClass>` in one pass without the namespace key eating the
+ * class key. The doubled-backslash entry catches the JSON- and PHP-string
+ * escaped form of the namespace, e.g. "Zerotoprod\\Sdk\\Models".
+ *
+ * @param  array<string, string>  $answers
+ * @return array<string, string>
+ */
+function replacements(array $answers): array
+{
+    $escape = static fn (string $namespace): string => str_replace('\\', '\\\\', $namespace);
+
+    return [
+        $escape(TEMPLATE['namespace']) => $escape($answers['namespace']),
+        TEMPLATE['namespace'] => $answers['namespace'],
+        TEMPLATE['config_class'].'Factory' => $answers['config_class'].'Factory',
+        TEMPLATE['config_class'] => $answers['config_class'],
+        TEMPLATE['api_class'] => $answers['api_class'],
+        TEMPLATE['package'] => composer_name($answers),
+        'bin/'.TEMPLATE['bin'] => 'bin/'.$answers['slug'],
+        'scripts/'.TEMPLATE['bin'] => 'scripts/'.$answers['slug'],
+        'docs/skills/'.TEMPLATE['bin'].'.md' => 'docs/skills/'.$answers['slug'].'.md',
+        TEMPLATE['docs_url'] => $answers['docs_url'],
+        TEMPLATE['description'] => $answers['description'],
+        // CLAUDE.md opens by telling an agent it is working *in* the template.
+        // That is the one claim a derived package must not inherit verbatim, or
+        // every agent it ever runs starts from a false premise about what the
+        // repository is and what its edits affect.
+        TEMPLATE['claude_intro'] => sprintf(
+            'This package was generated from the `%s` template and keeps it as a git remote named `template`, so shared client code merges forward from there. Run `./run check-template` to verify the wiring and see `docs/template.md` for the runbook.',
+            TEMPLATE['package']
+        ),
+    ];
+}
+
+/** @param array<string, string> $answers */
+function rewrite(string $root, array $answers): int
+{
+    $replacements = array_filter(
+        replacements($answers),
+        static fn (string $value, string $key): bool => $key !== '' && $key !== $value,
+        ARRAY_FILTER_USE_BOTH,
+    );
+
+    $changed = 0;
+
+    foreach (files($root) as $file) {
+        $contents = (string) file_get_contents($file);
+        $rewritten = $replacements === [] ? $contents : strtr($contents, $replacements);
+
+        if ($rewritten === $contents) {
+            continue;
+        }
+
+        file_put_contents($file, $rewritten);
+        $changed++;
+    }
+
+    rewrite_composer($root, $answers);
+    rewrite_sdk_json($root, $answers);
+
+    return $changed + 2;
+}
+
+/** @param array<string, string> $answers */
+function rewrite_composer(string $root, array $answers): void
+{
+    $path = $root.'/composer.json';
+
+    $json = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+    $json = is_array($json) ? $json : [];
+
+    // Union, not assignment: `name` has to come out first in the encoded file.
+    $json = ['name' => composer_name($answers)] + $json;
+    $json['description'] = $answers['description'];
+
+    $author = author_record($answers);
+
+    if ($author !== null) {
+        $json['authors'] = [$author];
+    }
+
+    if (isset($json['autoload']['psr-4']) && is_array($json['autoload']['psr-4'])) {
+        $json['autoload']['psr-4'] = remap_psr4($json['autoload']['psr-4'], 'src/', $answers['namespace'].'\\');
+    }
+
+    if (isset($json['autoload-dev']['psr-4']) && is_array($json['autoload-dev']['psr-4'])) {
+        $json['autoload-dev']['psr-4'] = remap_psr4($json['autoload-dev']['psr-4'], 'factories/', $answers['namespace'].'\\Factories\\');
+    }
+
+    $json['bin'] = ['bin/'.$answers['slug']];
+
+    $repository = repository($answers);
+
+    if ($repository !== '') {
+        $json['homepage'] = $repository;
+        $json['support'] = ['issues' => $repository.'/issues'];
+    }
+
+    write_json($path, $json);
+}
+
+/** @param array<string, string> $answers */
+function rewrite_sdk_json(string $root, array $answers): void
+{
+    $path = $root.'/sdk.json';
+
+    $json = json_decode((string) file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+    $json = is_array($json) ? $json : [];
+
+    $json['name'] = composer_name($answers);
+    $json['namespace'] = $answers['namespace'];
+    $json['title'] = $answers['title'];
+    $json['description'] = $answers['description'];
+    $json['api_class'] = $answers['api_class'];
+    $json['config_class'] = $answers['config_class'];
+    $json['bin'] = $answers['slug'];
+    $json['base_url'] = $answers['base_url'];
+    $json['docs_url'] = $answers['docs_url'];
+
+    $openapi = isset($json['openapi']) && is_array($json['openapi']) ? $json['openapi'] : [];
+    $openapi['source'] = $answers['openapi_source'] !== '' ? $answers['openapi_source'] : null;
+    $json['openapi'] = $openapi;
+
+    write_json($path, order_keys($json, [
+        '$comment',
+        'name',
+        'namespace',
+        'title',
+        'description',
+        'api_class',
+        'config_class',
+        'bin',
+        'base_url',
+        'docs_url',
+        'retain_models',
+        'openapi',
+    ]));
+}
+
+/**
+ * Reorder the keys we know about and append everything else untouched, so a
+ * derived package never loses configuration the template did not anticipate.
+ *
+ * @param  array<string, mixed>  $json
+ * @param  list<string>  $order
+ * @return array<string, mixed>
+ */
+function order_keys(array $json, array $order): array
+{
+    $ordered = [];
+
+    foreach ($order as $key) {
+        if (array_key_exists($key, $json)) {
+            $ordered[$key] = $json[$key];
+        }
+    }
+
+    return $ordered + $json;
+}
+
+/**
+ * @param  array<array-key, mixed>  $psr4
+ * @return array<string, mixed>
+ */
+function remap_psr4(array $psr4, string $directory, string $namespace): array
+{
+    $result = [];
+    $mapped = false;
+
+    foreach ($psr4 as $prefix => $target) {
+        if ($target === $directory) {
+            if (! $mapped) {
+                $result[$namespace] = $directory;
+                $mapped = true;
+            }
+
+            continue;
+        }
+
+        $result[(string) $prefix] = $target;
+    }
+
+    if (! $mapped) {
+        $result[$namespace] = $directory;
+    }
+
+    return $result;
+}
+
+/** @param array<string, mixed> $json */
+function write_json(string $path, array $json): void
+{
+    file_put_contents(
+        $path,
+        json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR).PHP_EOL,
+    );
+}
+
+/**
+ * Class and command names live in file names as well as in file contents, so
+ * the textual pass alone leaves a package whose autoloader cannot find its own
+ * classes. Use `git mv` inside a work tree to keep the rename in the index.
+ *
+ * @param array<string, string> $answers
+ */
+function rename_files(string $root, array $answers): int
+{
+    $renames = [
+        'src/'.TEMPLATE['api_class'].'.php' => 'src/'.$answers['api_class'].'.php',
+        'src/'.TEMPLATE['config_class'].'.php' => 'src/'.$answers['config_class'].'.php',
+        'factories/'.TEMPLATE['config_class'].'Factory.php' => 'factories/'.$answers['config_class'].'Factory.php',
+        'bin/'.TEMPLATE['bin'] => 'bin/'.$answers['slug'],
+        'scripts/'.TEMPLATE['bin'] => 'scripts/'.$answers['slug'],
+        'docs/skills/'.TEMPLATE['bin'].'.md' => 'docs/skills/'.$answers['slug'].'.md',
+        'tests/Unit/'.TEMPLATE['api_class'].'Test.php' => 'tests/Unit/'.$answers['api_class'].'Test.php',
+    ];
+
+    $tracked = git('rev-parse --is-inside-work-tree') === 'true';
+    $renamed = 0;
+
+    foreach ($renames as $from => $to) {
+        if ($from === $to || ! is_file($root.'/'.$from) || is_file($root.'/'.$to)) {
+            continue;
+        }
+
+        if (move($root, $from, $to, $tracked)) {
+            $renamed++;
+        }
+    }
+
+    return $renamed;
+}
+
+function move(string $root, string $from, string $to, bool $tracked): bool
+{
+    if ($tracked) {
+        exec('git mv '.escapeshellarg($from).' '.escapeshellarg($to).' 2>/dev/null', $output, $status);
+
+        if ($status === 0) {
+            return true;
+        }
+    }
+
+    return rename($root.'/'.$from, $root.'/'.$to);
+}
+
+/**
+ * Delete init, its `.gitattributes` line, and every test that only makes sense
+ * in the template. Returns the paths removed, relative to the root.
+ *
+ * @return list<string>
+ */
+function remove_template_only(string $root): array
+{
+    $removed = [];
+
+    unlink(__FILE__);
+    $removed[] = 'init';
+
+    $attributes = $root.'/.gitattributes';
+
+    if (is_file($attributes)) {
+        $contents = preg_replace('#^/init\s.*\R#m', '', (string) file_get_contents($attributes));
+        file_put_contents($attributes, (string) $contents);
+    }
+
+    foreach (TEMPLATE_ONLY as $path) {
+        if (is_file($root.'/'.$path) && unlink($root.'/'.$path)) {
+            $removed[] = $path;
+        }
+    }
+
+    return $removed;
+}
+
+/** @return list<string> */
+function files(string $root): array
+{
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveCallbackFilterIterator(
+            new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS),
+            static fn (SplFileInfo $file): bool => $file->isDir()
+                ? ! in_array($file->getFilename(), SKIP_DIRECTORIES, true)
+                : ! in_array($file->getFilename(), SKIP_FILES, true),
+        ),
+    );
+
+    $files = [];
+
+    /** @var SplFileInfo $file */
+    foreach ($iterator as $file) {
+        if ($file->isFile()) {
+            $files[] = $file->getPathname();
+        }
+    }
+
+    sort($files);
+
+    return $files;
+}
+
+/*
+|------------------------------------------------------------------------------
+| Output
+|------------------------------------------------------------------------------
+*/
+
+/** @param list<string> $removed */
+function report_removed(array $removed): void
+{
+    if ($removed === []) {
+        return;
+    }
+
+    writeln('');
+    writeln('  Removed:');
+
+    foreach ($removed as $path) {
+        writeln('    '.$path);
+    }
+}
+
+/** @param array<string, string> $answers */
+function next_steps(array $answers): void
+{
+    $repository = repository($answers) !== '' ? repository($answers) : 'https://github.com/<org>/'.$answers['slug'];
+
+    writeln('');
+    writeln('  Next:');
+    writeln('');
+    writeln('    # README.md still describes the template, not '.composer_name($answers).'.');
+    writeln('    # Rewrite it for this package — its examples are no longer verified by a test,');
+    writeln('    # because ReadmeExamplesTest went with the template content it mirrored.');
+    writeln('');
+    writeln('    # sdk.json now carries base_url ('.($answers['base_url'] !== '' ? $answers['base_url'] : '(not set)').').');
+    writeln('    # '.$answers['config_class'].'::url still defaults to an empty string so tests need no host;');
+    writeln('    # pass the base URL explicitly, or read it from sdk.json in your own bootstrap.');
+    writeln('');
+    writeln('    # Keep the template as an ancestor you can merge from, forever:');
+    writeln('    git remote rename origin template          # when this repo was cloned from the template');
+    writeln('    gh repo create '.trim(str_replace('https://github.com/', '', $repository)).' --source=. --remote=origin');
+    writeln('    git config merge.keepours.driver true      # once per clone, or merges resolve wrongly and silently');
+    writeln('');
+    writeln('    # Then, from now on:');
+    writeln('    git pull template main   # never --rebase: it destroys the shared ancestry');
+    writeln('');
+    writeln('    ./run init && ./run check-all');
+    writeln('');
+    writeln('  See docs/template.md for the full runbook.');
+    writeln('');
+}
+
+function usage(): void
+{
+    writeln('');
+    writeln('  Usage: php init [options]');
+    writeln('');
+    writeln('    -n, --defaults        accept every computed default without prompting');
+    writeln('    --answers=<path>      read answers from a JSON object, no prompting');
+    writeln('    -h, --help            show this message');
+    writeln('');
+    writeln('  Answer keys: '.implode(', ', ANSWER_KEYS));
+    writeln('');
+}
+
+function writeln(string $line): void
+{
+    echo $line, PHP_EOL;
+}
+
+/*
+|------------------------------------------------------------------------------
+| Helpers
+|------------------------------------------------------------------------------
+*/
+
+/** Non-interactive mode: every prompt takes its default and every confirm says yes. */
+function auto(?bool $enable = null): bool
+{
+    static $auto = false;
+
+    if ($enable !== null) {
+        $auto = $enable;
+    }
+
+    return $auto;
+}
+
+function ask(string $question, string $default): string
+{
+    if (auto()) {
+        return $default;
+    }
+
+    echo sprintf('  %s [%s]: ', $question, $default !== '' ? $default : '-');
+    $answer = trim((string) fgets(STDIN));
+
+    return $answer === '' ? $default : $answer;
+}
+
+function confirm(string $question, bool $default = false): bool
+{
+    if (auto()) {
+        return $default;
+    }
+
+    echo sprintf('  %s? [%s] ', $question, $default ? 'Y/n' : 'y/N');
+    $answer = strtolower(trim((string) fgets(STDIN)));
+
+    return $answer === '' ? $default : in_array($answer, ['y', 'yes'], true);
+}
+
+function git(string $arguments): string
+{
+    return trim((string) shell_exec('git '.$arguments.' 2>/dev/null'));
+}
+
+function slugify(string $value): string
+{
+    return trim((string) preg_replace('/-+/', '-', (string) preg_replace('/[^a-z0-9]+/', '-', strtolower($value))), '-');
+}
+
+function titleise(string $value): string
+{
+    return ucwords((string) preg_replace('/[^a-zA-Z0-9]+/', ' ', $value));
+}
+
+/** `github-api` -> `GithubApi` */
+function studly(string $value): string
+{
+    return str_replace(' ', '', titleise(strtolower($value)));
+}
+
+/**
+ * A vendor becomes one namespace segment rather than one per word, which is
+ * what makes `zero-to-prod` read as `Zerotoprod` and not `ZeroToProd`.
+ */
+function condense(string $value): string
+{
+    return ucfirst(strtolower((string) preg_replace('/[^a-zA-Z0-9]+/', '', $value)));
+}
+
+function namespace_for(string $vendor, string $slug): string
+{
+    $root = condense($vendor);
+    $package = studly($slug) ?: studly(TEMPLATE['slug']);
+
+    return $root === '' ? $package : $root.'\\'.$package;
+}
+
+/** Exactly one trailing `Api`: `github-api` -> `GithubApi`, `stripe` -> `StripeApi`. */
+function api_class_for(string $slug): string
+{
+    $studly = studly($slug);
+
+    if ($studly === '') {
+        return TEMPLATE['api_class'];
+    }
+
+    return str_ends_with($studly, 'Api') ? $studly : $studly.'Api';
+}
+
+function config_class_for(string $api_class): string
+{
+    return str_ends_with($api_class, 'Api')
+        ? substr($api_class, 0, -3).'Config'
+        : $api_class.'Config';
+}
+
+/** @param array<string, string> $answers */
+function composer_name(array $answers): string
+{
+    return ($answers['vendor'] !== '' ? $answers['vendor'] : 'app').'/'.$answers['slug'];
+}
+
+/** @param array<string, string> $answers */
+function repository(array $answers): string
+{
+    return $answers['vendor'] === '' ? '' : 'https://github.com/'.$answers['vendor'].'/'.$answers['slug'];
+}
+
+/** @param array<string, string> $answers */
+function author(array $answers): string
+{
+    return trim($answers['author'].($answers['author_email'] === '' ? '' : ' <'.$answers['author_email'].'>'));
+}
+
+/**
+ * @param  array<string, string>  $answers
+ * @return array{name: string, email?: string, role?: string}|null
+ */
+function author_record(array $answers): ?array
+{
+    if ($answers['author'] === '') {
+        return null;
+    }
+
+    /** @var array{name: string, email?: string, role?: string} $record */
+    $record = array_filter([
+        'name' => $answers['author'],
+        'email' => $answers['author_email'],
+    ]);
+
+    return $record;
+}

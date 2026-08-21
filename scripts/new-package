@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Print the command sequence for creating a derived SDK package
+# --org=<org>  GitHub org or user that will own the new repository
+set -euo pipefail
+
+SCRIPT_DIR="${SCRIPT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+
+slug=""
+org="<org>"
+
+for argument in "$@"; do
+    case "$argument" in
+        --org=*) org="${argument#--org=}" ;;
+        -*) echo "Unknown option: $argument" >&2; exit 1 ;;
+        *) slug="$argument" ;;
+    esac
+done
+
+if [[ -z "$slug" ]]; then
+    echo "Usage: ./run new-package <slug> [--org=<org>]" >&2
+    exit 1
+fi
+
+# Prefer an explicit `template` remote; fall back to origin, then to the URL
+# implied by sdk.json's package name. In the template itself origin may still
+# point somewhere unrelated, so the manifest is the more trustworthy source.
+template=$(git -C "$SCRIPT_DIR" remote get-url template 2>/dev/null || true)
+
+if [[ -z "$template" ]]; then
+    template=$(php -r '$j = json_decode(file_get_contents($argv[1]), true); echo is_array($j) && isset($j["name"]) ? "https://github.com/".$j["name"].".git" : "";' "$SCRIPT_DIR/sdk.json" 2>/dev/null || true)
+fi
+
+if [[ -z "$template" ]]; then
+    template=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "<template-url>")
+fi
+
+# Printed, never executed: creating a repository is a decision, and every line
+# below is one a person should read before it runs.
+cat <<COMMANDS
+Run these from the directory that should contain $slug:
+
+    git clone $template $slug
+    cd $slug
+
+    # The template becomes the upstream you merge from, forever.
+    git remote rename origin template
+
+    # Your own repository becomes origin.
+    gh repo create $org/$slug --source=. --remote=origin
+
+    # Once per clone. The driver lives in .git/config, not in .gitattributes,
+    # so without this merges resolve the wrong way and say nothing.
+    git config merge.keepours.driver true
+
+    # Rebrand: rewrites namespaces, class names, composer.json and sdk.json,
+    # renames the files that carry a name, then deletes itself.
+    php init
+
+    ./run init && ./run check-all
+
+    git add -A && git commit -m "Initialise $org/$slug from template"
+    git push -u origin main
+
+Steady state, from then on:
+
+    git pull template main && ./run check-all && git push
+
+Never 'git pull --rebase' from the template: it rewrites the commits that
+prove the shared ancestry, and the next merge replays the whole template
+history as conflicts. If you have pull.rebase=true set globally, the plain
+command above is already the destructive one -- see docs/template.md.
+COMMANDS
