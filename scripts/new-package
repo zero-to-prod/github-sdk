@@ -3,7 +3,7 @@
 # --org=<org>  GitHub org or user that will own the new repository
 set -euo pipefail
 
-SCRIPT_DIR="${SCRIPT_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
 
 slug=""
 org="<org>"
@@ -17,7 +17,7 @@ for argument in "$@"; do
 done
 
 if [[ -z "$slug" ]]; then
-    echo "Usage: ./run new-package <slug> [--org=<org>]" >&2
+    echo "Usage: composer new-package -- <slug> [--org=<org>]" >&2
     exit 1
 fi
 
@@ -56,18 +56,18 @@ Run these from the directory that should contain $slug:
     # renames the files that carry a name, then deletes itself.
     php init
 
-    ./run init && ./run check-all
+    composer setup && composer check
 
     git add -A && git commit -m "Initialise $org/$slug from template"
     git push -u origin main
 
 Steady state, from then on (if you set openapi_source in sdk.json):
 
-    git pull template main && ./run generate-sdk && ./run check-all && git push
+    git pull template main && composer generate-sdk && composer check && git push
 
 Or if you're hand-maintaining the package (no OpenAPI source):
 
-    git pull template main && ./run check-all && git push
+    git pull template main && composer check && git push
 
 Never 'git pull --rebase' from the template: it rewrites the commits that
 prove the shared ancestry, and the next merge replays the whole template

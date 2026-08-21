@@ -2,6 +2,8 @@
 # Run the package CLI tool
 set -euo pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 version="${PHP_VERSION}"
 
 docker compose run --rm "php${version}" php bin/github-sdk "$@"

@@ -12,7 +12,7 @@ namespace Zerotoprod\GitHubSdk\Generator;
  * the emitter has no vocabulary for. Everything it produces is already in house
  * style, so it skips the {@see Normalizer}.
  *
- * The `@method` block is generated too, because `./run check-routes` asserts it
+ * The `@method` block is generated too, because `composer check-routes` asserts it
  * matches the `#[HasRoute]` cases exactly.
  *
  * @internal

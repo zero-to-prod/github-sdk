@@ -2,6 +2,8 @@
 # Generate code coverage report for public API classes only
 set -euo pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 version="${PHP_VERSION}"
 src_dir="$SCRIPT_DIR/src"
 tmpconfig="$SCRIPT_DIR/.phpunit-api-coverage.xml"

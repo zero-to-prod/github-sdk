@@ -19,7 +19,7 @@ use Zerotoprod\GitHubSdk\Models\Query;
 /**
  * The route enum the shared test suite dispatches against.
  *
- * `./run generate-sdk` rewrites `src/ApiRoute.php` wholesale from the package's
+ * `composer generate-sdk` rewrites `src/ApiRoute.php` wholesale from the package's
  * OpenAPI document, so a test that dispatched `getWidget` would break the moment
  * a derived package generated its real routes — and the tests for the shared
  * dispatcher, transports, hooks and `Route` are exactly the tests that must keep

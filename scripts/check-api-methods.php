@@ -78,7 +78,7 @@ foreach ($expected as $line) {
 }
 
 if ($missing !== []) {
-    fwrite(STDERR, "$apiClass @method annotations are out of date. Run: ./run generate-api-methods\n\n");
+    fwrite(STDERR, "$apiClass @method annotations are out of date. Run: composer generate-api-methods\n\n");
     fwrite(STDERR, "Missing or stale:\n");
     foreach ($missing as $line) {
         fwrite(STDERR, "  $line\n");

@@ -77,7 +77,7 @@ class GitHubSdkConfig
     /**
      * String-backed enum the dispatcher reflects over to resolve an API method
      * name to its route and `#[AdminApi]` attribute. Defaults to the package's
-     * own {@see ApiRoute}, which `./run generate-sdk` rewrites from the OpenAPI
+     * own {@see ApiRoute}, which `composer generate-sdk` rewrites from the OpenAPI
      * document.
      *
      * Point it at any other string-backed enum carrying `#[AdminApi]`

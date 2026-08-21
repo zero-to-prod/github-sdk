@@ -33,7 +33,7 @@ use Zerotoprod\GitHubSdk\Response;
  * a factory-built body through the fake transport.
  *
  * The model factories used here live in `tests/Fixtures/Factories`, and the
- * package factories are the three `./run generate-sdk` never deletes
+ * package factories are the three `composer generate-sdk` never deletes
  * (`ErrorsFactory`, `PaginationFactory`, and the config factory). The example
  * domain's factories are covered in `ExampleDomainTest`, which `php init`
  * deletes along with them.

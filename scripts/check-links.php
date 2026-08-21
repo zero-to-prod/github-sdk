@@ -70,7 +70,7 @@ foreach ($iterator as $fileInfo) {
 // ─── Report ────────────────────────────────────────────────────────
 
 if ($missing !== []) {
-    fwrite(STDERR, "@link annotations are missing. Run: ./run generate-links\n\n");
+    fwrite(STDERR, "@link annotations are missing. Run: composer generate-links\n\n");
     fwrite(STDERR, "Missing:\n");
     foreach ($missing as $line) {
         fwrite(STDERR, "$line\n");

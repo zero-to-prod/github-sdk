@@ -34,7 +34,7 @@ use Zerotoprod\GitHubSdk\Response;
  * transport — the hand-written code every derived package inherits.
  *
  * Every request here is dispatched against {@see FixtureRoute} rather than the
- * package's own `ApiRoute`, because `./run generate-sdk` replaces `ApiRoute`
+ * package's own `ApiRoute`, because `composer generate-sdk` replaces `ApiRoute`
  * wholesale. A test that named a shipped example route would die in the first
  * generated package, and these are the tests that have to keep merging
  * downstream. The shipped example domain is smoke-tested on its own in

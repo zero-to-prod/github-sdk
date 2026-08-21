@@ -8,7 +8,7 @@ use RuntimeException;
 
 /**
  * Every failure the generator raises. Carries a message written for a human
- * running `./run generate-sdk`, never a stack-trace-only error.
+ * running `composer generate-sdk`, never a stack-trace-only error.
  *
  * @internal
  */

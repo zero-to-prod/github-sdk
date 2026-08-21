@@ -2,6 +2,8 @@
 # Verify README.md public API section is up to date
 set -euo pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 README="$SCRIPT_DIR/README.md"
 
 SECTION_START="## Cli"
@@ -11,7 +13,7 @@ SECTION_END="<!-- end public api -->"
 cli=$(php -r 'require getenv("SCRIPT_DIR")."/scripts/manifest.php"; echo manifestString("bin");')
 
 # Generate what the section should look like
-api_output=$("$SCRIPT_DIR/run" "$cli" 2>/dev/null | tail -n +2 || true)
+api_output=$("$SCRIPT_DIR/scripts/$cli" 2>/dev/null || true)
 
 expected="$SECTION_START
 
@@ -32,7 +34,7 @@ actual=$(sed -n "${start_line},${end_line}p" "$README")
 
 if [[ "$expected" != "$actual" ]]; then
     echo "README.md public API section is out of date." >&2
-    echo "Run ./run generate-readme to update." >&2
+    echo "Run composer generate-readme to update." >&2
     exit 1
 fi
 

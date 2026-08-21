@@ -2,6 +2,8 @@
 # Run a composer command for PHP version set in .env
 set -euo pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/_env.sh"
+
 version="${PHP_VERSION}"
 
 docker compose run --rm "composer${version}" composer "$@"
